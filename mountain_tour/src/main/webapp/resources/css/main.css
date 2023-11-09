@@ -10,7 +10,9 @@
 .ad_wrapper {
 	display: flex;
 	justify-content: center;
-	width: auto;
+	border: 1px gray solid;
+	height: 560px;
+	width: auto; 
 }
 
 .ad {
@@ -19,111 +21,178 @@
 	width: 1340px;
 	justify-content: center;
 }
-* {
 
-    -webkit-font-smoothing: antialised;
+.main_banner {
+  position: relative;
 }
 
-body {
-    margin-top: 5em;
-    font: 20px/1.5 "Helvetica", Arial, sans-serif;
+main_banner .owl-prev {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100px;
+  outline: none;
 }
 
-.container {
-    position: relative;
-    width: 100%;	
-    overflow: hidden;	   
-    padding-bottom: 80px; 
+.main_banner .owl-prev::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-position: -328px -651px;
+  background-repeat: no-repeat;
+  width: 22px;
+  height: 560px;
+  content: "":
+  margin: auto;
+}
+.main_banner .owl-next {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  outline: none;
+  width: 100px;
+  height: 560px;
 }
 
-.slider-container {
-    position: absolute;
-    width:100%;
-    left:0;
+.main_banner .owl-next::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-position: -1056px -369px; background-repeat: no-repeat;
+  width: 22px;
+  height: 38px;
+  content:"";
+  margin: auto;
 }
 
-.slide {
-	position: absolute;
-	width: 100%;
-	padding:0 10%;
-	box-sizing:border-box;
-	top: 50%;
-	transform: translateY(-50%);
-	text-align: center;
-	overflow: hidden;
+}
+.main_banner .item {
+  padding-top: 323px; 
+  height: 560px;
+  box-sizing: border-box;
+  color: #fff;
+  text-align: center;
 }
 
-.slider-container.animated {
-	-webkit-transition: left .3s ease-in;
-	transition: left .3s ease-in;
+.main_banner .item .first {
+  background: no-repeat url("../../resources/image/hanla.jpg") 0/cover;
+}
+.main_banner .item .second {
+  background: no-repeat url("../../resources/image/bakdo.jpg") 0/cover;
+}
+.main_banner .item .third {
+  background: no-repeat url("../../resources/image/seolark.jpg") 0/cover;
+}
+.main_banner .item .title {
+  display: inline-block;
+  vertical-align: top;
+  line-height: 60px; 
+  font-size: 50px;
+  letter-spacing: -2.5px;
+  font-weight: normal;
+  position: relative;
 }
 
-blockquote {
-    color: #636363;
-    font-weight: 300;
-    font-style: italic;
-    margin-bottom: 1.5em;
+.main_banner .item .title .em {
+  display: block;
 }
-
-cite {
-    font-size: .75em;
-    font-weight: 700;
-    font-style: normal;
+.main_banner .item .title::before {
+  position: absolute;
+  top: 35px;
+  left: -55px;
+  font-size: 124px;
+  font-weight: 100;
+  content: "[";
 }
-
-/* Utility */
-.simple-list {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+.main_banner .item .title::after {
+  position: absolute;
+  top: 35px;
+  right: -55px;
+  font-size: 124px;
+  font-weight: 100;
+  content:"]";
 }
+.main_banner .item .subtitle { 
+  display: inline-block; 
+  vertical-align: top; 
+  display: block; 
+  margin-top: 15px;
+  font-size: 24px;
+  line-height: normal;
+  letter-spacing: -1.2px;
+}  
+@media screen and (max-width: 998px) {
+      .main_banner {
+            height: 560px;
+      }
+      .main_banner .item {
+            background: no-repeat url("../../resources/image/hanla.jpg") 0/cover; 
+            padding-top: 241px;
+            height: 560px;
+      }  
+       .main_banner .item .title {
+            font-size: 35px;
+       }  
+       .main_banner .item .title::before, .main_banner .item .title::after {
+            font-size: 92px;
+      }
+}  
 
-/* Nav */
-#prev,
-#next {
-    position: absolute;
-    top: 50%;
-	left:50%;
-    transform: translateY(-50%);
-    z-index: 999999;
-    display: inline-block;
-    height: 5em;
-    width: 5em;
-    border-radius: 50%;
-    background-position: center center;
-    background-repeat: no-repeat;
-    -webkit-transition: all .3s ease-in;
-    transition: all .3s ease-in;
+@media screen and (max-width: 768px) {
+       .main_banner {
+              height: 560px;
+        }
+       .main_banner .item {
+              background: no-repeat url("../../resources/image/bakdo.jpg") 0/cover;
+              padding-top: 241px;
+              height: 560px;
+        }
+       .main_banner .item .title {
+              font-size: 30px;
+        }
+       .main_banner .item .title::before, .main_banner .item .title::after {
+              font-size: 92px;      
+        }
+       .main_banner .item .subtitle {
+               font-size: 20px;
+        }
 }
+@media screen and (max-width: 475px) {
+       .main_banner {
+                height: 560px;
+       }
 
-#prev.disabled, #next.disabled { display:none;}
+      .main_banner .item {
+                background: no-repeat url("../../resources/image/seolark.jpg") 0/cover; 
+                padding-top: 241px;
+                height: 560px; 
+      }  
+      .main_banner .item .title {
+                font-size: 24px;
+                line-height: 40px;
+      }
+      .main_banner .item .title::before, .main_banner .item .title::after {
+                top: 20px;
+                font-size: 70px;
+      }
+      .main_banner .item .title::before {
+                left: -30px;
+      }
+      .main_banner .item .title::after {
+                right: -30px;
+      } 
+      .main_banner .item .subtitle {
+                font-size: 16px;
+      }
+}      
 
-#prev { background-image: url('arrow-left-out.svg'); margin-left:-480px;}
-
-#prev:hover { background-image: url('arrow-left-over.svg'); }
-
-#next {
-    margin-left:380px;
-    background-image: url('arrow-right-out.svg');
-	
-}
-
-#next:hover { background-image: url('arrow-right-over.svg'); }
-
-.pager {
-    position: absolute;
-    left: 0;right: 0;bottom: 0;
-    text-align: center;
-    margin:0; padding: 0;
-}
-.pager span{
-    width: 10px;height: 10px;background:#ccc;
-    border-radius:50%; display: inline-block; text-indent: -9999em;
-    margin:0 5px;
-}
-.pager span.active{
-    background: #333;
-}
 
 
 
@@ -131,6 +200,37 @@ cite {
 .col-10 {
   border-left: 1px gray solid; 
   border-right: 1px gray solid; 
-  height: 1200px;
-  
 }
+
+.best_card {
+  display: flex;
+	justify-content: center;s
+}
+.card{
+  margin: auto;
+}
+
+.best_wrapper {
+  padding-top: 80px;
+  padding-bottom: 50px;
+}
+.best {
+  text-align: left;
+  padding-left: 35px;
+  padding-bottom: 10px;
+  font-size: 35px;
+  font-style: #006400 ;
+  font-weight: 600;
+}
+
+
+
+
+
+
+
+
+
+
+
+
