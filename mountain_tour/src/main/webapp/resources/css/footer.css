@@ -4,9 +4,10 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
 
 .footer_wrap {
-	border: 1px #626262 solid;
+	border-top: 1px gray solid;
   display: flex;
   justify-content: center;
+  width: auto;
 }
 .info {
 	font-family: #E2E2E2;
