@@ -30,7 +30,7 @@
     </div>
     
     <div class="div_login position-absolute bottom-0 end-0">
-      <span class="banner_login"><a href='#'>로그인</a></span>
+      <span class="banner_login"><a href='${contextPath}/user/login.do'>로그인</a></span>
       <span class="banner_join"><a href='#'>회원가입</a></span>
 
     </div>
@@ -55,7 +55,7 @@
           <a class="nav-link" href="#">공지사항</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">문의하기</a>
+          <a class="nav-link" href="${contextPath}/cs/faqList.do">문의하기</a>
         </li>
       </ul>
     </div>

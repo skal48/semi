@@ -11,19 +11,13 @@
 	      <div class="container">
             <ul class="slider-container simple-list" id="slider">
                 <li class="slide">
-                    <img src="../../image/bakdo.jpg">
+                    <img src="https://github.com/skal48/portfolio/blob/main/bakdo.jpg?raw=true">
                 </li>
                 <li class="slide">
-                    <blockquote>
-                        “The backs of the seats were thrown back, bedsteads carefully packed were rolled out by an ingenious system, berths were suddenly improvised, and each traveller had soon at his disposition a comfortable bed, protected from curious eyes by thick curtains. The sheets were clean and the pillows soft. It only remained to go to bed and sleep which everybody did—while the train sped on across the State of California.”
-                    </blockquote>
-
-                    <cite>- "Around the World in 80 Days" by Jules Verne</cite>
+                   <img src="https://github.com/skal48/portfolio/blob/main/hanla.jpg?raw=true">       
                 </li>
                 <li class="slide">
-                    <blockquote>
-                        “The country between San Francisco and Sacramento is not very hilly. The Central Pacific, taking Sacramento for its starting-point, extends eastward to meet the road from Omaha.”
-                    </blockquote>
+                   <img src="https://github.com/skal48/portfolio/blob/main/seolark.jpg?raw=true">
                 </li>
             </ul>
             <p class="pager">
