@@ -10,10 +10,16 @@
   <jsp:param value="마운틴투어" name="title"/>
 </jsp:include>
 <style>
-.menu {
-  text-align : center;
-}
+
+  .wrap1 > .box1{
+  width : 100px;
+  height : 100px;
+  
+  }
+
+
 </style>
+
  
   <div class="container text-center">
   <div class="row">
@@ -22,30 +28,47 @@
     <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
      
+       <h1>공지 사항</h1>
+   <hr>
+ 
+     
       <div id="container">
     <div id="contents">
       <div class="subTitWrap">
         <h2 class="subTit" style="min-height: 25px;"></h2>
       </div>
 
-      <div id="lnbWrap" class ="menu">
-        <ul class="lnb">
-          <li>
-            <a href="#">고객센터</a>
-            <div class="sub">
-              <ul>
-                <li><a href="/customer/notice">공지사항</a></li>
-                <li><a href="/customer/faq">자주묻는 질문</a></li>
-                <li><a href="/customer/awards">수상갤러리</a></li>
-                <!-- <li><a href="/customer/review">여행후기</a></li> -->
-                <li><a href="/customer/consult">견적문의</a></li>
-              </ul>
-            </div>
-          </li>
-        </ul>
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active" aria-current="true">고객센터</a>
+        <a href="#" class="list-group-item list-group-item-action">공지사항</a>
+        <a href="#" class="list-group-item list-group-item-action">자주 묻는 질문</a>
       </div>
-
-
+      
+      <div class = "wrap1">
+        <div class="box1"></div>
+      </div>
+      
+      
+      <div class="container text-center">
+  <div class="row">
+    <div class="col">
+      Column
+    </div>
+    <div class="col">
+      Column
+    </div>
+    <div class="col">
+      Column
+    </div>
+  </div>
+</div>
+      
+      
+      
+      
+      
+      
+      
 
 
     </div>
