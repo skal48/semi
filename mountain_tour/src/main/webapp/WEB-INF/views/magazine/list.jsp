@@ -17,7 +17,13 @@
     </div>
     <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
-     
+      <div class="big_magazine">
+      </div>
+      <div class="small_magazine">
+      </div>
+      
+      
+      
       
 
     </div>
