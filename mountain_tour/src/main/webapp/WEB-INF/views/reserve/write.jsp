@@ -125,8 +125,8 @@
               <tbody>
                 <tr>
                   <td></td>
-                  <td>???</td>
-                  <td>???</td>
+                  <td id="adultPrice">???</td>
+                  <td id="childPrice">???</td>
                   <td>
                     <select name="adultCnt">
                       <option value="0">0명</option>
@@ -148,7 +148,10 @@
                     </select>
                   </td>
                   <td>
+                    <span id="totalPriceOne">
                     계산된 합계금액????
+                    </span>
+                    원
                   </td>
                 </tr>
               </tbody>

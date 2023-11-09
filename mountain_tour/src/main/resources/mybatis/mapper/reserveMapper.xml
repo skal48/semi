@@ -4,7 +4,18 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mountaintour.mountain.dao.ReserveMapper">
-	
-	 
+
+  <resultMap type="ReserveDto" id="ReserveMap">
+    <id column="RESERVE_NO" property="reserveNo"/>
+    <result column="RESERVE_DATE" property="reserveDate"/>
+    <result column="REQUEST" property="request"/>
+    <result column="AGREE" property="agree"/>
+    <result column="PICKUP_LOC" property="pickupLoc"/>
+    <result column="RESERVE_STATUS" property="reserveStatus"/>
+    <result column="RESERVE_START" property="reserveStart"/>
+    <result column="RESERVE_FINISH" property="reserveFinish"/>
+    <result column="RESERVE_PERSON" property="reservePerson"/>
+    <!-- assosiation -->
+  </resultMap>
 
 </mapper>
