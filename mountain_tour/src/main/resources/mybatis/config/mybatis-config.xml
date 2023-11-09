@@ -11,7 +11,17 @@
   </settings>
   
   <typeAliases>
-    
+    <typeAlias alias="ProductDto" type="com.mountaintour.mountain.dto.ProductDto"/>
+		<typeAlias alias="MountainDto" type="com.mountaintour.mountain.dto.MountainDto"/>
+		<typeAlias alias="HeartDto" type="com.mountaintour.mountain.dto.HeartDto"/>
+		<typeAlias alias="ImageDto" type="com.mountaintour.mountain.dto.ImageDto"/>
+		<typeAlias alias="FaqDto" type="com.mountaintour.mountain.dto.FaqDto"/>
+		<typeAlias alias="InquiryDto" type="com.mountaintour.mountain.dto.InquiryDto"/>
+		<typeAlias alias="InquiryAnswerDto" type="com.mountaintour.mountain.dto.InquiryAnswerDto"/>
+		<typeAlias alias="NoticeDto" type="com.mountaintour.mountain.dto.NoticeDto"/>
+		<typeAlias alias="ReserveDto" type="com.mountaintour.mountain.dto.ReserveDto"/>
+		<typeAlias alias="PaymentDto" type="com.mountaintour.mountain.dto.PaymentDto"/>
+		<typeAlias alias="TouristDto" type="com.mountaintour.mountain.dto.TouristDto"/>
   </typeAliases>
 
 </configuration>
