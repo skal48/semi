@@ -56,7 +56,7 @@
           <a class="nav-link" href="#">공지사항</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">문의하기</a>
+          <a class="nav-link" href="${contextPath}/cs/faqList.do">문의하기</a>
         </li>
       </ul>
     </div>

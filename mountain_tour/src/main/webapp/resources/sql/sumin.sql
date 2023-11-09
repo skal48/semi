@@ -322,7 +322,19 @@ CREATE TABLE NOTICE_T (
 
 --**********************************************************************************
 
+INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user1@naver.com', STANDARD_HASH('1111', 'SHA256'), '사용자1', 'M', '01011111111', '11111', '디지털로', '가산동', '101동 101호', 0, 0, 1, TO_DATE('20231001', 'YYYYMMDD'), TO_DATE('20220101', 'YYYYMMDD'));
+INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user2@naver.com', STANDARD_HASH('1111', 'SHA256'), '사용자2', 'M', '01011123111', '11111', '디지털로', '가산동', '101동 101호', 0, 0, 1, TO_DATE('20231001', 'YYYYMMDD'), TO_DATE('20220101', 'YYYYMMDD'));
+INSERT INTO MOUNTAIN_T VALUES(MOUNTAIN_SEQ.NEXTVAL, '한라산', '멋있음', '제주도');
+INSERT INTO MOUNTAIN_T VALUES(MOUNTAIN_SEQ.NEXTVAL, '한라산2', '멋있음11', '제주도2');
+INSERT INTO PRODUCT_T VALUES(PRODUCT_SEQ.NEXTVAL, 1, 1, '우당탕탕한라산', '엄청나요', '김세콩', '당일', 28000, '주의사항', TO_DATE('20231101', 'YYYYMMDD'), TO_DATE('20231201', 'YYYYMMDD'), 30, 14, '썸네일.jpg', '오전, 오후', 0, '약관동의');
+INSERT INTO PRODUCT_T VALUES(PRODUCT_SEQ.NEXTVAL, 1, 2, '우당탕탕한라산2', '엄청나요!!!!', '김콩콩', '당일', 33000, '주의사항', TO_DATE('20230801', 'YYYYMMDD'), TO_DATE('20231021', 'YYYYMMDD'), 30, 55, '썸네일2.jpg', '오전, 오후', 0, '약관동의');
+INSERT INTO IMAGE_T VALUES(IMAGE_SEQ.NEXTVAL, '사진.jpg', '한라산사진', 1);
+INSERT INTO IMAGE_T VALUES(IMAGE_SEQ.NEXTVAL, '사진2.jpg', '한라산2사진', 2);
+INSERT INTO HEART_T VALUES(1, 1);
+INSERT INTO HEART_T VALUES(2, 2);
 
+-------------------------------------------------------------------
 
-
-
+INSERT INTO MAGAZINE_T VALUES(MAGAZINE_SEQ.NEXTVAL, 1, '설악산', '떠나요 설악산', TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO MAGAZINE_T VALUES(MAGAZINE_SEQ.NEXTVAL, 1, '설악산', '떠나요 설악산', TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO MAGAZINE_T VALUES(MAGAZINE_SEQ.NEXTVAL, 1, '설악산', '떠나요 설악산', TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'));
