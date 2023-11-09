@@ -12,35 +12,41 @@
 </jsp:include>
 
 <style>
+  .mainWrap {
+  display: flex;
+  }
 
   .listWrap1 {
-    background-color: lavender;
-    position: fixed;
-    top: 400px;
-    left: 100px;
+    justify-content: center;
+    width: 20%;
+    border-right: 1px solid gray;
+    margin-top: 50px;
+    padding-bottom: 30px;
   }
 
   .listWrap1 a {
     color: #1a1a1a;
     font-size: large;
     font-weight: bold;
-    padding-button: 10px;
   }
   
   .listWrap1 .inquiry {
     text-decoration: underline;
+    text-underline-position: under;
   }
 
   
   
   .listWrap2 {
-    background-color: LavenderBlush;
-
+    justify-content: center;
+    width: 70%;
+    margin: 30px auto;
+    margin-top: 20%;
     
   }
+
   
 </style>
-
  
   <div class="container text-center">
   <div class="row">
@@ -48,7 +54,6 @@
     </div>
     <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
-      
       
       
       
@@ -67,28 +72,51 @@
         <%-- 자주묻는질문 목록이 표시될 div --%>
         <div class="listWrap2">
           <div>
+            <span>총 ()개</span>
+          </div>
+          <div>
             <table border="1" class="table table-hover">
               <thead>
                 <tr>
-                  <th scope="col">번호</th>
+                  <th scope="col">문의번호</th>
+                  <th scope="col">상품</th>
                   <th scope="col">제목</th>
+                  <th scope="col">작성자</th>
+                  <th scope="col">작성일</th>
+                  <th scope="col">답변여부</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <th scope="row">1</td>
                   <td >테스트1</td>
+                  <td >테스트1</td>
+                  <td >테스트1</td>
+                  <td >테스트1</td>
+                  <td >테스트1</td>
                 </tr>
                 <tr>
                   <th scope="row">2</td>
+                  <td >테스트2</td>
+                  <td >테스트2</td>
+                  <td >테스트2</td>
+                  <td >테스트2</td>
                   <td >테스트2</td>
                 </tr>
                 <tr>
                   <th scope="row">3</td>
                   <td >테스트3</td>
+                  <td >테스트3</td>
+                  <td >테스트3</td>
+                  <td >테스트3</td>
+                  <td >테스트3</td>
                 </tr>
                 <tr>
                   <th scope="row">4</td>
+                  <td >테스트4</td>
+                  <td >테스트4</td>
+                  <td >테스트4</td>
+                  <td >테스트4</td>
                   <td >테스트4</td>
                 </tr>
               </tbody>
@@ -97,11 +125,14 @@
         </div>
         
       </div>
-      
-      
-      
-      
-      
+
+
+
+
+
+
+
+
 
     </div>
     <div class="col-1">

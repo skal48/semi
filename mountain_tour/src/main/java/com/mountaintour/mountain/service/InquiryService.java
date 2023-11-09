@@ -1,5 +1,5 @@
 package com.mountaintour.mountain.service;
 
-public interface CsService {
+public interface InquiryService {
 
 }
