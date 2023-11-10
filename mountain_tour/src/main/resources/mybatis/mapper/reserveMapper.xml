@@ -32,7 +32,7 @@
       <result column="PW_MODIFIED_AT" property="pwModifiedAt" />
       <result column="JOINED_AT" property="joinedAt" />  
     </association> 
-     association productDto 
+     association productDto 추가해야함 
   </resultMap>-->
   
   
