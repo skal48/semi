@@ -35,7 +35,7 @@
     </div>
     
     <div class="div_login position-absolute bottom-0 end-0">
-      <span class="banner_login"><a href='${contextPath}/user/login.do' class="login">로그인</a></span>
+      <span class="banner_login"><a href='${contextPath}/user/login.form'>로그인</a></span>
       <span class="banner_join"><a href='#'>회원가입</a></span>
 
     </div>
