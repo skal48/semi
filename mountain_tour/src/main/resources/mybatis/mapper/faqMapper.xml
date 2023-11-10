@@ -5,7 +5,16 @@
 
 <mapper namespace="com.mountaintour.mountain.dao.FaqMapper">
 
-
+  <select id="getFaqCount" resultType="int">
+    SELECT COUNT(*)
+      FROM FAQ_T
+  </select>
+  <select id="getFaqList" parameterType="Map" resultType="FaqDto">
+    SELECT FAQ_NO, TITLE, CONTENTS, CREATED_AT, MODIFIED_AT
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY FAQ_NO DESC) AS RN, FAQ_NO, TITLE, CONTENTS, CREATED_AT, MODIFIED_AT
+              FROM FAQ_T)
+     WHERE RN BETWEEN #{begin} AND #{end}
+  </select>
 	 
 
 </mapper>

@@ -15,7 +15,7 @@ public class InquiryAnswerDto {
 
   private int answerNo;
   private InquiryDto inquiryDto; // int inquiryNo
-  private int userNo;            // UserDto userDto
+  private UserDto userDto;       // int userNo
   private String title;
   private String contents;
   private int hit;

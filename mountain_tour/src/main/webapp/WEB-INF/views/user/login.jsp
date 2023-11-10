@@ -22,7 +22,7 @@
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
       <h1 class="title">로그인</h1>
       
-      <form method="post" action="${contextPath}/user/login.do">
+      <form method="post" action="${contextPath}/user/login.form">
       
       <div class="mb-3 row">
       	<label for="email" class="col-sm-3 col-form-label">아이디</label>

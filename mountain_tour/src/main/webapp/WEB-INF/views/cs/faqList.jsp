@@ -58,6 +58,7 @@
       
       <div class="mainWrap">
       
+      
         <%-- 각 페이지로 이동가능한 목록 --%>
         <div class="listWrap1">
           <div class="faq">
@@ -78,22 +79,38 @@
               <thead>
                 <tr>
                   <th scope="col">번호</th>
-                  <th scope="col">제목</th>
+                  <th scope="col" >제목</th>
                 </tr>
               </thead>
-              <tbody>
-
+              <tbody id="faqList">
+                <c:forEach items="${faqList}" var="f" varStatus="vs">
+                  <tr>
+                    <td>${beginNo - vs.index}</td>
+                    <td style="text-align: left; padding-left: 25%">${f.title}</td>
+                  </tr>
+                </c:forEach>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2">${paging}</td>
+                </tr>
+              </tfoot>
             </table>
+            <div>
+              <form method="get" action="${contextPath}/cs/faqSearch.do">
+                <select name="column">
+                  <option value="TITLE">제목</option>
+                  <option value="CONTENTS">내용</option>
+                  <option value="FAQ_NO">번호</option>
+                </select>
+                <input type="text" name="query" placeholder="검색어 입력">
+                <button type="submit" >검색</button>
+              </form>
+            </div>
           </div>
         </div>
         
       </div>
-
-
-
-
-
 
 
 
@@ -104,10 +121,25 @@
   </div>
 </div>
   
- 
- 
- 
- 
- 
+
+
+
+<script>
+
+
+
+	
+</script>
+
+
+
+
+
+
+
+
+
+
+
 
 <%@ include file="../layout/footer.jsp" %>
