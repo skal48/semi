@@ -30,6 +30,12 @@
              WHERE ${column} LIKE '%' || #{query} || '%')
      WHERE RN BETWEEN #{begin} AND #{end}
   </select>
-	 
+  
+  <!-- 삭제하기 -->
+  <delete id="deleteFaq" parameterType="int">
+    DELETE
+      FROM FAQ_T
+     WHERE FAQ_NO = #{faqNo}
+  </delete>
 
 </mapper>

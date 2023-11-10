@@ -41,10 +41,9 @@
     justify-content: center;
     width: 70%;
     margin: 30px auto;
-    margin-top: 20%;
+    margin-top: 10%;
     
   }
-
   
 </style>
  
@@ -71,9 +70,8 @@
         
         <%-- 자주묻는질문 목록이 표시될 div --%>
         <div class="listWrap2">
-          <div>
-            <span>총 ()개</span>
-          </div>
+          <div style="text-align: right;"><button id="btn_cs_write"  class="btn btn-success">문의작성</button></div>
+          <div style="text-align: left;">총 ${total}개</div>
           <div>
             <table border="1" class="table table-hover">
               <thead>
@@ -88,7 +86,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">1</td>
+                  <th scope="row">1</th>
                   <td >테스트1</td>
                   <td >테스트1</td>
                   <td >테스트1</td>
@@ -96,7 +94,7 @@
                   <td >테스트1</td>
                 </tr>
                 <tr>
-                  <th scope="row">2</td>
+                  <th scope="row">2</th>
                   <td >테스트2</td>
                   <td >테스트2</td>
                   <td >테스트2</td>
@@ -104,7 +102,7 @@
                   <td >테스트2</td>
                 </tr>
                 <tr>
-                  <th scope="row">3</td>
+                  <th scope="row">3</th>
                   <td >테스트3</td>
                   <td >테스트3</td>
                   <td >테스트3</td>
@@ -112,7 +110,7 @@
                   <td >테스트3</td>
                 </tr>
                 <tr>
-                  <th scope="row">4</td>
+                  <th scope="row">4</th>
                   <td >테스트4</td>
                   <td >테스트4</td>
                   <td >테스트4</td>
@@ -128,12 +126,12 @@
             </table>
             <div>
               <form method="get" action="${contextPath}/cs/inquirySearch.do">
-                <select name="column">
+                <select name="column" class="form-select-sm" style="height: 40px">
                   <option value="INQUIRY_TITLE">제목</option>
                   <option value="INQUIRY_NO">문의번호</option>
                 </select>
-                <input type="text" name="query" placeholder="검색어 입력">
-                <button type="submit" >검색</button>
+                <input type="text" name="query" class="form-control-sm" placeholder="검색어 입력" >
+                <button type="submit" class="btn btn-outline-success" >검색</button>
               </form>
             </div>
           </div>

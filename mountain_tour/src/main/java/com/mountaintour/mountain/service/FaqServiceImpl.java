@@ -24,7 +24,7 @@ public class FaqServiceImpl implements FaqService {
   private final MyPageUtils myPageUtils;
 
   /**
-   * 전체 목록을 반환하는 메소드 입니다.
+   * 전체목록을 반환하는 메서드입니다.
    * MVC 페이징 처리 했습니다.
    */
   @Override
@@ -51,7 +51,7 @@ public class FaqServiceImpl implements FaqService {
   }
   
   /**
-   * 검색 결과를 반환하는 메소드 입니다.
+   * 검색결과를 반환하는 메서드입니다.
    */
   @Override
   public void loadSearchList(HttpServletRequest request, Model model) {
@@ -83,6 +83,14 @@ public class FaqServiceImpl implements FaqService {
     model.addAttribute("beginNo", total - (page -1) * display);
     model.addAttribute("total", total);
     
+  }
+  
+  /**
+   * 삭제하는 매서드입니다.
+   */
+  @Override
+  public int removeFaq(int faqNo) {
+    return faqMapper.deleteFaq(faqNo);
   }
   
 }

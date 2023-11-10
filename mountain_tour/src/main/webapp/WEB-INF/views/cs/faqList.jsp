@@ -35,6 +35,9 @@
     text-underline-position: under;
   }
 
+  #faqList a {
+    color: #1a1a1a;
+  }
   
   
   .listWrap2 {
@@ -43,6 +46,13 @@
     margin: 30px auto;
     margin-top: 10%;
     
+  }
+  
+  .blind {
+    display: none;
+  }
+  .btn_title {
+    cursor: pointer;
   }
   
 </style>
@@ -74,7 +84,7 @@
           <div>
             <table border="1" class="table table-hover">
               <thead>
-                <tr>
+                <tr >
                   <th scope="col">번호</th>
                   <th scope="col" >제목</th>
                 </tr>
@@ -82,8 +92,23 @@
               <tbody id="faqList">
                 <c:forEach items="${faqList}" var="f" varStatus="vs">
                   <tr>
-                    <td>${beginNo - vs.index}</td>
-                    <td style="text-align: left; padding-left: 25%">${f.title}</td>
+                    <th scope="row">${beginNo - vs.index}</th>
+                    <td class="btn_title" style="text-align: left; padding-left: 25%">${f.title}</td>
+                  </tr>
+                  <tr class="blind show_content">
+                    <td colspan="2">
+                      <div>${f.contents}</div>
+                      <form class="frm_removeFaq" method="post" action="${contextPath}/cs/removeFaq.do">
+                          <input type="hidden" name="faqNo" value="${f.faqNo}">
+                          <button type="submit" class="btn btn-outline-secondary" style="margin-top: 5%;">삭제</button>
+                          
+                          
+                          
+                        
+                        
+                      </form>
+
+                    </td>
                   </tr>
                 </c:forEach>
               </tbody>
@@ -109,7 +134,9 @@
         
       </div>
 
-
+                        <%-- 관리자 구분하는 곳. 로그인 완성되면 폼 안으로 넣고 삭제버튼은 이 안 쪽으로 이동하기 --%>  
+                        <c:if test="${sessionScope.user.auth == 0 }">
+                        </c:if>
 
 
     </div>
@@ -123,7 +150,32 @@
 
 <script>
 
+  const fnBlind = () => {
+	$('.btn_title').click((ev) => {
+	  let title = $(ev.target).parent().next();
+	  if(title.hasClass('blind')){
+		$('.show_content').addClass('blind');
+		title.removeClass('blind');
+	  } else {
+		title.addClass('blind');
+	  }
+	})
+  }
 
+  const fnRemove = () => {
+	$('.frm_removeFaq').submit((ev) => {
+	  if(!confirm('자주묻는질문을 삭제할까요?')){
+		ev.preventDefault();
+		return;
+	  } else {
+		alert('자주묻는질문이 삭제되었습니다.');
+	  }
+	})
+  }
+  
+  
+  fnBlind();
+  fnRemove();
 
 	
 </script>
