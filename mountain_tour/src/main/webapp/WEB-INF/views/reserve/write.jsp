@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 <jsp:include page="../layout/header.jsp">
   <jsp:param value="예약" name="title"/>
 </jsp:include>
@@ -12,11 +16,19 @@
     </div>
     <div class="col-10" style = "border: 1px gray solid; height: 100%;" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
+      
+      
+      
+      <!-- <a href="${contextPath}/reserve/detail.do?resDate=20231111">예약</a> -->
+      
+      
+      
       <div id="contents">
         <div class="subtitle_wrap">
           <h2>예약하기</h2>
         </div>
         <hr>
+        <button type="button" onclick="location.href='javascript:history.back()'">이전으로</button>
         <div>
           <h4>상품정보</h4>
         </div>
@@ -125,8 +137,8 @@
               <tbody>
                 <tr>
                   <td></td>
-                  <td>???</td>
-                  <td>???</td>
+                  <td id="adultPrice">???</td>
+                  <td id="childPrice">???</td>
                   <td>
                     <select name="adultCnt">
                       <option value="0">0명</option>
@@ -148,7 +160,10 @@
                     </select>
                   </td>
                   <td>
+                    <span id="totalPriceOne">
                     계산된 합계금액????
+                    </span>
+                    원
                   </td>
                 </tr>
               </tbody>
@@ -275,14 +290,22 @@
                 <tr>
                   <th>결제방식</th>
                   <td>
-                    <input type="radio" name="opt1" id="opt1">
-                    <label for="opt1">무통장입금</label>
+                    <input type="radio" name="opt1" id="deposit">
+                    <label for="deposit">무통장입금</label>
+                    <input type="radio" name="opt1" id="card">
+                    <label for="card">카드결제</label>
                     <br>
-                    <span>[입금자명]</span>
-                    <input type="text" name="depositNm" id="depositNm">
-                    <input type="checkbox" name="sameResName" id="sameResName">
-                    <label for="sameResName">예약자와 동일</label>
-                    <br>
+                    
+                    <div>
+                      <span>[입금자명]</span>
+                      <input type="text" name="depositNm" id="depositNm">
+                      <input type="checkbox" name="sameResName" id="sameResName">
+                      <label for="sameResName">예약자와 동일</label>
+                    </div>
+                    <div>
+                      <!-- 카드결제버튼? -->
+                    </div>
+                    
                     <span>[입금정보]</span>
                     (구디)1111-111-11, (예금주)주식회사 마운틴투어 
                   </td>
@@ -328,6 +351,10 @@
             <input type="checkbox" id="chkAll">
             <label for="chkAll">모든 약관에 동의합니다.</label>
           </span>
+        </div>
+        <div>
+          <button type="button" onclick="location.href='${contextPath}/reserve/detail.do'">예약하기</button>
+          <button type="button" onclick="location.href='${contextPath}/reserve/list.do'">내예약목록</button>
         </div>
         
         

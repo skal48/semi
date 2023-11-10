@@ -35,7 +35,9 @@
       <!--  여기다가 작성  다 작성하고 height 지우기!!!! -->
       <div class="row">
     	<div class="col-8" style="margin-top: 30px; margin-bottom: 30px;">
-    	  <img alt="" src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" width="500px" height="400px">
+    	  <div class="text-center">
+			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
+		  </div>
     	  <hr>
     	  <div style = "text-align: left;">[당일] 월간영월 12월 주천강 둘레길 트레킹 (강원/영월)</div>
     	  <div style = "text-align: right;">69,000<span class="css-5aoa4c">원</span></div>
@@ -59,7 +61,50 @@
 	    	  
 	    	 </div>
     	  <div style = "text-align: left; font-size:16px; border: 1px gray solid; height: 300px">상품 선택</div>
-    	  	 <div>
+	    	  	 <div>
+		 <div style="text-align: center;">
+		    <div style="display: inline-block; margin: 0px 120px;">
+		        <div>성인</div>
+		        <div>23000원</div>
+		    </div>
+		    <div style="display: inline-block; margin: 0px 120px;">
+		        <div>유아</div>
+		        <div>23000원</div>
+		    </div>
+	    </div>
+		<table style="margin: 0;">
+		    <tr style="text-align:center;">
+		        <td></td>
+		        <td class="bseq_ea"></td>
+		        <td>
+		            <div style="margin: 10px 20px;">
+		                <button type="button" class="btn btn-dark" onclick="fnCalCount('m', this);">-</button>
+		                <input type="text" name="pop_out1" value="0" readonly="readonly" style="text-align:center; width: 200px;" />
+		                <button type="button" class="btn btn-dark" onclick="fnCalCount('p', this);">+</button>
+		            </div>
+		        </td>
+		        <td></td>
+		        <td class="bseq_ea"></td>
+		        <td>
+		            <div style="margin: 10px 20px;">
+		                <button type="button" class="btn btn-dark" onclick="fnCalCount('m', this);">-</button>
+		                <input type="text" name="pop_out2" value="0" readonly="readonly" style="text-align:center; width: 200px;" />
+		                <button type="button" class="btn btn-dark" onclick="fnCalCount('p', this);">+</button>
+		            </div>
+		        </td>
+		    </tr>
+		</table>
+<div style="text-align: right;">
+    <div style="display: inline-block; margin-right: 20px;">
+        <div>총 금액</div>
+        <div>
+            <div>39,000<span>원</span></div>
+        </div>
+    </div>
+    <a href="${contextPath}/reserve/write.form" style="display: inline-block;">
+        <button type="button" class="btn btn-outline-success">예약하기</button>
+    </a>
+</div>
 	    	  
 	    	  
 	    	  
@@ -94,7 +139,9 @@
     	<div class="col-4"> <!-- style="border-left: 2px solid gray;" -->
     	<form id="frm_btn" class="admin_btn">
 	        <input type="hidden" name="productNo" value="${product.productNo}">
+	        <a href="${contextPath}/product/edit.do">
 	        <button type="button" id="btn_edit">편집</button> <!-- 관리자만 보이게 -->
+	        </a>
 	        <button type="button" id="btn_remove">삭제</button> <!-- 관리자만 보이게 -->
 	  </form>
        <div>
@@ -110,26 +157,12 @@
 	   <div class="css-oxy8lg">
 	   <div class="css-1xhmgr4">69,000<span class="css-5aoa4c">원</span></div>
 	   </div>
-	   <button class="css-8mw6wv">
-	   <div class="css-zy66z9">
-	   <div class="css-1lvghmf">찜하기</div>
-	   <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg" class="css-1vp9y8d">
-	   </svg>
-	   </div>
-	   </button>
-	   <button class="css-1axms61">
-	   <div class="css-zy66z9">
-	   <div class="css-1p9c0kq">다른 출발일 보기</div>
+	   <button class="btn btn-success" style="margin: 20px auto;">
+	   <div>
+	   <div style="color: white;">찜하기♥</div>
 	   </div>
 	   </button>
 	   </div>
-	   </div>
-	   </div>
-	   <div class="css-r8ib8s">
-	   <div class="share-box2 css-15a582q">공유하기</div>
-	   <div class="share-box2 css-9o9ge6">
-	   <svg class="share-box2 css-2ijsu3" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-	   </svg>
 	   </div>
 	   </div>
 	   </div>
@@ -190,7 +223,23 @@
 </style>
  
 
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+
+  function fnCalCount(type, ths){
+      var $input = $(ths).siblings("input");
+      var tCount = Number($input.val());
+      
+      if (type == 'p') {
+          $input.val(Number(tCount) + 1);
+      } else {
+          if (tCount > 0) $input.val(Number(tCount) - 1);
+      }
+  }
   
+  </script>
 
  
 

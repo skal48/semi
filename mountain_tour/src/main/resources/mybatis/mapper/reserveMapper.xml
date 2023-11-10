@@ -4,7 +4,67 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mountaintour.mountain.dao.ReserveMapper">
-	
-	 
-
+  <!-- 
+  <resultMap type="ReserveDto" id="ReserveMap">
+    <id column="RESERVE_NO" property="reserveNo"/>
+    <result column="RESERVE_DATE" property="reserveDate"/>
+    <result column="REQUEST" property="request"/>
+    <result column="AGREE" property="agree"/>
+    <result column="PICKUP_LOC" property="pickupLoc"/>
+    <result column="RESERVE_STATUS" property="reserveStatus"/>
+    <result column="RESERVE_START" property="reserveStart"/>
+    <result column="RESERVE_FINISH" property="reserveFinish"/>
+    <result column="RESERVE_PERSON" property="reservePerson"/>
+    <association javaType="UserDto" property="userDto">
+      <id column="USER_NO" property="userNo"/>
+      <result column="EMAIL" property="email" />
+      <result column="PW" property="pw" />
+      <result column="NAME" property="name" />
+      <result column="GENDER" property="gender" />
+      <result column="MOBILE" property="mobile" />
+      <result column="POSTCODE" property="postcode" />
+      <result column="ROAD_ADDRESS" property="roadAddress" />
+      <result column="JIBUN_ADDRESS" property="jibunAddress" />
+      <result column="DETAIL_ADDRESS" property="detailAddress" />
+      <result column="AGREE" property="agree" />
+      <result column="STATE" property="state" />
+      <result column="AUTH" property="auth" />
+      <result column="PW_MODIFIED_AT" property="pwModifiedAt" />
+      <result column="JOINED_AT" property="joinedAt" />  
+    </association> 
+    <association javaType="ProductDto" property="productDto">
+      <id column="PRODUCT_NO" property="productNo"/>
+      <result column="USER_NO" property="userNo"/>
+      <result column="MOUNTAIN_NO" property="mountainNo"/>
+      <result column="TRIP_NAME" property="tripName"/>
+      <result column="TRIP_CONTENTS" property="tripContents"/>
+      <result column="GUIDE" property="guide"/>
+      <result column="TIMETAKEN" property="timetaken"/>
+      <result column="PRIZE" property="prize"/>
+      <result column="DANGER" property="danger"/>
+      <result column="REGISTERED_AT" property="registeredAt"/>
+      <result column="MODIFIED_DATE" property="modifiedDate"/>
+      <result column="PEOPLE" property="people"/>
+      <result column="HIT" property="hit"/>
+      <result column="THUMBNAIL" property="thumbnail"/>
+      <result column="PLAN" property="plan"/>
+      <result column="STATUS" property="status"/>
+      <result column="TERM_USE" property="termUse"/>
+    </association>
+  </resultMap>
+   -->
+  
+   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 </mapper>

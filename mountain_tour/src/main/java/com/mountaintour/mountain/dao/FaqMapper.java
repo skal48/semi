@@ -9,13 +9,21 @@ import com.mountaintour.mountain.dto.FaqDto;
 
 @Mapper
 public interface FaqMapper {
+<<<<<<< HEAD
+  public int getFaqCount();
+  public List<FaqDto> getFaqList(Map<String, Object> map);
+=======
   
   public int getFaqCount();
   public List<FaqDto> getFaqList(Map<String, Object> map);
   
   public int getSearchCount(Map<String, Object> map);
   public List<FaqDto> getSearchFaq(Map<String, Object> map);
+<<<<<<< HEAD
   
   public int deleteFaq(int faqNo);
   
+=======
+>>>>>>> main
+>>>>>>> main
 }

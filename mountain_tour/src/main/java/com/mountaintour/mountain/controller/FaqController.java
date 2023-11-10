@@ -29,11 +29,14 @@ public class FaqController {
    * @param model
    * @return /cs/faqList.jsp
    */
+
   @GetMapping("/faqList.do")
   public String faqList(HttpServletRequest request, Model model) {
     faqService.loadFaqList(request, model);
     return "cs/faqList";
   }
+
+
   
   /**
    * 검색목록을 반환하는 메서드입니다.
@@ -46,6 +49,7 @@ public class FaqController {
     faqService.loadSearchList(request, model);
     return "cs/faqList";
   }
+<<<<<<< HEAD
   
   @PostMapping("/removeFaq.do")
   public String removeFaq(@RequestParam(value="faqNo") int faqNo, RedirectAttributes redirectAttributes) {
@@ -55,6 +59,9 @@ public class FaqController {
   }
   
   
+=======
+>>>>>>> main
+>>>>>>> main
 
 
 }

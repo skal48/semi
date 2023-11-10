@@ -1,5 +1,6 @@
 package com.mountaintour.mountain.service;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +24,12 @@ public class FaqServiceImpl implements FaqService {
   private final FaqMapper faqMapper;
   private final MyPageUtils myPageUtils;
 
+
   /**
    * 전체목록을 반환하는 메서드입니다.
    * MVC 페이징 처리 했습니다.
    */
+
   @Override
   public void loadFaqList(HttpServletRequest request, Model model) {
     
@@ -42,6 +45,12 @@ public class FaqServiceImpl implements FaqService {
     
     List<FaqDto> faqList = faqMapper.getFaqList(map);
     
+
+    model.addAttribute("faqList", faqList);
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/cs/faqList.do"));
+    model.addAttribute("beginNo", total - (page -1) * display);
+    
+
     // faqList, paging, beginNo, total 전달
     model.addAttribute("faqList", faqList);
     model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/cs/faqList.do"));
@@ -82,6 +91,7 @@ public class FaqServiceImpl implements FaqService {
     model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/cs/faqSearch.do?column=" + column + "&query=" + query));
     model.addAttribute("beginNo", total - (page -1) * display);
     model.addAttribute("total", total);
+
     
   }
   
