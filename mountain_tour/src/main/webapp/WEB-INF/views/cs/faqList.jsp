@@ -41,7 +41,7 @@
     justify-content: center;
     width: 70%;
     margin: 30px auto;
-    margin-top: 20%;
+    margin-top: 10%;
     
   }
   
@@ -51,8 +51,7 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
-      <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
+    <div class="col-10" style = "border: 1px gray solid;" >
       
       
       
@@ -71,9 +70,7 @@
         
         <%-- 자주묻는질문 목록이 표시될 div --%>
         <div class="listWrap2">
-          <div>
-            <span>총 ()개</span>
-          </div>
+          <div style="text-align: left;">총 ${total}개</div>
           <div>
             <table border="1" class="table table-hover">
               <thead>
@@ -98,13 +95,13 @@
             </table>
             <div>
               <form method="get" action="${contextPath}/cs/faqSearch.do">
-                <select name="column">
+                <select name="column" class="form-select-sm" style="height: 40px">
                   <option value="TITLE">제목</option>
                   <option value="CONTENTS">내용</option>
                   <option value="FAQ_NO">번호</option>
                 </select>
-                <input type="text" name="query" placeholder="검색어 입력">
-                <button type="submit" >검색</button>
+                <input type="text" name="query" class="form-control-sm" placeholder="검색어 입력" >
+                <button type="submit" class="btn btn-outline-success" >검색</button>
               </form>
             </div>
           </div>
