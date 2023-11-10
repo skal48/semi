@@ -6,13 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/cs")
 @Controller
-public class CsController {
+public class InquiryController {
   
-  @GetMapping("/faqList.do")
-  public String faqList() {
-    return "cs/faqList";
-  }
-
   @GetMapping("/inquiryList.do")
   public String inquiryList() {
     return "cs/inquiryList";

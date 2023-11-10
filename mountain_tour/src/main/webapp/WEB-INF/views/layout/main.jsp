@@ -6,22 +6,13 @@
 </jsp:include>
   
   <div class="ad_wrapper">
-    <div class="owl-carousel owl-theme">
-    <div class="main_banner owl-carousel owl-theme">
-        <div class="item first">
-            <h2 class="title">asdasd<strong class="em">HH SUCK</strong></h2>
-            <span class="subtitle">DUCK</span> 
-        </div>
-        <div class="item second">
-            <h2 class="title">asd<strong class="em">Lorem ipsum dolor sit amet.</strong></h2> 
-            <span class="subtitle">adasd</span>
-        </div>
-        <div class="item third"> 
-            <h2 class="title">asdasdasd<strong class="em">Lorem ipsum dolor sit amet.</strong></h2> 
-            <span class="subtitle">Lorem</span>
-        </div>
-      </div>
-    </div>
+     <!-- 캐러셀 및 이미지         -->
+        <div class="owl-carousel owl-theme">
+          <!-- 이미지의 위치에 맞게 src 경로 설정. 여기서는 index.html과 image1,2,3이 같은 폴더 내에 같은 위계에 위치     -->
+            <div class="item1"><img class="owl_img" src="#" ></div>
+            <div class="item2"><img class="owl_img" src="#" ></div>
+            <div class="item3"><img class="owl_img" src="#" ></div>
+        </div>        
   </div>
 
  
@@ -73,9 +64,7 @@
 </div>
 </div>
 </div>
-<script>
- 
-</script>  
+
   
   
 

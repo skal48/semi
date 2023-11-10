@@ -10,8 +10,8 @@
 .ad_wrapper {
 	display: flex;
 	justify-content: center;
-	border: 1px gray solid;
-	height: 560px;
+	border-bottom: 1px gray solid;
+	height: 597px;
 	width: auto; 
 }
 
@@ -22,180 +22,34 @@
 	justify-content: center;
 }
 
-.main_banner {
-  position: relative;
-}
-
-main_banner .owl-prev {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  height: 100%;
-  width: 100px;
-  outline: none;
-}
-
-.main_banner .owl-prev::before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-position: -328px -651px;
-  background-repeat: no-repeat;
-  width: 22px;
-  height: 560px;
-  content: "":
-  margin: auto;
-}
-.main_banner .owl-next {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  outline: none;
-  width: 100px;
-  height: 560px;
-}
-
-.main_banner .owl-next::before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-position: -1056px -369px; background-repeat: no-repeat;
-  width: 22px;
-  height: 38px;
-  content:"";
-  margin: auto;
-}
-
-}
-.main_banner .item {
-  padding-top: 323px; 
-  height: 560px;
-  box-sizing: border-box;
-  color: #fff;
-  text-align: center;
-}
-
-.main_banner .item .first {
-  background: no-repeat url("../../resources/image/hanla.jpg") 0/cover;
-}
-.main_banner .item .second {
-  background: no-repeat url("../../resources/image/bakdo.jpg") 0/cover;
-}
-.main_banner .item .third {
-  background: no-repeat url("../../resources/image/seolark.jpg") 0/cover;
-}
-.main_banner .item .title {
-  display: inline-block;
-  vertical-align: top;
-  line-height: 60px; 
-  font-size: 50px;
-  letter-spacing: -2.5px;
-  font-weight: normal;
-  position: relative;
-}
-
-.main_banner .item .title .em {
-  display: block;
-}
-.main_banner .item .title::before {
-  position: absolute;
-  top: 35px;
-  left: -55px;
-  font-size: 124px;
-  font-weight: 100;
-  content: "[";
-}
-.main_banner .item .title::after {
-  position: absolute;
-  top: 35px;
-  right: -55px;
-  font-size: 124px;
-  font-weight: 100;
-  content:"]";
-}
-.main_banner .item .subtitle { 
-  display: inline-block; 
-  vertical-align: top; 
-  display: block; 
-  margin-top: 15px;
-  font-size: 24px;
-  line-height: normal;
-  letter-spacing: -1.2px;
-}  
-@media screen and (max-width: 998px) {
-      .main_banner {
-            height: 560px;
-      }
-      .main_banner .item {
-            background: no-repeat url("../../resources/image/hanla.jpg") 0/cover; 
-            padding-top: 241px;
-            height: 560px;
-      }  
-       .main_banner .item .title {
-            font-size: 35px;
-       }  
-       .main_banner .item .title::before, .main_banner .item .title::after {
-            font-size: 92px;
-      }
-}  
-
-@media screen and (max-width: 768px) {
-       .main_banner {
-              height: 560px;
-        }
-       .main_banner .item {
-              background: no-repeat url("../../resources/image/bakdo.jpg") 0/cover;
-              padding-top: 241px;
-              height: 560px;
-        }
-       .main_banner .item .title {
-              font-size: 30px;
-        }
-       .main_banner .item .title::before, .main_banner .item .title::after {
-              font-size: 92px;      
-        }
-       .main_banner .item .subtitle {
-               font-size: 20px;
-        }
-}
-@media screen and (max-width: 475px) {
-       .main_banner {
+.owl-carousel {
+                width: 1340px;
                 height: 560px;
-       }
-
-      .main_banner .item {
-                background: no-repeat url("../../resources/image/seolark.jpg") 0/cover; 
-                padding-top: 241px;
-                height: 560px; 
-      }  
-      .main_banner .item .title {
-                font-size: 24px;
-                line-height: 40px;
-      }
-      .main_banner .item .title::before, .main_banner .item .title::after {
-                top: 20px;
-                font-size: 70px;
-      }
-      .main_banner .item .title::before {
-                left: -30px;
-      }
-      .main_banner .item .title::after {
-                right: -30px;
-      } 
-      .main_banner .item .subtitle {
-                font-size: 16px;
-      }
-}      
-
-
-
-
+                margin: 0 auto;
+                
+                
+            }
+.owl_img {
+	height: 560px;
+}
+	
+.item1 {
+	background-image: url('../../resources/image/bakdo.jpg');
+	background-repeat: no-repeat;
+	background-position: center;
+}  
+.item2 {
+  background-image: url('../../resources/image/hanla.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+}     
+.item3 {
+  background-image: url('../../resources/image/seolark.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+}               
+            
+            
 
 .col-10 {
   border-left: 1px gray solid; 

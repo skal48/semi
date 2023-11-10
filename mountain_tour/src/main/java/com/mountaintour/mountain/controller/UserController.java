@@ -22,9 +22,9 @@ public class UserController {
 	private final UserService userService;
 	
 	@GetMapping("/login.form")
-	public String loginForm(HttpServletRequest request, Model model) throws Exception{
+	public String loginForm(Model model) throws Exception{
 		//referer : 이전 주소가 저장되는 요청 Header 값
-		String referer = request.getHeader("referer");
+		//String referer = request.getHeader("referer");
 		
 		return "user/login";
 	}
