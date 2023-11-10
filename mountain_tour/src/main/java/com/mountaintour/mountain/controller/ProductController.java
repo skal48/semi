@@ -30,4 +30,8 @@ public class ProductController {
   public String detail() {
 	 return "product/detail"; 
 	}
+  @GetMapping("/edit.do")
+  public String edit() {
+	 return "product/edit"; 
+	}
 }
