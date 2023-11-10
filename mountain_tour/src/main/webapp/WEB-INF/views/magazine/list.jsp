@@ -7,7 +7,7 @@
 <c:set var="dt" value="<%=System.currentTimeMillis() %>"/>
 
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="마운틴투어" name="title"/>
+  <jsp:param value="매거진" name="title"/>
 </jsp:include>
   <style>
     .magazine {
@@ -114,7 +114,17 @@
   		location.href = '${contextPath}/magazine/write.form';  		
   	})
   }
-
+	//나중에 지우기 
+  const fnTemp = () => {
+	  $('.big_magazine').click(() => {
+		  location.href = '${contextPath}/magazine/detail.do';
+	  })
+  }
+  
+  
+  
+  
+  fnTemp();
   fnMagazineWrite();	
 
 

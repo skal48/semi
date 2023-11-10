@@ -22,6 +22,9 @@
 		<typeAlias alias="ReserveDto" type="com.mountaintour.mountain.dto.ReserveDto"/>
 		<typeAlias alias="PaymentDto" type="com.mountaintour.mountain.dto.PaymentDto"/>
 		<typeAlias alias="TouristDto" type="com.mountaintour.mountain.dto.TouristDto"/>
+		<typeAlias alias="UserDto" type="com.mountaintour.mountain.dto.UserDto"/>
+		<typeAlias alias="productDto" type="com.mountaintour.mountain.dto.MagazineDto"/>
+		
   </typeAliases>
 
 </configuration>

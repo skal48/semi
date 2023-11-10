@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 
 <jsp:include page="../layout/header.jsp">
   <jsp:param value="마운틴투어" name="title"/>
@@ -12,8 +17,43 @@
     </div>
     <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
-      
-      <div id="reserve_list"></div>
+      <div>
+        <h2>예약내역목록</h2>
+      </div>
+      <div>
+        <table>
+          <colgroup>
+            <col style="width:30%;">
+            <col style="width:15%;">
+            <col style="width:15%;">
+            <col style="width:15%;">
+            <col style="width:10%;">
+            <col style="width:15%;">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>예약날짜/예약번호</th>
+              <th>상품명</th>
+              <th>결제금액</th>
+              <th>인원</th>
+              <th>여행일정</th>
+              <th>예약상태</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="resSche">??</td> 
+              <td id="prodName">??</td>
+              <td id="totalPrice">??</td>
+              <td id="personCnt">??</td>
+              <td id="trvlSche">??</td>
+              <td id="resStatus">??</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr>
+      <button type="button" onclick="location.href='${contextPath}/product/list.do'">다른상품 예약하러가기</button>
       
 
     </div>
@@ -22,9 +62,7 @@
   </div>
 </div>
   
- 
- 
- 
+
  
  
 
