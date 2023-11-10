@@ -18,9 +18,14 @@
 <link rel="stylesheet" href="${contextPath}/resources/css/header.css?dt=${dt}" />
 <link rel="stylesheet" href="${contextPath}/resources/css/main.css?dt=${dt}" />
 <link rel="stylesheet" href="${contextPath}/resources/css/footer.css?dt=${dt}" />
+<link rel="stylesheet" href="${contextPath}/resources/css/owl.carousel.css" />
+<link rel="stylesheet" href="${contextPath}/resources/css/owl.theme.default.css" />
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/decoupled-document/ckeditor.js"></script> 
+<script src="${contextPath}/resources/js/owl.carousel.min.js?dt=${dt}"></script> 
+<script src="${contextPath}/resources/js/app.js?dt=${dt}"></script> 
+
 <!-- ck 에디터 쓸지 네이버 쓸지 정해야함  -->
 </head>
 <body>
@@ -30,7 +35,7 @@
     </div>
     
     <div class="div_login position-absolute bottom-0 end-0">
-      <span class="banner_login"><a href='${contextPath}/user/login.do'>로그인</a></span>
+      <span class="banner_login"><a href='${contextPath}/user/login.form'>로그인</a></span>
       <span class="banner_join"><a href='#'>회원가입</a></span>
 
     </div>
@@ -43,16 +48,16 @@
     <div class="collapse navbar-collapse justify-content-center" id="navbarColor01">
       <ul class="navbar-nav me-aouto">
         <li class="nav-item">
-          <a class="nav-link" href="#">Home</a>
+          <a class="nav-link" href="${contextPath}/">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="${contextPath}/product/list.do">여행상품</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">매거진</a>
+          <a class="nav-link" href="${contextPath}/magazine/list.do">매거진</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">공지사항</a>
+          <a class="nav-link" href="${contextPath}/notice/list.do">공지사항</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="${contextPath}/cs/faqList.do">문의하기</a>
@@ -62,4 +67,19 @@
   </div>
 </nav>
   
-  <div class="main_wrap"></div>
+<script>
+  const fnAfterLogin = () => {
+		  var str ='';
+	    } else if(${sessionScope.auth} == 0}){
+	    	$('.banner_login').empty();
+			  srt += <a href="${contextPath}/manage/memberList.do">관리자 페이지</a>
+		  } else if(${sessionScope.auth} == 1}){
+			  $('.banner_login').empty();
+			  srt += <a href="${contextPath}/user/mypage.do">마이페이지</a>
+		  }
+		  $('.banner_login').append(str);		  
+	  })
+  }
+
+  fnAfterLogin();
+</script> 

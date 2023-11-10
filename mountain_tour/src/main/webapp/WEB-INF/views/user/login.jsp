@@ -5,7 +5,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <c:set var="dt" value="<%=System.currentTimeMillis() %>"/>
-
+<style>
+	
+	
+</style>
 <jsp:include page="../layout/header.jsp">
   <jsp:param value="마운틴투어" name="title"/>
 </jsp:include>
@@ -19,29 +22,38 @@
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
       <h1 class="title">로그인</h1>
       
-      <form method="post" action="${contextPath/user/login.do}">
+      <form method="post" action="${contextPath}/user/login.form">
       
       <div class="mb-3 row">
-      	<label for="email" class="col-sm-3" col-form-label">아이디</label>
+      	<label for="email" class="col-sm-3 col-form-label">아이디</label>
       	<div class="col-sm-9"><input type="text" name="email" id="email" placeholder="이메일" class="form-control"></div>
       </div>
       
       <div class="mb-3 row">
-      	<label for="pw" class="col-sm-3" col-form-label">비밀번호</label>
+      	<label for="pw" class="col-sm-3 col-form-label">비밀번호</label>
       	<div class="col-sm-9"><input type="password" name="pw" id="pw" placeholder="●●●●" class="form-control"></div>
       </div>
       
-      <div class="d-grid gap-2 mb-3">
+      <div class="gap-2 mb-3">
       	<input type="hidden" name="referer" value="${referer}">
-      	<button class="btn btn-primary btn-lg" type="submit">로그인</button>
+      	<button type="sumbit" class="btn btn-success">로그인</button>
+      	<a href="${naverLoginURL}">
+      		<img src="${contextPath}/resources/image/btnG_완성형.png" width="200px">
+      	</a>
       </div>
       
       </form>
       
-
+      <ul class="sub_menu">
+      	<li><a href="${contextPath}/user/agree.form">회원이 아니세요?</a>
+      	<button type="button" class="btn btn-primary">회원가입</button>
+      	<li><a href="${contextPath}">아이디/비밀번호 찾기</a>
+      	</ul>
+      	
+      <hr class="my-4">
+      	
     </div>
-    <div class="col-1">
-    </div>
+    
   </div>
 </div>
   
