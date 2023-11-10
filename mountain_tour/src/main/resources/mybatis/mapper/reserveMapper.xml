@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mountaintour.mountain.dao.ReserveMapper">
-   <!--
+  
   <resultMap type="ReserveDto" id="ReserveMap">
     <id column="RESERVE_NO" property="reserveNo"/>
     <result column="RESERVE_DATE" property="reserveDate"/>
@@ -32,9 +32,26 @@
       <result column="PW_MODIFIED_AT" property="pwModifiedAt" />
       <result column="JOINED_AT" property="joinedAt" />  
     </association> 
-     association productDto 추가해야함 
-  </resultMap>-->
-  
+    <association javaType="ProductDto" property="productDto">
+      <id column="PRODUCT_NO" property="productNo"/>
+      <result column="USER_NO" property="userNo"/>
+      <result column="MOUNTAIN_NO" property="mountainNo"/>
+      <result column="TRIP_NAME" property="tripName"/>
+      <result column="TRIP_CONTENTS" property="tripContents"/>
+      <result column="GUIDE" property="guide"/>
+      <result column="TIMETAKEN" property="timetaken"/>
+      <result column="PRIZE" property="prize"/>
+      <result column="DANGER" property="danger"/>
+      <result column="REGISTERED_AT" property="registeredAt"/>
+      <result column="MODIFIED_DATE" property="modifiedDate"/>
+      <result column="PEOPLE" property="people"/>
+      <result column="HIT" property="hit"/>
+      <result column="THUMBNAIL" property="thumbnail"/>
+      <result column="PLAN" property="plan"/>
+      <result column="STATUS" property="status"/>
+      <result column="TERM_USE" property="termUse"/>
+    </association>
+  </resultMap>
   
   
    
