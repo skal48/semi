@@ -13,4 +13,8 @@ public class MagazineController {
     return "magazine/list";
   }
   
+  @GetMapping("/write.form")
+  public String goWrite() {
+    return "magazine/write";
+  }
 }
