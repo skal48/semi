@@ -63,35 +63,21 @@
 	    	  
 	    	 </div>
     	  </div>
+    	 <div>
     	  <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
     	  <div class="choice">주요 여행일정</div>
-    	    <div>
-    	     <div>
-		      <label for="contents" class="form-label"></label>
-		      <textarea rows="10" cols="20" name="contents" id="contents" class="form-control"></textarea>
-	    	</div>
-    	     
+    	  <textarea name="text" id="editor"></textarea>
+            <p><input type="submit" value="전송"></p>
+    	  </form>
+    	  </div>
     	  
-    	  
-    	  
-    	    </div>
-    	    </form>
+    	  <div>
     	    <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
     	  <div class="choice">상품정보</div>
-    	    <div>
-    	  	<div>
-		      <label for="contents" class="form-label"></label>
-		      <textarea rows="10" cols="20" name="contents" id="contents" class="form-control"></textarea>
-	    	</div>
-    	    <div>
-		      <label for="files" class="form-label"></label>
-		      <input type="file" name="files" id="files" class="form-control" multiple>
-	        </div>
-    	  
-    	  
-    	  
-    	    </div>
+			<textarea name="text" id="editor"></textarea>
+            <p><input type="submit" value="전송"></p>
     	    </form>
+    	    </div>
     	  <div class="choice">약관/정보</div>
     	    <div style = "border: 1px gray solid; height: 100px">
     	  
@@ -108,7 +94,6 @@
 	   <div class="css-wldo8h"><div class="css-a5xtki">
 	   <div class="css-17dn726">
 	   <div class="css-vurnku">
-	   <div class="css-7nm51y">선택중인 행사</div>
 	   <div class="css-jqbm3n">
 	   	<div>
 	        <label for="title" class="form-label">제목</label>
@@ -126,26 +111,12 @@
 	   </div>
 	   </div>
 	   </div>
-	   <button class="css-8mw6wv">
-	   <div class="css-zy66z9">
-	   <div class="css-1lvghmf">찜하기</div>
-	   <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg" class="css-1vp9y8d">
-	   </svg>
-	   </div>
-	   </button>
-	   <button class="css-1axms61">
-	   <div class="css-zy66z9">
-	   <div class="css-1p9c0kq">다른 출발일 보기</div>
+	   <button class="btn btn-success" style="margin: 20px auto;">
+	   <div>
+	   <div style="color: white;">찜하기♥</div>
 	   </div>
 	   </button>
 	   </div>
-	   </div>
-	   </div>
-	   <div class="css-r8ib8s">
-	   <div class="share-box2 css-15a582q">공유하기</div>
-	   <div class="share-box2 css-9o9ge6">
-	   <svg class="share-box2 css-2ijsu3" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-	   </svg>
 	   </div>
 	   </div>
 	   </div>

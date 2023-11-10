@@ -372,8 +372,23 @@ INSERT INTO INQUIRY_ANSWER_T VALUES(ANSWER_SEQ.NEXTVAL, 2, 2, '안녕하세요. 
 COMMIT;
 
 -- 자주묻는질문 등록
-INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '개명 후 이름 변경', '주민등록 초본과 개명확인서를 첨부하여 [회원 이메일, 개명 전 성함, 개명 후 성함, 전화번호]를 함께 적어서 admin@gmail.com(춘하추동 CS센터 이메일)으로 메일을 보내주시면 담당자 확인 후 처리해드리겠습니다. 이름 변경까지는 7일정도 소요될 수 있습니다. 감사합니다.', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
-INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '단체 예약 관련 문의', '10명 이상 단체 예약 문의는 02-0000-0000(춘하추동 CS센터 전화번호)으로 연락 부탁드립니다. 감사합니다.', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '예약 취소는 어떻게 하나요?', '취소불가', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '예약 취소는 어떻게 하나요?', '취소불가', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '예약 취소는 어떻게 하나요?', '취소불가', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '예약 취소는 어떻게 하나요?', '취소불가', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '예약 취소는 어떻게 하나요?', '취소불가', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '예약 취소는 어떻게 하나요?', '취소불가', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '예약 취소는 어떻게 하나요?', '취소불가', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '무통장 입금 결제 확인은 어떻게 하나요?', '걍 우리 믿고 가시면 됩니다.', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '대인/소인 나이 기준이 어떻게 되나요?', '소인 : 만 12세 이하. 나머진 다 대인~', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '개인 예약 확인은 어디서 하나요?', '마이페이지를 보씨오', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '예약 취소는 어떻게 하나요?', '취소불가', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '현장 결제 방식이 어떻게 되나요?', '현장에서 결제하심 됩니다.', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '기초생활 수급자(의료/생계) 할인 관련 기준이 있나요?', '그런거 없어용~', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '기본적인 개인 준비물이 있나요?', '등산화, 등산복, 등산배낭, 등산스틱', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '개명 후 이름 변경은 어떻게 하나요?', '주민등록 초본과 개명확인서를 첨부하여 [회원 이메일, 개명 전 성함, 개명 후 성함, 전화번호]를 함께 적어서 admin@gmail.com(춘하추동 CS센터 이메일)으로 메일을 보내주시면 담당자 확인 후 처리해드리겠습니다. 이름 변경까지는 7일정도 소요될 수 있습니다. 감사합니다.', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '단체 예약 관련 문의는 어떻게 하나요?', '10명 이상 단체 예약 문의는 02-0000-0000(춘하추동 CS센터 전화번호)으로 연락 부탁드립니다. 감사합니다.', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
+INSERT INTO FAQ_T VALUES(FAQ_SEQ.NEXTVAL, '회원가입은 어떻게 하나요?', '홈페이지 우측 상단에 회원가입 메뉴를 통해 진행하시면 됩니다.', TO_DATE('20231004', 'YYYYMMDD'),TO_DATE('20231004', 'YYYYMMDD'));
 COMMIT;
 
 -- 실제 여행자 등록
