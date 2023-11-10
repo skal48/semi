@@ -21,6 +21,6 @@ public class ReserveDto {
   private Date reserveStart;
   private Date reserveFinish;
   private int reservePerson;
-  private ProductDto productDto; // private int productNo;
   private UserDto userDto;       // private int userNo;
+  private ProductDto productDto; // private int productNo;
 }
