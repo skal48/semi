@@ -35,7 +35,9 @@
       <!--  여기다가 작성  다 작성하고 height 지우기!!!! -->
       <div class="row">
     	<div class="col-8" style="margin-top: 30px; margin-bottom: 30px;">
-    	  <img alt="" src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" width="500px" height="400px">
+    	  <div class="text-center">
+			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
+		  </div>
     	  <hr>
     	  <div style = "text-align: left;">[당일] 월간영월 12월 주천강 둘레길 트레킹 (강원/영월)</div>
     	  <div style = "text-align: right;">69,000<span class="css-5aoa4c">원</span></div>
@@ -59,39 +61,39 @@
 	    	  
 	    	 </div>
     	  <div style = "text-align: left; font-size:16px; border: 1px gray solid; height: 300px">상품 선택</div>
-    	  	 <div>
-	    	  <div style="text-align: center;">
-    <div style="display: inline-block; margin: 0px 120px;">
-        <div>성인</div>
-        <div>23000원</div>
-    </div>
-    <div style="display: inline-block; margin: 0px 120px;">
-        <div>유아</div>
-        <div>23000원</div>
-    </div>
-</div>
-<table style="margin: 0;">
-    <tr style="text-align:center;">
-        <td></td>
-        <td class="bseq_ea"></td>
-        <td>
-            <div style="margin: 10px 20px;">
-                <button type="button" class="btn btn-dark" onclick="fnCalCount('m', this);">-</button>
-                <input type="text" name="pop_out1" value="0" readonly="readonly" style="text-align:center; width: 200px;" />
-                <button type="button" class="btn btn-dark" onclick="fnCalCount('p', this);">+</button>
-            </div>
-        </td>
-        <td></td>
-        <td class="bseq_ea"></td>
-        <td>
-            <div style="margin: 10px 20px;">
-                <button type="button" class="btn btn-dark" onclick="fnCalCount('m', this);">-</button>
-                <input type="text" name="pop_out2" value="0" readonly="readonly" style="text-align:center; width: 200px;" />
-                <button type="button" class="btn btn-dark" onclick="fnCalCount('p', this);">+</button>
-            </div>
-        </td>
-    </tr>
-</table>
+	    	  	 <div>
+		 <div style="text-align: center;">
+		    <div style="display: inline-block; margin: 0px 120px;">
+		        <div>성인</div>
+		        <div>23000원</div>
+		    </div>
+		    <div style="display: inline-block; margin: 0px 120px;">
+		        <div>유아</div>
+		        <div>23000원</div>
+		    </div>
+	    </div>
+		<table style="margin: 0;">
+		    <tr style="text-align:center;">
+		        <td></td>
+		        <td class="bseq_ea"></td>
+		        <td>
+		            <div style="margin: 10px 20px;">
+		                <button type="button" class="btn btn-dark" onclick="fnCalCount('m', this);">-</button>
+		                <input type="text" name="pop_out1" value="0" readonly="readonly" style="text-align:center; width: 200px;" />
+		                <button type="button" class="btn btn-dark" onclick="fnCalCount('p', this);">+</button>
+		            </div>
+		        </td>
+		        <td></td>
+		        <td class="bseq_ea"></td>
+		        <td>
+		            <div style="margin: 10px 20px;">
+		                <button type="button" class="btn btn-dark" onclick="fnCalCount('m', this);">-</button>
+		                <input type="text" name="pop_out2" value="0" readonly="readonly" style="text-align:center; width: 200px;" />
+		                <button type="button" class="btn btn-dark" onclick="fnCalCount('p', this);">+</button>
+		            </div>
+		        </td>
+		    </tr>
+		</table>
 <div style="text-align: right;">
     <div style="display: inline-block; margin-right: 20px;">
         <div>총 금액</div>

@@ -3,8 +3,81 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.mountaintour.mountain.dao.productMapper">
+ <mapper namespace="com.mountaintour.mountain.dao.productMapper">
   
-  
+  <insert id="insertProduct" parameterType="ProductDto">
+  	INSERT INTO PRODUCT_T (
+  			PRODUCT_NO, 
+  			USER_NO, 
+  			MOUNTAIN_NO, 
+  			TRIP_NAME, 
+  			TRIP_CONTENTS, 
+  			GUIDE, 
+  			TIMETAKEN,
+            PRIZE, 
+            DANGER, 
+            REGISTERED_AT, 
+            MODIFIED_DATE, 
+            PEOPLE,  
+            THUMBNAIL, 
+            PLAN, 
+            TERM_USE
+        	) VALUES (
+        	#{productNo}, 
+        	#{userNo}, 
+        	#{mountainNo}, 
+        	#{tripName}, 
+        	#{tripContents},
+            #{guide}, 
+            #{timeTaken},
+            #{prize}, 
+            #{danger}, 
+            #{registeredAt}, 
+            #{modifiedDate}, 
+            #{people},  
+            #{thumbnail}, 
+            #{plan},  
+            #{termUse}
+      )
+  </insert>                                                                                                                  
 
+  <select id="getProduct" parameterType="int" resultType="ProductDto">
+    SELECT PRODUCT_NO, USER_NO, MOUNTAIN_NO, TRIP_NAME, TRIP_CONTENTS, GUIDE, TIMETAKEN,PRIZE, DANGER, REGISTERED_AT, MODIFIED_DATE, PEOPLE,  THUMBNAIL, PLAN, TERM_USE
+      FROM PRODUCT_T
+     WHERE PRODUCT_NO = #{productNo}
+  </select>
+
+  <update id="updateProduct" parameterType="int">
+     UPDATE PRODUCT_T 
+        SET TRIP_NAME = #{tripName},
+            TRIP_CONTENTS = #{tripContents}, 
+            GUIDE = #{guide}, 
+            TIMETAKEN = #{timeTaken}, 
+            PRIZE = #{prize},
+            DANGER = #{danger}, 
+            REGISTERED_AT = #{registeredAt}, 
+            MODIFIED_DATE = #{modifiedDate},  
+            THUMBNAIL = #{thumbnail}, 
+            PLAN = #{plan}, 
+            STATUS = #{status},
+            TERM_USE = #{termUse}
+      WHERE PRODUCT_NO = #{productNo}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <delete id="deleteProduct" parameterType="int">
+     DELETE 
+       FROM PRODUCT_T 
+      WHERE PRODUCT_NO = #{productNo}
+  </delete>
+  
 </mapper>

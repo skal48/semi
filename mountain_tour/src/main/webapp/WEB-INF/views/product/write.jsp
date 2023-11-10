@@ -10,7 +10,8 @@
   <jsp:param value="마운틴투어상품게시글작성" name="title"/>
 </jsp:include>
 <style>
-
+      .ck-editor__editable { height: 400px; }
+      .ck-content { font-size: 12px; }
 </style>
  
   <div class="container text-center">
@@ -19,11 +20,13 @@
     </div>
     <div class="col-10" style = "border: 1px gray solid; height: 2500px" >
       <!--  여기다가 작성  다 작성하고 height 지우기!!!! -->
-      
-	  
+       
+	 
 	 <div class="row">
     	<div class="col-8" style="margin-top: 30px; margin-bottom: 30px;">
-    	  <img alt="" src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" width="500px" height="400px">
+    	  <div class="text-center">
+			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
+		  </div>
     	  <hr>
     	  <div style = "text-align: left;">
     	   <div>
@@ -63,12 +66,14 @@
 	    	  
 	    	 </div>
     	  </div>
-    	 <div>
+    	 <div class="mb-3">
     	  <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
     	  <div class="choice">주요 여행일정</div>
-    	  <textarea name="text" id="editor"></textarea>
-            <p><input type="submit" value="전송"></p>
+    		<label for="exampleFormControlTextarea1" class="form-label"></label>
+ 		    <textarea class="form-control" id="exampleFormControlTextarea1" rows="10"></textarea>
     	  </form>
+
+
     	  </div>
     	  
     	  <div>
@@ -157,12 +162,9 @@
   </div>
 
   
-  <script>
- 
-  
-  
-  </script>
- 
+ <script>
+      ClassicEditor.create( document.querySelector( '#editor' ) );
+	</script>
  
  
  

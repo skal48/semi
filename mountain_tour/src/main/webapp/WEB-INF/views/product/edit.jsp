@@ -24,7 +24,9 @@
 	  
 	 <div class="row">
     	<div class="col-8" style="margin-top: 30px; margin-bottom: 30px;">
-    	  <img alt="" src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" width="500px" height="400px">
+    	  <div class="text-center">
+			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
+		  </div>
     	  <hr>
     	  <div style = "text-align: left;">
     	   <div>
@@ -64,12 +66,14 @@
 	    	  
 	    	 </div>
     	  </div>
-    	  <div>
+    	  <div class="mb-3">
     	  <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
     	  <div class="choice">주요 여행일정</div>
-    	  <textarea name="text" id="editor"></textarea>
-            <p><input type="submit" value="전송"></p>
+    		<label for="exampleFormControlTextarea1" class="form-label"></label>
+ 		    <textarea class="form-control" id="exampleFormControlTextarea1" rows="10"></textarea>
     	  </form>
+
+
     	  </div>
     	  
     	  <div>
