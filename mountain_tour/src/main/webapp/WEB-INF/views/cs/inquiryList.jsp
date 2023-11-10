@@ -120,7 +120,22 @@
                   <td >테스트4</td>
                 </tr>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="6">${paging}</td>
+                </tr>
+              </tfoot>
             </table>
+            <div>
+              <form method="get" action="${contextPath}/cs/inquirySearch.do">
+                <select name="column">
+                  <option value="INQUIRY_TITLE">제목</option>
+                  <option value="INQUIRY_NO">문의번호</option>
+                </select>
+                <input type="text" name="query" placeholder="검색어 입력">
+                <button type="submit" >검색</button>
+              </form>
+            </div>
           </div>
         </div>
         
