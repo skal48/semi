@@ -177,6 +177,23 @@ img {
       
       
       
+      <script>
+      const fnDetail = () => {
+  		$('#title').click(() => {
+  			location.href='${contextPath}/notice/detail.form'	
+  		})
+  		
+    	} 
+      
+      </script>
+      
+      
+      
+      
+      
+      
+      
+      
       
       
 

@@ -18,7 +18,13 @@
     <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
      
-      
+      <div>
+        <h1>    </h1>
+        <div>제목 :       </div>
+        <div>내용 :      </div>
+        <div>작성일 :    </div>
+        <div>수정일 :    </div>
+      </div>
 
 
 
@@ -29,8 +35,7 @@
   </div>
 </div>
   
- 
- 
+
  
  
  
