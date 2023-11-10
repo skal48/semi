@@ -121,21 +121,14 @@
             <div>
               <form method="get" action="${contextPath}/cs/faqSearch.do">
 
-                <select name="column">
 
                 <select name="column" class="form-select-sm" style="height: 40px">
-
                   <option value="TITLE">제목</option>
                   <option value="CONTENTS">내용</option>
                   <option value="FAQ_NO">번호</option>
                 </select>
-
-                <input type="text" name="query" placeholder="검색어 입력">
-                <button type="submit" >검색</button>
-
                 <input type="text" name="query" class="form-control-sm" placeholder="검색어 입력" >
                 <button type="submit" class="btn btn-outline-success" >검색</button>
-
               </form>
             </div>
           </div>

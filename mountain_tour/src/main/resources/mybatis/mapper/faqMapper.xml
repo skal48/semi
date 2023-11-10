@@ -4,12 +4,8 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mountaintour.mountain.dao.FaqMapper">
-<<<<<<< HEAD
-
-=======
   
   <!-- 전체 목록 -->
->>>>>>> main
   <select id="getFaqCount" resultType="int">
     SELECT COUNT(*)
       FROM FAQ_T
@@ -20,8 +16,6 @@
               FROM FAQ_T)
      WHERE RN BETWEEN #{begin} AND #{end}
   </select>
-<<<<<<< HEAD
-=======
   
   <!-- 검색결과 목록 -->
   <select id="getSearchCount" parameterType="Map" resultType="int">
@@ -36,7 +30,6 @@
              WHERE ${column} LIKE '%' || #{query} || '%')
      WHERE RN BETWEEN #{begin} AND #{end}
   </select>
-<<<<<<< HEAD
   
   <!-- 삭제하기 -->
   <delete id="deleteFaq" parameterType="int">
@@ -44,9 +37,5 @@
       FROM FAQ_T
      WHERE FAQ_NO = #{faqNo}
   </delete>
-=======
->>>>>>> main
-	 
->>>>>>> main
 
 </mapper>

@@ -49,8 +49,13 @@ public class FaqController {
     faqService.loadSearchList(request, model);
     return "cs/faqList";
   }
-<<<<<<< HEAD
   
+  /**
+   * 삭제 메서드입니다.
+   * @param faqNo
+   * @param redirectAttributes
+   * @return
+   */
   @PostMapping("/removeFaq.do")
   public String removeFaq(@RequestParam(value="faqNo") int faqNo, RedirectAttributes redirectAttributes) {
     int removeResult = faqService.removeFaq(faqNo);
@@ -58,10 +63,6 @@ public class FaqController {
     return "redirect:/cs/faqList.do";
   }
   
-  
-=======
->>>>>>> main
->>>>>>> main
 
 
 }
