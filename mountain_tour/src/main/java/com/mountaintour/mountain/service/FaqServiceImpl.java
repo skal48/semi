@@ -26,8 +26,8 @@ public class FaqServiceImpl implements FaqService {
 
 
   /**
-   * 전체목록을 반환하는 메서드입니다.
-   * MVC 페이징 처리 했습니다.
+   * 전체목록 메서드
+   * MVC 페이징 처리
    */
 
   @Override
@@ -60,7 +60,7 @@ public class FaqServiceImpl implements FaqService {
   }
   
   /**
-   * 검색결과를 반환하는 메서드입니다.
+   * 검색 메서드
    */
   @Override
   public void loadSearchList(HttpServletRequest request, Model model) {
@@ -91,12 +91,45 @@ public class FaqServiceImpl implements FaqService {
     model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/cs/faqSearch.do?column=" + column + "&query=" + query));
     model.addAttribute("beginNo", total - (page -1) * display);
     model.addAttribute("total", total);
-
-    
   }
   
   /**
-   * 삭제하는 매서드입니다.
+   * 추가 메서드 
+   * (자주묻는질문 작성)
+   */
+  @Override
+  public int addFaq(HttpServletRequest request) {
+    String title = request.getParameter("title");
+    String contents = request.getParameter("contents");
+    FaqDto faq = FaqDto.builder()
+                  .title(title)
+                  .contents(contents)
+                  .build();
+    
+    int addResult = faqMapper.insertFaq(faq);
+    return addResult;
+  }
+  
+  /**
+   * 수정 메서드
+   */
+  @Override
+  public int modifyFaq(HttpServletRequest request) {
+    String title = request.getParameter("title");
+    String contents = request.getParameter("contents");
+    int faqNo = Integer.parseInt(request.getParameter("faqNo"));
+    
+    FaqDto faq = FaqDto.builder()
+                  .title(title)
+                  .contents(contents)
+                  .faqNo(faqNo)
+                  .build();
+    int modifyResult = faqMapper.updateFaq(faq);
+    return modifyResult;
+  }
+  
+  /**
+   * 삭제 메서드
    */
   @Override
   public int removeFaq(int faqNo) {

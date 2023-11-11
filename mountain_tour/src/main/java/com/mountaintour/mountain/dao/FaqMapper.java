@@ -16,6 +16,8 @@ public interface FaqMapper {
   public int getSearchCount(Map<String, Object> map);
   public List<FaqDto> getSearchFaq(Map<String, Object> map);
   
+  public int insertFaq(FaqDto faq);
+  public int updateFaq(FaqDto faq);
   public int deleteFaq(int faqNo);
   
 

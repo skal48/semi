@@ -70,7 +70,7 @@
         
         <%-- 자주묻는질문 목록이 표시될 div --%>
         <div class="listWrap2">
-          <div style="text-align: right;"><button id="btn_cs_write"  class="btn btn-success">문의작성</button></div>
+          <div style="text-align: right;"><button id="btn_inquiry_write"  class="btn btn-success">문의작성</button></div>
           <div style="text-align: left;">총 ${total}개</div>
           <div>
             <table border="1" class="table table-hover">

@@ -31,6 +31,30 @@
      WHERE RN BETWEEN #{begin} AND #{end}
   </select>
   
+  <!-- 작성하기 -->
+  <insert id="insertFaq" parameterType="FaqDto">
+    INSERT INTO FAQ_T(
+        FAQ_NO
+      , TITLE
+      , CONTENTS
+      , CREATED_AT
+    ) VALUES(
+        FAQ_SEQ.NEXTVAL
+      , #{title}
+      , #{contents}
+      , SYSDATE
+    )
+  </insert>
+  
+  <!-- 수정하기 -->
+  <update id="updateFaq" parameterType="FaqDto">
+    UPDATE FAQ_T
+       SET TITLE = #{title}
+         , CONTENTS = #{contents}
+         , MODIFIED_AT = SYSDATE
+     WHERE FAQ_NO = #{faqNo}
+  </update>
+  
   <!-- 삭제하기 -->
   <delete id="deleteFaq" parameterType="int">
     DELETE

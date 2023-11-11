@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mountaintour.mountain.dto.FaqDto;
 import com.mountaintour.mountain.service.FaqService;
 
 import lombok.RequiredArgsConstructor;
@@ -48,6 +49,26 @@ public class FaqController {
   public String faqSearch(HttpServletRequest request, Model model) {
     faqService.loadSearchList(request, model);
     return "cs/faqList";
+  }
+  
+  @PostMapping("/addFaq.do")
+  public String addFaq(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    int addResult = faqService.addFaq(request);
+    redirectAttributes.addFlashAttribute("addResult", addResult);
+    return "redirect:/cs/faqList.do";
+  }
+  
+  /**
+   * 수정 메서드 입니다.
+   * @param request
+   * @param redirectAttributes
+   * @return
+   */
+  @PostMapping("/modifyFaq.do")
+  public String modifyFaq(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    int modifyResult = faqService.modifyFaq(request);
+    redirectAttributes.addFlashAttribute("modifyResult", modifyResult);
+    return "redirect:/cs/faqList.do";
   }
   
   /**
