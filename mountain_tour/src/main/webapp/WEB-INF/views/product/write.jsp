@@ -7,7 +7,7 @@
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="마운틴투어상품게시글작성" name="title"/>
+  <jsp:param value="마운틴투어상품게시글수정" name="title"/>
 </jsp:include>
 <style>
       .ck-editor__editable { height: 400px; }
@@ -20,8 +20,8 @@
     </div>
     <div class="col-10" style = "border: 1px gray solid; height: 2500px" >
       <!--  여기다가 작성  다 작성하고 height 지우기!!!! -->
-       
-	 
+      
+	  
 	 <div class="row">
     	<div class="col-8" style="margin-top: 30px; margin-bottom: 30px;">
     	  <div class="text-center">
@@ -40,33 +40,9 @@
 	        <input type="text" name="prize" id="prize" class="form-control">
 	      </div>
 	      </div>
-    	  <div style = "border: 1px gray solid; height: 200px">
-    	  
-    	  
-    	  
-    	  
-    	  
-    	  </div>
-    	  <div class="choice">상품선택</div>
-    	  <div class="calender">
-    	  <div style = "text-align: left; font-size:16px;">출발일 선택</div>
-	    	 <div class="calender_mini">
-	    	  
-	    	 <div id="datepicker"></div>
-	    	 
-    
-			
 
-	    	  
-	    	 </div>
-    	  <div style = "text-align: left; font-size:16px; border: 1px gray solid; height: 300px">상품 선택</div>
-    	  	 <div>
-	    	  
-	    	  
-	    	  
-	    	 </div>
-    	  </div>
-    	 <div class="mb-3">
+
+    	  <div class="mb-3">
     	  <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
     	  <div class="choice">주요 여행일정</div>
     		<label for="exampleFormControlTextarea1" class="form-label"></label>
@@ -83,14 +59,8 @@
             <p><input type="submit" value="전송"></p>
     	    </form>
     	    </div>
-    	  <div class="choice">약관/정보</div>
-    	    <div style = "border: 1px gray solid; height: 100px">
+    	    
     	  
-    	  
-    	  
-    	  
-    	  
-    	    </div>
     	  
     	</div>   	   
     	<div class="col-4"> <!-- style="border-left: 2px solid gray;" -->
@@ -162,9 +132,10 @@
   </div>
 
   
- <script>
+   <script>
       ClassicEditor.create( document.querySelector( '#editor' ) );
 	</script>
+ 
  
  
  

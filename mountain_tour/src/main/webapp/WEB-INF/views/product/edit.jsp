@@ -40,32 +40,8 @@
 	        <input type="text" name="prize" id="prize" class="form-control">
 	      </div>
 	      </div>
-    	  <div style = "border: 1px gray solid; height: 200px">
-    	  
-    	  
-    	  
-    	  
-    	  
-    	  </div>
-    	  <div class="choice">상품선택</div>
-    	  <div class="calender">
-    	  <div style = "text-align: left; font-size:16px;">출발일 선택</div>
-	    	 <div class="calender_mini">
-	    	  
-	    	 <div id="datepicker"></div>
-	    	 
-    
-			
 
-	    	  
-	    	 </div>
-    	  <div style = "text-align: left; font-size:16px; border: 1px gray solid; height: 300px">상품 선택</div>
-    	  	 <div>
-	    	  
-	    	  
-	    	  
-	    	 </div>
-    	  </div>
+
     	  <div class="mb-3">
     	  <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
     	  <div class="choice">주요 여행일정</div>
@@ -84,14 +60,7 @@
     	    </form>
     	    </div>
     	    
-    	  <div class="choice">약관/정보</div>
-    	    <div style = "border: 1px gray solid; height: 100px">
     	  
-    	  
-    	  
-    	  
-    	  
-    	    </div>
     	  
     	</div>   	   
     	<div class="col-4"> <!-- style="border-left: 2px solid gray;" -->
