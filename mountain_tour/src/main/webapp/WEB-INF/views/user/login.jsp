@@ -22,7 +22,7 @@
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
       <h1 class="title">로그인</h1>
       
-      <form method="post" action="${contextPath}/user/login.form">
+      <form method="post" action="${contextPath}/user/login.do">
       
       <div class="mb-3 row">
       	<label for="email" class="col-sm-3 col-form-label">아이디</label>
@@ -36,7 +36,7 @@
       
       <div class="gap-2 mb-3">
       	<input type="hidden" name="referer" value="${referer}">
-      	<button type="sumbit" class="btn btn-success">로그인</button>
+      	<button type="submit" class="btn btn-success">로그인</button>
       	<a href="${naverLoginURL}">
       		<img src="${contextPath}/resources/image/btnG_완성형.png" width="200px">
       	</a>
