@@ -43,8 +43,7 @@
   .listWrap2 {
     justify-content: center;
     width: 70%;
-    margin: 30px auto;
-    margin-top: 10%;
+    margin: 10% auto;
     
   }
   

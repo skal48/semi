@@ -29,6 +29,10 @@
     font-size: large;
     font-weight: bold;
   }
+  .title {
+    color: #1a1a1a;
+    cursor: pointer;
+  }
   
   .listWrap1 .inquiry {
     text-decoration: underline;
@@ -39,9 +43,8 @@
   
   .listWrap2 {
     justify-content: center;
-    width: 70%;
-    margin: 30px auto;
-    margin-top: 10%;
+    width: 75%;
+    margin: 10% auto;
     
   }
   
@@ -70,14 +73,16 @@
         
         <%-- 자주묻는질문 목록이 표시될 div --%>
         <div class="listWrap2">
-          <div style="text-align: right;"><button id="btn_inquiry_write"  class="btn btn-success">문의작성</button></div>
+          <div style="text-align: right;">
+            <button id="btn_inquiry_write"  class="btn btn-success">문의작성</button>
+          </div>
           <div style="text-align: left;">총 ${total}개</div>
           <div>
             <table border="1" class="table table-hover">
               <thead>
                 <tr>
                   <th scope="col">문의번호</th>
-                  <th scope="col">상품</th>
+                  <th scope="col">상품번호</th>
                   <th scope="col">제목</th>
                   <th scope="col">작성자</th>
                   <th scope="col">작성일</th>
@@ -85,38 +90,18 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td >테스트1</td>
-                  <td >테스트1</td>
-                  <td >테스트1</td>
-                  <td >테스트1</td>
-                  <td >테스트1</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td >테스트2</td>
-                  <td >테스트2</td>
-                  <td >테스트2</td>
-                  <td >테스트2</td>
-                  <td >테스트2</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td >테스트3</td>
-                  <td >테스트3</td>
-                  <td >테스트3</td>
-                  <td >테스트3</td>
-                  <td >테스트3</td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td >테스트4</td>
-                  <td >테스트4</td>
-                  <td >테스트4</td>
-                  <td >테스트4</td>
-                  <td >테스트4</td>
-                </tr>
+                <c:forEach items="${inquiryList}" var="inq" >
+                  <tr>
+                    <th scope="row">${inq.inquiryNo}</th>
+                    <td>${inq.productDto.productNo}</td>
+                    <td >
+                      <a href="${contextPath}/cs/inquiryDetail.do?inquiryNo=${inq.inquiryNo}" class="title">${inq.inquiryTitle}</a>
+                    </td>
+                    <td>${inq.userDto.name}</td>
+                    <td>${inq.createdAt}</td>
+                    <td></td>
+                  </tr>
+                </c:forEach>
               </tbody>
               <tfoot>
                 <tr>
@@ -128,9 +113,11 @@
               <form method="get" action="${contextPath}/cs/inquirySearch.do">
                 <select name="column" class="form-select-sm" style="height: 40px">
                   <option value="INQUIRY_TITLE">제목</option>
+                  <option value="NAME">작성자</option>
                   <option value="INQUIRY_NO">문의번호</option>
+                  <option value="PRODUCT_NO">상품번호</option>
                 </select>
-                <input type="text" name="query" class="form-control-sm" placeholder="검색어 입력" >
+                <input type="text" name="query" id="query" class="form-control-sm" placeholder="검색어 입력" >
                 <button type="submit" class="btn btn-outline-success" >검색</button>
               </form>
             </div>
@@ -138,13 +125,8 @@
         </div>
         
       </div>
-
-
-
-
-
-
-
+      
+      
 
 
     </div>
@@ -153,7 +135,60 @@
   </div>
 </div>
   
- 
+
+
+
+<script>
+
+
+  const fnWrite = () => {
+	$('#btn_inquiry_write').click(() => {
+	  location.href = '${contextPath}/cs/addInquiry.form';
+	})
+  }
+  
+  const fnloginCheck = () => {
+    if('${sessionScope.user}' === ''){
+   	  if(confirm('로그인 후 이용 가능합니다. 로그인 하시겠습니까?')){
+    	location.href = '${contextPath}/user/login.form';
+    	return;
+      } 
+    }
+  }
+  
+  const fnDetail = () => {
+	$('.title').click(() => {
+	  fnloginCheck();
+	})
+  }
+  
+  
+  fnWrite();
+  //fnDetail();
+
+  /* 로그인 구현되면 사용할 코드*/
+  /* 작성하기 */
+  /*
+  const fnWrite = () => {
+	$('#btn_inquiry_write').click(() => {
+	  fnloginCheck();
+	})
+  }
+  
+  fnWrite();
+  */
+
+
+</script>
+
+
+
+
+
+
+
+
+
  
  
  

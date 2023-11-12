@@ -34,7 +34,6 @@ CREATE TABLE INQUIRY_ANSWER_T (
     ANSWER_NO   NUMBER             NOT NULL,   -- 답변번호
     INQUIRY_NO  NUMBER             NULL,       -- 문의번호
     USER_NO     NUMBER             NULL,       -- 작성자(관리자)번호
-    TITLE       VARCHAR2(100 BYTE) NULL,       -- 제목
     CONTENTS    CLOB               NULL,       -- 내용
     HIT         NUMBER             DEFAULT 0,  -- 조회수(디폴트 0)
     CREATED_AT  DATE               NULL,       -- 작성일
