@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mountaintour.mountain.dao.MagazineMapper">
+  
+  <resultMap type="MagazineDto" id="MagazineMap">
+    <id     column="MAGAZINE_NO" property="magazineNo" />
+    <result column="USER_NO" property="userNo"/>
+    <result column="TITLE" property="title"/>
+    <result column="CONTENTS" property="contents"/>
+    <result column="SUMMARY" property="summary"/>
+    <result column="CREATE_AT" property="createAt"/>
+    <result column="HIT" property="hit"/>
+    <result column="PRODUCT_NO" property="productNo"/>
+    <association javaType="MagazineMultiDto" property="magazineMultiDto">
+      <result column="MULTI_PATH" property="multiPath"/>
+	    <result column="FILESYS_NAME" property="fileSysName"/>
+	    <result column="IS_THUMBNAIL" property="isThumbnail"/> 
+	  </association>  
+  </resultMap>
+  
+  
+  
+  <select id="MagazineList" resultMap="MagazineMap">
+    SELECT M.TITLE, MM.FILESYS_NAME, M.SUMMARY
+		  FROM MAGAZINE_T M RIGHT OUTER JOIN MAGAZINE_MULTI_T MM
+		    ON M.MAGAZINE_NO = MM.MAGAZINE_NO
+		 WHERE M.MAGAZINE_NO = ( SELECT MAX(MAGAZINE_NO) FROM MAGAZINE_T) AND MM.IS_THUMBNAIL = 1;   
+  </select>
+  <select id="getMagazineCount" resultMap="int">
+    SELECT COUNT(*)
+      FROM MAGAZINE_T;  
+  </select>
+ 
+
+</mapper>

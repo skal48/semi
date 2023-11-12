@@ -15,7 +15,7 @@ public class MagazineController {
   }
   
   @GetMapping("/write.form")
-  public String goWrite() {
+  public String writeForm() {
     return "magazine/write";
   }
     
@@ -29,6 +29,14 @@ public class MagazineController {
    return "magazine/detail";
  }
  
+ @GetMapping("/modify.do")
+ public String modify() {
+   return "magazine/modify";
+ }
  
+ @GetMapping("/delete.do")
+ public String delete() {
+   return "magazine/list";
+ }
  
 }

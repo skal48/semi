@@ -21,10 +21,10 @@ DROP TABLE MAGAZINE_T;
 
 -- 매거진 테이블
 CREATE TABLE MAGAZINE_T (
-	MAGAZINE_NO NUMBER	           NOT NULL,  -- 매거진 번호
-	USER_NO	    NUMBER		       NOT NULL,  -- 회원 번호
-	TITLE	    VARCHAR2(100 BYTE) NOT NULL,  -- 매거진 제목
-	CONTENTS	CLOB		       NOT NULL,  -- 매거진 내용
+    MAGAZINE_NO NUMBER	           NOT NULL,  -- 매거진 번호
+    USER_NO	    NUMBER		       NOT NULL,  -- 회원 번호
+    TITLE	    VARCHAR2(100 BYTE) NOT NULL,  -- 매거진 제목
+    CONTENTS	CLOB		       NOT NULL,  -- 매거진 내용
     SUMMARY     VARCHAR2(400 BYTE) NULL,      -- (리스트용) 요약
     HIT	        NUMBER		       DEFAULT 0, -- 매거진 조회수
     CREATE_AT	DATE	           NULL,      -- 매거진 작성날짜
