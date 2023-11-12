@@ -10,21 +10,32 @@
   <jsp:param value="마운틴투어" name="title"/>
 </jsp:include>
 <style>
+  .title{
+    width: 60%;
+    display: inline-block;
+  }
+  .title_wrapper {
+    text-align: center;
+  }
+  
   .ck-editor__editable { 
-      height: 400px;      
+      height: 400px;   
    }
   .ck-content { 
       font-size: 12px; 
    }
   .ck.ck-editor { 
-    
+        
    }
    .contents {
-      width: 60%; 
+      width:60%;
       margin: auto;
+      
    }
+   p {
+    margin-top: 15px;
+   } 
   
-    
     
   </style>
 
@@ -34,17 +45,17 @@
     </div>
     <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
-       <form action="${contextPath}/magazine/thumbnail.do" method="get">
-      <div>   
+       <form action="${contextPath}/magazine/thumbnail.do" class="write_form" method="get">
+      <div class="wrapper">   
         <h4>제목</h4>
        
-        <input type="text" id="title" name="title" >
+        <div class="title_wrapper"><input type="text" id="title" name="title" class="title form-control mb-3" ></div>
       </div>
-      <div class="contents justify-content-center">
+      <div class="contents">
         <h4>내용</h4>
                
           <textarea name="text" id="editor" class="input_contents"></textarea>
-          <p><input type="submit" value="다음"></p>
+          <p><button type="submit" class="btn btn-secondary">다음</button></p>
         
       </div> 
       </form>     

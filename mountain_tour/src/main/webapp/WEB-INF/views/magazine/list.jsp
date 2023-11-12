@@ -82,7 +82,7 @@
         
 	      <div class="big_magazine" style = "border: 1px gray solid;" data-magazine_no="${magazine.magazineNo}">
 		      <div class="big_picture" >사진</div>
-		      <div class="big_title">title</div>
+		      <div class="big_title">번호.title</div>
 		       <span class="big_date position-absolute bottom-0 start-0">date</span>
            <span class="big_hit position-absolute bottom-0">조회수</span>
 	      </div>
@@ -93,7 +93,7 @@
                <div class="small_picture" style = "border: 1px gray solid;">사진</div>
             </div>
             <div class="col">
-              <div class="small_title">title</div>
+              <div class="small_title">번호.title</div>
     	        <div class="small_summary">summary</div>
     	        <span class="small_date position-absolute bottom-0 start-0">date</span>
               <span class="small_hit position-absolute bottom-0">조회수</span>
