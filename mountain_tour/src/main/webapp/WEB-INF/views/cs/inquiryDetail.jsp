@@ -28,7 +28,6 @@
       
         <h2> ${inquiry.inquiryTitle}</h2>
         <div>문의상품: ${inquiry.productDto.tripName}</div>
-        <div>조회수: ${inquiry.hit}</div>
         <div>작성일: <fmt:formatDate value="${inquiry.createdAt}" pattern="yyyy/MM/dd" /></div>
         <div>작성자: ${inquiry.userDto.name}</div>
         <div>내용: ${inquiry.inquiryContents}</div>

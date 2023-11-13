@@ -95,4 +95,6 @@ public class InquiryController {
     return "redirect:/cs/inquiryList.do";
   }
   
+  
+  
 }
