@@ -3,45 +3,30 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
- <mapper namespace="com.mountaintour.mountain.dao.productMapper">
+ <mapper namespace="com.mountaintour.mountain.dao.ProductMapper">
   
   <insert id="insertProduct" parameterType="ProductDto">
-  	INSERT INTO PRODUCT_T (
-  			PRODUCT_NO, 
-  			USER_NO, 
-  			MOUNTAIN_NO, 
-  			TRIP_NAME, 
-  			TRIP_CONTENTS, 
-  			GUIDE, 
-  			TIMETAKEN,
-            PRIZE, 
-            DANGER, 
-            REGISTERED_AT, 
-            MODIFIED_DATE, 
-            PEOPLE,
-            HIT,   
-            PLAN,
-            STATUS, 
-            TERM_USE
-        	) VALUES (
-        	 PRODUCT_SEQ.NEXTVAL, 
-        	#{userNo}, 
-        	#{mountainNo}, 
-        	#{tripName}, 
-        	#{tripContents},
-            #{guide}, 
-            #{timeTaken},
-            #{prize}, 
-            #{danger}, 
-             SYSDATE, 
-             SYSDATE, 
-            #{people},
-            #{hit},  
-            #{plan},
-            #{status},
-            #{termUse}
-      )
-  </insert>                                                                                                                  
+   INSERT INTO PRODUCT_T (
+      PRODUCT_NO, 
+      USER_NO, 
+      MOUNTAIN_NO,  
+      TRIP_NAME, 
+      TRIP_CONTENTS,   
+      REGISTERED_AT, 
+      MODIFIED_DATE,   
+      PLAN
+   ) VALUES (
+      PRODUCT_SEQ.NEXTVAL, 
+      #{userNo}, 
+      #{mountainNo}, 
+      #{tripName},
+      #{tripContents}, 
+      SYSDATE,   
+      SYSDATE, 
+      #{plan}  
+   )
+</insert>
+                                                                                                             
 
   <insert id="insertImage" parameterType="ImageDto">
     INSERT INTO IMAGE_T (

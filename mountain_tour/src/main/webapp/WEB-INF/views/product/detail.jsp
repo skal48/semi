@@ -6,7 +6,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="마운틴투어상품게시글작성" name="title"/>
+  <jsp:param value="${product.productNo}번 상품" name="title"/>
 </jsp:include>
 <html>
 <head>
@@ -39,8 +39,8 @@
 			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
 		  </div>
     	  <hr>
-    	  <div style = "text-align: left;">[당일] 월간영월 12월 주천강 둘레길 트레킹 (강원/영월)</div>
-    	  <div style = "text-align: right;">69,000<span class="css-5aoa4c">원</span></div>
+    	  <div style = "text-align: left;"><input type="hidden" name="title" value="${product.tripName}"></div>
+    	  <div style = "text-align: right;"><input type="hidden" name="prize" value="${product.prize}">원</div>
     	 <div style="text-align: left;">
 			 <span class="badge text-bg-success">단순코스</span>
 			 <span class="badge text-bg-warning">난이도하</span>
@@ -71,7 +71,7 @@
     	  
     	  <span class="badge text-bg-dark" style="margin: 10px">예약가능</span>
     	  <div style="margin: 10px">
-	    	  <div>[당일] 월간영월 12월 주천강 둘레길 트레킹 (강원/영월)   상품</div>
+	    	  <div>${product.tripName}상품</div>
 			  <div>예약가능인원수</div>
 		      <div>현재예약</div>
     	  </div>
@@ -90,7 +90,7 @@
 		    <div class="col">
 		      <div style="display: inline-block; margin: 0px 120px;">
 		        <div>성인</div>
-		        <div>23000원</div>
+		        <div>${product.prize}</div>
 		    </div>
 		    <table style="margin:0; text-align:center;">
 			    <tr>
@@ -108,7 +108,7 @@
 		    <div class="col" style="text-align: center;">
 		      <div style="display: inline-block; margin: 0px 120px;">
 		        <div>유아</div>
-		        <div>23000원</div>
+		        <div>${product.prize}</div>
 		    </div>
 		    <table style="margin: 0;">
 			    <tr>		       
