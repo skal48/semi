@@ -5,6 +5,19 @@
 
 <mapper namespace="com.mountaintour.mountain.dao.NoticeMapper">
 	
-	 
+   <select id="getNoticeList" parameterType="Map" resultType="NoticeDto">
+     SELECT A.NOTICE_NO, A.TITLE, A.CONTENTS, A.CREATED_AT, A.MODIFIED_AT, A.HIT
+       FROM (SELECT ROW_NUMBER() OVER(ORDER BY NOTICE_NO DESC) AS RN, NOTICE_NO, TITLE, CONTENTS, CREATED_AT, MODIFIED_AT, HIT
+               FROM NOTICE_T) A
+       WHERE A.RN BETWEEN #{begin} AND #{end}
+   </select>
+   
+   <select id="getNoticeCount" resultType="int">
+     SELECT COUNT(*)
+       FROM NOTICE_T
+   </select>
+   
+   
+
 
 </mapper>
