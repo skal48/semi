@@ -35,9 +35,20 @@
     </div>
     
     <div class="div_login position-absolute bottom-0 end-0">
-      <span class="banner_login"><a href='${contextPath}/user/login.form'>로그인</a></span>
-      <span class="banner_join"><a href='#'>회원가입</a></span>
-
+      <c:if test="${sessionScope.user == null}">       
+        <span class="banner_login"><a href='${contextPath}/user/login.form'>로그인</a></span>
+        <span class="banner_join"><a href='${contextPath}/user/agree.form'>회원가입</a></span>
+      </c:if>  
+      <c:if test="${sessionScope.user.auth == 1}">
+         <div class="userName">${sessionScope.user.name}</div>
+         <span class="banner_login"><a href='${contextPath}/user/mypage.form'>마이페이지</a></span>
+         <span class="banner_join"><a href='${contextPath}/user/logout.do'>로그아웃</a></span>
+      </c:if>  
+      <c:if test="${sessionScope.user.auth == 0}">
+         <div class="userName">${sessionScope.user.name}</div>
+         <span class="banner_login"><a href='${contextPath}/user/auth.form'>관리자페이지</a></span>
+         <span class="banner_join"><a href='${contextPath}/user/logout.do'>로그아웃</a></span>
+      </c:if>  
     </div>
   </div>
   
