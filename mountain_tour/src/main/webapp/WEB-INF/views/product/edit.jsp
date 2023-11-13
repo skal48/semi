@@ -65,21 +65,21 @@
     	</div>   	   
     	<div class="col-4"> <!-- style="border-left: 2px solid gray;" -->
        <div>
-	   <div id="side-bar" class="css-17dn726" style="position: sticky; top: 80px;">
-	   <div class="css-wldo8h"><div class="css-a5xtki">
-	   <div class="css-17dn726">
-	   <div class="css-vurnku">
-	   <div class="css-jqbm3n">
+	   <div style="position: sticky; top: 80px;">
+	   <div><div>
+	   <div>
+	   <div>
+	   <div>
 	   	<div>
-	        <label for="title" class="form-label">제목</label>
+	        <label for="title">제목</label>
 	        <input type="text" name="title" id="title" class="form-control">
 	       </div>
 	    </div>
 	   </div>
-	   <hr class="css-8hwf4v">
-	   <div class="css-mbxvxt">행사금액</div>
-	   <div class="css-oxy8lg">
-	   <div class="css-1xhmgr4">
+	   <hr>
+	   <div>행사금액</div>
+	   <div>
+	   <div>
 	   <div>
 	        <label for="prize" class="form-label">가격</label>
 	        <input type="text" name="prize" id="prize" class="form-control">

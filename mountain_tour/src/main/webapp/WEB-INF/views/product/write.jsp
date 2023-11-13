@@ -7,7 +7,7 @@
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="마운틴투어상품게시글수정" name="title"/>
+  <jsp:param value="마운틴투어상품게시글작성" name="title"/>
 </jsp:include>
 <style>
       .ck-editor__editable { height: 400px; }
@@ -15,6 +15,7 @@
 </style>
  
   <div class="container text-center">
+ <form method="post" id="frm_product_add" action="${contextPath}/product/add.do">
   <div class="row">
     <div class="col-1">      
     </div>
@@ -23,15 +24,15 @@
       
 	  
 	 <div class="row">
-    	<div class="col-8" style="margin-top: 30px; margin-bottom: 30px;">
+    	<div class="col-8"  style="margin-top: 30px; margin-bottom: 30px;">
     	  <div class="text-center">
 			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
 		  </div>
     	  <hr>
     	  <div style = "text-align: left;">
     	   <div>
-	        <label for="title" class="form-label">제목</label>
-	        <input type="text" name="title" id="title" class="form-control">
+	        <label for="tripName" class="form-label">제목</label>
+	        <input type="text" name="tripName" id="tripName" class="form-control">
 	       </div>
 	      </div>
     	  <div style = "text-align: right;">
@@ -43,54 +44,43 @@
 
 
     	  <div class="mb-3">
-    	  <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
     	  <div class="choice">주요 여행일정</div>
-    		<label for="exampleFormControlTextarea1" class="form-label"></label>
- 		    <textarea class="form-control" id="exampleFormControlTextarea1" rows="10"></textarea>
-    	  </form>
-
-
+    		<label for="plan" class="form-label"></label>
+ 		    <textarea class="form-control" id="plan" name="plan" rows="10"></textarea>
     	  </div>
     	  
     	  <div>
-    	    <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
     	  <div class="choice">상품정보</div>
-			<textarea name="text" id="editor"></textarea>
-            <p><input type="submit" value="전송"></p>
-    	    </form>
-    	    </div>
+    	    <label for="tripContents">내용</label>
+			<textarea name="tripContents" id="tripContents"></textarea>
+            <div id="toolbar-container"></div>
+            <div id="ckeditor"></div>
+    	  </div>
     	    
     	  
     	  
     	</div>   	   
-    	<div class="col-4"> <!-- style="border-left: 2px solid gray;" -->
+    	<div class="col-4"> <!-- style="border-left: 2px solid gray;" -->   
        <div>
-	   <div id="side-bar" class="css-17dn726" style="position: sticky; top: 80px;">
-	   <div class="css-wldo8h"><div class="css-a5xtki">
-	   <div class="css-17dn726">
-	   <div class="css-vurnku">
-	   <div class="css-jqbm3n">
+	   <div style="position: sticky; top: 80px;">
+	   <div><div>
+	   <div>
+	   <div>
+	   <div>
 	   	<div>
-	        <label for="title" class="form-label">제목</label>
-	        <input type="text" name="title" id="title" class="form-control">
+	      
 	       </div>
 	    </div>
 	   </div>
-	   <hr class="css-8hwf4v">
-	   <div class="css-mbxvxt">행사금액</div>
-	   <div class="css-oxy8lg">
-	   <div class="css-1xhmgr4">
+	   <hr>
+	   <div>행사금액</div>
 	   <div>
-	        <label for="prize" class="form-label">가격</label>
-	        <input type="text" name="prize" id="prize" class="form-control">
-	   </div>
-	   </div>
-	   </div>
-	   <button class="btn btn-success" style="margin: 20px auto;">
 	   <div>
-	   <div style="color: white;">찜하기♥</div>
+	   <div>
+	        
 	   </div>
-	   </button>
+	   </div>
+	   </div>
 	   </div>
 	   </div>
 	   </div>
@@ -98,42 +88,59 @@
 	  </div>
     	</div>  	
   	  </div>
-	  
-	  
-	  
-		       
-      
-      
-      
-      
-      
-      
-      
 
-    </div>
-	  
+    </div>	  
 	    <div class="d-grid gap-2 col-6 mx-auto">
 	      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
 	      <button type="submit" class="btn btn-primary" style="margin: 32px;">작성완료</button>
 	    </div>
-
-	       
-      
-      
-      
-      
-      
-      
-      
-
     </div>
+	  </form>
     <div class="col-1">
     </div>
   </div>
 
   
    <script>
-      ClassicEditor.create( document.querySelector( '#editor' ) );
+      ClassicEditor.create( document.querySelector( '#tripContents' ) );
+      
+      
+      const fnCkeditor = () => {
+    	  DecoupledEditor
+          .create(document.getElementById('ckeditor'), {
+        	  ckfinder: {
+              // 이미지 업로드 경로
+              uploadUrl: '${contextPath}/product/imageUpload.do'    		  
+        		}
+      	  })
+          .then(editor => {
+            const toolbarContainer = document.getElementById('toolbar-container');
+            toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
+      
+      const fnProductAdd = () => {
+    	  $('#frm_product_add').submit((ev) => {
+          if($('#title').val() === ''){
+            alert('제목은 반드시 입력해야 합니다.');
+            ev.preventDefault();
+            return;
+          }
+    		  $('#contents').val($('#ckeditor').html());
+    	  })
+      }
+      
+      
+      
+      
+      fnCkeditor();
+      fnProductAdd();
+      
+      
+      
 	</script>
  
  
