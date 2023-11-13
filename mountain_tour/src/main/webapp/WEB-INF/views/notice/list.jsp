@@ -118,6 +118,7 @@ img {
       </div>
       <div class="col-8">
       
+      
     <table border="1" class="qna_table">
       <thead>
         <tr>
@@ -176,18 +177,18 @@ img {
       
       
       
-      
       <script>
-      const fnDetail = () => {
-  		$('#title').click(() => {
-  			location.href='${contextPath}/notice/detail.form'	
-  		})
-  		
-    	} 
+      const fnTemp = () => {
+	  $('.qna_table').click(() => {
+		  location.href = '${contextPath}/notice/detail.do';
+	  })
+  }
       
-      </script>
+      fnTemp();  
       
-      
+     </script>
+     
+   
       
       
       
