@@ -130,7 +130,7 @@ CREATE TABLE PRODUCT_T(
    PRICE          NUMBER             NULL,      -- 가격
    DANGER         VARCHAR2(500 BYTE) NULL,      -- 주의사항
    REGISTERED_AT  DATE               NULL,      -- 등록일
-   MODIFIED_DATE DATE                NULL,      -- 수정일
+   MODIFIED_DATE  DATE                NULL,      -- 수정일
    PEOPLE         NUMBER             NULL,      -- 최대인원수
    HIT            NUMBER             NULL,      -- 조회수
    PLAN           VARCHAR2(255 BYTE) NULL,      -- 여행계획
@@ -267,13 +267,14 @@ CREATE TABLE REVIEW_T (
 
 -- 문의하기 테이블
 CREATE TABLE INQUIRY_T (
-    INQUIRY_NO       NUMBER             NOT NULL,           -- 문의번호         (PK)
-    USER_NO          NUMBER             NOT NULL,           -- 회원번호(작성자) (FK)
-    PRODUCT_NO       NUMBER             NULL,               -- 상품번호         (FK)
-    INQUIRY_TITLE    VARCHAR2(100 BYTE) NULL,               -- 제목
-    INQUIRY_CONTENTS CLOB               NULL,               -- 내용
-    IP               VARCHAR2(30 BYTE)  NULL,               -- IP주소
-    CREATED_AT       DATE               NULL,               -- 작성일
+    INQUIRY_NO       NUMBER             NOT NULL,   -- 문의번호         (PK)
+    USER_NO          NUMBER             NOT NULL,   -- 회원번호(작성자) (FK)
+    PRODUCT_NO       NUMBER             NULL,       -- 상품번호         (FK)
+    INQUIRY_TITLE    VARCHAR2(100 BYTE) NULL,       -- 제목
+    INQUIRY_CONTENTS CLOB               NULL,       -- 내용
+    IP               VARCHAR2(30 BYTE)  NULL,       -- IP주소
+    HIT              NUMBER             DEFAULT 0,  -- 조회수(디폴트 0)
+    CREATED_AT       DATE               NULL,       -- 작성일
     CONSTRAINT PK_INQUIRY PRIMARY KEY(INQUIRY_NO),
     CONSTRAINT FK_USER_INQUIRY FOREIGN KEY(USER_NO) REFERENCES USER_T(USER_NO) ON DELETE CASCADE,
     CONSTRAINT FK_PRODUCT_INQUIRY FOREIGN KEY(PRODUCT_NO) REFERENCES PRODUCT_T(PRODUCT_NO) ON DELETE SET NULL
@@ -286,6 +287,7 @@ CREATE TABLE INQUIRY_ANSWER_T (
     INQUIRY_NO  NUMBER             NULL,       -- 문의번호           (FK)
     USER_NO     NUMBER             NULL,       -- 작성자(관리자)번호 (FK)
     CONTENTS    CLOB               NULL,       -- 내용
+    HIT         NUMBER             DEFAULT 0,  -- 조회수(디폴트 0)
     CREATED_AT  DATE               NULL,       -- 작성일
     MODIFIED_AT DATE               NULL,       -- 수정일
     CONSTRAINT PK_ANSWER PRIMARY KEY(ANSWER_NO),
@@ -293,10 +295,9 @@ CREATE TABLE INQUIRY_ANSWER_T (
     CONSTRAINT FK_USER_ANSWER FOREIGN KEY(USER_NO) REFERENCES USER_T(USER_NO) ON DELETE SET NULL
 );
 
-
 -- 자주묻는질문 테이블
 CREATE TABLE FAQ_T (
-    FAQ_NO      NUMBER             NOT NULL,   -- 글번호 (PK)
+    FAQ_NO      NUMBER             NOT NULL,   -- 글번호  (PK)
     TITLE       VARCHAR2(100 BYTE) NULL,       -- 제목
     CONTENTS    CLOB               NULL,       -- 내용
     CREATED_AT  DATE               NULL,       -- 작성일
@@ -319,20 +320,24 @@ CREATE TABLE NOTICE_T (
 ); 
 
 --**********************************************************************************
--- 테스트 정보 등록
-
-
--- 관리자 삽입
-INSERT INTO USER_T (USER_NO, EMAIL, PW, NAME, AGREE, AUTH) VALUES(USER_SEQ.NEXTVAL, 'admin', STANDARD_HASH('1', 'SHA256'), '관리자admin', 0, 0);
-INSERT INTO USER_T (USER_NO, EMAIL, PW, NAME, AGREE, AUTH) VALUES(USER_SEQ.NEXTVAL, 'master', STANDARD_HASH('1', 'SHA256'), '관리자master', 0, 0);
-COMMIT;
-
--- 회원 삽입
+-- 유저 등록
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user1@naver.com', STANDARD_HASH('1111', 'SHA256'), '사용자1', 'M', '01011111111', '11111', '디지털로', '가산동', '101동 101호', 0, 0, 1, TO_DATE('20231001', 'YYYYMMDD'), TO_DATE('20220101', 'YYYYMMDD'));
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user2@naver.com', STANDARD_HASH('2222', 'SHA256'), '사용자2', 'F', '01022222222', '22222', '디지털로', '가산동', '102동 102호', 0, 0, 1, TO_DATE('20231002', 'YYYYMMDD'), TO_DATE('20220102', 'YYYYMMDD'));
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user3@naver.com', STANDARD_HASH('3333', 'SHA256'), '사용자3', 'M', '01033333333', '33333', '디지털로', '가산동', '103동 103호', 0, 0, 1, TO_DATE('20231003', 'YYYYMMDD'), TO_DATE('20220103', 'YYYYMMDD'));
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user4@naver.com', STANDARD_HASH('4444', 'SHA256'), '사용자4', 'F', '01044444444', '44444', '디지털로', '가산동', '104동 104호', 0, 0, 1, TO_DATE('20231004', 'YYYYMMDD'), TO_DATE('20220104', 'YYYYMMDD'));
+
+
+INSERT INTO MOUNTAIN_T VALUES(MOUNTAIN_SEQ.NEXTVAL, '한라산', '멋있음', '제주도');
+INSERT INTO MOUNTAIN_T VALUES(MOUNTAIN_SEQ.NEXTVAL, '한라산2', '멋있음11', '제주도2');
+INSERT INTO PRODUCT_T VALUES(PRODUCT_SEQ.NEXTVAL, 1, 1, '우당탕탕한라산', '엄청나요', '김세콩', '당일', 28000, '주의사항', TO_DATE('20231101', 'YYYYMMDD'), TO_DATE('20231201', 'YYYYMMDD'), 30, 14, '오전, 오후', 0, '약관동의');
+INSERT INTO PRODUCT_T VALUES(PRODUCT_SEQ.NEXTVAL, 1, 2, '우당탕탕한라산2', '엄청나요!!!!', '김콩콩', '당일', 33000, '주의사항', TO_DATE('20230801', 'YYYYMMDD'), TO_DATE('20231021', 'YYYYMMDD'), 30, 55, '오전, 오후', 0, '약관동의');
+INSERT INTO IMAGE_T VALUES('사진.jpg', '한라산사진', 1, 1);
+INSERT INTO IMAGE_T VALUES('사진2.jpg', '한라산2사진', 0, 2);
+INSERT INTO HEART_T VALUES(1, 1);
+INSERT INTO HEART_T VALUES(2, 2);
 COMMIT;
+
+
 
 
 
