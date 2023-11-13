@@ -32,7 +32,8 @@ public class ReserveController {
   }
   
   @GetMapping("/list.do")
-  public String list() {
+  public String list(HttpServletRequest request, Model model) {
+    reserveService.loadReserveList(request, model);
     return "reserve/list";
   }
   
