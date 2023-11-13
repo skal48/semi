@@ -10,6 +10,9 @@ import com.mountaintour.mountain.dto.ReserveDto;
 @Mapper
 public interface ReserveMapper {
   
+  public int insertReserve(ReserveDto reserve);
+  
+  public ReserveDto getReserve(int reserveNo);
   public int getReserveCount();
   public List<ReserveDto> getReserveList(Map<String, Object> map);
   

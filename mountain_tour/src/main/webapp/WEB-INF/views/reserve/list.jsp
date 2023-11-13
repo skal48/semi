@@ -43,12 +43,14 @@
           <tbody>
             <c:forEach items="${reserveList}" var="res" varStatus="vs">
               <tr>
-                <td id="resSche">${r.reserveDate}</td> 
-                <td id="prodName">${r.productDto.tripName}</td>
+                <td id="resSche">
+                  <a href="${contextPath}/reserve/detail.do?reserveNo=${res.reserveNo}">${res.reserveDate} / ${res.reserveNo}</a>
+                </td> 
+                <td id="prodName">${res.productDto.tripName}</td>
                 <td id="totalPrice">??</td>
-                <td id="personCnt">${r.reservePerson}</td>
-                <td id="trvlSche">${r.reserveStart} / ${r.reserveFinish}</td>
-                <td id="resStatus">${r.reserveStatus}</td>
+                <td id="personCnt">${res.reservePerson}</td>
+                <td id="trvlSche">${res.reserveStart} / ${res.reserveFinish}</td>
+                <td id="resStatus">${res.reserveStatus}</td>
               </tr>
             </c:forEach>
           </tbody>

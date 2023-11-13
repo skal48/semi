@@ -9,9 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.gdu.myhome.dto.BlogDto;
 import com.mountaintour.mountain.dao.ReserveMapper;
+import com.mountaintour.mountain.dto.ProductDto;
 import com.mountaintour.mountain.dto.ReserveDto;
+import com.mountaintour.mountain.dto.UserDto;
 import com.mountaintour.mountain.util.MyPageUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,42 @@ public class ReserveServiceImpl implements ReserveService{
 
   private final ReserveMapper reserveMapper;
   private final MyPageUtils myPageUtils;
+  
+  
+  @Override
+  public int addReserve(HttpServletRequest req) {
+    String request = req.getParameter("resReq");
+    int agree = Integer.parseInt(req.getParameter("chkAgree"));
+    String pickupLoc = req.getParameter("pickupLoc");
+    // reserveStart, reserveFinish 
+    int reservePerson = Integer.parseInt(req.getParameter("reservePerson"));
+    int userNo = Integer.parseInt(req.getParameter("userNo"));
+    int productNo = Integer.parseInt(req.getParameter("productNo"));
+    
+    ReserveDto reserve = ReserveDto.builder()
+                              .request(request)
+                              .agree(agree)
+                              .pickupLoc(pickupLoc)
+                              .reservePerson(reservePerson)
+                              .userDto(UserDto.builder()
+                                              .userNo(userNo)
+                                              .build())
+                              .productDto(ProductDto.builder()
+                                                    .productNo(productNo)
+                                                    .build())
+                              .build();
+    
+    return reserveMapper.insertReserve(reserve);
+  }
+  
+  
+  
+  
+  @Override
+  public ReserveDto loadReserve(int reserveNo) {
+    return reserveMapper.getReserve(reserveNo);
+  }
+  
   
   @Override
   public void loadReserveList(HttpServletRequest request, Model model) {
