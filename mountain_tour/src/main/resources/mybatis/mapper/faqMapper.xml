@@ -31,7 +31,7 @@
      WHERE RN BETWEEN #{begin} AND #{end}
   </select>
   
-  <!-- 작성하기 -->
+  <!-- 게시글 추가 -->
   <insert id="insertFaq" parameterType="FaqDto">
     INSERT INTO FAQ_T(
         FAQ_NO
@@ -46,7 +46,7 @@
     )
   </insert>
   
-  <!-- 수정하기 -->
+  <!-- 게시글 수정 -->
   <update id="updateFaq" parameterType="FaqDto">
     UPDATE FAQ_T
        SET TITLE = #{title}
@@ -55,7 +55,7 @@
      WHERE FAQ_NO = #{faqNo}
   </update>
   
-  <!-- 삭제하기 -->
+  <!-- 게시글 삭제 -->
   <delete id="deleteFaq" parameterType="int">
     DELETE
       FROM FAQ_T

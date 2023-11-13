@@ -44,12 +44,6 @@ public class FaqServiceImpl implements FaqService {
                                    , "end", myPageUtils.getEnd());
     
     List<FaqDto> faqList = faqMapper.getFaqList(map);
-    
-
-    model.addAttribute("faqList", faqList);
-    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/cs/faqList.do"));
-    model.addAttribute("beginNo", total - (page -1) * display);
-    
 
     // faqList, paging, beginNo, total 전달
     model.addAttribute("faqList", faqList);

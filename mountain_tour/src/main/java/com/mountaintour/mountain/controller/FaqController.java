@@ -51,6 +51,12 @@ public class FaqController {
     return "cs/faqList";
   }
   
+  /**
+   * 추가 메서드 입니다.
+   * @param request
+   * @param redirectAttributes
+   * @return
+   */
   @PostMapping("/addFaq.do")
   public String addFaq(HttpServletRequest request, RedirectAttributes redirectAttributes) {
     int addResult = faqService.addFaq(request);

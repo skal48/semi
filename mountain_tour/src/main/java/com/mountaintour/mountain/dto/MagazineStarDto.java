@@ -1,7 +1,5 @@
 package com.mountaintour.mountain.dto;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,14 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class MagazineDto {
+public class MagazineStarDto {
   private int magazineNo;
   private int userNo;
-  private String title;
-  private String contents;
-  private String summary;
-  private int hit;
-  private Date createAt;
-  private int productNo;
-  private MagazineMultiDto magazineMultiDto;
 }
