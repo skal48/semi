@@ -29,9 +29,9 @@
 		    ON M.MAGAZINE_NO = MM.MAGAZINE_NO
 		 WHERE M.MAGAZINE_NO = ( SELECT MAX(MAGAZINE_NO) FROM MAGAZINE_T) AND MM.IS_THUMBNAIL = 1;   
   </select>
-  <select id="getMagazineCount" resultMap="int">
+  <select id="getMagazineCount" resultType="int">
     SELECT COUNT(*)
-      FROM MAGAZINE_T;  
+      FROM MAGAZINE_T
   </select>
  
 
