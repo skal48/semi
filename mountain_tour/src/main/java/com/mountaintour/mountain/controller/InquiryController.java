@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mountaintour.mountain.dto.InquiryAnswerDto;
 import com.mountaintour.mountain.dto.InquiryDto;
 import com.mountaintour.mountain.service.InquiryService;
 
@@ -47,7 +48,7 @@ public class InquiryController {
   }
   
   /**
-   * 1:1문의 상세 페이지 보기
+   * 1:1문의 / 답변 상세 페이지 보기
    * @param inquiryNo
    * @param model
    * @return
@@ -56,7 +57,9 @@ public class InquiryController {
   public String inquiryDetail(@RequestParam(value="inquiryNo", required=false, defaultValue="0") int inquiryNo
                             , Model model) {
     InquiryDto inquiry = inquiryService.getInquiry(inquiryNo);
+    InquiryAnswerDto answer = inquiryService.getAnswer(inquiryNo);
     model.addAttribute("inquiry", inquiry);
+    model.addAttribute("answer", answer);
     return "cs/inquiryDetail";
   }
   
@@ -95,6 +98,43 @@ public class InquiryController {
     return "redirect:/cs/inquiryList.do";
   }
   
+  /**
+   * 답변 작성
+   * @param request
+   * @param redirectAttributes
+   * @return
+   */
+  @PostMapping("/addAnswer.do")
+  public String addAnswer(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    int addAnswerResult = inquiryService.addAnswer(request);
+    redirectAttributes.addFlashAttribute("addAnswerResult", addAnswerResult);
+    return "redirect:/cs/inquiryDetail.do?inquiryNo=" + request.getParameter("inquiryNo");
+  }
   
+  /**
+   * 답변 수정
+   * @param request
+   * @param redirectAttributes
+   * @return
+   */
+  @PostMapping("/modifyAnswer.do")
+  public String modifyAnswer(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    int modifyAnswerResult = inquiryService.modifyAnswer(request);
+    redirectAttributes.addFlashAttribute("modifyAnswerResult", modifyAnswerResult);
+    return "redirect:/cs/inquiryDetail.do?inquiryNo=" + request.getParameter("inquiryNo");
+  }
+  
+  /**
+   * 답변 삭제
+   * @param request
+   * @param redirectAttributes
+   * @return
+   */
+  @PostMapping("/removeAnswer.do")
+  public String removeAnswer(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    int removeAnswerResult = inquiryService.removeAnswer(request);
+    redirectAttributes.addFlashAttribute("removeAnswerResult", removeAnswerResult);
+    return "redirect:/cs/inquiryDetail.do?inquiryNo=" + request.getParameter("inquiryNo");
+  }
   
 }

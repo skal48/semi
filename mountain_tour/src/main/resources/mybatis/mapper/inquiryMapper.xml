@@ -10,7 +10,6 @@
     <result  column="INQUIRY_TITLE"    property="inquiryTitle"/>
     <result  column="INQUIRY_CONTENTS" property="inquiryContents"/>
     <result  column="IP"               property="ip"/>
-    <result  column="HIT"              property="hit"/>
     <result  column="CREATED_AT"       property="createdAt"/>
     <result  column="ANSWER_NO"        property="answerNo"/>
     <association javaType="UserDto"      property="userDto">
@@ -118,22 +117,7 @@
      WHERE INQUIRY_NO = #{inquiryNo}
   </delete>
   
-  <!-- 답변 등록 -->
-  <insert id="insertAnswer" parameterType="InquiryAnswerDto">
-    INSER INTO INQUIRY_ANSWER_T (
-        ANSWER_NO
-      , INQUIRY_NO
-      , USER_NO
-      , CONTENTS
-      , CREATED_AT
-    ) VLAUES (
-        ANSWER_SEQ.NEXTVAL
-      , #{}
-      , #{}
-      , #{}
-      , SYSDATE
-    )
-  </insert>
+
 	 
 
 </mapper>
