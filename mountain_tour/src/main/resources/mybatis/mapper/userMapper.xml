@@ -5,6 +5,24 @@
 
 <mapper namespace="com.mountaintour.mountain.dao.UserMapper">
 	
-	 
+	  <select id="getUser" parameterType="Map" resultType="UserDto">
+    SELECT USER_NO, EMAIL, PW, NAME, GENDER, MOBILE, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, AGREE, STATE, AUTH, PW_MODIFIED_AT, JOINED_AT
+      FROM USER_T
+    <where>
+      <if test="email != null">EMAIL = #{email}</if>
+      <if test="pw != null">AND PW = #{pw}</if>
+      <if test="userNo != null">AND USER_NO = #{userNo}</if>
+    </where>
+  </select>
+
+	<insert id="insertAccess" parameterType="String">
+	INSERT INTO ACCESS_T (
+		EMAIL
+	  , LOGIN_AT
+	  ) VALUES (
+	  	#{email}
+	  , SYSDATE
+	  )
+	</insert>
 
 </mapper>

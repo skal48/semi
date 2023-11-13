@@ -69,15 +69,15 @@
   
 <script>
   const fnAfterLogin = () => {
-		  var str ='';
-	    if('${sessionScope.auth}' === 0){
-	    	$('.banner_login').empty();
-			  srt += '<a href="${contextPath}/manage/memberList.do">관리자 페이지</a>';
-		  } else if('${sessionScope.auth}' === 1){
-			  $('.banner_login').empty();
-			  srt += '<a href="${contextPath}/user/mypage.do">마이페이지</a>';
-		  }
-		  $('.banner_login').append(str);		  
+        var str ='';
+       if('${sessionScope.auth}' === 0){
+          $('.banner_login').empty();
+           srt += '<a href="${contextPath}/manage/memberList.do">관리자 페이지</a>';
+        } else if('${sessionScope.auth}' === 1){
+           $('.banner_login').empty();
+           srt += '<a href="${contextPath}/user/mypage.do">마이페이지</a>';
+        }
+        $('.banner_login').append(str);        
   }
 
 
