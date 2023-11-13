@@ -35,7 +35,11 @@
    p {
     margin-top: 15px;
    } 
-  
+   select {
+    margin-top: 10px;
+    width:20%;
+    color: black;
+   }
     
   </style>
 
@@ -45,7 +49,7 @@
     </div>
     <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
-       <form action="${contextPath}/magazine/thumbnail.do" class="write_form" method="get">
+       <form action="${contextPath}/magazine/thumbnail.do" class="write_form" method="post">
       <div class="wrapper">   
         <h4>제목</h4>
        
@@ -55,14 +59,13 @@
         <h4>내용</h4>
                
           <textarea name="text" id="editor" class="input_contents"></textarea>
-          <div><select id="productNo">
-                <c:forEach var="product" items="${productNo}">
-                  <option name="productNo" value="${product.productNo}">${product.productNo}</option>
-                </c:forEach>       
-              </select> </div>
+          <div>
+              <select id="productNo" >                
+                 <!-- <option disabled selected>상품 목록</option> -->
+              </select>
+          </div>
           <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
-          <p><button type="submit" class="btn btn-secondary">다음</button></p>
-        
+          <p><button type="submit" class="btn btn-secondary">다음</button></p>        
       </div> 
       </form>     
      </div> 
@@ -71,19 +74,45 @@
     <div class="col-1">
     </div>
   </div>
+ 
+<script>
+	const fnCkeditor = () => {
+		ClassicEditor
+		.create(document.querySelector('#editor'), {
+			ckfinder: {
+		          // 이미지 업로드 경로
+		          uploadUrl: '${contextPath}/magazine/imageUpload.do'    		  
+		    		}		
+		})
+		.then(editor => {
+			
+		})
+		.catch(error => {
+			 console.error(error);
+		});
+	}
+
 
   
- 
   
-<script>
-  ClassicEditor.create( document.querySelector( '#editor' ) );
-  
-  const fnProduct = () => { 
-	  
-	  
-	  
+  const fnProductNo = () => { 
+	  $.ajax({
+		  type: 'get',
+		  url: '${contextPath}/magazine/getProductNo.do',
+		  dataType: 'json',
+		  success: (resData) => {
+				$('#productNo').empty();
+				  console.log('${list.ProductDto.productNo}');
+			  $.each(resData.list, (i, product) => {
+				  let str = '<option name="prodouctNo" value="${product.productNo}">${product.productNo}</option>';	//여기 고쳐야함 값이 안날라와
+				  $('#productNo').append(str);
+			  })
+		  }
+	  })
   }
   
+  fnProductNo();
+  fnCkeditor();
   
   
 </script>
