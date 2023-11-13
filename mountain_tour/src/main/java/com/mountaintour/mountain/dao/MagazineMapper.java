@@ -15,4 +15,6 @@ public interface MagazineMapper {
   public List<ProductDto> getProductNo();
   public int InsertMagazineOne(MagazineDto magazineDto);
   public int insertMagazineMulti(MagazineMultiDto magazineMultiDto);
+  public int insertMagazineTwo(MagazineDto magazineDto);
+  public int insertThumbnail(MagazineMultiDto magazineMultiDto);
 }
