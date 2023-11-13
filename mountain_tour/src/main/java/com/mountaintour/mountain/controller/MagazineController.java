@@ -1,6 +1,9 @@
 package com.mountaintour.mountain.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +28,7 @@ public class MagazineController {
  }
  
  @GetMapping("/detail.do")
- public String detail() {
+ public String detail(HttpServletRequest request, Model model) {
    return "magazine/detail";
  }
  

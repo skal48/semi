@@ -55,6 +55,12 @@
         <h4>내용</h4>
                
           <textarea name="text" id="editor" class="input_contents"></textarea>
+          <div><select id="productNo">
+                <c:forEach var="product" items="${productNo}">
+                  <option name="productNo" value="${product.productNo}">${product.productNo}</option>
+                </c:forEach>       
+              </select> </div>
+          <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
           <p><button type="submit" class="btn btn-secondary">다음</button></p>
         
       </div> 
@@ -71,6 +77,15 @@
   
 <script>
   ClassicEditor.create( document.querySelector( '#editor' ) );
+  
+  const fnProduct = () => { 
+	  
+	  
+	  
+  }
+  
+  
+  
 </script>
  
  
