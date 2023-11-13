@@ -8,7 +8,7 @@
   <resultMap type="InquiryDto"         id="InquiryMap">
     <id      column="INQUIRY_NO"       property="inquiryNo" />
     <result  column="INQUIRY_TITLE"    property="inquiryTitle"/>
-    <result  column="INQUIRY_CONTENTS" property="inauiryContents"/>
+    <result  column="INQUIRY_CONTENTS" property="inquiryContents"/>
     <result  column="IP"               property="ip"/>
     <result  column="HIT"              property="hit"/>
     <result  column="CREATED_AT"       property="createdAt"/>
@@ -103,13 +103,19 @@
     ) VALUES (
         INQUIRY_SEQ.NEXTVAL
       , #{userDto.userNo}
-      , #{productDto.productNo}
+      , #{productDto.productNo, jdbcType=INTEGER}
       , #{inquiryTitle}
       , #{inquiryContents}
       , #{ip}
       , SYSDATE
     )
   </insert>
+  
+  <delete id="deleteInquiry" parameterType="int">
+    DELETE 
+      FROM INQUIRY_T
+     WHERE INQUIRY_NO = #{inquiryNo}
+  </delete>
   
 	 
 

@@ -82,7 +82,9 @@
         <div class="listWrap2">
         
           <%-- 자주묻는질문 작성버튼(관리자만 사용 가능) --%>
-          <div style="text-align: right;"><button id="btn_faq_write"  class="btn btn-success">작성하기</button></div>
+          <c:if test="${sessionScope.user.auth == 0 }">
+            <div style="text-align: right;"><button id="btn_faq_write"  class="btn btn-success">작성하기</button></div>
+          </c:if>
           
           <form method="post" action="${contextPath}/cs/addFaq.do" class="faq_add blind">
             <label for="title" style="margin-top: 2%;">제목</label>
@@ -117,13 +119,11 @@
                         
                         <%-- 삭제 form (관리자만 삭제/수정 버튼사용 가능) --%>
                         <form method="post" action="${contextPath}/cs/removeFaq.do" class="frm_removeFaq">
-  
-                        
-                          <input type="hidden" name="faqNo" value="${f.faqNo}">
-                          <button type="submit" class="btn btn-outline-secondary" style="margin-top: 5%;">삭제</button>
-                          <button type="button" class="btn btn-outline-secondary btn_modify" style="margin-top: 5%;">수정</button>
-  
-  
+                          <c:if test="${sessionScope.user.auth == 0 }">
+                            <input type="hidden" name="faqNo" value="${f.faqNo}">
+                            <button type="submit" class="btn btn-outline-secondary" style="margin-top: 5%;">삭제</button>
+                            <button type="button" class="btn btn-outline-secondary btn_modify" style="margin-top: 5%;">수정</button>
+                          </c:if>
                         </form>
                         
                         <%-- 수정 form --%>
@@ -164,10 +164,7 @@
         
       </div>
 
-                        <%-- 관리자 구분하는 곳. 로그인 완성되면 폼 안으로 넣고 삭제/수정버튼은 이 안 쪽으로 이동하기 --%>  
-                        <%-- 복사해서 작성버튼도 하나 가두기 --%>  
-                        <c:if test="${sessionScope.user.auth == 0 }">
-                        </c:if>
+
 
 
     </div>

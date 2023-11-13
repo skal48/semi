@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.mountaintour.mountain.dao.InquiryAnswerMapper;
@@ -18,6 +19,7 @@ import com.mountaintour.mountain.util.MyPageUtils;
 
 import lombok.RequiredArgsConstructor;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class InquiryServiceImpl implements InquiryService {
@@ -30,6 +32,7 @@ public class InquiryServiceImpl implements InquiryService {
    * 전체 목록 보기
    * MVC 페이징 처리
    */
+  @Transactional(readOnly=true)
   @Override
   public void loadInquiryList(HttpServletRequest request, Model model) {
     
@@ -55,6 +58,7 @@ public class InquiryServiceImpl implements InquiryService {
   /**
    * 검색 결과 보기
    */
+  @Transactional(readOnly=true)
   @Override
   public void loadSearchList(HttpServletRequest request, Model model) {
     
@@ -93,17 +97,20 @@ public class InquiryServiceImpl implements InquiryService {
     return inquiryMapper.getInquiry(inquiryNo);
   }
   
+  /**
+   * 문의글 추가하기
+   */
   @Override
   public int addInquiry(HttpServletRequest request) {
     
     String inquiryTitle = request.getParameter("inquiryTitle");
-    String inauiryContents = request.getParameter("inauiryContents");
+    String inquiryContents = request.getParameter("inquiryContents");
     String ip = request.getRemoteAddr();
     int userNo = Integer.parseInt(request.getParameter("userNo"));
     
     InquiryDto inquiry = InquiryDto.builder()
                           .inquiryTitle(inquiryTitle)
-                          .inauiryContents(inauiryContents)
+                          .inquiryContents(inquiryContents)
                           .ip(ip)
                           .userDto(UserDto.builder()
                                     .userNo(userNo)
@@ -114,6 +121,13 @@ public class InquiryServiceImpl implements InquiryService {
     return addResult;
   }
   
+  /**
+   * 문의글 삭제하기
+   */
+  @Override
+  public int removeInquiry(int inquiryNo) {
+    return inquiryMapper.deleteInquiry(inquiryNo);
+  }
   
 }
 

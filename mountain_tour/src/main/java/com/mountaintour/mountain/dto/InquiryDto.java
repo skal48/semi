@@ -15,7 +15,7 @@ public class InquiryDto {
   
   private int inquiryNo;
   private String inquiryTitle;
-  private String inauiryContents;
+  private String inquiryContents;
   private String ip;
   private int hit;
   private Date createdAt;

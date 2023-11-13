@@ -32,9 +32,16 @@
         <div>조회수: ${inquiry.hit}</div>
         <div>작성일: ${inquiry.createdAt}</div>
         <div>작성자: ${inquiry.userDto.name}</div>
-        <div>내용: ${inquiry.inauiryContents}</div>
+        <div>내용: ${inquiry.inquiryContents}</div>
         
         <div id="answer">답변 나타낼곳</div>
+        
+        <div>
+          <form method="post" action="${contextPath}/cs/removeInquiry.do" id="frm_removeInquiry">
+            <input type="hidden" name="inquiryNo" value="${inquiry.inquiryNo}">
+            <button type="submit">삭제하기</button>
+          </form>
+        </div>
         
         
         <div>
@@ -47,7 +54,7 @@
                 <textarea rows="10" cols="50" name="inauiryContents" placeholder="답변을 작성하세요."></textarea>
               </div>
               <input type="hidden" name="inquiryNo" value="${inquiry.inquiryNo}"> 
-              <button type="submit">작성완료</button>
+              <button type="button">작성완료</button>
             </form>
             
         </div>
@@ -80,7 +87,19 @@
 
 <script>
 
+  const fnDelete = () => {
+  	  $('#frm_removeInquiry').submit((ev) => {
+  	    if (!confirm('문의글을 삭제하면 답변 확인이 불가능합니다. 삭제하시겠습니까?')) {
+  	      ev.preventDefault(); 
+  	      return;
+  	    }
+  	  });
+  	};
   
+  
+  
+  fnDelete();
+
 	
 </script>
 
