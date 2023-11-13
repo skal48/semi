@@ -40,7 +40,7 @@
 		  </div>
     	  <hr>
     	  <div style = "text-align: left;"><input type="hidden" name="title" value="${product.tripName}"></div>
-    	  <div style = "text-align: right;"><input type="hidden" name="prize" value="${product.prize}">원</div>
+    	  <div style = "text-align: right;"><input type="hidden" name="prize" value="${product.price}">원</div>
     	 <div style="text-align: left;">
 			 <span class="badge text-bg-success">단순코스</span>
 			 <span class="badge text-bg-warning">난이도하</span>
@@ -90,7 +90,7 @@
 		    <div class="col">
 		      <div style="display: inline-block; margin: 0px 120px;">
 		        <div>성인</div>
-		        <div>${product.prize}</div>
+		        <div>${product.price}</div>
 		    </div>
 		    <table style="margin:0; text-align:center;">
 			    <tr>
@@ -108,7 +108,7 @@
 		    <div class="col" style="text-align: center;">
 		      <div style="display: inline-block; margin: 0px 120px;">
 		        <div>유아</div>
-		        <div>${product.prize}</div>
+		        <div>${product.price}</div>
 		    </div>
 		    <table style="margin: 0;">
 			    <tr>		       
@@ -132,7 +132,7 @@
 		    <div style="display: inline-block; margin-right: 20px; font-weight: 1000;">
 		        <div>총 금액</div>
 		        <div>
-		            <div>39,000<span>원</span></div>
+		            <div id="totalPrice">원</div>
 		        </div>
 		    </div>
 		    <a href="${contextPath}/reserve/write.form" style="display: inline-block;">
@@ -146,20 +146,22 @@
     	  </div>
     	  <div class="choice">주요 여행일정</div>
     	    <div style = "border: 1px gray solid; height: 200px">
-    	  
-    	     
-    	  
-    	  
-    	  
-    	    </div>
+    	  	${product.plan} 
+ 	     </div>
     	  <div class="choice">상품정보</div>
     	    <div style = "border: 1px gray solid; height: 200px">
-    	  
-    	  
-    	  
-    	  
-    	  
+    	  	${product.tripContents} 
     	    </div>
+    	    
+    	    <div class="choice">소요시간</div>
+    	    <div class="choice">가이드</div>
+    	    
+    	    <div class="choice">주의사항</div>
+
+    	    
+    	    
+    	    
+    	    
     	  <div class="choice">약관/정보</div>
     	    <div style = "border: 1px gray solid; height: 100px">
     	  
@@ -393,6 +395,46 @@
           if (tCount > 0) $input.val(Number(tCount) - 1);
       }
   }
+  
+  
+//성인과 유아 수를 저장할 변수
+  let adultCount = 0;
+  let childCount = 0;
+
+  // 제품 가격
+  const productPrice = parseInt("${product.price}");
+
+  // DOM 업데이트 함수
+  function updateTotalPrice() {
+    // 성인과 유아 수에 따른 가격 계산
+    const totalAdultPrice = adultCount * productPrice;
+    const totalChildPrice = childCount * productPrice;
+
+    // 총 금액 계산
+    const totalPrice = totalAdultPrice + totalChildPrice;
+
+    // DOM 업데이트
+    document.getElementById("totalPrice").innerText = `${totalPrice.toLocaleString()}원`;
+  }
+
+  // 수량 증가/감소 함수
+  function fnCalCount(type, element) {
+    const targetInput = element.parentElement.querySelector("input");
+    
+    if (type === 'm' && targetInput.value > 0) {
+      targetInput.value--;
+    } else if (type === 'p') {
+      targetInput.value++;
+    }
+
+    // 성인과 유아 수 업데이트
+    adultCount = parseInt(document.getElementsByName("pop_out1")[0].value);
+    childCount = parseInt(document.getElementsByName("pop_out2")[0].value);
+
+    // 총 금액 업데이트
+    updateTotalPrice();
+  }
+
   
   </script>
 

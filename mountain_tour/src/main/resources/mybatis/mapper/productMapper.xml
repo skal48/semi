@@ -5,27 +5,69 @@
 
  <mapper namespace="com.mountaintour.mountain.dao.ProductMapper">
   
+  <resultMap type="ProductDto"        id="ProductMap">
+    <id      column="PRODUCT_NO"      property="productNo"/>
+    <result  column="TRIP_NAME"   	  property="tripName"/>
+    <result  column="TRIP_CONTENTS"   property="tripContents"/>
+    <result  column="GUIDE" 		  property="guide"/>
+    <result  column="TIMETAKEN" 	  property="timetaken"/>
+    <result  column="PRICE" 		  property="price"/>
+    <result  column="DANGER"		  property="danger"/>
+    <result  column="REGISTERED_AT"   property="registeredAt"/>
+    <result  column="MODIFIED_DATE"   property="modifiedDate"/>
+    <result  column="PEOPLE" 		  property="people"/>
+    <result  column="PLAN" 		      property="plan"/>
+    <result  column="TERM_USE"		  property="termUse"/>
+    <association javaType="MountainDto"      property="mountainDto">
+      <id 	  	 column="MOUNTAIN_NO"      	 property="mountainNo"/>
+      <result    column="MOUNTAIN_NAME"      property="mountainName"/>
+      <result    column="IMPORMATION"        property="impormation" />
+      <result    column="LOCATION"           property="location" />
+    </association>
+    <association javaType="ImageDto"         property="imageDto">
+        <result  column="IMAGE_PATH" 		 property="imagePath" />
+        <result  column="FILESYSTEM_NAME" 	 property="filesystemName"/>
+        <result  column="THUMBNAIL" 		 property="thumbnail"/>
+    </association>
+  </resultMap>
+
   <insert id="insertProduct" parameterType="ProductDto">
    INSERT INTO PRODUCT_T (
       PRODUCT_NO, 
       USER_NO, 
-      MOUNTAIN_NO,  
+      MOUNTAIN_NO, 
       TRIP_NAME, 
-      TRIP_CONTENTS,   
+      TRIP_CONTENTS, 
+      GUIDE, 
+      TIMETAKEN,
+      PRICE, 
+      DANGER, 
       REGISTERED_AT, 
-      MODIFIED_DATE,   
-      PLAN
+      MODIFIED_DATE, 
+      PEOPLE,
+      HIT,   
+      PLAN,
+      STATUS, 
+      TERM_USE
    ) VALUES (
       PRODUCT_SEQ.NEXTVAL, 
       #{userNo}, 
       #{mountainNo}, 
-      #{tripName},
-      #{tripContents}, 
-      SYSDATE,   
+      #{tripName}, 
+      #{tripContents},
+      #{guide}, 
+      #{timetaken},
+      #{price}, 
+      #{danger}, 
+      SYSDATE,
       SYSDATE, 
-      #{plan}  
+      #{people},
+      #{hit},  
+      #{plan},
+      #{status},  
+      #{termUse}
    )
-</insert>
+  </insert>
                                                                                                              
 
   <insert id="insertImage" parameterType="ImageDto">
@@ -41,17 +83,69 @@
       , #{productNo}
     )
   </insert>
-
-  <select id="getProductNo" resultType="ProductDto">
-  	SELECT PRODUCT_NO
+  
+  <select id="getProductCount" resultType="int">
+    SELECT COUNT(*)
       FROM PRODUCT_T
   </select>
+  
+  <select id="getProductList" parameterType="Map" resultMap="ProductMap">
+    SELECT
+        A.PRODUCT_NO,
+        A.USER_NO,
+        A.MOUNTAIN_NO,
+        A.TRIP_NAME,
+        A.TRIP_CONTENTS,
+        A.GUIDE,
+        A.TIMETAKEN,
+        A.PRICE,
+        A.DANGER,
+        A.REGISTERED_AT,
+        A.MODIFIED_DATE,
+        A.PEOPLE,
+        A.HIT,
+        A.PLAN,
+        A.STATUS,
+        A.TERM_USE,
+        M.MOUNTAIN_NAME,
+        M.IMPORMATION,
+        M.LOCATION,
+        I.IMAGE_PATH,
+        I.FILESYSTEM_NAME,
+        I.THUMBNAIL
+    FROM
+        (
+            SELECT
+                P.PRODUCT_NO,
+                P.USER_NO,
+                P.MOUNTAIN_NO,
+                P.TRIP_NAME,
+                P.TRIP_CONTENTS,
+                P.GUIDE,
+                P.TIMETAKEN,
+                P.PRICE,
+                P.DANGER,
+                P.REGISTERED_AT,
+                P.MODIFIED_DATE,
+                P.PEOPLE,
+                P.HIT,
+                P.PLAN,
+                P.STATUS,
+                P.TERM_USE,
+                ROW_NUMBER() OVER(ORDER BY P.PRODUCT_NO DESC) AS RN
+            FROM
+                PRODUCT_T P
+            WHERE
+                ROWNUM BETWEEN #{begin} AND #{end}) A
+    JOIN
+        MOUNTAIN_T M ON A.MOUNTAIN_NO = M.MOUNTAIN_NO
+    LEFT JOIN
+        IMAGE_T I ON A.PRODUCT_NO = I.PRODUCT_NO
+</select>
+  
+  
+  
 
-  <select id="getProduct" parameterType="int" resultType="ProductDto">
-    SELECT PRODUCT_NO, USER_NO, MOUNTAIN_NO, TRIP_NAME, TRIP_CONTENTS, GUIDE, TIMETAKEN,PRIZE, DANGER, REGISTERED_AT, MODIFIED_DATE, PEOPLE,  THUMBNAIL, PLAN, TERM_USE
-      FROM PRODUCT_T
-     WHERE PRODUCT_NO = #{productNo}
-  </select>
 
   <update id="updateProduct" parameterType="int">
      UPDATE PRODUCT_T 
@@ -59,7 +153,7 @@
             TRIP_CONTENTS = #{tripContents}, 
             GUIDE = #{guide}, 
             TIMETAKEN = #{timeTaken}, 
-            PRIZE = #{prize},
+            PRICE = #{price},
             DANGER = #{danger}, 
             REGISTERED_AT = #{registeredAt}, 
             MODIFIED_DATE = #{modifiedDate},  
