@@ -18,12 +18,13 @@
             DANGER, 
             REGISTERED_AT, 
             MODIFIED_DATE, 
-            PEOPLE,  
-            THUMBNAIL, 
-            PLAN, 
+            PEOPLE,
+            HIT,   
+            PLAN,
+            STATUS, 
             TERM_USE
         	) VALUES (
-        	#{productNo}, 
+        	 PRODUCT_SEQ.NEXTVAL, 
         	#{userNo}, 
         	#{mountainNo}, 
         	#{tripName}, 
@@ -32,14 +33,34 @@
             #{timeTaken},
             #{prize}, 
             #{danger}, 
-            #{registeredAt}, 
-            #{modifiedDate}, 
-            #{people},  
-            #{thumbnail}, 
-            #{plan},  
+             SYSDATE, 
+             SYSDATE, 
+            #{people},
+            #{hit},  
+            #{plan},
+            #{status},
             #{termUse}
       )
   </insert>                                                                                                                  
+
+  <insert id="insertImage" parameterType="ImageDto">
+    INSERT INTO IMAGE_T (
+        IMAGE_PATH
+      , FILESYSTEM_NAME
+      , THUMBNAIL
+      , PRODUCT_NO
+    ) VALUES (
+        #{imagePath}
+      , #{filesystemName}
+      , #{thumbnail}
+      , #{productNo}
+    )
+  </insert>
+
+  <select id="getProductNo" resultType="ProductDto">
+  	SELECT PRODUCT_NO
+      FROM PRODUCT_T
+  </select>
 
   <select id="getProduct" parameterType="int" resultType="ProductDto">
     SELECT PRODUCT_NO, USER_NO, MOUNTAIN_NO, TRIP_NAME, TRIP_CONTENTS, GUIDE, TIMETAKEN,PRIZE, DANGER, REGISTERED_AT, MODIFIED_DATE, PEOPLE,  THUMBNAIL, PLAN, TERM_USE
