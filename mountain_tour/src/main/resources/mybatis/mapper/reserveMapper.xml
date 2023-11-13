@@ -4,7 +4,27 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mountaintour.mountain.dao.ReserveMapper">
-  <!-- 
+  
+  <resultMap type="PaymentDto" id="PaymentMap">
+    <id column="PAYMENT_NO" property="paymentNo"/>
+    <result column="PAY_YN" property="payYn"/>
+    <result column="PAY_KIND" property="payKind"/>
+    <result column="PAY_BANK" property="payBank"/>
+    <result column="PAY_APPROVAL" property="payApproval"/>
+    <result column="PAY_DATE" property="payDate"/>
+    <association property="reserveDto" resultMap="ReserveMap"/>
+  </resultMap>
+  
+  <resultMap type="TouristDto" id="TouristMap">
+    <id column="TOURIST_NO" property="touristNo"/>
+    <result column="NAME" property="name"/> 
+    <result column="BIRTH_DATE" property="birthDate"/> 
+    <result column="GENDER" property="gender"/> 
+    <result column="CONTACT" property="contact"/> 
+    <result column="AGE_CASE" property="ageCase"/> 
+    <association property="reserveDto" resultMap="ReserveMap"/>
+  </resultMap>
+   
   <resultMap type="ReserveDto" id="ReserveMap">
     <id column="RESERVE_NO" property="reserveNo"/>
     <result column="RESERVE_DATE" property="reserveDate"/>
@@ -52,11 +72,64 @@
       <result column="TERM_USE" property="termUse"/>
     </association>
   </resultMap>
-   -->
+
+  <insert id="insertReserve" parameterType="ReserveDto">
+    <selectKey order="BEFORE" keyProperty="reserveNo" resultType="int">
+      SELECT RESERVE_SEQ.NEXTVAL 
+        FROM DUAL
+    </selectKey>
+    INSERT INTO RESERVE_T (
+        RESERVE_NO
+      , RESERVE_DATE
+      , REQUEST
+      , AGREE
+      , PICKUP_LOC
+      , RESERVE_START
+      , RESERVE_FINISH
+      , RESERVE_PERSON
+      , USER_NO
+      , PRODUCT_NO
+    ) VALUES (
+        #{reserveNo}
+      , TO_DATE(SYSDATE, 'YYYYMMDD') 
+      , #{request}
+      , #{agree}
+      , #{pickupLoc}
+      , #{reserveStart}
+      , #{reserveFinish}
+      , #{reservePerson}
+      , #{userDto.userNo}
+      , #{productDto.productNo}  
+    )
+  </insert>
+
+
+
   
-   
+  <select id="getReserveCount" resultType="int">
+    SELECT COUNT(*)
+      FROM RESERVE_T
+  </select>
   
+  <select id="getReserveList" parameterType="Map" resultMap="ReserveMap">
+    SELECT A.RESERVE_NO, A.RESERVE_DATE, A.REQUEST, A.AGREE, A.PICKUP_LOC, A.RESERVE_STATUS, A.RESERVE_START, A.RESERVE_FINISH, A.RESERVE_PERSON, A.USER_NO, A.PRODUCT_NO, A.TRIP_NAME, A.PRIZE, A.TIMETAKEN, A.STATUS
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY RES.RESERVE_NO DESC) AS RN
+                 , RES.RESERVE_NO, RES.RESERVE_DATE, RES.REQUEST, RES.AGREE, RES.PICKUP_LOC, RES.RESERVE_STATUS, RES.RESERVE_START, RES.RESERVE_FINISH, RES.RESERVE_PERSON, RES.USER_NO
+                 , P.PRODUCT_NO, P.TRIP_NAME, P.PRIZE, P.TIMETAKEN, P.STATUS
+              FROM PRODUCT_T P INNER JOIN RESERVE_T RES
+                ON P.PRODUCT_NO = RES.PRODUCT_NO) A
+     WHERE A.RN BETWEEN #{begin} AND #{end}
+  </select> 
   
+  <select id="getReserve" parameterType="int"  resultMap="ReserveMap">
+    SELECT RES.RESERVE_NO, RES.RESERVE_DATE, RES.REQUEST, RES.AGREE, RES.PICKUP_LOC, RES.RESERVE_STATUS, RES.RESERVE_START, RES.RESERVE_FINISH, RES.RESERVE_PERSON
+         , U.USER_NO, U.EMAIL, U.MOBILE, U.AUTH
+         , P.PRODUCT_NO, P.TRIP_NAME, P.TIMETAKEN, P.DANGER
+      FROM USER_T U INNER JOIN RESERVE_T RES
+        ON U.USER_NO = RES.USER_NO INNER JOIN PRODUCT_T P
+        ON P.PRODUCT_NO = RES.PRODUCT_NO 
+     WHERE RES.RESERVE_NO = #{reserveNo}
+  </select>
   
   
   
