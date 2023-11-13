@@ -9,4 +9,5 @@ import com.mountaintour.mountain.dto.UserDto;
 @Mapper
 public interface UserMapper {
 	public UserDto getUser(Map<String, Object> map);
+	public int insertAccess(String email);
 }
