@@ -22,9 +22,11 @@
 <link rel="stylesheet" href="${contextPath}/resources/css/owl.theme.default.css" />
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="${contextPath}/resources/js/ckeditor.js?dt=${dt}"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/decoupled-document/ckeditor.js"></script>
 <script src="${contextPath}/resources/js/owl.carousel.min.js?dt=${dt}"></script> 
 <script src="${contextPath}/resources/js/app.js?dt=${dt}"></script> 
+
+
 
 <!-- ck 에디터 쓸지 네이버 쓸지 정해야함  -->
 </head>

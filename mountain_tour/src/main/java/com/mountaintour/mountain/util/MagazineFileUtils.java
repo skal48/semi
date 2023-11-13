@@ -21,14 +21,14 @@ public class MagazineFileUtils {
   // 업로드 게시판 작성시 첨부한 파일이 저장될 경로 반환하기
   public String getUploadPath() {
     LocalDate today = LocalDate.now();
-    return "/upload/" + DateTimeFormatter.ofPattern("yyyy/MM/dd").format(today);
+    return "/magazine/" + DateTimeFormatter.ofPattern("yyyy/MM/dd").format(today);
   }
   
   //블로그 이미지가 저장된 어제 경로를 반환
   public String getBlogImagePathInYesterday() {
     LocalDate date = LocalDate.now();
     date = date.minusDays(1);  // 1일 전
-    return "/blog/" + DateTimeFormatter.ofPattern("yyyy/MM/dd").format(date);
+    return "/magazine/" + DateTimeFormatter.ofPattern("yyyy/MM/dd").format(date);
   }
   
   // 임시파일이 저장될 경로 반환하기 (ZIP 파일)

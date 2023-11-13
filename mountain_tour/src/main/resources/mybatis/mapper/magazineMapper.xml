@@ -15,11 +15,11 @@
     <result column="HIT" property="hit"/>
     <result column="PRODUCT_NO" property="productNo"/>
     <association javaType="MagazineMultiDto" property="magazineMultiDto">
-    	<id     column="MAGAZINE_NO" property="magazineNo" />
+      <id     column="MAGAZINE_NO" property="magazineNo" />
       <result column="MULTI_PATH" property="multiPath"/>
-	    <result column="FILESYS_NAME" property="fileSysName"/>
-	    <result column="IS_THUMBNAIL" property="isThumbnail"/> 
-	  </association>  
+      <result column="FILESYS_NAME" property="fileSysName"/>
+      <result column="IS_THUMBNAIL" property="isThumbnail"/> 
+    </association>  
   </resultMap>
   
   
@@ -45,21 +45,26 @@
   </select>
  
  <insert id="InsertMagazineOne" parameterType="MagazineDto">
+  <selectKey order="BEFORE" keyProperty="magazineNo" resultType="int">
+      SELECT MAGAZINE_SEQ.NEXTVAL
+        FROM DUAL
+    </selectKey>
  	INSERT INTO MAGAZINE_T (
-			MAGAZINE_NO, 
-		  USER_NO, 
-		  TITLE, 
-		  CONTENTS,  
-		  CREATE_AT, 
-		  PRODUCT_NO
-    ) VALUES (
-    		MAGAZINE_SEQ.NEXTVAL,
- 				#{userNo},
- 				#{title},
- 				#{contents},
- 				TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'),
- 				#{productNo}		  
- 		)
+		    MAGAZINE_NO,
+		    USER_NO,
+		    TITLE,
+		    CONTENTS,
+		    CREATE_AT,
+		    PRODUCT_NO
+		) VALUES (
+		    #{magazineNo},
+		    #{userNo},
+		    #{title},
+		    #{contents},
+		    TO_DATE(SYSDATE, 'YYYY-MM-DD HH:MI:SS'),
+		    #{productNo}
+		)
+ 		
  </insert>
  <insert id="insertMagazineMulti" parameterType="MagazineMultiDto" >
  		INSERT INTO MAGAZINE_MULTI_T (
@@ -72,8 +77,23 @@
  				#{multiPath},
  				#{filesystemName},
  		  )
- 
  </insert>
- 
+ <update id="insertMagazineTwo" parameterType="MagazineDto">
+  UPDATE MAGAZINE_T SET SUMMARY= #{summary}  
+   WHERE MAGAZINE_NO = #{magazineNo}
+ </update>
+ <insert id="insertThumbnail" parameterType="MagazineMultiDto">
+    INSERT INTO MAGAZINE_MULTI_T (
+        MAGAZINE_NO, 
+        MULTI_PATH, 
+        FILESYS_NAME, 
+        IS_THUMBNAIL
+      ) VALUES (
+        #{magazineNo}, 
+        #{multiPath},
+        #{filesysName},
+        #{isThumbnail}
+      )  
+ </insert>
 
 </mapper>
