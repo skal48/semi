@@ -94,12 +94,24 @@
                   <tr>
                     <th scope="row">${inq.inquiryNo}</th>
                     <td>${inq.productDto.productNo}</td>
-                    <td >
-                      <a href="${contextPath}/cs/inquiryDetail.do?inquiryNo=${inq.inquiryNo}" class="title">${inq.inquiryTitle}</a>
+                    <td> 
+                      <c:if test="${sessionScope.user.auth == 0 or sessionScope.user.userNo == inq.userDto.userNo}">                      
+                        <a href="${contextPath}/cs/inquiryDetail.do?inquiryNo=${inq.inquiryNo}" class="title">${inq.inquiryTitle}</a>
+                      </c:if>
+                      <c:if test="${sessionScope.user.auth != 0 and sessionScope.user.userNo != inq.userDto.userNo}">                      
+                        <a class="title">${inq.inquiryTitle}</a>
+                      </c:if> 
                     </td>
                     <td>${inq.userDto.name}</td>
-                    <td>${inq.createdAt}</td>
-                    <td></td>
+                    <td><fmt:formatDate value="${inq.createdAt}" pattern="yy/MM/dd" /></td>
+                    <td>
+                      <c:if test="${inq.answerNo != 0}">
+                        <div>답변완료</div>
+                      </c:if>
+                      <c:if test="${inq.answerNo == 0}">
+                        <div>예정</div>
+                      </c:if>
+                    </td>
                   </tr>
                 </c:forEach>
               </tbody>
@@ -140,13 +152,7 @@
 
 <script>
 
-
-  const fnWrite = () => {
-	$('#btn_inquiry_write').click(() => {
-	  location.href = '${contextPath}/cs/addInquiry.form';
-	})
-  }
-  
+  /* 로그인 검사 */
   const fnloginCheck = () => {
     if('${sessionScope.user}' === ''){
    	  if(confirm('로그인 후 이용 가능합니다. 로그인 하시겠습니까?')){
@@ -156,27 +162,57 @@
     }
   }
   
+  /* 작성하기 가능 유무 */
+  const fnWrite = () => {
+	$('#btn_inquiry_write').click(() => {
+	  if('${sessionScope.user}' !== ''){
+		location.href = '${contextPath}/cs/addInquiry.form';
+		return;
+	  }
+	  fnloginCheck();
+	})
+  }
+
+  
+  /* 상세보기 가능 유무 */
   const fnDetail = () => {
 	$('.title').click(() => {
 	  fnloginCheck();
 	})
   }
   
-  
-  fnWrite();
-  //fnDetail();
-
-  /* 로그인 구현되면 사용할 코드*/
-  /* 작성하기 */
-  /*
-  const fnWrite = () => {
-	$('#btn_inquiry_write').click(() => {
-	  fnloginCheck();
-	})
+  /* 문의 작성시 전달되는 데이터 값 */
+  const fnAddResult = () => {
+	let addResult = '${addResult}';
+	if(addResult !== ''){
+	  if(addResult === '1'){
+		alert('문의글이 등록되었습니다.');
+	  } else {
+		alert('문의글이 등록되지 않았습니다.');
+	  }
+	}
   }
   
+  /* 문의 삭제시 전달되는 데이터 값 */
+  const fnRemove = () => {
+	let removeResult = '${removeResult}';
+	if(removeResult !== ''){
+	  if(removeResult === '1'){
+		alert('문의글이 삭제되었습니다.');
+	  } else {
+		alert('문의글이 삭제되지 않았습니다.');
+	  }
+	}
+  }
+  
+  
+  
   fnWrite();
-  */
+  fnDetail();
+  fnAddResult();
+  fnRemove();
+
+
 
 
 </script>
