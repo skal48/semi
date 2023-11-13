@@ -82,6 +82,12 @@ public class InquiryController {
     return "redirect:/cs/inquiryList.do";
   }
   
+  /**
+   * 1:1문의 삭제하기
+   * @param inquiryNo
+   * @param redirectAttributes
+   * @return
+   */
   @PostMapping("/removeInquiry.do")
   public String removeInquiry(@RequestParam(value="inquiryNo") int inquiryNo, RedirectAttributes redirectAttributes) {
     int removeResult = inquiryService.removeInquiry(inquiryNo);

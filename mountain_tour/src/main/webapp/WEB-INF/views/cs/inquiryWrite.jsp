@@ -20,8 +20,7 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
-      <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
+    <div class="col-10" style = "border: 1px gray solid" >
       
       
       <div>
@@ -79,6 +78,7 @@
  
 <script>
 
+  /* 작성 전 로그인 검사 */
   const fnAddInqiury = () => {
 	if('${sessionScope.user}' === ''){
 	  alert('로그인 후 이용 가능합니다.');
@@ -87,33 +87,23 @@
 	}
   }
   
-  
+  /* textarea 공백 체크 */
+  const fnFrmWrite = () => {
+	  $('#frm_write').submit((ev) => {
+	    /* textarea의 현재 내용을 가져와서 체크 */
+	    const contents = $('#contents').val().trim();
+
+	    if (contents.length === 0) {
+	      ev.preventDefault();
+	      alert("문의 내용을 입력하세요.");
+	      $('#contents').focus();
+	      return;
+	    }
+	  });
+	};
+
   fnAddInqiury();
-  
-/* 전역변수 */
-//var contents = $('#contents').val();
-
-/* textarea 공백 체크 */  
-//const fnFrmWrite = () => {
-//$('#frm_write').submit((ev) => {
- /*
- 	/  : 정규표현식의 시작
- 	\s : 공백 또는 탭
- 	|  : or
- 	g  : 문자열의 모든 문자 검색
- 	i  : 대소문자 무시
- */
- /* 만약 공백을 제외한 모든 문자열의 길이가 0이면 서브밋 방지 */
-// if(contents.replace(/\s|　/gi, '').length == 0){
-//	ev.preventDefault();
-//    alert("문의 내용을 입력하세요.");
-//	$('#contents').focus();
-//    return;    
-//   }
-//})
-//}
-
-//fnFrmWrite();
+  fnFrmWrite();
   
 </script>
  

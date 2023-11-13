@@ -20,13 +20,13 @@
     
     <c:if test="${sessionScope.user.state == 0}">
       <div class="text-center">
-        <div class="mb-2">비밀번호 변경</div>
-        <button type="button" id="btn_modify_pw" class="btn btn-danger">비밀번호변경하기</button>
+        <div class="mb-2"></div>
+        <button type="button" id="btn_modify_pw" class="btn btn-success">비밀번호변경하기</button>
       </div>      
       <hr class="my-3">
     </c:if>
     
-    <div class="text-center mb-4">개인정보 변경</div>
+    <div class="text-center mb-4"><h3>개인정보 변경</h3></div>
     <div class="row mb-4">
       <div class="col-sm-3">이메일</div>
       <div class="col-sm-9">${sessionScope.user.email}</div>
@@ -37,7 +37,7 @@
     </div>
     <div class="row mb-2">
       <label for="name" class="col-sm-3 col-form-label">이름</label>
-      <div class="col-sm-9"><input type="text" name="name" value="${sessionScope.user.name}" id="name" class="form-control"></div>
+      <div class="col-sm-9"><input type="text" name="name" value="${sessionScope.user.name}" id="name" class="form-control" readonly></div>
       <div class="col-sm-3"></div>
       <div class="col-sm-9 mb-3" id="msg_name"></div>
     </div>
@@ -165,11 +165,18 @@
     </script>
     
     <hr class="my-3">
-    
+    <script>
+    	function updateUserInfo() {
+    		alert()
+    	}
+    </script>
     <div class="text-center">
       <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
-      <button type="button" id="btn_leave" class="btn btn-dark">회원탈퇴</button>
-      <button type="button" id="btn_modify" class="btn btn-success">개인정보수정</button>
+      <button type="button" id="btn_leave" class="btn btn-success">회원탈퇴</button>
+      <button type="button" id="btn_modify" onclick="updateUserInfo()" class="btn btn-success style="color: white;">
+      <a href="${contextPath}/user/main.form" style="color: inherit;">개인정보수정</button></a>
+      
+      
     </div>
     
   </form>
