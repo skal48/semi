@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class ReserveController {
   
   private final ReserveService reserveService;
+  
 
   // 상품상세에서 요청이 올 때 데이터 받아서 저장하기
   @GetMapping("/write.form")
