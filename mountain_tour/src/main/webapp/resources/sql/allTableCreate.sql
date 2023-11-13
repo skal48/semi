@@ -319,7 +319,12 @@ CREATE TABLE NOTICE_T (
 ); 
 
 --**********************************************************************************
-
+-- 유저 등록
+INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user1@naver.com', STANDARD_HASH('1111', 'SHA256'), '사용자1', 'M', '01011111111', '11111', '디지털로', '가산동', '101동 101호', 0, 0, 1, TO_DATE('20231001', 'YYYYMMDD'), TO_DATE('20220101', 'YYYYMMDD'));
+INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user2@naver.com', STANDARD_HASH('2222', 'SHA256'), '사용자2', 'F', '01022222222', '22222', '디지털로', '가산동', '102동 102호', 0, 0, 1, TO_DATE('20231002', 'YYYYMMDD'), TO_DATE('20220102', 'YYYYMMDD'));
+INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user3@naver.com', STANDARD_HASH('3333', 'SHA256'), '사용자3', 'M', '01033333333', '33333', '디지털로', '가산동', '103동 103호', 0, 0, 1, TO_DATE('20231003', 'YYYYMMDD'), TO_DATE('20220103', 'YYYYMMDD'));
+INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user4@naver.com', STANDARD_HASH('4444', 'SHA256'), '사용자4', 'F', '01044444444', '44444', '디지털로', '가산동', '104동 104호', 0, 0, 1, TO_DATE('20231004', 'YYYYMMDD'), TO_DATE('20220104', 'YYYYMMDD'));
+COMMIT;
 
 
 
