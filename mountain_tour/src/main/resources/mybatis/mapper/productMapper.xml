@@ -16,6 +16,7 @@
     <result  column="REGISTERED_AT"   property="registeredAt"/>
     <result  column="MODIFIED_DATE"   property="modifiedDate"/>
     <result  column="PEOPLE" 		  property="people"/>
+    <result  column="HIT" 		  	  property="hit"/>
     <result  column="PLAN" 		      property="plan"/>
     <result  column="TERM_USE"		  property="termUse"/>
     <association javaType="MountainDto"      property="mountainDto">
@@ -32,42 +33,41 @@
   </resultMap>
 
   <insert id="insertProduct" parameterType="ProductDto">
-   INSERT INTO PRODUCT_T (
-      PRODUCT_NO, 
-      USER_NO, 
-      MOUNTAIN_NO, 
-      TRIP_NAME, 
-      TRIP_CONTENTS, 
-      GUIDE, 
-      TIMETAKEN,
-      PRICE, 
-      DANGER, 
-      REGISTERED_AT, 
-      MODIFIED_DATE, 
-      PEOPLE,
-      HIT,   
-      PLAN,
-      STATUS, 
-      TERM_USE
-   ) VALUES (
-      PRODUCT_SEQ.NEXTVAL, 
-      #{userNo}, 
-      #{mountainNo}, 
-      #{tripName}, 
-      #{tripContents},
-      #{guide}, 
-      #{timetaken},
-      #{price}, 
-      #{danger}, 
-      SYSDATE,
-      SYSDATE, 
-      #{people},
-      #{hit},  
-      #{plan},
-      #{status},  
-      #{termUse}
-   )
-  </insert>
+    <selectKey order="BEFORE" keyProperty="productNo" resultType="int">
+        SELECT PRODUCT_SEQ.NEXTVAL 
+          FROM DUAL
+    </selectKey>
+    INSERT INTO PRODUCT_T (
+        PRODUCT_NO, 
+        USER_NO, 
+        MOUNTAIN_NO, 
+        TRIP_NAME, 
+        TRIP_CONTENTS, 
+        GUIDE, 
+        TIMETAKEN,
+        PRICE, 
+        DANGER, 
+        REGISTERED_AT, 
+        MODIFIED_DATE,    
+        PLAN, 
+        TERM_USE
+    ) VALUES (
+        #{productNo}, 
+        #{userNo}, 
+        #{mountainDto.mountainNo}, 
+        #{tripName}, 
+        #{tripContents},
+        #{guide}, 
+        #{timetaken},
+        #{price}, 
+        #{danger}, 
+        SYSDATE,
+        SYSDATE,   
+        #{plan},  
+        #{termUse}
+    )
+</insert>
+
                                                                                                              
 
   <insert id="insertImage" parameterType="ImageDto">

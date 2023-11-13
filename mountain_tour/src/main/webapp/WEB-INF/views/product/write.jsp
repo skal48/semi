@@ -55,14 +55,7 @@
 			<textarea name="tripContents" id="tripContents"></textarea>
             <div id="toolbar-container"></div>
             <div id="ckeditor"></div>
-    	  </div>
-    	    
-    	  <div class="mb-3">
-    	  <div class="choice">주의사항</div>
-    		<label for="danger" class="form-label"></label>
- 		    <textarea class="form-control" id="danger" name="danger" rows="10"></textarea>
-    	  </div>
-    	 
+    	  </div>   	  
     	  
     	  <div>
     	    <label for="guide" class="form-label">가이드</label>
