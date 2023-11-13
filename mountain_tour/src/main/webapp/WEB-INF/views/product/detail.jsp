@@ -86,39 +86,37 @@
     	  
     	  </div>
 	    <div> 
-	    <div class="row" style="margin-top: 20px;">
+	    <div class="row" style="margin-top: 20px; text-align: center;">
 		    <div class="col">
-		      <div style="display: inline-block; margin: 0px 120px; text-align: center;">
+		      <div style="display: inline-block; margin: 0px 120px;">
 		        <div>성인</div>
 		        <div>23000원</div>
 		    </div>
-		    <table style="margin: 0;">
-			    <tr style="text-align:center;">
-			        <td></td>
+		    <table style="margin:0; text-align:center;">
+			    <tr>
 			        <td class="bseq_ea"></td>
 			        <td>
-			            <div style="margin: 10px 20px;">
+			            <div style="margin: 10px 65px; text-align: center;">
 			                <button type="button" class="btn btn-dark" onclick="fnCalCount('m', this);">-</button>
-			                <input type="text" name="pop_out1" value="0" readonly="readonly" style="text-align:center; width: 200px;" />
+			                <input type="text" name="pop_out1" value="0" readonly="readonly" style="text-align:center; width: 100px;" />
 			                <button type="button" class="btn btn-dark" onclick="fnCalCount('p', this);">+</button>
 			            </div>
 			        </td>
 			    </tr>
 			</table>
 		    </div>
-		    <div class="col">
-		      <div style="display: inline-block; margin: 0px 120px; text-align: center;">
+		    <div class="col" style="text-align: center;">
+		      <div style="display: inline-block; margin: 0px 120px;">
 		        <div>유아</div>
 		        <div>23000원</div>
 		    </div>
 		    <table style="margin: 0;">
-			    <tr style="text-align:center;">
-			        <td></td>
+			    <tr>		       
 			        <td class="bseq_ea"></td>
 			        <td>
-			            <div style="margin: 10px 20px;">
+			            <div style="margin: 10px 65px; text-align: center;">
 			                <button type="button" class="btn btn-dark" onclick="fnCalCount('m', this);">-</button>
-			                <input type="text" name="pop_out2" value="0" readonly="readonly" style="text-align:center; width: 200px;" />
+			                <input type="text" name="pop_out2" value="0" readonly="readonly" style="text-align:center; width: 100px;" />
 			                <button type="button" class="btn btn-dark" onclick="fnCalCount('p', this);">+</button>
 			            </div>
 			        </td>
@@ -131,7 +129,7 @@
 		 
 		
 		<div style="text-align: right;">
-		    <div style="display: inline-block; margin-right: 20px;">
+		    <div style="display: inline-block; margin-right: 20px; font-weight: 1000;">
 		        <div>총 금액</div>
 		        <div>
 		            <div>39,000<span>원</span></div>
@@ -197,7 +195,7 @@
 	    <div style="height: 100px; float: right;">
 	        <select class="form-select form-select-sm mb-3 h-50 d-inline-block" style="width: 120px;" aria-label=".form-select-sm example">
 	            <option value="1" selected>최신순</option>
-	            <option value="2">리뷰순</option>
+	            <option value="2">별점순</option>
 	        </select>
 	    </div>
 	</div>
