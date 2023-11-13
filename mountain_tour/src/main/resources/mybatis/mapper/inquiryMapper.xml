@@ -85,12 +85,12 @@
          , U.USER_NO, U.NAME, U.AUTH
          , PR.PRODUCT_NO, PR.TRIP_NAME
       FROM INQUIRY_T INQ RIGHT OUTER JOIN USER_T U
-        ON U.USER_NO = INQ.USER_NO RIGHT OUTER JOIN PRODUCT_T PR
+        ON U.USER_NO = INQ.USER_NO LEFT OUTER JOIN PRODUCT_T PR
         ON PR.PRODUCT_NO = INQ.PRODUCT_NO
      WHERE INQ.INQUIRY_NO = #{inquiryNo}
   </select>
   
-  <!-- 게시글 추가 -->
+  <!-- 문의글 추가 -->
   <insert id="insertInquiry" parameterType="InquiryDto">
     INSERT INTO INQUIRY_T (
         INQUIRY_NO
@@ -111,6 +111,7 @@
     )
   </insert>
   
+  <!-- 문의글 삭제 -->
   <delete id="deleteInquiry" parameterType="int">
     DELETE 
       FROM INQUIRY_T
