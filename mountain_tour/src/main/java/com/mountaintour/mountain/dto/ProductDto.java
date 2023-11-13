@@ -25,7 +25,6 @@ public class ProductDto {
     private Date modifiedDate;   // 수정일자
     private int people;		     // 인원수
     private int hit;		     // 조회수
-    private String thumbnail;    // 썸네일
     private String plan;         // 여행일정
     private int status;		
     private String termUse;      // 이용약관

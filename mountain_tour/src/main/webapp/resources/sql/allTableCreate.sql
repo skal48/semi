@@ -120,36 +120,35 @@ CREATE TABLE MOUNTAIN_T (
 
 -- 여행지(상품) 테이블
 CREATE TABLE PRODUCT_T(
-	PRODUCT_NO	  NUMBER		      NOT NULL,  -- 상품 번호 
-	USER_NO	      NUMBER		      NOT NULL,  -- 작성자(관리자) 번호
-    MOUNTAIN_NO   NUMBER              NOT NULL,  -- 산 번호
-	TRIP_NAME	  VARCHAR2(150 BYTE)  NOT NULL,  -- 여행이름(제목)
-	TRIP_CONTENTS CLOB		          NULL,      -- 여행내용(설명)
-	GUIDE	      VARCHAR2(100 BYTE)  NULL,      -- 가이드 정보
-	TIMETAKEN	  VARCHAR2(100 BYTE)  NULL,      -- 여행일정(소요시간 ex 당일)
-	PRIZE	      NUMBER		      NULL,      -- 가격
-	DANGER	      VARCHAR2(500 BYTE)  NULL,      -- 주의사항
-	REGISTERED_AT DATE		          NULL,      -- 등록일
-    MODIFIED_DATE DATE                NULL,      -- 수정일
-	PEOPLE	      NUMBER		      NULL,      -- 최대인원수
-	HIT	          NUMBER		      NULL,      -- 조회수
-	THUMBNAIL	  VARCHAR2(100 BYTE)  NULL,      -- 썸네일이미지
-	PLAN	      VARCHAR2(255 BYTE)  NULL,      -- 여행계획
-	STATUS	      NUMBER	          NULL,      -- 상품상태 (예약가능:0, 예약불가:1)
-    TERM_USE      VARCHAR2(500 BYTE)  NOT NULL,  -- 이용약관 (동의체크X, 약관내용을 DB에 저장해놓는 용도)
-    CONSTRAINT PK_PRODUCT PRIMARY KEY(PRODUCT_NO),
-    CONSTRAINT FK_USER_PRODUCT FOREIGN KEY(USER_NO) REFERENCES USER_T(USER_NO) ON DELETE CASCADE,
-    CONSTRAINT FK_MOUNTAIN_PRODUCT FOREIGN KEY(MOUNTAIN_NO) REFERENCES MOUNTAIN_T(MOUNTAIN_NO) ON DELETE SET NULL
+   PRODUCT_NO     NUMBER             NOT NULL,  -- 상품 번호 
+   USER_NO        NUMBER             NOT NULL,  -- 작성자(관리자) 번호
+   MOUNTAIN_NO   NUMBER              NOT NULL,  -- 산 번호
+   TRIP_NAME      VARCHAR2(255 BYTE) NOT NULL,  -- 여행이름(제목)
+   TRIP_CONTENTS  CLOB               NULL,      -- 여행내용(설명)
+   GUIDE          VARCHAR2(100 BYTE) NULL,      -- 가이드 정보
+   TIMETAKEN      VARCHAR2(100 BYTE) NULL,      -- 여행일정(소요시간 ex 당일)
+   PRICE          NUMBER             NULL,      -- 가격
+   DANGER         VARCHAR2(500 BYTE) NULL,      -- 주의사항
+   REGISTERED_AT  DATE               NULL,      -- 등록일
+   MODIFIED_DATE DATE                NULL,      -- 수정일
+   PEOPLE         NUMBER             NULL,      -- 최대인원수
+   HIT            NUMBER             NULL,      -- 조회수
+   PLAN           VARCHAR2(255 BYTE) NULL,      -- 여행계획
+   STATUS         NUMBER             NULL,      -- 상품상태 (예약가능:0, 예약불가:1)
+   TERM_USE      VARCHAR2(500 BYTE) NULL,  -- 이용약관 (동의체크X, 약관내용을 DB에 저장해놓는 용도)
+   CONSTRAINT PK_PRODUCT PRIMARY KEY(PRODUCT_NO),
+   CONSTRAINT FK_USER_PRODUCT     FOREIGN KEY(USER_NO)     REFERENCES USER_T(USER_NO)         ON DELETE CASCADE,
+   CONSTRAINT FK_MOUNTAIN_PRODUCT FOREIGN KEY(MOUNTAIN_NO) REFERENCES MOUNTAIN_T(MOUNTAIN_NO) ON DELETE SET NULL
 );
+
 
 
 -- 상품사진첨부 테이블      
 CREATE TABLE IMAGE_T(
-    IMAGE_NO          NUMBER              NOT NULL,  -- 첨부 사진 번호
     IMAGE_PATH        VARCHAR2(300 BYTE)  NOT NULL,  -- 첨부 사진 경로
     FILESYSTEM_NAME   VARCHAR2(300 BYTE)  NOT NULL,  -- 저장 파일명
+    THUMBNAIL         NUMBER,                        -- 썸네일이미지
     PRODUCT_NO        NUMBER              NOT NULL,  -- 상품 번호
-    CONSTRAINT PK_IMAGE PRIMARY KEY(IMAGE_NO),
     CONSTRAINT FK_PRODUCT_IMAGE FOREIGN KEY(PRODUCT_NO) REFERENCES PRODUCT_T(PRODUCT_NO) ON DELETE CASCADE
 );
 
@@ -157,7 +156,7 @@ CREATE TABLE IMAGE_T(
 CREATE TABLE HEART_T ( 
 	USER_NO	   NUMBER  NOT NULL,  -- 회원 번호
 	PRODUCT_NO NUMBER  NOT NULL,  -- 상품 번호
-    CONSTRAINT FK_USER_HEART FOREIGN KEY(USER_NO) REFERENCES USER_T(USER_NO) ON DELETE CASCADE,
+    CONSTRAINT FK_USER_HEART    FOREIGN KEY(USER_NO)    REFERENCES USER_T(USER_NO)       ON DELETE CASCADE,
     CONSTRAINT FK_PRODUCT_HEART FOREIGN KEY(PRODUCT_NO) REFERENCES PRODUCT_T(PRODUCT_NO) ON DELETE SET NULL
 );
 
@@ -268,14 +267,13 @@ CREATE TABLE REVIEW_T (
 
 -- 문의하기 테이블
 CREATE TABLE INQUIRY_T (
-    INQUIRY_NO       NUMBER             NOT NULL,   -- 문의번호         (PK)
-    USER_NO          NUMBER             NOT NULL,   -- 회원번호(작성자) (FK)
-    PRODUCT_NO       NUMBER             NULL,       -- 상품번호         (FK)
-    INQUIRY_TITLE    VARCHAR2(100 BYTE) NULL,       -- 제목
-    INQUIRY_CONTENTS CLOB               NULL,       -- 내용
-    IP               VARCHAR2(30 BYTE)  NULL,       -- IP주소
-    HIT              NUMBER             DEFAULT 0,  -- 조회수(디폴트 0)
-    CREATED_AT       DATE               NULL,       -- 작성일
+    INQUIRY_NO       NUMBER             NOT NULL,           -- 문의번호         (PK)
+    USER_NO          NUMBER             NOT NULL,           -- 회원번호(작성자) (FK)
+    PRODUCT_NO       NUMBER             NULL,               -- 상품번호         (FK)
+    INQUIRY_TITLE    VARCHAR2(100 BYTE) NULL,               -- 제목
+    INQUIRY_CONTENTS CLOB               NULL,               -- 내용
+    IP               VARCHAR2(30 BYTE)  NULL,               -- IP주소
+    CREATED_AT       DATE               NULL,               -- 작성일
     CONSTRAINT PK_INQUIRY PRIMARY KEY(INQUIRY_NO),
     CONSTRAINT FK_USER_INQUIRY FOREIGN KEY(USER_NO) REFERENCES USER_T(USER_NO) ON DELETE CASCADE,
     CONSTRAINT FK_PRODUCT_INQUIRY FOREIGN KEY(PRODUCT_NO) REFERENCES PRODUCT_T(PRODUCT_NO) ON DELETE SET NULL
@@ -288,7 +286,6 @@ CREATE TABLE INQUIRY_ANSWER_T (
     INQUIRY_NO  NUMBER             NULL,       -- 문의번호           (FK)
     USER_NO     NUMBER             NULL,       -- 작성자(관리자)번호 (FK)
     CONTENTS    CLOB               NULL,       -- 내용
-    HIT         NUMBER             DEFAULT 0,  -- 조회수(디폴트 0)
     CREATED_AT  DATE               NULL,       -- 작성일
     MODIFIED_AT DATE               NULL,       -- 수정일
     CONSTRAINT PK_ANSWER PRIMARY KEY(ANSWER_NO),
@@ -296,9 +293,10 @@ CREATE TABLE INQUIRY_ANSWER_T (
     CONSTRAINT FK_USER_ANSWER FOREIGN KEY(USER_NO) REFERENCES USER_T(USER_NO) ON DELETE SET NULL
 );
 
+
 -- 자주묻는질문 테이블
 CREATE TABLE FAQ_T (
-    FAQ_NO      NUMBER             NOT NULL,   -- 글번호  (PK)
+    FAQ_NO      NUMBER             NOT NULL,   -- 글번호 (PK)
     TITLE       VARCHAR2(100 BYTE) NULL,       -- 제목
     CONTENTS    CLOB               NULL,       -- 내용
     CREATED_AT  DATE               NULL,       -- 작성일
@@ -321,13 +319,20 @@ CREATE TABLE NOTICE_T (
 ); 
 
 --**********************************************************************************
--- 유저 등록
+-- 테스트 정보 등록
+
+
+-- 관리자 삽입
+INSERT INTO USER_T (USER_NO, EMAIL, PW, NAME, AGREE, AUTH) VALUES(USER_SEQ.NEXTVAL, 'admin', STANDARD_HASH('1', 'SHA256'), '관리자admin', 0, 0);
+INSERT INTO USER_T (USER_NO, EMAIL, PW, NAME, AGREE, AUTH) VALUES(USER_SEQ.NEXTVAL, 'master', STANDARD_HASH('1', 'SHA256'), '관리자master', 0, 0);
+COMMIT;
+
+-- 회원 삽입
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user1@naver.com', STANDARD_HASH('1111', 'SHA256'), '사용자1', 'M', '01011111111', '11111', '디지털로', '가산동', '101동 101호', 0, 0, 1, TO_DATE('20231001', 'YYYYMMDD'), TO_DATE('20220101', 'YYYYMMDD'));
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user2@naver.com', STANDARD_HASH('2222', 'SHA256'), '사용자2', 'F', '01022222222', '22222', '디지털로', '가산동', '102동 102호', 0, 0, 1, TO_DATE('20231002', 'YYYYMMDD'), TO_DATE('20220102', 'YYYYMMDD'));
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user3@naver.com', STANDARD_HASH('3333', 'SHA256'), '사용자3', 'M', '01033333333', '33333', '디지털로', '가산동', '103동 103호', 0, 0, 1, TO_DATE('20231003', 'YYYYMMDD'), TO_DATE('20220103', 'YYYYMMDD'));
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user4@naver.com', STANDARD_HASH('4444', 'SHA256'), '사용자4', 'F', '01044444444', '44444', '디지털로', '가산동', '104동 104호', 0, 0, 1, TO_DATE('20231004', 'YYYYMMDD'), TO_DATE('20220104', 'YYYYMMDD'));
 COMMIT;
-
 
 
 

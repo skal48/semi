@@ -3,43 +3,49 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
- <mapper namespace="com.mountaintour.mountain.dao.productMapper">
+ <mapper namespace="com.mountaintour.mountain.dao.ProductMapper">
   
   <insert id="insertProduct" parameterType="ProductDto">
-  	INSERT INTO PRODUCT_T (
-  			PRODUCT_NO, 
-  			USER_NO, 
-  			MOUNTAIN_NO, 
-  			TRIP_NAME, 
-  			TRIP_CONTENTS, 
-  			GUIDE, 
-  			TIMETAKEN,
-            PRIZE, 
-            DANGER, 
-            REGISTERED_AT, 
-            MODIFIED_DATE, 
-            PEOPLE,  
-            THUMBNAIL, 
-            PLAN, 
-            TERM_USE
-        	) VALUES (
-        	#{productNo}, 
-        	#{userNo}, 
-        	#{mountainNo}, 
-        	#{tripName}, 
-        	#{tripContents},
-            #{guide}, 
-            #{timeTaken},
-            #{prize}, 
-            #{danger}, 
-            #{registeredAt}, 
-            #{modifiedDate}, 
-            #{people},  
-            #{thumbnail}, 
-            #{plan},  
-            #{termUse}
-      )
-  </insert>                                                                                                                  
+   INSERT INTO PRODUCT_T (
+      PRODUCT_NO, 
+      USER_NO, 
+      MOUNTAIN_NO,  
+      TRIP_NAME, 
+      TRIP_CONTENTS,   
+      REGISTERED_AT, 
+      MODIFIED_DATE,   
+      PLAN
+   ) VALUES (
+      PRODUCT_SEQ.NEXTVAL, 
+      #{userNo}, 
+      #{mountainNo}, 
+      #{tripName},
+      #{tripContents}, 
+      SYSDATE,   
+      SYSDATE, 
+      #{plan}  
+   )
+</insert>
+                                                                                                             
+
+  <insert id="insertImage" parameterType="ImageDto">
+    INSERT INTO IMAGE_T (
+        IMAGE_PATH
+      , FILESYSTEM_NAME
+      , THUMBNAIL
+      , PRODUCT_NO
+    ) VALUES (
+        #{imagePath}
+      , #{filesystemName}
+      , #{thumbnail}
+      , #{productNo}
+    )
+  </insert>
+
+  <select id="getProductNo" resultType="ProductDto">
+  	SELECT PRODUCT_NO
+      FROM PRODUCT_T
+  </select>
 
   <select id="getProduct" parameterType="int" resultType="ProductDto">
     SELECT PRODUCT_NO, USER_NO, MOUNTAIN_NO, TRIP_NAME, TRIP_CONTENTS, GUIDE, TIMETAKEN,PRIZE, DANGER, REGISTERED_AT, MODIFIED_DATE, PEOPLE,  THUMBNAIL, PLAN, TERM_USE

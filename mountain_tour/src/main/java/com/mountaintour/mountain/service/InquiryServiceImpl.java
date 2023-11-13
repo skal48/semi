@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.mountaintour.mountain.dao.InquiryAnswerMapper;
@@ -93,17 +94,20 @@ public class InquiryServiceImpl implements InquiryService {
     return inquiryMapper.getInquiry(inquiryNo);
   }
   
+  /**
+   * 문의글 추가하기
+   */
   @Override
   public int addInquiry(HttpServletRequest request) {
     
     String inquiryTitle = request.getParameter("inquiryTitle");
-    String inauiryContents = request.getParameter("inauiryContents");
+    String inquiryContents = request.getParameter("inquiryContents");
     String ip = request.getRemoteAddr();
     int userNo = Integer.parseInt(request.getParameter("userNo"));
     
     InquiryDto inquiry = InquiryDto.builder()
                           .inquiryTitle(inquiryTitle)
-                          .inauiryContents(inauiryContents)
+                          .inquiryContents(inquiryContents)
                           .ip(ip)
                           .userDto(UserDto.builder()
                                     .userNo(userNo)
@@ -114,6 +118,13 @@ public class InquiryServiceImpl implements InquiryService {
     return addResult;
   }
   
+  /**
+   * 문의글 삭제하기
+   */
+  @Override
+  public int removeInquiry(int inquiryNo) {
+    return inquiryMapper.deleteInquiry(inquiryNo);
+  }
   
 }
 

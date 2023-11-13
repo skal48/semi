@@ -41,15 +41,24 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td id="resSche">??</td> 
-              <td id="prodName">??</td>
-              <td id="totalPrice">??</td>
-              <td id="personCnt">??</td>
-              <td id="trvlSche">??</td>
-              <td id="resStatus">??</td>
-            </tr>
+            <c:forEach items="${reserveList}" var="res" varStatus="vs">
+              <tr>
+                <td id="resSche">
+                  <a href="${contextPath}/reserve/detail.do?reserveNo=${res.reserveNo}">${res.reserveDate} / ${res.reserveNo}</a>
+                </td> 
+                <td id="prodName">${res.productDto.tripName}</td>
+                <td id="totalPrice">??</td>
+                <td id="personCnt">${res.reservePerson}</td>
+                <td id="trvlSche">${res.reserveStart} / ${res.reserveFinish}</td>
+                <td id="resStatus">${res.reserveStatus}</td>
+              </tr>
+            </c:forEach>
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="6">${paging}</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
       <hr>
