@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 
 import com.mountaintour.mountain.dao.InquiryAnswerMapper;
 import com.mountaintour.mountain.dao.InquiryMapper;
+import com.mountaintour.mountain.dto.InquiryAnswerDto;
 import com.mountaintour.mountain.dto.InquiryDto;
 import com.mountaintour.mountain.dto.UserDto;
 import com.mountaintour.mountain.util.MyPageUtils;
@@ -125,6 +126,69 @@ public class InquiryServiceImpl implements InquiryService {
   public int removeInquiry(int inquiryNo) {
     return inquiryMapper.deleteInquiry(inquiryNo);
   }
+  
+  /**
+   * 답변 작성하기
+   */
+  @Override
+  public int addAnswer(HttpServletRequest request) {
+    
+    int inquiryNo = Integer.parseInt(request.getParameter("inquiryNo"));
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    String contents = request.getParameter("contents");
+    
+    InquiryAnswerDto answer = InquiryAnswerDto.builder()
+                                .inquiryDto(InquiryDto.builder()
+                                              .inquiryNo(inquiryNo)
+                                              .build())
+                                .userDto(UserDto.builder()
+                                            .userNo(userNo)
+                                            .build())
+                                .contents(contents)
+                                .build();
+    
+    int addAnswerResult = inquiryAnswerMapper.insertAnswer(answer);
+    return addAnswerResult;
+  }
+  
+  /**
+   * 답변 상세
+   */
+  @Override
+  public InquiryAnswerDto getAnswer(int inquiryNo) {
+    return inquiryAnswerMapper.getAnswer(inquiryNo);
+  }
+  
+  /**
+   * 답변 수정
+   */
+  @Override
+  public int modifyAnswer(HttpServletRequest request) {
+    String contents = request.getParameter("contents");
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    int answerNo = Integer.parseInt(request.getParameter("answerNo"));
+    
+    InquiryAnswerDto inquiryAnswer = InquiryAnswerDto.builder()
+                                        .contents(contents)
+                                        .userDto(UserDto.builder()
+                                                  .userNo(userNo)
+                                                  .build())
+                                        .answerNo(answerNo)
+                                        .build();
+    int modifyAnswerResult = inquiryAnswerMapper.updateAnswer(inquiryAnswer);
+    return modifyAnswerResult;
+  }
+  
+  /**
+   * 답변 삭제
+   */
+  @Override
+  public int removeAnswer(HttpServletRequest request) {
+    int answerNo = Integer.parseInt(request.getParameter("answerNo"));
+    return inquiryAnswerMapper.deleteAnswer(answerNo);
+  }
+  
+  
   
 }
 

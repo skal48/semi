@@ -210,7 +210,7 @@
   fnWrite();
   fnDetail();
   fnAddResult();
-  
+  fnRemove();
 
 
 
