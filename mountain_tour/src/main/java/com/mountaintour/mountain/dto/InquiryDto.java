@@ -19,6 +19,7 @@ public class InquiryDto {
   private String ip;
   private int hit;
   private Date createdAt;
+  private int answerNo;
   private UserDto userDto;       // int userNo
   private ProductDto productDto; // int productNo
 

@@ -94,12 +94,27 @@
                   <tr>
                     <th scope="row">${inq.inquiryNo}</th>
                     <td>${inq.productDto.productNo}</td>
-                    <td >
-                      <a href="${contextPath}/cs/inquiryDetail.do?inquiryNo=${inq.inquiryNo}" class="title">${inq.inquiryTitle}</a>
+                    <td> 
+                        <a href="${contextPath}/cs/inquiryDetail.do?inquiryNo=${inq.inquiryNo}" class="title">${inq.inquiryTitle}</a>
+                        <%--
+                      <c:if test="${sessionScope.user.auth == 0 or sessionScope.user.userNo == inq.userDto.userNo}">                      
+                        <a href="${contextPath}/cs/inquiryDetail.do?inquiryNo=${inq.inquiryNo}" class="title">${inq.inquiryTitle}</a>
+                      </c:if>
+                      <c:if test="${sessionScope.user.auth != 0 and sessionScope.user.userNo != inq.userDto.userNo}">                      
+                        <a class="title">${inq.inquiryTitle}</a>
+                      </c:if> 
+                      --%>
                     </td>
                     <td>${inq.userDto.name}</td>
                     <td>${inq.createdAt}</td>
-                    <td></td>
+                    <td>
+                      <c:if test="${inq.answerNo != 0}">
+                        <div>답변완료</div>
+                      </c:if>
+                      <c:if test="${inq.answerNo == 0}">
+                        <div>예정</div>
+                      </c:if>
+                    </td>
                   </tr>
                 </c:forEach>
               </tbody>
