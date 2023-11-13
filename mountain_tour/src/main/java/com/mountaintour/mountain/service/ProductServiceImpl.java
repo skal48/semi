@@ -1,7 +1,6 @@
 package com.mountaintour.mountain.service;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +22,6 @@ import com.mountaintour.mountain.dto.ProductDto;
 import com.mountaintour.mountain.util.MyFileUtils;
 
 import lombok.RequiredArgsConstructor;
-import net.coobird.thumbnailator.Thumbnails;
 
 @RequiredArgsConstructor
 @Service
@@ -71,6 +69,10 @@ public class ProductServiceImpl implements ProductService {
 		
 		String tripName = request.getParameter("tripName");
   	    String tripContents = request.getParameter("tripContents");
+  	    int mountainNo = 1;
+  	    //int prize = Integer.parseInt(request.getParameter("prize"));
+  	    String plan = request.getParameter("plan");
+  	    
 	    int userNo;
 	    
 	    try {
@@ -81,9 +83,12 @@ public class ProductServiceImpl implements ProductService {
 	    }
 	    // ProductDto 생성
 	    ProductDto product = ProductDto.builder()
+	    			    .userNo(userNo)
+	    			    .mountainNo(mountainNo)
 	                    .tripName(tripName)
 	                    .tripContents(tripContents)
-	                    .userNo(userNo) 
+	                    //.prize(prize)
+	                    .plan(plan)
 	                    .build();
 	    
 

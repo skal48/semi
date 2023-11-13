@@ -3,43 +3,27 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
- <mapper namespace="com.mountaintour.mountain.dao.productMapper">
+ <mapper namespace="com.mountaintour.mountain.dao.ProductMapper">
   
   <insert id="insertProduct" parameterType="ProductDto">
    INSERT INTO PRODUCT_T (
       PRODUCT_NO, 
       USER_NO, 
-      MOUNTAIN_NO, 
+      MOUNTAIN_NO,  
       TRIP_NAME, 
-      TRIP_CONTENTS, 
-      GUIDE, 
-      TIMETAKEN,
-      PRIZE, 
-      DANGER, 
+      TRIP_CONTENTS,   
       REGISTERED_AT, 
-      MODIFIED_DATE, 
-      PEOPLE,
-      HIT,   
-      PLAN,
-      STATUS, 
-      TERM_USE
+      MODIFIED_DATE,   
+      PLAN
    ) VALUES (
       PRODUCT_SEQ.NEXTVAL, 
       #{userNo}, 
       #{mountainNo}, 
-      #{tripName}, 
-      #{tripContents},
-      #{guide}, 
-      #{timetaken},
-      #{prize}, 
-      #{danger}, 
-      SYSDATE,  
-      SYSDATE,  
-      #{people},
-      #{hit},  
-      COALESCE(#{plan}, 'DEFAULT_PLAN'),
-      #{status},  
-      #{termUse}
+      #{tripName},
+      #{tripContents}, 
+      SYSDATE,   
+      SYSDATE, 
+      #{plan}  
    )
 </insert>
                                                                                                              
