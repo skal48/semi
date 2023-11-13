@@ -5,10 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <c:set var="dt" value="<%=System.currentTimeMillis() %>"/>
-<style>
-	
-	
-</style>
+
 <jsp:include page="../layout/header.jsp">
   <jsp:param value="마운틴투어" name="title"/>
 </jsp:include>
@@ -45,8 +42,10 @@
       </form>
       
       <ul class="sub_menu">
-      	<li><a href="${contextPath}/user/agree.form">회원이 아니세요?</a>
+      	<li><a href="${contextPath}/user/agree.form">회원이 아니세요?
       	<button type="button" class="btn btn-primary">회원가입</button>
+      	</a>
+      	
       	<li><a href="${contextPath}">아이디/비밀번호 찾기</a>
       	</ul>
       	

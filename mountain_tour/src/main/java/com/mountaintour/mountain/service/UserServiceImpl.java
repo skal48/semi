@@ -60,6 +60,20 @@ public class UserServiceImpl implements UserService {
     
   }
 
+  @Override
+	public void logout(HttpServletRequest request, HttpServletResponse response) {
+		
+	  HttpSession session = request.getSession();
+	  
+	  session.invalidate();
+	  
+	  try {
+		  response.sendRedirect(request.getContextPath() + "/main.do");
+	  } catch (Exception e) {
+		  e.printStackTrace();
+	  }
+		
+	}
 }
 
 

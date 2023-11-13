@@ -35,4 +35,14 @@ public class UserController {
 	public void login(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		userService.login(request, response);
 	}
+	
+	@GetMapping("/logout.do")
+	public void logout(HttpServletRequest request, HttpServletResponse response) {
+		userService.logout(request, response);
+	}
+	
+	@GetMapping("/agree.form")
+	public String agreeFrom() {
+		return "user/agree";
+	}
 }

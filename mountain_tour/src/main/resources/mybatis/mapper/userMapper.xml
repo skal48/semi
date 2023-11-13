@@ -15,4 +15,14 @@
     </where>
   </select>
 
+	<insert id="insertAccess" parameterType="String">
+	INSERT INTO ACCESS_T (
+		EMAIL
+	  , LOGIN_AT
+	  ) VALUES (
+	  	#{email}
+	  , SYSDATE
+	  )
+	</insert>
+
 </mapper>
