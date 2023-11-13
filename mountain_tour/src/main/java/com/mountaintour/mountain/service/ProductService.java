@@ -11,4 +11,5 @@ public interface ProductService {
   public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest);
   public int addProduct(HttpServletRequest request);
   public List<String> getEditorImageList(String contents);
+  public Map<String, Object> getProductList(HttpServletRequest request);
 }

@@ -46,7 +46,12 @@ public class ProductController {
     return productService.imageUpload(multipartRequest);
   }
   
- 
+  @ResponseBody
+  @GetMapping(value="/getList.do", produces="application/json")
+  public Map<String, Object> getList(HttpServletRequest request){
+	System.out.println("오냐????");
+    return productService.getProductList(request);
+  }
   
   
   

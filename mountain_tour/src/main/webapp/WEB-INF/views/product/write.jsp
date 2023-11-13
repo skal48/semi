@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 2500px" >
+    <div class="col-10" style = "border: 1px gray solid; height: 3000px" >
       <!--  여기다가 작성  다 작성하고 height 지우기!!!! -->
       
 	  
@@ -37,8 +37,8 @@
 	      </div>
     	  <div style = "text-align: right;">
     	  <div>
-	        <label for="prize" class="form-label">가격</label>
-	        <input type="text" name="prize" id="prize" class="form-control">
+	        <label for="price" class="form-label">가격</label>
+	        <input type="text" name="price" id="price" class="form-control">
 	      </div>
 	      </div>
 
@@ -55,8 +55,30 @@
 			<textarea name="tripContents" id="tripContents"></textarea>
             <div id="toolbar-container"></div>
             <div id="ckeditor"></div>
+    	  </div>   	  
+    	  
+    	  <div>
+    	    <label for="guide" class="form-label">가이드</label>
+	        <input type="text" name="guide" id="guide" class="form-control">
     	  </div>
-    	    
+    	  
+    	  <div>
+    	  	<label for="timetaken" class="form-label">소요시간</label>
+	        <input type="text" name="timetaken" id="timetaken" class="form-control">
+    	  </div>
+    	  
+    	  <div class="mb-3">
+    	  <div class="choice">주의사항</div>
+    		<label for="danger" class="form-label"></label>
+ 		    <textarea class="form-control" id="danger" name="danger" rows="10"></textarea>
+    	  </div>
+    	  
+    	  <div class="mb-3">
+    	  <div class="choice">약관/정보</div>
+    		<label for="termUse" class="form-label"></label>
+ 		    <textarea class="form-control" id="termUse" name="termUse" rows="10"></textarea>
+    	  </div>
+    	  
     	  
     	  
     	</div>   	   
@@ -124,12 +146,12 @@
       
       const fnProductAdd = () => {
     	  $('#frm_product_add').submit((ev) => {
-          if($('#title').val() === ''){
+          if($('#tripName').val() === ''){
             alert('제목은 반드시 입력해야 합니다.');
             ev.preventDefault();
             return;
           }
-    		  $('#contents').val($('#ckeditor').html());
+    		  $('#tripContents').val($('#ckeditor').html());
     	  })
       }
       
