@@ -71,9 +71,14 @@ public class ProductServiceImpl implements ProductService {
 		
 		String tripName = request.getParameter("tripName");
   	    String tripContents = request.getParameter("tripContents");
-	    int userNo = Integer.parseInt(request.getParameter("userNo"));
-
+	    int userNo;
 	    
+	    try {
+	        userNo = Integer.parseInt(request.getParameter("userNo"));
+	    } catch (NumberFormatException e) {
+	        // userNo가 숫자로 변환할 수 없을 때의 처리
+	        userNo = 0; // 또는 다른 기본값 설정
+	    }
 	    // ProductDto 생성
 	    ProductDto product = ProductDto.builder()
 	                    .tripName(tripName)

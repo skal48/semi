@@ -6,7 +6,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="마운틴투어상품게시글작성" name="title"/>
+  <jsp:param value="${product.productNo}번 상품" name="title"/>
 </jsp:include>
 <html>
 <head>
@@ -39,7 +39,7 @@
 			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
 		  </div>
     	  <hr>
-    	  <div style = "text-align: left;">[당일] 월간영월 12월 주천강 둘레길 트레킹 (강원/영월)</div>
+    	  <div style = "text-align: left;"><input type="hidden" name="title" value="${product.title}"></div>
     	  <div style = "text-align: right;">69,000<span class="css-5aoa4c">원</span></div>
     	 <div style="text-align: left;">
 			 <span class="badge text-bg-success">단순코스</span>

@@ -23,8 +23,8 @@
       
 	  
 	 <div class="row">
-	    <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
-    	<div class="col-8" style="margin-top: 30px; margin-bottom: 30px;">
+    	<div class="col-8"  style="margin-top: 30px; margin-bottom: 30px;">
+	    <form method="post" id="frm_product_add" action="${contextPath}/product/add.do" enctype="multipart/form-data">
     	  <div class="text-center">
 			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
 		  </div>
@@ -57,10 +57,11 @@
             <div id="ckeditor"></div>
     	  </div>
     	    
-    	  
+    	  </form>
     	  
     	</div>   	   
     	<div class="col-4"> <!-- style="border-left: 2px solid gray;" -->
+    	<form method="post" id="frm_product_add" action="${contextPath}/product/add.do" enctype="multipart/form-data">
        <div>
 	   <div style="position: sticky; top: 80px;">
 	   <div><div>
@@ -88,17 +89,17 @@
 	   </div>
 	   </div>
 	  </div>
-    	</div>  	
     	</form>
+    	</div>  	
   	  </div>
 
     </div>
-	  
+	  <form method="post" id="frm_product_add" action="${contextPath}/product/add.do" enctype="multipart/form-data">
 	    <div class="d-grid gap-2 col-6 mx-auto">
 	      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
 	      <button type="submit" class="btn btn-primary" style="margin: 32px;">작성완료</button>
 	    </div>
-
+	  </form>
     </div>
     <div class="col-1">
     </div>
@@ -114,7 +115,7 @@
           .create(document.getElementById('ckeditor'), {
         	  ckfinder: {
               // 이미지 업로드 경로
-              uploadUrl: '${contextPath}/blog/imageUpload.do'    		  
+              uploadUrl: '${contextPath}/product/imageUpload.do'    		  
         		}
       	  })
           .then(editor => {
@@ -126,13 +127,22 @@
           });
       }
       
-      
+      const fnProductAdd = () => {
+    	  $('#frm_product_add').submit((ev) => {
+          if($('#title').val() === ''){
+            alert('제목은 반드시 입력해야 합니다.');
+            ev.preventDefault();
+            return;
+          }
+    		  $('#contents').val($('#ckeditor').html());
+    	  })
+      }
       
       
       
       
       fnCkeditor();
-      
+      fnProductAdd();
       
       
       
