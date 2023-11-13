@@ -69,10 +69,23 @@ public class InquiryController {
     return "cs/inquiryWrite";
   }
   
+  /**
+   * 1:1문의 작성하기
+   * @param request
+   * @param redirectAttributes
+   * @return
+   */
   @PostMapping("/addInquiry.do")
   public String addInquiry(HttpServletRequest request, RedirectAttributes redirectAttributes) {
     int addResult = inquiryService.addInquiry(request);
     redirectAttributes.addFlashAttribute("addResult", addResult);
+    return "redirect:/cs/inquiryList.do";
+  }
+  
+  @PostMapping("/removeInquiry.do")
+  public String removeInquiry(@RequestParam(value="inquiryNo") int inquiryNo, RedirectAttributes redirectAttributes) {
+    int removeResult = inquiryService.removeInquiry(inquiryNo);
+    redirectAttributes.addFlashAttribute("removeResult", removeResult);
     return "redirect:/cs/inquiryList.do";
   }
   

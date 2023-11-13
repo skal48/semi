@@ -19,5 +19,8 @@ public interface InquiryService {
   
   // Insert
   public int addInquiry(HttpServletRequest request);
+  
+  // Delete
+  public int removeInquiry(int inquiryNo);
 
 }
