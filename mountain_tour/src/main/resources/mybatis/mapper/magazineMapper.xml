@@ -15,25 +15,109 @@
     <result column="HIT" property="hit"/>
     <result column="PRODUCT_NO" property="productNo"/>
     <association javaType="MagazineMultiDto" property="magazineMultiDto">
+      <id     column="MAGAZINE_NO" property="magazineNo" />
       <result column="MULTI_PATH" property="multiPath"/>
-	    <result column="FILESYS_NAME" property="fileSysName"/>
-	    <result column="IS_THUMBNAIL" property="isThumbnail"/> 
-	  </association>  
+      <result column="FILESYS_NAME" property="filesysName"/>
+      <result column="IS_THUMBNAIL" property="isThumbnail"/> 
+    </association>  
   </resultMap>
   
   
   
-  <select id="MagazineList" resultMap="MagazineMap">
-    SELECT M.TITLE, MM.FILESYS_NAME, M.SUMMARY
-		  FROM MAGAZINE_T M RIGHT OUTER JOIN MAGAZINE_MULTI_T MM
-		    ON M.MAGAZINE_NO = MM.MAGAZINE_NO
-		 WHERE M.MAGAZINE_NO = ( SELECT MAX(MAGAZINE_NO) FROM MAGAZINE_T) AND MM.IS_THUMBNAIL = 1;  
+  <select id="magazineList" parameterType="Map" resultMap="MagazineMap">
+   SELECT MAGAZINE_NO, TITLE, MULTI_PATH, FILESYS_NAME, SUMMARY, IS_THUMBNAIL, HIT, CREATE_AT
+  	 FROM (SELECT ROW_NUMBER() OVER(ORDER BY M.MAGAZINE_NO DESC) AS RN, 
+           M.MAGAZINE_NO, M.TITLE, MM.MULTI_PATH, MM.FILESYS_NAME, M.SUMMARY, MM.IS_THUMBNAIL, M.HIT, M.CREATE_AT
+           FROM MAGAZINE_T M LEFT OUTER JOIN MAGAZINE_MULTI_T MM
+             ON M.MAGAZINE_NO = MM.MAGAZINE_NO)
+    WHERE IS_THUMBNAIL = 1 AND RN BETWEEN #{begin} AND #{end}
 		  
   </select>
   <select id="getMagazineCount" resultType="int">
     SELECT COUNT(*)
       FROM MAGAZINE_T
   </select>
+  
+  <select id="getProductNo" resultType="ProductDto">
+   SELECT PRODUCT_NO
+     FROM PRODUCT_T
+    ORDER BY PRODUCT_NO DESC
+  </select>
  
-
+ <insert id="insertMagazineOne" parameterType="MagazineDto">
+  <selectKey order="BEFORE" keyProperty="magazineNo" resultType="int">
+      SELECT MAGAZINE_SEQ.NEXTVAL
+        FROM DUAL
+    </selectKey>
+ 	INSERT INTO MAGAZINE_T (
+		    MAGAZINE_NO,
+		    USER_NO,
+		    TITLE,
+		    CONTENTS,
+		    CREATE_AT,
+		    PRODUCT_NO
+		) VALUES (
+		    #{magazineNo},
+		    #{userNo},
+		    #{title},
+		    #{contents},
+		    TO_CHAR(SYSDATE, 'YYYY-MM-DD'),
+		    #{productNo}
+		)
+ 		
+ </insert>
+ 
+ <insert id="insertMagazineMulti" parameterType="MagazineMultiDto" >
+ 		INSERT INTO MAGAZINE_MULTI_T (
+ 				MAGAZINE_NO, 
+ 				MULTI_PATH, 
+ 				FILESYS_NAME,
+ 				IS_THUMBNAIL
+ 			) VALUES (
+ 				#{magazineNo},
+ 				#{multiPath},
+ 				#{filesystemName},
+ 		  )
+ </insert>
+ 
+ <update id="insertMagazineTwo" parameterType="MagazineDto">
+  UPDATE MAGAZINE_T SET SUMMARY= #{summary}  
+   WHERE MAGAZINE_NO = #{magazineNo}
+ </update>
+ 
+ <insert id="insertThumbnail" parameterType="MagazineMultiDto">
+    INSERT INTO MAGAZINE_MULTI_T (
+        MAGAZINE_NO, 
+        MULTI_PATH, 
+        FILESYS_NAME, 
+        IS_THUMBNAIL
+      ) VALUES (
+        #{magazineNo}, 
+        #{multiPath},
+        #{filesysName},
+        #{isThumbnail}
+      )  
+ </insert>
+ 
+ <select id="getMagazine" parameterType="int" resultType="MagazineDto">
+	 	SELECT MAGAZINE_NO, USER_NO, TITLE, CONTENTS, SUMMARY, CREATE_AT, PRODUCT_NO
+	    FROM MAGAZINE_T
+	   WHERE MAGAZINE_NO = #{magazineNo}
+ </select>
+ <select id="countLike" parameterType="int" resultType="int">	
+		SELECT COUNT(*)
+		  FROM MAGAZINE_STAR_T
+		 WHERE MAGAZINE_NO = #{magazineNo} 
+ </select>
+ 
+ <delete id="deleteMagazine" parameterType="int">
+ 	DELETE MAGAZINE_T WHERE MAGAZINE_NO = #{magazineNo}
+ </delete>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 </mapper>

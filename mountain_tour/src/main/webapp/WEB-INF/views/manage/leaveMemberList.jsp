@@ -8,11 +8,10 @@
 
 
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="상품/예약관리" name="title"/>
+  <jsp:param value="탈퇴회원관리" name="title"/>
 </jsp:include>
 
 <style>
-
 
   .listWrap1 {
     display: flex;
@@ -46,10 +45,6 @@
     font-size: large;
   }
   
-  .listWrap1 .product a{
-    background-color: #ddd; /* 배경색 조절 */
-  }
-  
   .listWrap2 {
     margin-top: 10%;
   }
@@ -64,13 +59,14 @@
     <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
       
+      
       <div class="mainWrap">
       
       
       <%-- 각 관리 페이지로 이동 가능한 목록 --%>
         <div class="listWrap1">
           <div class="member">
-            <a href="${contextPath}/manage/memberList.form">회원관리</a>
+            <a href="${contextPath}/manage/memberList.form">기존회원관리</a>
           </div>
           <div class="product">
             <a href="${contextPath}/manage/productList.form">상품/예약</a>
@@ -79,12 +75,12 @@
             <a href="${contextPath}/manage/reviewList.form">리뷰관리</a>
           </div>
         </div>
+        
 
-
-        <%-- 관리 여행목록이 표시될 div --%>
+        <%-- 관리 회원목록이 표시될 div --%>
         <div class="listWrap2">
           
-          <%-- 총 상품 수를 표시 --%>
+          <%-- 총 회원 수를 표시 --%>
           <div style="text-align: right;">총 ${total}명</div>
           
           <%-- 전체 목록을 나타내는 테이블 --%>
@@ -92,12 +88,10 @@
             <table border="1" class="table">
               <thead>
                 <tr>
-                  <th scope="col">상품번호</th>
-                  <th scope="col">여행이름</th>
-                  <th scope="col">가이드</th>
-                  <th scope="col">가격</th>
-                  <th scope="col">등록일</th>
-                  <th scope="col">상품상태</th>
+                  <th scope="col">No</th>
+                  <th scope="col">이메일</th>
+                  <th scope="col">가입일</th>
+                  <th scope="col">탈퇴일</th>
                 </tr>
               </thead>
               <tbody class="table-group-divider">
@@ -106,17 +100,10 @@
                   <td>테스트</td>
                   <td></td>
                   <td></td>
-                  <td></td>
-                  <td>
-                    <c:if test="">상품상태가 0이면 예약가능</c:if>
-                    <c:if test="">상품상태가 1이면 예약마감</c:if>
-                  </td>
                 </tr>
                 <tr>
                   <th scope="row">2</th>
                   <td>테스트</td>
-                  <td></td>
-                  <td></td>
                   <td></td>
                   <td></td>
                 </tr>
@@ -125,22 +112,18 @@
                   <td>테스트</td>
                   <td></td>
                   <td></td>
-                  <td></td>
-                  <td></td>
                 </tr>
                 <tr>
                   <th scope="row">4</th>
                   <td>테스트</td>
-                  <td></td>
-                  <td></td>
                   <td>테스트</td>
-                  <td></td>
+                  <td>테스트</td>
                 </tr>
               </tbody>
               <%-- 페이징 처리 --%>
               <tfoot>
                 <tr>
-                  <td cospan="6">${paging}</td>
+                  <td cospan="4">${paging}</td>
                 </tr>
               </tfoot>
             </table>
@@ -149,10 +132,9 @@
             <div>
               <form method="get" action="#" >
                 <select name="column" class="form-select-sm" style="height: 40px">
-                  <option value="PRODUCT_NO">상품번호</option>
-                  <option value="TRIP_NAME">여행이름</option>
-                  <option value="GUIDE">가이드</option>
-                  <option value="PRIZE">가격</option>
+                  <option value="EMAIL">이메일</option>
+                  <option value="JOINED_AT">가입일</option>
+                  <option value="LEAVED_AT">탈퇴일</option>
                 </select>
                 <input type="text" name="query" class="form-control-sm" placeholder="검색어 입력" >
                 <button type="submit" class="btn btn-outline-success" >검색</button>
@@ -161,19 +143,29 @@
           
           
           </div>
-
-
+        
+        
+        
+        
+        
+        
+        
         </div>
+
+
 
 
       
       
 
       </div>
-
       
       
-
+      
+      
+      
+      
+      
     </div>
     <div class="col-1">
     </div>

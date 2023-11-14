@@ -10,7 +10,6 @@
     <result  column="INQUIRY_TITLE"    property="inquiryTitle"/>
     <result  column="INQUIRY_CONTENTS" property="inquiryContents"/>
     <result  column="IP"               property="ip"/>
-    <result  column="HIT"              property="hit"/>
     <result  column="CREATED_AT"       property="createdAt"/>
     <result  column="ANSWER_NO"        property="answerNo"/>
     <association javaType="UserDto"      property="userDto">
@@ -53,8 +52,8 @@
       FROM INQUIRY_T
   </select>
   <select id="getInquiryList" parameterType="Map" resultMap="InquiryMap">
-    SELECT A.INQUIRY_NO, A.USER_NO, A.NAME, A.EMAIL, A.AUTH, A.PRODUCT_NO, A.INQUIRY_TITLE, A.INQUIRY_CONTENTS, A.IP, A.HIT, A.CREATED_AT, A.ANSWER_NO
-      FROM (SELECT ROW_NUMBER() OVER(ORDER BY INQ.INQUIRY_NO DESC) AS RN, INQ.INQUIRY_NO, INQ.INQUIRY_TITLE, INQ.INQUIRY_CONTENTS, INQ.IP, INQ.HIT, INQ.CREATED_AT, U.USER_NO, U.NAME, U.AUTH, U.EMAIL, INQ.PRODUCT_NO, ANS.ANSWER_NO
+    SELECT A.INQUIRY_NO, A.USER_NO, A.NAME, A.EMAIL, A.AUTH, A.PRODUCT_NO, A.INQUIRY_TITLE, A.INQUIRY_CONTENTS, A.IP, A.CREATED_AT, A.ANSWER_NO
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY INQ.INQUIRY_NO DESC) AS RN, INQ.INQUIRY_NO, INQ.INQUIRY_TITLE, INQ.INQUIRY_CONTENTS, INQ.IP, INQ.CREATED_AT, U.USER_NO, U.NAME, U.AUTH, U.EMAIL, INQ.PRODUCT_NO, ANS.ANSWER_NO
               FROM USER_T U RIGHT OUTER JOIN INQUIRY_T INQ 
                 ON U.USER_NO = INQ.USER_NO LEFT OUTER JOIN INQUIRY_ANSWER_T ANS
                 ON INQ.INQUIRY_NO = ANS.INQUIRY_NO) A
@@ -70,9 +69,9 @@
      WHERE ${column} LIKE '%' || #{query} || '%'
   </select>
   <select id="getSearchInquiry" parameterType="Map" resultMap="InquiryMap">
-    SELECT A.INQUIRY_NO, A.PRODUCT_NO, A.INQUIRY_TITLE, A.INQUIRY_CONTENTS, A.IP, A.HIT, A.CREATED_AT, A.USER_NO, A.NAME
-      FROM (SELECT ROW_NUMBER() OVER(ORDER BY INQUIRY_NO DESC) AS RN, INQ.INQUIRY_NO, INQ.PRODUCT_NO, INQ.INQUIRY_TITLE, INQ.INQUIRY_CONTENTS, INQ.IP, INQ.HIT, INQ.CREATED_AT, U.USER_NO, U.NAME
-              FROM USER_T U LEFT OUTER JOIN INQUIRY_T INQ
+    SELECT A.INQUIRY_NO, A.PRODUCT_NO, A.INQUIRY_TITLE, A.INQUIRY_CONTENTS, A.IP, A.CREATED_AT, A.USER_NO, A.NAME
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY INQUIRY_NO DESC) AS RN, INQ.INQUIRY_NO, INQ.PRODUCT_NO, INQ.INQUIRY_TITLE, INQ.INQUIRY_CONTENTS, INQ.IP, INQ.CREATED_AT, U.USER_NO, U.NAME
+              FROM USER_T U INNER JOIN INQUIRY_T INQ
                 ON INQ.USER_NO = U.USER_NO
              WHERE ${column} LIKE '%' || #{query} || '%') A
      WHERE A.RN BETWEEN #{begin} AND #{end}
@@ -81,7 +80,7 @@
   
   <!-- 상세 페이지 -->
   <select id="getInquiry" parameterType="int" resultMap="InquiryMap">
-    SELECT INQ.INQUIRY_NO, INQ.INQUIRY_TITLE, INQ.INQUIRY_CONTENTS, INQ.IP, INQ.HIT, INQ.CREATED_AT
+    SELECT INQ.INQUIRY_NO, INQ.INQUIRY_TITLE, INQ.INQUIRY_CONTENTS, INQ.IP, INQ.CREATED_AT
          , U.USER_NO, U.NAME, U.AUTH
          , PR.PRODUCT_NO, PR.TRIP_NAME
       FROM INQUIRY_T INQ RIGHT OUTER JOIN USER_T U
@@ -90,7 +89,7 @@
      WHERE INQ.INQUIRY_NO = #{inquiryNo}
   </select>
   
-  <!-- 문의글 추가 -->
+  <!-- 문의글 등록 -->
   <insert id="insertInquiry" parameterType="InquiryDto">
     INSERT INTO INQUIRY_T (
         INQUIRY_NO
@@ -111,6 +110,11 @@
     )
   </insert>
   
+  <select id="getProductList" resultType="ProductDto">
+    SELECT ROW_NUMBER() OVER(ORDER BY PRODUCT_NO DESC) AS RN, PRODUCT_NO, USER_NO, MOUNTAIN_NO, TRIP_NAME, TRIP_CONTENTS, GUIDE, TIMETAKEN, PRICE, DANGER, REGISTERED_AT, MODIFIED_DATE, PEOPLE, HIT, PLAN, STATUS, TERM_USE
+      FROM PRODUCT_T
+  </select>
+  
   <!-- 문의글 삭제 -->
   <delete id="deleteInquiry" parameterType="int">
     DELETE 
@@ -118,6 +122,7 @@
      WHERE INQUIRY_NO = #{inquiryNo}
   </delete>
   
+
 	 
 
 </mapper>

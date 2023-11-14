@@ -38,7 +38,7 @@
         </tr>
         <tr>
           <td>여행기간</td>
-          <td>???~???</td>
+          <td>${reserve.reserveStart}~${reserve.reserveFinish}</td>
         </tr>
         <tr>
           <td>소요시간</td>
@@ -46,7 +46,7 @@
         </tr>
         <tr>
           <td>총인원</td>
-          <td>???명(버튼누르면 실제여행객 정보 보여주기?)</td>
+          <td>${reserve.reservePerson}명(버튼누르면 실제여행객 정보 보여주기?)</td>
         </tr>
         <tr>
           <td>픽업장소</td>

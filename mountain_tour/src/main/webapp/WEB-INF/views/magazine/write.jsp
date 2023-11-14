@@ -9,6 +9,7 @@
 <jsp:include page="../layout/header.jsp">
   <jsp:param value="마운틴투어" name="title"/>
 </jsp:include>
+<script src="${contextPath}/resources/js/uploadAdapter.js?dt=${dt}"></script>
 <style>
   .title{
     width: 60%;
@@ -35,7 +36,11 @@
    p {
     margin-top: 15px;
    } 
-  
+   select {
+    margin-top: 10px;
+    width:20%;
+    color: black;
+   }
     
   </style>
 
@@ -45,7 +50,7 @@
     </div>
     <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
-       <form action="${contextPath}/magazine/thumbnail.do" class="write_form" method="get">
+       <form action="${contextPath}/magazine/thumbnail.do" id="write_form" method="post">
       <div class="wrapper">   
         <h4>제목</h4>
        
@@ -54,9 +59,16 @@
       <div class="contents">
         <h4>내용</h4>
                
-          <textarea name="text" id="editor" class="input_contents"></textarea>
-          <p><button type="submit" class="btn btn-secondary">다음</button></p>
-        
+          <textarea name="contents" id="contents" style="display: none;"></textarea>
+          <div id="toolbar-container"></div>
+          <div id="ckeditor"></div>
+          <div>
+              <select id="productNo" name="productNo" onclick="fnSelect();">                
+                 <!-- <option disabled selected>상품 목록</option> -->
+              </select>
+          </div>
+          <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
+          <p><button type="submit" class="btn btn-secondary">다음</button></p>        
       </div> 
       </form>     
      </div> 
@@ -65,12 +77,68 @@
     <div class="col-1">
     </div>
   </div>
-
-  
  
-  
 <script>
-  ClassicEditor.create( document.querySelector( '#editor' ) );
+		function fnProductNo() {
+		    $.ajax({
+		      type: 'get',
+		      url: '${contextPath}/magazine/getProductNo.do',
+		      dataType: 'json',
+		      success: (function(resData){
+		        $('#productNo').empty();
+		        var str = "";
+		        for(var i = 0; i < resData.list.length; i++){
+		          str += '<option name="productNo" value="'+resData.list[i].productNo+'">'+resData.list[i].productNo+'</option>';		          
+		        }  
+		        	$('#productNo').append(str);
+		      })      
+		    })  
+		  }
+		  fnProductNo();
+		  const fnCkeditor = () => {
+			    DecoupledEditor
+			      .create(document.getElementById('ckeditor'), {
+			        ckfinder: {
+			          // 이미지 업로드 경로
+			          uploadUrl: '${contextPath}/magazine/imageUpload.do'         
+			        }
+			      })
+			      .then(editor => {
+			        const toolbarContainer = document.getElementById('toolbar-container');
+			        toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+			      })
+			      .catch(error => {
+			        console.error(error);
+			      });
+			  }
+		
+		  const fnBlogAdd = () => {
+			    $('#write_form').submit((ev) => {
+			      if($('#title').val() === ''){
+			        alert('제목은 반드시 입력해야 합니다.');
+			        ev.preventDefault();
+			        return;
+			      }
+			      $('#contents').val($('#ckeditor').html());
+			    })
+			  }
+			
+		 function fnSelect() {
+			 $(document).on('change', '#productNo', function(){
+				 var value = $(this).val();
+				 //$('#productNo').attr('value',value);
+			 })
+		}
+			  
+	
+		  
+		  
+		  
+		  
+			  fnCkeditor();
+			  fnBlogAdd();
+			  
+  
 </script>
  
  

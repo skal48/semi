@@ -22,7 +22,31 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.mountaintour.mountain" />
+	<interceptors>
+		<interceptor>
+			<mapping path="/user/mypage.form"/>
+			<mapping path="/user/modifyPw.form"/>
+		  <mapping path="/cs/addInquiry.form"/>
+			<mapping path="/cs/inquiryDetail.do"/>
+		  <beans:bean class="com.mountaintour.mountain.interceptor.RequiredLoginInterceptor" />
+		</interceptor>
+
+		<interceptor>
+      <mapping path="/user/agree.form"/>
+      <mapping path="/user/join.form"/>
+      <mapping path="/user/login.form"/>
+      <beans:bean class="com.mountaintour.mountain.interceptor.ShouldNotLoginInterceptor" />
+    </interceptor>
+		<interceptor>
+			<mapping path="/manage/memberList.form"/>
+			<mapping path="/manage/productList.form"/>
+		  <mapping path="/manage/reviewList.form"/>
+		  <mapping path="/manage/leaveMemberList.form"/>
+		  <mapping path="/manage/member.form"/>
+		  <beans:bean class="com.mountaintour.mountain.interceptor.RequiredAdministratorLoginInterceptor" />
+		</interceptor>
 	
+	</interceptors>
 	
 	
 </beans:beans>
