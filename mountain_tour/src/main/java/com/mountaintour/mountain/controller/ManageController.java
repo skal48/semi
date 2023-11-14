@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ManageController {
   
-  @GetMapping("/memberList.do")
+  @GetMapping("/memberList.form")
   public String memberList() {
     return "manage/memberList";
   }
   
-  @GetMapping("/productList.do")
+  @GetMapping("/productList.form")
   public String productList() {
     return "manage/productList";
   }
   
-  @GetMapping("/reviewList.do")
+  @GetMapping("/reviewList.form")
   public String reviewList() {
     return "manage/reviewList";
   }
