@@ -385,11 +385,14 @@
 
 
 <script>
+
+
+
 	// insertReserve 필요한 데이터
 	// frm_res_user : userNo,productNo 'hidden', resReq
 	// frm_pickup : pickupLoc, reservePerson(총예약인원수)
 	// frm_agree : chkAgree
-	
+
 	function fnReserve(){
   	  $("#btn_reserve").click(function(e) {
         e.preventDefault(); // 기본 제출 동작을 막습니다.
@@ -398,7 +401,6 @@
         var pickupData = $('#frm_pickup').serialize();
         var agreeDate = $('frm_agree').serialize();
         var formData = userData + "&" + pickupData + "&" + agreeData;
-        
         $.post('${contextPath}/reserve/addReserve.do', formData)
           .done(function(response) {
             // 요청이 성공적으로 완료된 후의 동작을 여기에 작성합니다.
@@ -410,7 +412,7 @@
           });
       });
 	}
-		
+
 	//  요금 옵션 선택시 총금액, 총인원수 반영
 	function fnChangeTotalPrice(){
 	  $(document).ready(function() {
