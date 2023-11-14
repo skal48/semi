@@ -115,8 +115,9 @@
 	      dataType: 'json',
 	      success: (resData) => {  // resData = {"uploadList": [], "totalPage": 10}
 	    	  totalPage = resData.totalPage;
-	    	  $.each(resData.uploadList, (i, upload) => {
+	    	  $.each(resData.magazineList, (i, upload) => {
 	        if(page === 1 && i === 0){
+	        	console.log(upload.magazineNo)
   	      	let big = '<div class="big_magazine magazine" style = "border: 1px gray solid;" data-magazine_no="'+ upload.magazineNo +'">';
   			        big += '<img src="" class="big_picture" alt="썸네일" >';
   			        big += '<div class="big_title">'+ upload.title +'</div>';
@@ -139,7 +140,7 @@
   const fnUploadDetail = () => {
 	    $(document).on('click', '.magazine', function(){
 	    	console.log($(this).data('magazine_no'));
-	     // location.href = '${contextPath}/magazine/detail.do?magazineNo=' + $(this).data('magazine_no');
+	      location.href = '${contextPath}/magazine/detail.do?magazineNo=' + $(this).data('magazine_no');
 	    })
 	  }
   

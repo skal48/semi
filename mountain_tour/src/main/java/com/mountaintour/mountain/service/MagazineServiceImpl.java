@@ -48,9 +48,9 @@ public class MagazineServiceImpl implements MagazineService {
     Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
         , "end", myPageUtils.getEnd());
 
-    List<MagazineDto> uploadList = magazineMapper.magazineList(map);
+    List<MagazineDto> magazineList = magazineMapper.magazineList(map);
     
-    return Map.of("uploadList", uploadList
+    return Map.of("magazineList", magazineList
     , "totalPage", myPageUtils.getTotalPage());
     
   }
@@ -204,9 +204,7 @@ public class MagazineServiceImpl implements MagazineService {
   @Override
   public void loadMagazine(HttpServletRequest request, Model model) {
     
-    Optional<String> opt = Optional.ofNullable(request.getParameter("magazinNo"));
-    int magazineNo = Integer.parseInt(opt.orElse("0"));
-    
+    int magazineNo = Integer.parseInt(request.getParameter("magazineNo"));
     model.addAttribute("magazine", magazineMapper.getMagazine(magazineNo));
     model.addAttribute("like", magazineMapper.countLike(magazineNo));
     
