@@ -42,9 +42,9 @@
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
       
       <div>
-        <a href="${contextPath}/manage/memberList.do">회원 관리</a>
-        <a href="${contextPath}/manage/productList.do">상품/예약</a>
-        <a href="${contextPath}/manage/reviewList.do">리뷰 관리</a>
+        <a href="${contextPath}/manage/memberList.form">회원 관리</a>
+        <a href="${contextPath}/manage/productList.form">상품/예약</a>
+        <a href="${contextPath}/manage/reviewList.form">리뷰 관리</a>
       </div>
 
       
