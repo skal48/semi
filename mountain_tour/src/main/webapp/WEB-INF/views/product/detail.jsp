@@ -6,7 +6,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="마운틴투어상품게시글작성" name="title"/>
+  <jsp:param value="${product.productNo}번 상품" name="title"/>
 </jsp:include>
 <html>
 <head>
@@ -39,8 +39,8 @@
 			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
 		  </div>
     	  <hr>
-    	  <div style = "text-align: left;">[당일] 월간영월 12월 주천강 둘레길 트레킹 (강원/영월)</div>
-    	  <div style = "text-align: right;">69,000<span class="css-5aoa4c">원</span></div>
+    	  <div style = "text-align: left;"><input type="hidden" name="title" value="${product.tripName}"></div>
+    	  <div style = "text-align: right;"><input type="hidden" name="prize" value="${product.price}">원</div>
     	 <div style="text-align: left;">
 			 <span class="badge text-bg-success">단순코스</span>
 			 <span class="badge text-bg-warning">난이도하</span>
@@ -71,7 +71,7 @@
     	  
     	  <span class="badge text-bg-dark" style="margin: 10px">예약가능</span>
     	  <div style="margin: 10px">
-	    	  <div>[당일] 월간영월 12월 주천강 둘레길 트레킹 (강원/영월)   상품</div>
+	    	  <div>${product.tripName}상품</div>
 			  <div>예약가능인원수</div>
 		      <div>현재예약</div>
     	  </div>
@@ -90,7 +90,7 @@
 		    <div class="col">
 		      <div style="display: inline-block; margin: 0px 120px;">
 		        <div>성인</div>
-		        <div>23000원</div>
+		        <div>${product.price}</div>
 		    </div>
 		    <table style="margin:0; text-align:center;">
 			    <tr>
@@ -108,7 +108,7 @@
 		    <div class="col" style="text-align: center;">
 		      <div style="display: inline-block; margin: 0px 120px;">
 		        <div>유아</div>
-		        <div>23000원</div>
+		        <div>${product.price}</div>
 		    </div>
 		    <table style="margin: 0;">
 			    <tr>		       
@@ -132,7 +132,7 @@
 		    <div style="display: inline-block; margin-right: 20px; font-weight: 1000;">
 		        <div>총 금액</div>
 		        <div>
-		            <div>39,000<span>원</span></div>
+		            <div id="totalPrice">원</div>
 		        </div>
 		    </div>
 		    <a href="${contextPath}/reserve/write.form" style="display: inline-block;">
@@ -146,20 +146,22 @@
     	  </div>
     	  <div class="choice">주요 여행일정</div>
     	    <div style = "border: 1px gray solid; height: 200px">
-    	  
-    	     
-    	  
-    	  
-    	  
-    	    </div>
+    	  	${product.plan} 
+ 	     </div>
     	  <div class="choice">상품정보</div>
     	    <div style = "border: 1px gray solid; height: 200px">
-    	  
-    	  
-    	  
-    	  
-    	  
+    	  	${product.tripContents} 
     	    </div>
+    	    
+    	    <div class="choice">소요시간</div>
+    	    <div class="choice">가이드</div>
+    	    
+    	    <div class="choice">주의사항</div>
+
+    	    
+    	    
+    	    
+    	    
     	  <div class="choice">약관/정보</div>
     	    <div style = "border: 1px gray solid; height: 100px">
     	  
@@ -393,6 +395,46 @@
           if (tCount > 0) $input.val(Number(tCount) - 1);
       }
   }
+  
+  
+//성인과 유아 수를 저장할 변수
+  let adultCount = 0;
+  let childCount = 0;
+
+  // 제품 가격
+  const productPrice = parseInt("${product.price}");
+
+  // DOM 업데이트 함수
+  function updateTotalPrice() {
+    // 성인과 유아 수에 따른 가격 계산
+    const totalAdultPrice = adultCount * productPrice;
+    const totalChildPrice = childCount * productPrice;
+
+    // 총 금액 계산
+    const totalPrice = totalAdultPrice + totalChildPrice;
+
+    // DOM 업데이트
+    document.getElementById("totalPrice").innerText = `${totalPrice.toLocaleString()}원`;
+  }
+
+  // 수량 증가/감소 함수
+  function fnCalCount(type, element) {
+    const targetInput = element.parentElement.querySelector("input");
+    
+    if (type === 'm' && targetInput.value > 0) {
+      targetInput.value--;
+    } else if (type === 'p') {
+      targetInput.value++;
+    }
+
+    // 성인과 유아 수 업데이트
+    adultCount = parseInt(document.getElementsByName("pop_out1")[0].value);
+    childCount = parseInt(document.getElementsByName("pop_out2")[0].value);
+
+    // 총 금액 업데이트
+    updateTotalPrice();
+  }
+
   
   </script>
 

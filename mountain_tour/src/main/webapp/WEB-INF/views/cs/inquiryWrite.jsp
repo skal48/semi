@@ -20,8 +20,7 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
-      <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
+    <div class="col-10" style = "border: 1px gray solid" >
       
       
       <div>
@@ -29,7 +28,7 @@
         <form id="frm_write" method="post" action="${contextPath}/cs/addInquiry.do">
         
           <div class="form-floating">
-            <select id="title" name="inquiryTitle" id="title" class="form-select" aria-label="Floating label select" style="margin-top: 10px;">
+            <select id="title" name="inquiryTitle"class="form-select" aria-label="Floating label select" style="margin-top: 10px;">
               <option value="기타문의">기타문의</option>
               <option value="여행문의">여행문의</option>
               <option value="예약문의">예약문의</option>
@@ -40,7 +39,7 @@
           
           <div class="form-floating">
             <select name="productNo" id="product" class="form-select" aria-label="Floating label select" style="margin-top: 10px;">
-              <option value="0">선택안함</option>
+              <option value="">선택안함</option>
               <c:forEach items="${productList}" var="p">
                 <option value="${p.productNo}">${p.tripName}</option>
               </c:forEach>
@@ -49,17 +48,17 @@
           </div>
           
           <div class="form-floating mb-3">
-            <label for="name" class="form-label">작성자</label>
-            <input type="text" value="${sessionScope.user.name}" id="name" readonly class="form-control-plaintext">
+            <input type="text" value="${sessionScope.user.name}" id="name" readonly class="form-control-plaintext" >
+            <label for="name" >작성자</label>
           </div>
           
           <div>
             <label for="contents" class="form-label">내용</label>
-            <textarea name="inauiryContents" id="contents" class="form-control" placeholder="내용을 입력하세요" style="height: 500px"></textarea>
+            <textarea name="inquiryContents" id="contents" class="form-control" placeholder="내용을 입력하세요" style="height: 500px"></textarea>
           </div>
           
           <div>
-            <input type="hidden" name="userNo" value="${sesseionScope.user.userNo}">
+            <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
             <button type="submit" class="btn btn-outline-success col-6" style="margin-top: 20px;">작성완료</button>
           </div>
           
@@ -78,31 +77,33 @@
   
  
 <script>
-  
-  /* 전역변수 */
-//  var contents = $('#contents').val();
 
-  /* textarea 공백 체크 */  
-//  const fnFrmWrite = () => {
-//	$('#frm_write').submit((ev) => {
-	 /*
-	 	/  : 정규표현식의 시작
-	 	\s : 공백 또는 탭
-	 	|  : or
-	 	g  : 문자열의 모든 문자 검색
-	 	i  : 대소문자 무시
-	 */
-	 /* 만약 공백을 제외한 모든 문자열의 길이가 0이면 서브밋 방지 */
-//	 if(contents.replace(/\s|　/gi, '').length == 0){
-//		ev.preventDefault();
-//        alert("문의 내용을 입력하세요.");
-//		$('#contents').focus();
-//        return;    
-//	   }
-//	})
-//  }
+  /* 작성 전 로그인 검사 */
+  const fnAddInqiury = () => {
+	if('${sessionScope.user}' === ''){
+	  alert('로그인 후 이용 가능합니다.');
+	  history.go(-1);
+	  return;
+	}
+  }
   
-  //fnFrmWrite();
+  /* textarea 공백 체크 */
+  const fnFrmWrite = () => {
+	  $('#frm_write').submit((ev) => {
+	    /* textarea의 현재 내용을 가져와서 체크 */
+	    const contents = $('#contents').val().trim();
+
+	    if (contents.length === 0) {
+	      ev.preventDefault();
+	      alert("문의 내용을 입력하세요.");
+	      $('#contents').focus();
+	      return;
+	    }
+	  });
+	};
+
+  fnAddInqiury();
+  fnFrmWrite();
   
 </script>
  

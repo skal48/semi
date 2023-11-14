@@ -1,13 +1,24 @@
 package com.mountaintour.mountain.service;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.ResponseEntity;
 
 import com.mountaintour.mountain.dto.UserDto;
 
 public interface UserService {
 	public void login(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public String getNaverLoginURL(HttpServletRequest request) throws Exception;
+	public String getNaverLoginAccessToken(HttpServletRequest request) throws Exception;
+	public UserDto getNaverProfile(String accessToken) throws Exception;
 	public UserDto getUser(String email);
+	public void naverJoin(HttpServletRequest request, HttpServletResponse response);
+	public void naverLogin(HttpServletRequest request, HttpServletResponse response, UserDto naverProfile) throws Exception;
 	public void logout(HttpServletRequest request, HttpServletResponse response);
+	public ResponseEntity<Map<String, Object>> modify(HttpServletRequest request);
+	public void modifyPw(HttpServletRequest request, HttpServletResponse response);
 	
 }

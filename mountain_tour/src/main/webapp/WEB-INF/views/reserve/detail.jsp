@@ -34,35 +34,35 @@
         </colgroup>
         <tr>
           <td>상품명</td>
-          <td>???</td>
+          <td>${reserve.productDto.tripName}</td>
         </tr>
         <tr>
           <td>여행기간</td>
-          <td>???~???</td>
+          <td>${reserve.reserveStart}~${reserve.reserveFinish}</td>
         </tr>
         <tr>
           <td>소요시간</td>
-          <td>???~???</td>
+          <td>${reserve.productDto.timetaken}</td>
         </tr>
         <tr>
           <td>총인원</td>
-          <td>???명(버튼누르면 실제여행객 정보 보여주기?)</td>
+          <td>${reserve.reservePerson}명(버튼누르면 실제여행객 정보 보여주기?)</td>
         </tr>
         <tr>
           <td>픽업장소</td>
-          <td>??????</td>
+          <td>${reserve.pickupLoc}</td>
         </tr>
         <tr>
           <td>예약상태</td>
-          <td>???</td>
+          <td>${reserve.reserveStatus}</td>
         </tr>
         <tr>
           <td>요청사항</td>
-          <td>??????</td>
+          <td>${reserve.request}</td>
         </tr>
         <tr>
           <td>주의사항</td>
-          <td>??????</td>
+          <td>${reserve.productDto.danger}</td>
         </tr>
         <tr>
           <td>결제금액</td>
@@ -83,15 +83,15 @@
         </colgroup>
         <tr>
           <td>이름</td>
-          <td>???</td>
+          <td>${reserve.userDto.name}</td>
         </tr>
         <tr>
           <td>이메일</td>
-          <td>???</td>
+          <td>${reserve.userDto.email}</td>
         </tr>
         <tr>
           <td>휴대폰번호</td>
-          <td>???</td>
+          <td>${reserve.userDto.mobile}</td>
         </tr>
         <tr>
           <td>결제금액</td>

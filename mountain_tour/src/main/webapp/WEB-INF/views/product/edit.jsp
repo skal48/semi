@@ -18,7 +18,7 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 2500px" >
+    <div class="col-10" style = "border: 1px gray solid; height: 3000px" >
       <!--  여기다가 작성  다 작성하고 height 지우기!!!! -->
       
 	  
@@ -60,26 +60,54 @@
     	    </form>
     	    </div>
     	    
+    	    <div class="mb-3">
+    	  <div class="choice">주의사항</div>
+    		<label for="danger" class="form-label"></label>
+ 		    <textarea class="form-control" id="danger" name="danger" rows="10"></textarea>
+    	  </div>
+    	 
+    	  
+    	  <div>
+    	    <label for="guide" class="form-label">가이드</label>
+	        <input type="text" name="guide" id="guide" class="form-control">
+    	  </div>
+    	  
+    	  <div>
+    	  	<label for="timetaken" class="form-label">소요시간</label>
+	        <input type="text" name="timetaken" id="timetaken" class="form-control">
+    	  </div>
+    	  
+    	  <div class="mb-3">
+    	  <div class="choice">주의사항</div>
+    		<label for="danger" class="form-label"></label>
+ 		    <textarea class="form-control" id="danger" name="danger" rows="10"></textarea>
+    	  </div>
+    	  
+    	  <div class="mb-3">
+    	  <div class="choice">약관/정보</div>
+    		<label for="termUse" class="form-label"></label>
+ 		    <textarea class="form-control" id="termUse" name="termUse" rows="10"></textarea>
+    	  </div>
     	  
     	  
     	</div>   	   
     	<div class="col-4"> <!-- style="border-left: 2px solid gray;" -->
        <div>
-	   <div id="side-bar" class="css-17dn726" style="position: sticky; top: 80px;">
-	   <div class="css-wldo8h"><div class="css-a5xtki">
-	   <div class="css-17dn726">
-	   <div class="css-vurnku">
-	   <div class="css-jqbm3n">
+	   <div style="position: sticky; top: 80px;">
+	   <div><div>
+	   <div>
+	   <div>
+	   <div>
 	   	<div>
-	        <label for="title" class="form-label">제목</label>
+	        <label for="title">제목</label>
 	        <input type="text" name="title" id="title" class="form-control">
 	       </div>
 	    </div>
 	   </div>
-	   <hr class="css-8hwf4v">
-	   <div class="css-mbxvxt">행사금액</div>
-	   <div class="css-oxy8lg">
-	   <div class="css-1xhmgr4">
+	   <hr>
+	   <div>행사금액</div>
+	   <div>
+	   <div>
 	   <div>
 	        <label for="prize" class="form-label">가격</label>
 	        <input type="text" name="prize" id="prize" class="form-control">
