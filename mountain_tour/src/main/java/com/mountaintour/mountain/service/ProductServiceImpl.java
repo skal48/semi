@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.mountaintour.mountain.dao.ProductMapper;
-import com.mountaintour.mountain.dto.ImageDto;
 import com.mountaintour.mountain.dto.MountainDto;
 import com.mountaintour.mountain.dto.ProductDto;
 import com.mountaintour.mountain.util.MyFileUtils;
@@ -149,7 +148,10 @@ public class ProductServiceImpl implements ProductService {
 	                , "totalPage", myPageUtils.getTotalPage());
 	}
 	
-	
-	
+	@Transactional(readOnly=true)
+	@Override
+	public ProductDto getProduct(int productNo) {
+	  return productMapper.getProduct(productNo);
+	}
 	
 }	

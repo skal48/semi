@@ -39,8 +39,25 @@
 			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
 		  </div>
     	  <hr>
-    	  <div style = "text-align: left;"><input type="hidden" name="title" value="${product.tripName}"></div>
-    	  <div style = "text-align: right;"><input type="hidden" name="prize" value="${product.price}">원</div>
+    	  <c:if test="${sessionScope.user.userNo == product.userNo}">
+    	   <form id="frm_btn" method="post">
+    	   	  <input type="hidden" name="productNo" value="${product.productNo}">
+    	   	  <input type="hidden" name="tripName" value="${product.tripName}">
+    	   	  <input type="hidden" name="price" value="${product.price}">	    	
+    	   	  <input type="hidden" name="plan" value="${product.plan}">	    	
+    	   	  <input type="hidden" name="tripContents" value="${product.tripContents}">
+    	   	  <input type="hidden" name="guide" value="${product.guide}">
+    	   	  <input type="hidden" name="timetaken" value="${product.timetaken}">
+    	   	  <input type="hidden" name="danger" value="${product.danger}">
+    	   	  <input type="hidden" name="termUse" value="${product.termUse}">
+	    	  <button type="button" id="btn_edit">편집</button> <!-- 관리자만 보이게 -->
+	    	  <button type="button" id="btn_remove">삭제</button> <!-- 관리자만 보이게 -->
+	       </form>
+    	  </c:if>    	  
+    	  
+    	  
+    	  
+    	  
     	 <div style="text-align: left;">
 			 <span class="badge text-bg-success">단순코스</span>
 			 <span class="badge text-bg-warning">난이도하</span>
@@ -135,8 +152,8 @@
 		            <div id="totalPrice">원</div>
 		        </div>
 		    </div>
-		    <a href="${contextPath}/reserve/write.form" style="display: inline-block;">
-		        <button type="button" class="btn btn-outline-success">예약하기</button>
+		    <a href="${contextPath}/reserve/write.form?productNo=${product.productNo}" style="display: inline-block;">
+		        <button type="button" id="btn_reserve" class="btn btn-outline-success">예약하기</button>
 		    </a>
 		</div>
 	    	  
@@ -254,25 +271,18 @@
     	</div>   	
     	   
     	<div class="col-4"> <!-- style="border-left: 2px solid gray;" -->
-    	<form id="frm_btn" class="admin_btn">
-	        <input type="hidden" name="productNo" value="${product.productNo}">
-	        <a href="${contextPath}/product/edit.do">
-	        <button type="button" id="btn_edit">편집</button> <!-- 관리자만 보이게 -->
-	        </a>
-	        <button type="button" id="btn_remove">삭제</button> <!-- 관리자만 보이게 -->
-	  </form>
        <div>
 	   <div style="position: sticky; top: 80px;">
 	   <div><div class="css-a5xtki">
 	   <div>
 	   <div>
 	   <div>선택중인 행사</div>
-	   <div>[당일] 월간영월 12월 주천강 둘레길 트레킹 (강원/영월)</div>
+	   <div>${product.tripName}</div>
 	   </div>
 	   <hr>
 	   <div>행사금액</div>
 	   <div>
-	   <div>69,000<span>원</span></div>
+	   <div>${product.price}원</div>
 	   </div>
 	   <button class="btn btn-success"  style="margin: 20px auto;">
 	   <div>
@@ -435,6 +445,29 @@
     updateTotalPrice();
   }
 
+  
+  var frmBtn = $('#frm_btn');
+  
+  const fnEditProduct = () => {
+    $('#btn_edit').click(() => {
+      frmBtn.attr('action', '${contextPath}/product/edit.do');
+      frmBtn.submit();
+    })
+  }
+  
+  
+  function fnGoReserve(){
+      $('#btn_reserve').click(function(){
+         location.href='${contextPath}/reserve/write.form?productNo=${product.productNo}&resDate=' + $("#datepicker").val();
+      })
+   }
+  
+  
+  
+  
+  
+  fnGoReserve();
+  fnEditProduct();
   
   </script>
 
