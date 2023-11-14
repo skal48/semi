@@ -43,7 +43,7 @@ public class ManageServiceImpl implements ManageService {
     
     List<UserDto> userList = userMapper.getUserList(map);
     
-    model.addAttribute("userList", userList)
+    model.addAttribute("userList", userList);
     model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/manage/memberList.form"));
     model.addAttribute("beginNo", total - (page - 1) * display);
     model.addAttribute("total", total);
@@ -60,7 +60,7 @@ public class ManageServiceImpl implements ManageService {
     map.put("column", column);
     map.put("query", query);
     
-    int total = userMapper.getSearchUserCount();
+    int total = userMapper.getSearchUserCount(map);
     
     Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
     String strPage = opt.orElse("1");
