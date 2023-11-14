@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.mountaintour.mountain.dao.ProductMapper;
+import com.mountaintour.mountain.dto.ImageDto;
 import com.mountaintour.mountain.dto.MountainDto;
 import com.mountaintour.mountain.dto.ProductDto;
 import com.mountaintour.mountain.util.MyFileUtils;
@@ -154,4 +156,71 @@ public class ProductServiceImpl implements ProductService {
 	  return productMapper.getProduct(productNo);
 	}
 	
+	@Override
+	public int increseHit(int productNo) {
+	  return productMapper.productHit(productNo);
+	}
+	
+	@Override
+	public int modifyProduct(HttpServletRequest request) {
+		//** 수정된 메소드 **//
+	    
+	    // 수정할 제목/내용/블로그번호
+		    int productNo = Integer.parseInt(request.getParameter("productNo"));
+		    int price = Integer.parseInt(request.getParameter("price"));
+		    String tripContents = request.getParameter("tripContents");
+		    
+	    List<ImageDto> productImageDtoList = productMapper.getProductImageList(productNo);
+	    List<String> productImageList = productImageDtoList.stream()
+	                                  .map(productImageDto -> productImageDto.getFilesystemName())
+	                                  .collect(Collectors.toList());
+	        
+	    // Editor에 포함된 이미지 이름(filesystemName)
+	    List<String> editorImageList = getEditorImageList(tripContents);
+
+	    // Editor에 포함되어 있으나 기존 이미지에 없는 이미지는 IMAGE_T에 추가해야 함
+	    editorImageList.stream()
+	      .filter(editorImage -> !productImageList.contains(editorImage))        
+	      .map(editorImage -> ImageDto.builder()                      
+	                            .productNo(productNo)
+	                            .imagePath(myFileUtils.getBlogImagePath())
+	                            .filesystemName(editorImage)
+	                            .build())
+	      .forEach(productImageDto -> productMapper.insertProductImage(productImageDto)); 
+	    	   
+	    // 기존 이미지에 있으나 Editor에 포함되지 않은 이미지는 삭제해야 함
+	    List<ImageDto> removeList = productImageDtoList.stream()
+	                                      .filter(productImageDto -> !editorImageList.contains(productImageDto.getFilesystemName())) 
+	                                      .collect(Collectors.toList());                                                       
+
+	    for(ImageDto productImageDto : removeList) {
+	      // IMAGE_T에서 삭제
+	      productMapper.deleteProductImage(productImageDto.getFilesystemName());  // 파일명은 UUID로 만들어졌으므로 파일명의 중복은 없다고 생각하면 된다.
+	      // 파일 삭제
+	      File file = new File(productImageDto.getImagePath(), productImageDto.getFilesystemName());
+	      if(file.exists()) {
+	        file.delete();
+	      }
+	    }
+	    
+	    
+	    ProductDto product = ProductDto.builder()
+			                .tripName(request.getParameter("tripName"))
+			                .tripContents(tripContents)
+			                .guide(request.getParameter("guide"))
+			                .timetaken(request.getParameter("timetaken"))
+			                .price(price)
+			                .danger(request.getParameter("danger"))
+			                .plan(request.getParameter("plan"))
+			                .termUse(request.getParameter("termUse"))
+			                .productNo(productNo)
+			                .build();
+	    
+	    
+	    int modifyResult = productMapper.updateProduct(product);
+	    
+	    return modifyResult;
+	    
+	}	
+
 }	

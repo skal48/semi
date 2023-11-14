@@ -28,18 +28,15 @@ public class UserController {
 
 	private final UserService userService;
 	
-	//1.로그인 작성창
 	@GetMapping("/login.form")
-	public String loginForm(HttpServletRequest request, Model model) throws Exception{
-		//referer : 이전 주소가 저장되는 요청 Header 값
-		String referer = request.getHeader("referer");
-		model.addAttribute("referer", referer == null ? request.getContextPath() + "/main.do" : referer);
-		
-		// 네이버 로그인 -1
-		model.addAttribute("naverLoginURL", userService.getNaverLoginURL(request));
-		return "user/login";
-	
-	}
+	  public String loginForm(HttpServletRequest request, Model model) throws Exception {
+	    // referer : 이전 주소가 저장되는 요청 Header 값
+	    String referer = request.getHeader("referer");
+	    model.addAttribute("referer", referer == null ? request.getContextPath() + "/main.do" : referer);
+	    // 네이버로그인-1
+	    model.addAttribute("naverLoginURL", userService.getNaverLoginURL(request));
+	    return "user/login";
+	  }
 	
 	@GetMapping("/naver/getAccessToken.do")
 	public String getAccessToken(HttpServletRequest request) throws Exception{
@@ -97,9 +94,25 @@ public class UserController {
 			rtn = "user/join";
 		}
 		return rtn;
+		
 	}
+    @GetMapping(value="/checkEmail.do", produces=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> checkEmail(@RequestParam String email){
+    	return userService.checkEmail(email);
+    }
+    
+    @GetMapping(value="/sendCode.do", produces=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> sendCode(@RequestParam String email){
+    	return userService.sendCode(email);
+    }
+	
+    @PostMapping("/join.do")
+    public void join(HttpServletRequest request, HttpServletResponse response) {
+    	userService.join(request, response);
+    }
+    
 	@GetMapping("/mypage.form")
-	  public String mypageForm() {
+	public String mypageForm() {
 	    return "user/mypage";
 	  }
 	
@@ -113,3 +126,4 @@ public class UserController {
 		return "user/pw";
 	}
 }
+	
