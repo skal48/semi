@@ -77,7 +77,7 @@
  		    <textarea class="form-control" id="termUse" name="termUse" rows="10">${product.termUse}</textarea>
     	  </div>
     	  <div class="d-grid gap-2 col-6 mx-auto">
-	      <input type="hidden" name="auth" value="${sessionScope.user.auth}">
+	      <input type="hidden" name="productNo" value="${product.productNo}">
 	      <button type="submit" class="btn btn-primary" style="margin: 32px;">수정완료</button>
 	    </div>
     	  </form>
