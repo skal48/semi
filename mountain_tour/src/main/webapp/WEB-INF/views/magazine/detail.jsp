@@ -54,7 +54,7 @@
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
       <div class="wapper">
 	      <div class="btn_wrapper">
-          <c:if test="${sessionScope.user.auth == 0}">
+          <c:if test="${sessionScope.user.auth == null }">  <!-- 바꿔야해 관리자로 -->
             <form id="btn_frm">
               <input type="hidden" name="magazineNo" value="${magazine.magazineNo}">
     	        <button type="button" class="goDelete btn btn-secondary">삭제</button>
@@ -65,7 +65,7 @@
 	      <div>
 	        <h1>${magazine.title}</h1>
 	        <div class="date_hit">
-		        <span>${magazine.creatAt}</span>
+		        <span>${magazine.createAt}</span>
 		        <span>조회수   ${magazine.hit}</span>
 	        </div>
 	        <div class="contents">${magazine.contents}</div>

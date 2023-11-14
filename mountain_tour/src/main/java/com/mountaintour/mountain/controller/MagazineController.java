@@ -40,7 +40,6 @@ public class MagazineController {
   @ResponseBody
   @GetMapping(value="/getList.do", produces="application/json" )
   public Map<String, Object> getList(HttpServletRequest request){
-    System.out.println("*****"+magazineService.getMagazineList(request));
     return magazineService.getMagazineList(request);  
   }
   
