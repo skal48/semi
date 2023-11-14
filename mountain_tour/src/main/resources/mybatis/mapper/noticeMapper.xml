@@ -23,5 +23,46 @@
       WHERE NOTICE_NO= #{noticeNo}
    </select>
    
+   
+   
+   
+   
+   
+   <insert id="insertNotice" parameterType="NoticeDto">
+    <selectKey order="BEFORE" keyProperty="noticeNo" resultType="int">
+      SELECT NOTICE_SEQ.NEXTVAL
+        FROM DUAL
+    </selectKey>
+    INSERT INTO NOTICE_T(
+        NOTICE_NO
+      , TITLE
+      , CONTENTS
+      , CREATED_AT
+      , MODIFIED_AT
+    ) VALUES(
+        #{noticeNo}
+      , #{title}
+      , #{contents}
+      , TO_DATE(SYSDATE, 'YYYY-MM-DD HH:MI:SS')
+      , TO_DATE(SYSDATE, 'YYYY-MM-DD HH:MI:SS')
+    )
+  </insert>
+   
+  <delete id="deleteNotice" parameterType="int">
+    DELETE
+      FROM NOTICE_T
+     WHERE NOTICE_NO = #{noticeNo}
+  </delete> 
+  
+  
+  <update id="updateNotice" parameterType="NoticeDto">
+    UPDATE NOTICE_T
+       SET TITLE = #{title}
+         , CONTENTS = #{contents}
+         , MODIFIED_AT = TO_DATE(SYSDATE, 'YYYY-MM-DD HH:MI:SS')
+     WHERE NOTICE_NO = #{noticeNo}     
+  </update> 
+   
+   
 
 </mapper>

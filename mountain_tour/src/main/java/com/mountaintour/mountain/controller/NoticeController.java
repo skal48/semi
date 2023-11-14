@@ -5,8 +5,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mountaintour.mountain.dto.NoticeDto;
 import com.mountaintour.mountain.service.NoticeService;
@@ -39,6 +42,32 @@ public class NoticeController {
     return "notice/detail";
   }
   
+  @PostMapping("/addNotice.do")
+  public String addNotice(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    int addResult = noticeService.addNotice(request);
+    redirectAttributes.addFlashAttribute("addResult", addResult);
+    return "redirect:/notice/list.do";
+  }
+  
+  @PostMapping("/modifyNotice.do")
+  public String modifyNotice(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    int modifyResult = noticeService.modifyNotice(request);
+    redirectAttributes.addFlashAttribute("modifyResult", modifyResult);
+    return "redirect:/notice/detail.do?noticeNo=" + request.getParameter("noticeNo");
+  }
+  
+  @PostMapping("/remove.do")
+  public String remove(@RequestParam(value="noticeNo", required=false, defaultValue="0") int noticeNo
+                     , RedirectAttributes redirectAttributes) {
+    int removeResult = noticeService.removeNotice(noticeNo);
+    redirectAttributes.addFlashAttribute("removeResult", removeResult);
+    return "redirect:/notice/list.do";
+  
 }
   
-
+  @PostMapping("/edit.form")
+  public String edit(@ModelAttribute("notice") NoticeDto notice) {
+    return "notice/edit";
+  
+  }
+}

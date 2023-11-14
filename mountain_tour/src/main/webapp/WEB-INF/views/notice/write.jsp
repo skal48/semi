@@ -56,6 +56,7 @@
         </div>
         
         
+        <!-- 제목  -->
         <div>
           <label for="title">제목</label>
           <input type="text" name="title" id="title" class="form-control">
@@ -65,7 +66,7 @@
          <div class="box1"></div>
         </div>
       
-        
+        <!-- 내용  -->  
         <div>
           <label for="contents">내용</label>
         </div>
@@ -78,20 +79,26 @@
         </div>
       
         
-        
+      <!-- 작성완료 submit  -->  
       <div>
-        <a href="${contextPath}/notice/list.do" class="btn btn-primary col-12">작성완료</a>
+        <button type="submit" class="btn btn-primary col-12">작성완료</button>
       </div>
         
       </form>
-    
-    </div>
+      </div>
       
+      
+    
+    
+    
+    
+    
+    
     <script>
     	
       const fnNoticeAdd = () => {
     	  $('frm_notice_add').submit(() => {
-    			$('#contents').html());  
+    			$('#contents').html();  
     	  })
       }
       

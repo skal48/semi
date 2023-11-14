@@ -48,5 +48,62 @@ public class NoticeServiceImpl implements NoticeService{
     public NoticeDto getNotice(int noticeNo) {
       return noticeMapper.getNotice(noticeNo);
     }
+    
+    
+    
+    
+    @Override
+    public int addNotice(HttpServletRequest request) {
+
+      //** 수정된 메소드 **//
+      
+      // BLOG_T에 추가할 데이터
+      String title = request.getParameter("title");
+      String contents = request.getParameter("contents");
+      
+      // BlogDto 생성
+      NoticeDto notice = NoticeDto.builder()
+                      .title(title)
+                      .contents(contents)
+                      .build();
+      
+      // BLOG_T에 추가
+      // BlogMapper의 insertBlog() 메소드를 실행하면
+      // insertBlog() 메소드로 전달한 blog 객체에 blogNo값이 저장된다.
+      int addResult = noticeMapper.insertNotice(notice);
+  
+    
+      return addResult;
+      
+    }
+    
+    @Override
+    public int removeNotice(int NoticeNo) {
+      
+      return noticeMapper.deleteNotice(NoticeNo);
+    }
+    
+    
+    @Override
+    public int modifyNotice(HttpServletRequest request) {
+   // 수정할 제목/내용/블로그번호
+      String title = request.getParameter("title");
+      String contents = request.getParameter("contents");
+      int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+  // 수정할 제목/내용/블로그번호를 가진 BlogDto
+      NoticeDto notice = NoticeDto.builder()
+                      .noticeNo(noticeNo)
+                      .title(title)
+                      .contents(contents)
+                      .build();
+      
+      // BLOG_T 수정
+      int modifyResult = noticeMapper.updateNotice(notice);
+      
+      return modifyResult;
+      
+    }
+    
+    
 
 }

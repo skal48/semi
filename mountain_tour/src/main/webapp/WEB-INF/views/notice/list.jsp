@@ -86,7 +86,7 @@ img {
        <div>
        <a href="${contextPath}/notice/write.form">
         <button type="button" class="btn btn-primary">새글작성</button>
-      </a>
+       </a>
      </div>
      
 
@@ -130,7 +130,6 @@ img {
         <tr>
           <td>공지번호</td>
           <td>제목</td>
-          <td>내용</td>
           <td>작성일</td>
           <td>수정일</td>
           <td>조회수</td>
@@ -144,7 +143,6 @@ img {
             <td>
               <a href="${contextPath}/notice/detail.do?noticeNo=${n.noticeNo}">${n.title}</a>
             </td>
-            <td>${n.contents}</td>
             <td>${n.createdAt}</td>
             <td>${n.modifiedAt}</td>
             <td>${n.hit}</td>

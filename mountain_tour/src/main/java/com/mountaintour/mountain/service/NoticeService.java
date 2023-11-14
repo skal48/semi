@@ -9,4 +9,7 @@ import com.mountaintour.mountain.dto.NoticeDto;
 public interface NoticeService{
   public void loadNoticeList(HttpServletRequest request, Model model);
   public NoticeDto getNotice(int noticeNo);
+  public int addNotice(HttpServletRequest request);
+  public int modifyNotice(HttpServletRequest request);
+  public int removeNotice(int NoticeNo);
 }
