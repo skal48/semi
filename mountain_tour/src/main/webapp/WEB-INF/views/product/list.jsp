@@ -81,8 +81,6 @@ const fnGetProductList = () => {
 	          str += '</div>';
 	          $('#product_list').append(str);
 	        });
-
-	        page++;
 	      } else {
 	        console.log('데이터가 없습니다.');
 	      }
