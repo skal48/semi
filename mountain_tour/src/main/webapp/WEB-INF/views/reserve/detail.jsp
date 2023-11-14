@@ -37,8 +37,8 @@
           <td>${reserve.productDto.tripName}</td>
         </tr>
         <tr>
-          <td>여행기간</td>
-          <td>${reserve.reserveStart}~${reserve.reserveFinish}</td>
+          <td>여행시작일</td>
+          <td>${reserve.reserveStart}</td>
         </tr>
         <tr>
           <td>소요시간</td>

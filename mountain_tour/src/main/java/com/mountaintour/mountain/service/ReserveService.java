@@ -10,7 +10,9 @@ import com.mountaintour.mountain.dto.ReserveDto;
 
 public interface ReserveService {
   
-  public int addReserve(HttpServletRequest req);
+  public Map<String, Object> addReserve(HttpServletRequest req) throws Exception;
+  public int addTourist(HttpServletRequest req) throws Exception;
+  
   public ReserveDto loadReserve(int reserveNo);
   public void loadReserveList(HttpServletRequest request, Model model);
 }

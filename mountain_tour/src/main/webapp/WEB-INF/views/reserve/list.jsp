@@ -47,9 +47,9 @@
                   <a href="${contextPath}/reserve/detail.do?reserveNo=${res.reserveNo}">${res.reserveDate} / ${res.reserveNo}</a>
                 </td> 
                 <td id="prodName">${res.productDto.tripName}</td>
-                <td id="totalPrice">${res.productDto.prize}~</td>
+                <td id="totalPrice">${res.productDto.price}~</td>
                 <td id="personCnt">${res.reservePerson}</td>
-                <td id="trvlSche">${res.reserveStart} / ${res.reserveFinish}</td>
+                <td id="trvlSche">${res.reserveStart} / ${res.productDto.timetaken}</td>
                 <td id="resStatus">${res.reserveStatus}</td>
               </tr>
             </c:forEach>
