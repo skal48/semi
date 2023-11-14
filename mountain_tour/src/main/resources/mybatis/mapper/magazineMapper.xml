@@ -29,8 +29,9 @@
   	 FROM (SELECT ROW_NUMBER() OVER(ORDER BY M.MAGAZINE_NO DESC) AS RN, 
            M.MAGAZINE_NO, M.TITLE, MM.MULTI_PATH, MM.FILESYS_NAME, M.SUMMARY, MM.IS_THUMBNAIL, M.HIT, M.CREATE_AT
            FROM MAGAZINE_T M LEFT OUTER JOIN MAGAZINE_MULTI_T MM
-             ON M.MAGAZINE_NO = MM.MAGAZINE_NO)
-    WHERE IS_THUMBNAIL = 1 AND RN BETWEEN #{begin} AND #{end}
+             ON M.MAGAZINE_NO = MM.MAGAZINE_NO
+          WHERE IS_THUMBNAIL = 1)
+    WHERE RN BETWEEN #{begin} AND #{end}
 		  
   </select>
   <select id="getMagazineCount" resultType="int">
@@ -43,7 +44,32 @@
      FROM PRODUCT_T
     ORDER BY PRODUCT_NO DESC
   </select>
+  
+  <insert id="insertMagazineMulti" parameterType="MagazineMultiDto" >
+    INSERT INTO MAGAZINE_MULTI_T (
+          MAGAZINE_NO, 
+          MULTI_PATH, 
+          FILESYS_NAME,
+          IS_THUMBNAIL
+      ) VALUES (
+          #{magazineNo},
+          #{multiPath},
+          #{filesystemName},
+      )
+ </insert>
  
+ <select id="getMagazineMultiList" parameterType="int" resultType="MagazineMultiDto">
+    SELECT MULTI_PATH, FILESYS_NAME, IS_THUMBNAIL
+      FROM MAGAZINE_MULTI_T
+     WHERE MAGAZINE_NO = #{magazineNo} 
+ </select>
+ 
+ <delete id="deleteMagazineMulti" parameterType="String">
+   DELETE FROM MAGAZINE_MULTI_T WHERE FILESYS_NAME = #{filesysName} 
+ </delete>
+ 
+ 
+  
  <insert id="insertMagazineOne" parameterType="MagazineDto">
   <selectKey order="BEFORE" keyProperty="magazineNo" resultType="int">
       SELECT MAGAZINE_SEQ.NEXTVAL
@@ -67,19 +93,6 @@
  		
  </insert>
  
- <insert id="insertMagazineMulti" parameterType="MagazineMultiDto" >
- 		INSERT INTO MAGAZINE_MULTI_T (
- 				MAGAZINE_NO, 
- 				MULTI_PATH, 
- 				FILESYS_NAME,
- 				IS_THUMBNAIL
- 			) VALUES (
- 				#{magazineNo},
- 				#{multiPath},
- 				#{filesystemName},
- 		  )
- </insert>
- 
  <update id="insertMagazineTwo" parameterType="MagazineDto">
   UPDATE MAGAZINE_T SET SUMMARY= #{summary}  
    WHERE MAGAZINE_NO = #{magazineNo}
@@ -87,15 +100,15 @@
  
  <insert id="insertThumbnail" parameterType="MagazineMultiDto">
     INSERT INTO MAGAZINE_MULTI_T (
-        MAGAZINE_NO, 
-        MULTI_PATH, 
-        FILESYS_NAME, 
-        IS_THUMBNAIL
+	        MAGAZINE_NO, 
+	        MULTI_PATH, 
+	        FILESYS_NAME, 
+	        IS_THUMBNAIL
       ) VALUES (
-        #{magazineNo}, 
-        #{multiPath},
-        #{filesysName},
-        #{isThumbnail}
+	        #{magazineNo}, 
+	        #{multiPath},
+	        #{filesysName},
+	        #{isThumbnail}
       )  
  </insert>
  
@@ -114,9 +127,29 @@
  		DELETE FROM MAGAZINE_T WHERE MAGAZINE_NO = #{magazineNo}
  </delete>
  
+ <update id="updateModifyOne" parameterType="magazineDto">
+    UPDATE MAGAZINE_T SET 
+						  TITLE = #{title},
+						  CONTENTS = #{contents},
+						  PRODUCT_NO = #{productNo}
+		  WHERE MAGAZINE_NO = #{magazineNo}
  
+ </update>
+ <update id="updateModifyTwo" parameterType="magazineDto">
+    UPDATE MAGAZINE_T SET 
+             SUMMARY = #{summary}
+      WHERE MAGAZINE_NO = #{magazineNo}
+ </update>
  
+ <select id="getThumbnailInfo" parameterType="int" resultMap="MagazineMap">
+    SELECT MAGAZINE_NO, SUMMARY, MULTI_PATH, FILESYS_NAME, IS_THUMBNAIL
+		  FROM (SELECT M.MAGAZINE_NO, M.SUMMARY, MM.MULTI_PATH, MM.FILESYS_NAME, MM.IS_THUMBNAIL
+						  FROM MAGAZINE_T M LEFT OUTER JOIN MAGAZINE_MULTI_T MM
+						    ON M.MAGAZINE_NO = MM.MAGAZINE_NO
+				 WHERE IS_THUMBNAIL = 1)
+		 WHERE MAGAZINE_NO = #{magazineNo} 
  
+ </select>
  
  
  

@@ -7,12 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mountaintour.mountain.dto.MagazineDto;
 import com.mountaintour.mountain.service.MagazineService;
 
 import lombok.RequiredArgsConstructor;
@@ -78,10 +80,28 @@ public class MagazineController {
    return "magazine/detail";
  }
  
- @GetMapping("/modify.do")
- public String modify() {
+ @PostMapping("/modify.form")
+ public String modify(@ModelAttribute("magazine") MagazineDto magazine) { 
    return "magazine/modify";
  }
+ 
+ @PostMapping("/modify.do")
+ public String modifyMagazine(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+   redirectAttributes.addFlashAttribute("map", magazineService.firstModify(request));
+   System.out.println(magazineService.firstModify(request));
+   return "redirect:/magazine/modifyThumbnail.form";
+ }
+ @GetMapping("/modifyThumbnail.form")
+ public String momdifyThumbnail() {
+   return "magazine/modifyThumbnail";
+ }
+ @PostMapping("finalModify.do")
+ public String finalModify(MultipartHttpServletRequest multipartRequest
+     , RedirectAttributes redirectAttributes) throws Exception {
+boolean modifyResult = magazineService.
+redirectAttributes.addFlashAttribute("modifyResult", modifyResult);
+return "redirect:/magazine/list.do";
+}
  
  @PostMapping("/delete.do")
  public String delete(HttpServletRequest request, RedirectAttributes redirectAttributes) {

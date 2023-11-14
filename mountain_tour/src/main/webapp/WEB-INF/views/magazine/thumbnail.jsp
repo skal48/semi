@@ -84,44 +84,44 @@
 </div>
   
 <script>
-function previewImage(targetObj, previewId) {
+	function previewImage(targetObj, previewId) {
+		
+		  var preview = document.getElementById(previewId); //div id   
+	     var ua = window.navigator.userAgent;
 	
-	  var preview = document.getElementById(previewId); //div id   
-     var ua = window.navigator.userAgent;
-
-     var files = targetObj.files;
-     for ( var i = 0; i < files.length; i++) {
-
-         var file = files[i];
-
-         var imageType = /image.*/; //이미지 파일일경우만.. 뿌려준다.
-         if (!file.type.match(imageType))
-             continue;
-
-         var prevImg = document.getElementById("prev_" + previewId); //이전에 미리보기가 있다면 삭제
-         if (prevImg) {
-             preview.removeChild(prevImg);
-         }
-         var img = document.createElement("img"); //크롬은 div에 이미지가 뿌려지지 않는다. 그래서 자식Element를 만든다.
-         img.id = "prev_" + previewId;
-         img.classList.add("obj");
-         img.file = file;
-         img.style.width = '560px'; //기본설정된 div의 안에 뿌려지는 효과를 주기 위해서 div크기와 같은 크기를 지정해준다.
-         img.style.height = '270px';
-         
-         preview.appendChild(img);
-
-         if (window.FileReader) { // FireFox, Chrome, Opera 확인.
-             var reader = new FileReader();
-             reader.onloadend = (function(aImg) {
-                 return function(e) {
-                     aImg.src = e.target.result;
-                 };
-             })(img);
-             reader.readAsDataURL(file);
-         }   
-     }       
-  }
+	     var files = targetObj.files;
+	     for ( var i = 0; i < files.length; i++) {
+	
+	         var file = files[i];
+	
+	         var imageType = /image.*/; //이미지 파일일경우만.. 뿌려준다.
+	         if (!file.type.match(imageType))
+	             continue;
+	
+	         var prevImg = document.getElementById("prev_" + previewId); //이전에 미리보기가 있다면 삭제
+	         if (prevImg) {
+	             preview.removeChild(prevImg);
+	         }
+	         var img = document.createElement("img"); //크롬은 div에 이미지가 뿌려지지 않는다. 그래서 자식Element를 만든다.
+	         img.id = "prev_" + previewId;
+	         img.classList.add("obj");
+	         img.file = file;
+	         img.style.width = '560px'; //기본설정된 div의 안에 뿌려지는 효과를 주기 위해서 div크기와 같은 크기를 지정해준다.
+	         img.style.height = '270px';
+	         
+	         preview.appendChild(img);
+	
+	         if (window.FileReader) { // FireFox, Chrome, Opera 확인.
+	             var reader = new FileReader();
+	             reader.onloadend = (function(aImg) {
+	                 return function(e) {
+	                     aImg.src = e.target.result;
+	                 };
+	             })(img);
+	             reader.readAsDataURL(file);
+	         }   
+	     }       
+	  }
 
   const fnFileCheck = () => {
 	    $('#files').change((ev) => {
