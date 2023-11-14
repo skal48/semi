@@ -52,8 +52,6 @@ public class ProductController {
   @ResponseBody
   @GetMapping(value="/getList.do", produces="application/json")
   public Map<String, Object> getList(HttpServletRequest request){
-    String page = request.getParameter("page");
-    System.out.println("정답을 알려줘" + page);
     return productService.getProductList(request);
   }  
   

@@ -135,6 +135,7 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional(readOnly=true)
 	@Override
 	public Map<String, Object> getProductList(HttpServletRequest request) {
+		
 		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
 	    int page = Integer.parseInt(opt.orElse("1"));
 	    int total = productMapper.getProductCount();
@@ -144,11 +145,11 @@ public class ProductServiceImpl implements ProductService {
 	    
 	    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
 	                                   , "end", myPageUtils.getEnd());
-	    
+	    System.out.println(map);
 	    List<ProductDto> productList = productMapper.getProductList(map);
-	    System.out.println("맵은!!!!!!!!!!!" + map);
 	    return Map.of("productList", productList
 	                , "totalPage", myPageUtils.getTotalPage());
+	    
 	}
 	
 	@Transactional(readOnly=true)
