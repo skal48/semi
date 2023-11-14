@@ -54,8 +54,7 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
-      <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
+    <div class="col-10" style = "border: 1px gray solid;" >
       
       
       
@@ -82,7 +81,7 @@
               <thead>
                 <tr>
                   <th scope="col">문의번호</th>
-                  <th scope="col">상품번호</th>
+                  <th scope="col">여행번호</th>
                   <th scope="col">제목</th>
                   <th scope="col">작성자</th>
                   <th scope="col">작성일</th>
@@ -127,7 +126,7 @@
                   <option value="INQUIRY_TITLE">제목</option>
                   <option value="NAME">작성자</option>
                   <option value="INQUIRY_NO">문의번호</option>
-                  <option value="PRODUCT_NO">상품번호</option>
+                  <option value="PRODUCT_NO">여행번호</option>
                 </select>
                 <input type="text" name="query" id="query" class="form-control-sm" placeholder="검색어 입력" >
                 <button type="submit" class="btn btn-outline-success" >검색</button>
