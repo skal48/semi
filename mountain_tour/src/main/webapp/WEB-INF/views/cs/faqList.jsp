@@ -111,7 +111,7 @@
                 <c:forEach items="${faqList}" var="f" varStatus="vs">
                     <tr>
                       <th scope="row">${beginNo - vs.index}</th>
-                      <td class="open_content" style="text-align: left; padding-left: 25%">${f.title}</td>
+                      <td class="open_content btn_title" style="text-align: left; padding-left: 25%">${f.title}</td>
                     </tr>
                     <tr class="blind show_content">
                       <td colspan="2">

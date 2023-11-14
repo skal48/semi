@@ -39,8 +39,25 @@
 			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
 		  </div>
     	  <hr>
-    	  <div style = "text-align: left;"><input type="hidden" name="title" value="${product.tripName}"></div>
-    	  <div style = "text-align: right;"><input type="hidden" name="prize" value="${product.prize}">원</div>
+    	  <c:if test="${sessionScope.user.userNo == product.userNo}">
+    	   <form id="frm_btn" method="post">
+    	   	  <input type="hidden" name="productNo" value="${product.productNo}">
+    	   	  <input type="hidden" name="tripName" value="${product.tripName}">
+    	   	  <input type="hidden" name="price" value="${product.price}">	    	
+    	   	  <input type="hidden" name="plan" value="${product.plan}">	    	
+    	   	  <input type="hidden" name="tripContents" value="${product.tripContents}">
+    	   	  <input type="hidden" name="guide" value="${product.guide}">
+    	   	  <input type="hidden" name="timetaken" value="${product.timetaken}">
+    	   	  <input type="hidden" name="danger" value="${product.danger}">
+    	   	  <input type="hidden" name="termUse" value="${product.termUse}">
+	    	  <button type="button" id="btn_edit">편집</button> <!-- 관리자만 보이게 -->
+	    	  <button type="button" id="btn_remove">삭제</button> <!-- 관리자만 보이게 -->
+	       </form>
+    	  </c:if>    	  
+    	  
+    	  
+    	  
+    	  
     	 <div style="text-align: left;">
 			 <span class="badge text-bg-success">단순코스</span>
 			 <span class="badge text-bg-warning">난이도하</span>
@@ -90,7 +107,7 @@
 		    <div class="col">
 		      <div style="display: inline-block; margin: 0px 120px;">
 		        <div>성인</div>
-		        <div>${product.prize}</div>
+		        <div>${product.price}</div>
 		    </div>
 		    <table style="margin:0; text-align:center;">
 			    <tr>
@@ -108,7 +125,7 @@
 		    <div class="col" style="text-align: center;">
 		      <div style="display: inline-block; margin: 0px 120px;">
 		        <div>유아</div>
-		        <div>${product.prize}</div>
+		        <div>${product.price}</div>
 		    </div>
 		    <table style="margin: 0;">
 			    <tr>		       
@@ -132,11 +149,11 @@
 		    <div style="display: inline-block; margin-right: 20px; font-weight: 1000;">
 		        <div>총 금액</div>
 		        <div>
-		            <div>39,000<span>원</span></div>
+		            <div id="totalPrice">원</div>
 		        </div>
 		    </div>
-		    <a href="${contextPath}/reserve/write.form" style="display: inline-block;">
-		        <button type="button" class="btn btn-outline-success">예약하기</button>
+		    <a style="display: inline-block;">
+		        <button type="button" id="btn_reserve" class="btn btn-outline-success">예약하기</button>
 		    </a>
 		</div>
 	    	  
@@ -146,20 +163,22 @@
     	  </div>
     	  <div class="choice">주요 여행일정</div>
     	    <div style = "border: 1px gray solid; height: 200px">
-    	  
-    	     
-    	  
-    	  
-    	  
-    	    </div>
+    	  	${product.plan} 
+ 	     </div>
     	  <div class="choice">상품정보</div>
     	    <div style = "border: 1px gray solid; height: 200px">
-    	  
-    	  
-    	  
-    	  
-    	  
+    	  	${product.tripContents} 
     	    </div>
+    	    
+    	    <div class="choice">소요시간</div>
+    	    <div class="choice">가이드</div>
+    	    
+    	    <div class="choice">주의사항</div>
+
+    	    
+    	    
+    	    
+    	    
     	  <div class="choice">약관/정보</div>
     	    <div style = "border: 1px gray solid; height: 100px">
     	  
@@ -252,25 +271,18 @@
     	</div>   	
     	   
     	<div class="col-4"> <!-- style="border-left: 2px solid gray;" -->
-    	<form id="frm_btn" class="admin_btn">
-	        <input type="hidden" name="productNo" value="${product.productNo}">
-	        <a href="${contextPath}/product/edit.do">
-	        <button type="button" id="btn_edit">편집</button> <!-- 관리자만 보이게 -->
-	        </a>
-	        <button type="button" id="btn_remove">삭제</button> <!-- 관리자만 보이게 -->
-	  </form>
        <div>
 	   <div style="position: sticky; top: 80px;">
 	   <div><div class="css-a5xtki">
 	   <div>
 	   <div>
 	   <div>선택중인 행사</div>
-	   <div>[당일] 월간영월 12월 주천강 둘레길 트레킹 (강원/영월)</div>
+	   <div>${product.tripName}</div>
 	   </div>
 	   <hr>
 	   <div>행사금액</div>
 	   <div>
-	   <div>69,000<span>원</span></div>
+	   <div>${product.price}원</div>
 	   </div>
 	   <button class="btn btn-success"  style="margin: 20px auto;">
 	   <div>
@@ -393,6 +405,69 @@
           if (tCount > 0) $input.val(Number(tCount) - 1);
       }
   }
+  
+  
+//성인과 유아 수를 저장할 변수
+  let adultCount = 0;
+  let childCount = 0;
+
+  // 제품 가격
+  const productPrice = parseInt("${product.price}");
+
+  // DOM 업데이트 함수
+  function updateTotalPrice() {
+    // 성인과 유아 수에 따른 가격 계산
+    const totalAdultPrice = adultCount * productPrice;
+    const totalChildPrice = childCount * productPrice;
+
+    // 총 금액 계산
+    const totalPrice = totalAdultPrice + totalChildPrice;
+
+    // DOM 업데이트
+    document.getElementById("totalPrice").innerText = `${totalPrice.toLocaleString()}원`;
+  }
+
+  // 수량 증가/감소 함수
+  function fnCalCount(type, element) {
+    const targetInput = element.parentElement.querySelector("input");
+    
+    if (type === 'm' && targetInput.value > 0) {
+      targetInput.value--;
+    } else if (type === 'p') {
+      targetInput.value++;
+    }
+
+    // 성인과 유아 수 업데이트
+    adultCount = parseInt(document.getElementsByName("pop_out1")[0].value);
+    childCount = parseInt(document.getElementsByName("pop_out2")[0].value);
+
+    // 총 금액 업데이트
+    updateTotalPrice();
+  }
+
+  
+  var frmBtn = $('#frm_btn');
+  
+  const fnEditProduct = () => {
+    $('#btn_edit').click(() => {
+      frmBtn.attr('action', '${contextPath}/product/edit.do');
+      frmBtn.submit();
+    })
+  }
+  
+  
+  function fnGoReserve(){
+      $('#btn_reserve').click(function(){
+         location.href='${contextPath}/reserve/write.form?productNo=${product.productNo}&resDate=' + $("#datepicker").val();
+      })
+   }
+  
+  
+  
+  
+  
+  fnGoReserve();
+  fnEditProduct();
   
   </script>
 
