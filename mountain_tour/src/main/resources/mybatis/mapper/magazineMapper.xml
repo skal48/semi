@@ -24,13 +24,13 @@
   
   
   
-  <select id="MagazineList" parameterType="Map" resultMap="MagazineMap">
-   SELECT M.TITLE, MM.FILESYS_NAME, MM.FILESYS_NAME, M.SUMMARY, MM.IS_THUMBNAIL, M.HIT, M.CREATE_AT
- 		 FROM MAGAZINE_T M LEFT OUTER JOIN MAGAZINE_MULTI_T MM
-  	   ON M.MAGAZINE_NO = MM.MAGAZINE_NO
- 		WHERE M.MAGAZINE_NO BETWEEN 1 AND 6
-      AND MM.IS_THUMBNAIL = 1
-  	ORDER BY M.MAGAZINE_NO DESC   
+  <select id="magazineList" parameterType="Map" resultMap="MagazineMap">
+   SELECT TITLE, MULTI_PATH, FILESYS_NAME, SUMMARY, IS_THUMBNAIL, HIT, CREATE_AT
+  	 FROM (SELECT ROW_NUMBER() OVER(ORDER BY M.MAGAZINE_NO DESC) AS RN, 
+           M.TITLE, MM.MULTI_PATH, MM.FILESYS_NAME, M.SUMMARY, MM.IS_THUMBNAIL, M.HIT, M.CREATE_AT
+           FROM MAGAZINE_T M LEFT OUTER JOIN MAGAZINE_MULTI_T MM
+             ON M.MAGAZINE_NO = MM.MAGAZINE_NO)
+    WHERE IS_THUMBNAIL = 1 AND RN BETWEEN #{begin} AND #{end}
 		  
   </select>
   <select id="getMagazineCount" resultType="int">
@@ -44,7 +44,7 @@
     ORDER BY PRODUCT_NO DESC
   </select>
  
- <insert id="InsertMagazineOne" parameterType="MagazineDto">
+ <insert id="insertMagazineOne" parameterType="MagazineDto">
   <selectKey order="BEFORE" keyProperty="magazineNo" resultType="int">
       SELECT MAGAZINE_SEQ.NEXTVAL
         FROM DUAL
@@ -61,7 +61,7 @@
 		    #{userNo},
 		    #{title},
 		    #{contents},
-		    TO_DATE(SYSDATE, 'YYYY-MM-DD HH:MI:SS'),
+		    TO_CHAR(SYSDATE, 'YYYY-MM-DD'),
 		    #{productNo}
 		)
  		
@@ -98,5 +98,15 @@
         #{isThumbnail}
       )  
  </insert>
-
+ 
+ <select id="getMagazine" parameterType="int" resultType="MagazineDto">
+	 	SELECT MAGAZINE_NO, USER_NO, TITLE, CONTENTS, SUMMARY, CREATE_AT, PRODUCT_NO
+	    FROM MAGAZINE_T
+	   WHERE MAGAZINE_NO = #{magazineNo}
+ </select>
+ <select id="countLike" parameterType="int" resultType="int">	
+		SELECT COUNT(*)
+		  FROM MAGAZINE_STAR_T
+		 WHERE MAGAZINE_NO = #{magazineNo} 
+ </select>
 </mapper>
