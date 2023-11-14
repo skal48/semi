@@ -60,7 +60,7 @@
       
       <div class="mainWrap">
       
-        <%-- 각 페이지로 이동가능한 목록 --%>
+        <%-- 각 문의 페이지로 이동가능한 목록 --%>
         <div class="listWrap1">
           <div class="faq">
             <a href="${contextPath}/cs/faqList.do" >자주 묻는 질문</a>

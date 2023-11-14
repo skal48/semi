@@ -17,20 +17,20 @@
     <association javaType="MagazineMultiDto" property="magazineMultiDto">
       <id     column="MAGAZINE_NO" property="magazineNo" />
       <result column="MULTI_PATH" property="multiPath"/>
-      <result column="FILESYS_NAME" property="fileSysName"/>
+      <result column="FILESYS_NAME" property="filesysName"/>
       <result column="IS_THUMBNAIL" property="isThumbnail"/> 
     </association>  
   </resultMap>
   
   
   
-  <select id="MagazineList" resultMap="MagazineMap">
-   SELECT M.TITLE, MM.FILESYS_NAME, M.SUMMARY
-  	 FROM MAGAZINE_T M LEFT OUTER JOIN MAGAZINE_MULTI_T MM
-       ON M.MAGAZINE_NO = MM.MAGAZINE_NO
-    WHERE M.MAGAZINE_NO BETWEEN ((SELECT MAX(MAGAZINE_NO) FROM MAGAZINE_T) - ${BEGIN}) AND ((SELECT MAX(MAGAZINE_NO) FROM MAGAZINE_T)- ${END})
+  <select id="MagazineList" parameterType="Map" resultMap="MagazineMap">
+   SELECT M.TITLE, MM.FILESYS_NAME, MM.FILESYS_NAME, M.SUMMARY, MM.IS_THUMBNAIL, M.HIT, M.CREATE_AT
+ 		 FROM MAGAZINE_T M LEFT OUTER JOIN MAGAZINE_MULTI_T MM
+  	   ON M.MAGAZINE_NO = MM.MAGAZINE_NO
+ 		WHERE M.MAGAZINE_NO BETWEEN 1 AND 6
       AND MM.IS_THUMBNAIL = 1
-    ORDER BY M.MAGAZINE_NO DESC
+  	ORDER BY M.MAGAZINE_NO DESC   
 		  
   </select>
   <select id="getMagazineCount" resultType="int">
@@ -66,6 +66,7 @@
 		)
  		
  </insert>
+ 
  <insert id="insertMagazineMulti" parameterType="MagazineMultiDto" >
  		INSERT INTO MAGAZINE_MULTI_T (
  				MAGAZINE_NO, 
@@ -78,10 +79,12 @@
  				#{filesystemName},
  		  )
  </insert>
+ 
  <update id="insertMagazineTwo" parameterType="MagazineDto">
   UPDATE MAGAZINE_T SET SUMMARY= #{summary}  
    WHERE MAGAZINE_NO = #{magazineNo}
  </update>
+ 
  <insert id="insertThumbnail" parameterType="MagazineMultiDto">
     INSERT INTO MAGAZINE_MULTI_T (
         MAGAZINE_NO, 

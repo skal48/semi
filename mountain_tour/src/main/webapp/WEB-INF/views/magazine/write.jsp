@@ -87,10 +87,10 @@
 		      success: (function(resData){
 		        $('#productNo').empty();
 		        var str = "";
-		        for(var p in resData.list){
-		          str += '<option name="productNo" value="'+resData.list[p].productNo+'">'+resData.list[p].productNo+'</option>';		          
+		        for(var i = 0; i < resData.list.length; i++){
+		          str += '<option name="productNo" value="'+resData.list[i].productNo+'">'+resData.list[i].productNo+'</option>';		          
 		        }  
-		        $('#productNo').append(str);
+		        	$('#productNo').append(str);
 		      })      
 		    })  
 		  }
