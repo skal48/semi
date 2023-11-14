@@ -24,7 +24,7 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style="border: 1px gray solid; height: 1500px">
+    <div class="col-10">
       <a href="${contextPath}/product/write.form">
         <button type="button" class="admin_btn" style="margin-left: auto;">게시글 작성</button>
       </a>
