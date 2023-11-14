@@ -59,12 +59,10 @@ const fnCheckMobile = () => {
 
 const fnModifyUser = () => {
   $('#btn_modify').click(() => {
-    if(!namePassed){
-      alert('이름을 확인하세요.');
-      return;
-    } else if(!mobilePassed){
+    if(!mobilePassed){
       alert('휴대전화번호를 확인하세요.');
       return;
+   
     }
     $.ajax({
       // 요청

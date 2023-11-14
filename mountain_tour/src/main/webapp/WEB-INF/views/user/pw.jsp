@@ -34,7 +34,7 @@
     
     <div class="text-center mt-3">
       <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
-      <button type="submit" class="btn btn-primary">비밀번호변경하기</button>
+      <button type="submit" class="btn btn-success" >비밀번호변경하기</button>
     </div>
     
   </form>

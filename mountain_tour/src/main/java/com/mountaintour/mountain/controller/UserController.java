@@ -125,5 +125,16 @@ public class UserController {
 	public String modifyPwForm() {
 		return "user/pw";
 	}
+	
+	@PostMapping("/modifyPw.do")
+	public void modifyPw(HttpServletRequest request, HttpServletResponse response) {
+		userService.modifyPw(request, response);
+	}
+	
+	@PostMapping("/leave.do")
+	public void leave(HttpServletRequest request, HttpServletResponse response) {
+		userService.leave(request, response);
+	}
+	
 }
 	

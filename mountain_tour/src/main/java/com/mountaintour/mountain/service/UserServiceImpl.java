@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -402,6 +403,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void modifyPw(HttpServletRequest request, HttpServletResponse response) {
+
     
     String pw = mySecurityUtils.getSHA256(request.getParameter("pw"));
     int userNo = Integer.parseInt(request.getParameter("userNo"));
@@ -436,5 +438,54 @@ public class UserServiceImpl implements UserService {
       e.printStackTrace();
     }
   }
+  
+  @Override
+	public void leave(HttpServletRequest request, HttpServletResponse response) {
+		
+	  Optional<String> opt = Optional.ofNullable(request.getParameter("userNo"));
+	  int userNo = Integer.parseInt(opt.orElse("0"));
+	  
+	  UserDto user = userMapper.getUser(Map.of("userNo", userNo));
+	
+	  if(user == null) {
+		  try {
+			  response.setContentType("text/html; charset=UTF-8"); 
+			  PrintWriter out = response.getWriter();
+			  out.println("<script>");
+			  out.println("alert('회원 탈퇴를 수행할 수 없습니다.')");
+			  out.println("location.href='" + request.getContextPath() + "/main.do'");
+			  out.println("</script>");
+			  out.flush();
+			  out.close();
+		  } catch (Exception e) {
+			  e.printStackTrace();
+		  }
+	  }
+	  
+	 
+	  int deleteUserResult = userMapper.deleteUser(user);
+	  
+	  try {
+		  
+		  response.setContentType("text/html; charset=UTF-8");
+		  PrintWriter out = response.getWriter();
+		  out.println("<script>");
+		  if(deleteUserResult == 1) {
+			  HttpSession session = request.getSession();
+			  session.invalidate();
+			  out.println("alert('회원 탈퇴되었습니다. 그 동안 이용해 주셔서 감사합니다.')");
+			  out.println("location.href='" + request.getContextPath() + "/main.do'");
+			  
+		  } else {
+			  out.println("alert('회원 탈퇴되지 않았습니다.')");
+			  out.println("history.back()");
+		  }
+		  out.println("</script>");
+		  out.flush();
+		  out.close();
+	  } catch(Exception e) {
+		  e.printStackTrace();
+	  }
+	}
 }
   
