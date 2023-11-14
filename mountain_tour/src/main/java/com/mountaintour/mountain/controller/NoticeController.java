@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.mountaintour.mountain.dto.NoticeDto;
 import com.mountaintour.mountain.service.NoticeService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,9 +32,13 @@ public class NoticeController {
   }
   
   @GetMapping("/detail.do")
-  public String detail() {
+  public String detail(@RequestParam(value="noticeNo", required=false, defaultValue="0") int noticeNo 
+                     , Model model) {
+    NoticeDto notice = noticeService.getNotice(noticeNo);
+    model.addAttribute("notice", notice);
     return "notice/detail";
   }
+  
 }
   
 

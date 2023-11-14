@@ -19,11 +19,11 @@
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
      
       <div>
-        <h1>    </h1>
-        <div>제목 :       </div>
-        <div>내용 :      </div>
-        <div>작성일 :    </div>
-        <div>수정일 :    </div>
+        <h1> 제목: ${notice.title}</h1>
+        <div>내용: ${notice.contents}</div>
+        <div>작성일 : ${notice.createdAt}</div>
+        <div>수정일 : ${notice.modifiedAt}</div>
+        <div>조회수 : ${notice.hit}</div>
       </div>
 
 

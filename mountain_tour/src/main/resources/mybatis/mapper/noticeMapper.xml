@@ -4,6 +4,11 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mountaintour.mountain.dao.NoticeMapper">
+
+   <select id="getNoticeCount" resultType="int">
+     SELECT COUNT(*)
+       FROM NOTICE_T
+   </select>
 	
    <select id="getNoticeList" parameterType="Map" resultType="NoticeDto">
      SELECT A.NOTICE_NO, A.TITLE, A.CONTENTS, A.CREATED_AT, A.MODIFIED_AT, A.HIT
@@ -12,12 +17,11 @@
        WHERE A.RN BETWEEN #{begin} AND #{end}
    </select>
    
-   <select id="getNoticeCount" resultType="int">
-     SELECT COUNT(*)
-       FROM NOTICE_T
+   <select id ="getNotice" parameterType="int" resultType="NoticeDto">
+     SELECT NOTICE_NO, TITLE, CONTENTS, CREATED_AT, MODIFIED_AT, HIT
+       FROM NOTICE_T 
+      WHERE NOTICE_NO= #{noticeNo}
    </select>
    
-   
-
 
 </mapper>

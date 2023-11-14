@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.mountaintour.mountain.dao.NoticeMapper;
@@ -15,6 +16,7 @@ import com.mountaintour.mountain.util.MyPageUtils;
 
 import lombok.RequiredArgsConstructor;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class NoticeServiceImpl implements NoticeService{
@@ -39,5 +41,12 @@ public class NoticeServiceImpl implements NoticeService{
     model.addAttribute("noticeList", noticeList);
     model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/notice/list.do"));
     model.addAttribute("beginNo", total - (page - 1) * display);  
-  }
+    }
+  
+    @Transactional(readOnly=true)
+    @Override
+    public NoticeDto getNotice(int noticeNo) {
+      return noticeMapper.getNotice(noticeNo);
+    }
+
 }
