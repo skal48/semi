@@ -18,11 +18,9 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.mountaintour.mountain.dao.UserMapper;
 import com.mountaintour.mountain.dto.UserDto;
 import com.mountaintour.mountain.util.MyJavaMailUtils;
