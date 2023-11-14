@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,8 +62,16 @@ public class ProductController {
 	 model.addAttribute("product", product);
 	 return "product/detail"; 
 	}
-  @GetMapping("/edit.do")
-  public String edit() {
-	 return "product/edit"; 
+  
+  @PostMapping("/edit.do")
+  public String edit(@ModelAttribute("product") ProductDto product) {
+    return "product/edit";
+  }
+  
+  @PostMapping("/modifyProduct.do")
+  public String modifyProduct(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+	  int modifyResult = productService.modifyProduct(request);
+	  redirectAttributes.addFlashAttribute("modifyResult", modifyResult);
+	  return "redirect:/product/detail.do?productNo=" + request.getParameter("productNo"); 
 	}
 }
