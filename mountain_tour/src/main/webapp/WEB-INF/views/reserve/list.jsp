@@ -34,7 +34,7 @@
             <tr>
               <th>예약날짜/예약번호</th>
               <th>상품명</th>
-              <th>결제금액</th>
+              <th>상품금액</th>
               <th>인원</th>
               <th>여행일정</th>
               <th>예약상태</th>
@@ -47,7 +47,7 @@
                   <a href="${contextPath}/reserve/detail.do?reserveNo=${res.reserveNo}">${res.reserveDate} / ${res.reserveNo}</a>
                 </td> 
                 <td id="prodName">${res.productDto.tripName}</td>
-                <td id="totalPrice">??</td>
+                <td id="totalPrice">${res.productDto.prize}~</td>
                 <td id="personCnt">${res.reservePerson}</td>
                 <td id="trvlSche">${res.reserveStart} / ${res.reserveFinish}</td>
                 <td id="resStatus">${res.reserveStatus}</td>
