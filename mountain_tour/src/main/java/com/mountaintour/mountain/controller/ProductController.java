@@ -74,4 +74,12 @@ public class ProductController {
 	  redirectAttributes.addFlashAttribute("modifyResult", modifyResult);
 	  return "redirect:/product/detail.do?productNo=" + request.getParameter("productNo"); 
 	}
+  
+  @PostMapping("/remove.do")
+  public String remove(@RequestParam(value="productNo", required=false, defaultValue="0") int productNo
+                     , RedirectAttributes redirectAttributes) {
+    int removeResult = productService.removeProduct(productNo);
+    redirectAttributes.addFlashAttribute("removeResult", removeResult);
+    return "redirect:/product/list.do";
+  }
 }

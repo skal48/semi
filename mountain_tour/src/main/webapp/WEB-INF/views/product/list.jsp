@@ -24,7 +24,7 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style="border: 1px gray solid; height: 1500px">
+    <div class="col-10">
       <a href="${contextPath}/product/write.form">
         <button type="button" class="admin_btn" style="margin-left: auto;">게시글 작성</button>
       </a>
@@ -53,39 +53,67 @@
 </div>
 
 <script>
-//전역 변수
-var page = 1;
-var totalPage = 0;
 
-const fnGetProductList = () => {
-  $.ajax({
-    // 요청
-    type: 'get',
-    url: '${contextPath}/product/getList.do', // Use the correct URL
-    data: 'page=' + page,
-    // 응답
-    dataType: 'json',
-    success: (resData) => {  
-      totalPage = resData.totalPage;
-      $.each(resData.productList, (i, product) => {
-        let str = '<div class="col-md-4">';
-        str += '<div class="card">';
-        str += '<img src="' + product.imagePath + '" class="card-img-top" alt="Product Image">'; // Assuming there is an "imagePath" property in the product data
-        str += '<div class="card-body">';
-        str += '<h5 class="card-title">' + product.tripName + '</h5>';
-        str += '<p class="card-text">' + product.tripContents + '</p>';
-        str += '<a href="' + '${contextPath}/product/detail.do?productNo=' + product.productNo + '" class="btn btn-primary">상세보기</a>';
-        str += '</div>';
-        str += '</div>';
-        str += '</div>';
-        $('#product_list').append(str);
-      })
+	// 전역 변수
+	var page = 1;
+	var totalPage = 0;
+
+    const fnGetProductList = () => {
+	  $.ajax({
+	    type: 'get',
+	    url: '${contextPath}/product/getList.do', 
+	    data: 'page=' + page,
+	    dataType: 'json',
+	    success: (resData) => {  
+	      totalPage = resData.totalPage;
+	      if (resData.productList != null && resData.productList.length > 0) {
+	        $.each(resData.productList, (i, product) => {
+	          let str = '<div class="col-md-4">';
+	          str += '<div class="card">';
+	          str += '<img src="' + product.imagePath + '" class="card-img-top" alt="Product Image">';
+	          str += '<div class="card-body">';
+	          str += '<h5 class="card-title">' + product.tripName + '</h5>';
+	          str += '<p class="card-text">' + product.tripContents + '</p>';
+	          str += '<a href="' + '${contextPath}/product/detail.do?productNo=' + product.productNo + '" class="btn btn-primary">상세보기</a>';
+	          str += '</div>';
+	          str += '</div>';
+	          str += '</div>';
+	          $('#product_list').append(str);
+	        });
+	      } else {
+	        console.log('데이터가 없습니다.');
+	      }
+	    },
+	    error: (error) => {
+	      console.error('Ajax 요청 에러:', error);
+	    }
+	  });
+	};
+
+    const fnScroll = () => {
+        var timerId;  // 최초 undefined 상태
+        $(window).on('scroll', () => {
+	        if(timerId) {  // timerId가 undefined이면 false로 인식, timerId가 값을 가지면 true로 인식
+	        	clearTimeout(timerId);
+	        }
+        	timerId = setTimeout(() => {  // setTimeout 실행 전에는 timerId가 undefined 상태, setTimeout이 한 번이라도 동작하면 timerId가 값을 가짐
+	            let scrollTop = $(window).scrollTop();     // 스크롤바 위치(스크롤 된 길이)
+	            let windowHeight = $(window).height();     // 화면 전체 크기
+	            let documentHeight = $(document).height(); // 문서 전체 크기
+	            if((scrollTop + windowHeight + 100) >= documentHeight) {  // 스크롤이 바닥에 닿기 100px 전에 true가 됨
+	              if(page > totalPage){  // 마지막 페이지를 보여준 이후에 true가 됨
+	                return;              // 마지막 페이지를 보여준 이후에는 아래 코드를 수행하지 말 것 
+	              }
+	              page++;
+	              fnGetProductList();
+	            }
+	        }, 200);  // 200밀리초(0.2초) 후 동작(시간은 임의로 조정 가능함)
+        })
     }
-  })
-}
+	    
+	fnGetProductList();
+	fnScroll();
 
-
-  fnGetProductList();
 </script>
 
 <%@ include file="../layout/footer.jsp" %>

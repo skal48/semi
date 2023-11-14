@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +40,6 @@ public class MagazineController {
   @ResponseBody
   @GetMapping(value="/getList.do", produces="application/json" )
   public Map<String, Object> getList(HttpServletRequest request){
-    System.out.println("*****"+magazineService.getMagazineList(request));
     return magazineService.getMagazineList(request);  
   }
   
@@ -73,7 +73,8 @@ public class MagazineController {
  
  
  @GetMapping("/detail.do")
- public String detail() {
+ public String detail(HttpServletRequest request, Model model) {
+   magazineService.loadMagazine(request, model);
    return "magazine/detail";
  }
  
