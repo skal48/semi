@@ -111,7 +111,7 @@
  </select>
  
  <delete id="deleteMagazine" parameterType="int">
- 	DELETE MAGAZINE_T WHERE MAGAZINE_NO = #{magazineNo}
+ 		DELETE FROM MAGAZINE_T WHERE MAGAZINE_NO = #{magazineNo}
  </delete>
  
  
