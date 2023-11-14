@@ -38,9 +38,10 @@
       <beans:bean class="com.mountaintour.mountain.interceptor.ShouldNotLoginInterceptor" />
     </interceptor>
 		<interceptor>
-			<mapping path="/manage/memberList.do"/>
-			<mapping path="/manage/productList.do"/>
-		  <mapping path="/manage/reviewList.do"/>
+			<mapping path="/manage/memberList.form"/>
+			<mapping path="/manage/productList.form"/>
+		  <mapping path="/manage/reviewList.form"/>
+		  <mapping path="/manage/leaveMemberList.form"/>
 		  <beans:bean class="com.mountaintour.mountain.interceptor.RequiredAdministratorLoginInterceptor" />
 		</interceptor>
 	

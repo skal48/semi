@@ -1,6 +1,7 @@
 package com.mountaintour.mountain.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,7 +11,7 @@ import com.mountaintour.mountain.dto.ProductDto;
 
 @Mapper
 public interface MagazineMapper {
-  public List<MagazineDto> MagazineList();
+  public List<MagazineDto> MagazineList(Map<String, Object> map);
   public int getMagazineCount();
   public List<ProductDto> getProductNo();
   public int InsertMagazineOne(MagazineDto magazineDto);

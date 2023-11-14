@@ -70,7 +70,7 @@
 
                                                                                                              
 
-  <insert id="insertImage" parameterType="ImageDto">
+  <insert id="insertProductImage" parameterType="ImageDto">
     INSERT INTO IMAGE_T (
         IMAGE_PATH
       , FILESYSTEM_NAME
@@ -141,36 +141,52 @@
         MOUNTAIN_T M ON A.MOUNTAIN_NO = M.MOUNTAIN_NO
     LEFT JOIN
         IMAGE_T I ON A.PRODUCT_NO = I.PRODUCT_NO
-</select>
+  </select>
   
+  <select id="getProduct" parameterType="int" resultMap="ProductMap">
+    SELECT P.PRODUCT_NO, P.TRIP_NAME, P.TRIP_CONTENTS, P.GUIDE, P.TIMETAKEN, P.PRICE, P.DANGER, P.REGISTERED_AT, P.MODIFIED_DATE
+    , P.PEOPLE, P.HIT, P.PLAN, P.STATUS, P.TERM_USE, M.MOUNTAIN_NO, M.MOUNTAIN_NAME, M.IMPORMATION, M.LOCATION
+      FROM PRODUCT_T P, MOUNTAIN_T M
+     WHERE P.MOUNTAIN_NO = M.MOUNTAIN_NO
+       AND P.PRODUCT_NO = #{productNo}
+  </select>  
   
-  
-
-
-  <update id="updateProduct" parameterType="int">
-     UPDATE PRODUCT_T 
-        SET TRIP_NAME = #{tripName},
-            TRIP_CONTENTS = #{tripContents}, 
-            GUIDE = #{guide}, 
-            TIMETAKEN = #{timeTaken}, 
-            PRICE = #{price},
-            DANGER = #{danger}, 
-            REGISTERED_AT = #{registeredAt}, 
-            MODIFIED_DATE = #{modifiedDate},  
-            THUMBNAIL = #{thumbnail}, 
-            PLAN = #{plan}, 
-            STATUS = #{status},
-            TERM_USE = #{termUse}
-      WHERE PRODUCT_NO = #{productNo}
+  <update id="productHit" parameterType="int">
+    UPDATE PRODUCT_T
+       SET HIT = HIT + 1
+     WHERE PRODUCT_NO = #{productNo}  
   </update>
   
+  <update id="updateProduct" parameterType="ProductDto">
+    UPDATE PRODUCT_T
+       SET TRIP_NAME = #{tripName}
+         , TRIP_CONTENTS = #{tripContents}
+         , GUIDE = #{guide} 
+         , TIMETAKEN = #{timetaken}
+         , PRICE = #{price}
+         , DANGER = #{danger} 
+         , REGISTERED_AT = SYSDATE
+         , MODIFIED_DATE = SYSDATE
+         , PLAN = #{plan} 
+         , STATUS = #{status}
+         , TERM_USE = #{termUse}
+     WHERE PRODUCT_NO = #{productNo}  
+  </update>
   
+  <select id="getProductImageList" parameterType="int" resultType="ImageDto">
+    SELECT PRODUCT_NO, IMAGE_PATH, FILESYSTEM_NAME, THUMBNAIL
+      FROM IMAGE_T
+     WHERE PRODUCT_NO = #{productNo}  
+  </select>
+
+  <delete id="deleteProductImage" parameterType="String">
+    DELETE
+      FROM IMAGE_T
+     WHERE FILESYSTEM_NAME = #{filesystemName}
+  </delete>
+
   
-  
-  
-  
-  
-  
+
   
   
   
