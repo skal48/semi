@@ -54,19 +54,24 @@
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
       <div class="wapper">
 	      <div class="btn_wrapper">
-	        <button type="button" class="goDelete btn btn-secondary">삭제</button>
-	        <button type="button" class="goModify btn btn-secondary">수정</button>
+          <c:if test="${sessionScope.user.auth == null }">  <!-- 바꿔야해 관리자로 -->
+            <form id="btn_frm">
+              <input type="hidden" name="magazineNo" value="${magazine.magazineNo}">
+    	        <button type="button" class="goDelete btn btn-secondary">삭제</button>
+    	        <button type="button" class="goModify btn btn-secondary">수정</button>
+             </form> 
+          </c:if>
 	      </div>
 	      <div>
-	        <h1>title</h1>
+	        <h1>${magazine.title}</h1>
 	        <div class="date_hit">
-		        <span>2023년 11월 12일</span>
-		        <span>조회수   40</span>
+		        <span>${magazine.createAt}</span>
+		        <span>조회수   ${magazine.hit}</span>
 	        </div>
-	        <div class="contents">본문</div>
+	        <div class="contents">${magazine.contents}</div>
 	        <div class="like">
 	          <button type="button" class="btn_like"><i class="fa-regular fa-thumbs-up fa-bounce fa-2xl" style="color: #1f753d;"></i></button>
-	          <div class="like_num">좋아요수 </div> 
+	          <div class="like_num">${like} </div> 
 	        </div>
 	      </div>
       </div>
@@ -80,17 +85,29 @@
 </div>
   
 <script>
+
+	var btn_frm = $('#btn_frm');
+	
   const fnModify = () => {
 	  $('.goModify').click(() => {
 		  location.href = '${contextPath}/magazine/modify.do';
 	  })	  
   }
   
+  
+  
   const fnDelete = () => {
 	  $('.goDelete').click(() => {
-		  location.href = '${contextPath}/magazine/delete.do';
+		  if(confirm('매거진을 삭제할까요?')){
+			  btn_frm.attr('action', '${contextPath}/magazine/delete.do');
+			  btn_frm.attr('method', 'post');
+			  btn_frm.submit();
+		  }		  
 	  })
   }
+  
+  
+  
   
   fnModify();
   fnDelete();

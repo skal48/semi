@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 
 import com.mountaintour.mountain.dto.InquiryAnswerDto;
 import com.mountaintour.mountain.dto.InquiryDto;
+import com.mountaintour.mountain.dto.ProductDto;
 
 public interface InquiryService {
   
@@ -20,6 +21,7 @@ public interface InquiryService {
   
   /* 문의 등록 */
   public int addInquiry(HttpServletRequest request);
+  public void getProductList(Model model);
   
   /* 문의 삭제 */
   public int removeInquiry(int inquiryNo);

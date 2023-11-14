@@ -14,6 +14,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -47,9 +48,9 @@ public class MagazineServiceImpl implements MagazineService {
     Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
         , "end", myPageUtils.getEnd());
 
-    List<MagazineDto> uploadList = magazineMapper.MagazineList(map);
+    List<MagazineDto> magazineList = magazineMapper.magazineList(map);
     
-    return Map.of("uploadList", uploadList
+    return Map.of("magazineList", magazineList
     , "totalPage", myPageUtils.getTotalPage());
     
   }
@@ -76,7 +77,7 @@ public class MagazineServiceImpl implements MagazineService {
                                         .contents(contents)
                                         .productNo(productNo)
                                         .build();
-    int addResult = magazineMapper.InsertMagazineOne(magazine);
+    int addResult = magazineMapper.insertMagazineOne(magazine);
     
     //매거진 작성시 사용한 이미지 목록(jsoup 라이브러리 사용)
    
@@ -200,7 +201,21 @@ public class MagazineServiceImpl implements MagazineService {
     return false;
   }
   
+  @Override
+  public void loadMagazine(HttpServletRequest request, Model model) {
+    
+    int magazineNo = Integer.parseInt(request.getParameter("magazineNo"));
+    model.addAttribute("magazine", magazineMapper.getMagazine(magazineNo));
+    model.addAttribute("like", magazineMapper.countLike(magazineNo));
+    
+  }
   
-  
+  @Override
+  public int deleteMagazine(HttpServletRequest request) {
+    int magazineNo = Integer.parseInt(request.getParameter("magazineNo")); 
+    System.out.println("##############"+magazineNo);
+    int deleteResult = magazineMapper.deleteMagazine(magazineNo);       
+    return deleteResult;
+  }
   
 }

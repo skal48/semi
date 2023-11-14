@@ -15,6 +15,7 @@ import com.mountaintour.mountain.dao.InquiryAnswerMapper;
 import com.mountaintour.mountain.dao.InquiryMapper;
 import com.mountaintour.mountain.dto.InquiryAnswerDto;
 import com.mountaintour.mountain.dto.InquiryDto;
+import com.mountaintour.mountain.dto.ProductDto;
 import com.mountaintour.mountain.dto.UserDto;
 import com.mountaintour.mountain.util.MyPageUtils;
 
@@ -82,7 +83,7 @@ public class InquiryServiceImpl implements InquiryService {
     List<InquiryDto> inquiryList = inquiryMapper.getSearchInquiry(map);
     
     model.addAttribute("inquiryList", inquiryList);
-    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/cs/inquirySearch.do?column=" + column + "&query=" + query));
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/cs/inquirySearch.do", "column=" + column + "&query=" + query));
     model.addAttribute("beginNo", total - (page -1) * display);
     model.addAttribute("total", total);
   }
@@ -96,7 +97,7 @@ public class InquiryServiceImpl implements InquiryService {
   }
   
   /**
-   * 문의글 추가하기
+   * 문의글 등록하기
    */
   @Override
   public int addInquiry(HttpServletRequest request) {
@@ -105,6 +106,7 @@ public class InquiryServiceImpl implements InquiryService {
     String inquiryContents = request.getParameter("inquiryContents");
     String ip = request.getRemoteAddr();
     int userNo = Integer.parseInt(request.getParameter("userNo"));
+    int productNo = Integer.parseInt(request.getParameter("productNo"));
     
     InquiryDto inquiry = InquiryDto.builder()
                           .inquiryTitle(inquiryTitle)
@@ -113,11 +115,21 @@ public class InquiryServiceImpl implements InquiryService {
                           .userDto(UserDto.builder()
                                     .userNo(userNo)
                                     .build())
+                          .productDto(ProductDto.builder()
+                                        .productNo(productNo)
+                                        .build())
                           .build();
     
     int addResult = inquiryMapper.insertInquiry(inquiry);
     return addResult;
   }
+
+  @Override
+  public void getProductList(Model model) {
+    List<ProductDto> productList = inquiryMapper.getProductList();
+    model.addAttribute("productList", productList);
+  }
+  
   
   /**
    * 문의글 삭제하기
