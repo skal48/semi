@@ -20,4 +20,5 @@ public interface MagazineMapper {
   public int insertThumbnail(MagazineMultiDto magazineMultiDto);
   public MagazineDto getMagazine(int magazineNo);
   public int countLike(int magazineNo);
+  public int deleteMagazine(int magazineNo);
 }

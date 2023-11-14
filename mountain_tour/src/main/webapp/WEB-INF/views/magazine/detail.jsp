@@ -85,17 +85,29 @@
 </div>
   
 <script>
+
+	var btn_frm = $('#btn_frm');
+	
   const fnModify = () => {
 	  $('.goModify').click(() => {
 		  location.href = '${contextPath}/magazine/modify.do';
 	  })	  
   }
   
+  
+  
   const fnDelete = () => {
 	  $('.goDelete').click(() => {
-		  location.href = '${contextPath}/magazine/delete.do';
+		  if(confirm('매거진을 삭제할까요?')){
+			  btn_frm.attr('action', '${contextPath}/magazine/delete.do');
+			  btn_frm.attr('method', 'post');
+			  btn_frm.submit();
+		  }		  
 	  })
   }
+  
+  
+  
   
   fnModify();
   fnDelete();

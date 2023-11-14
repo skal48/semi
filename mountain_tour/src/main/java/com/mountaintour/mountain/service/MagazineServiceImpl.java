@@ -210,5 +210,12 @@ public class MagazineServiceImpl implements MagazineService {
     
   }
   
+  @Override
+  public int deleteMagazine(HttpServletRequest request) {
+    int magazineNo = Integer.parseInt(request.getParameter("magazineNo")); 
+    int deleteResult = magazineMapper.deleteMagazine(magazineNo);       
+    System.out.println(deleteResult);
+    return deleteResult;
+  }
   
 }
