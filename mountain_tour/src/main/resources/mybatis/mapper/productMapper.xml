@@ -28,7 +28,7 @@
     <association javaType="ImageDto"         property="imageDto">
         <result  column="IMAGE_PATH" 		 property="imagePath" />
         <result  column="FILESYSTEM_NAME" 	 property="filesystemName"/>
-        <result  column="THUMBNAIL" 		 property="thumbnail"/>
+     <!-- <result  column="THUMBNAIL" 		 property="thumbnail"/> -->   
     </association>
   </resultMap>
 
@@ -83,7 +83,6 @@
   <select id="getProductImageInYesterday" resultType="ImageDto">
     SELECT IMAGE_PATH
       	 , FILESYSTEM_NAME
-      	 , THUMBNAIL
      	 , PRODUCT_NO
       FROM IMAGE_T
      WHERE IMAGE_PATH = '/product/' || TO_CHAR(SYSDATE - 1, 'YYYY/MM/DD')
@@ -116,8 +115,7 @@
         IMPORMATION,
         LOCATION,
         IMAGE_PATH,
-        FILESYSTEM_NAME,
-        THUMBNAIL
+        FILESYSTEM_NAME
     FROM (SELECT ROW_NUMBER() OVER(ORDER BY P.PRODUCT_NO DESC) AS RN, 
             P.PRODUCT_NO,
             P.USER_NO,
@@ -139,8 +137,8 @@
             M.IMPORMATION,
             M.LOCATION,
             I.IMAGE_PATH,
-            I.FILESYSTEM_NAME,
-            I.THUMBNAIL  
+            I.FILESYSTEM_NAME
+            <!-- I.THUMBNAIL  --> 
             FROM PRODUCT_T P JOIN MOUNTAIN_T M ON P.MOUNTAIN_NO = M.MOUNTAIN_NO
             LEFT JOIN IMAGE_T I ON P.PRODUCT_NO = I.PRODUCT_NO)
             WHERE RN BETWEEN #{begin} AND #{end}
@@ -178,7 +176,7 @@
   </update>
   
   <select id="getProductImageList" parameterType="int" resultType="ImageDto">
-    SELECT PRODUCT_NO, IMAGE_PATH, FILESYSTEM_NAME, THUMBNAIL
+    SELECT PRODUCT_NO, IMAGE_PATH, FILESYSTEM_NAME
       FROM IMAGE_T
      WHERE PRODUCT_NO = #{productNo}  
   </select>

@@ -99,6 +99,8 @@ public class ProductServiceImpl implements ProductService {
 	                .termUse(request.getParameter("termUse"))
 	                .build();
 	        
+	        int addResult = productMapper.insertProduct(product);
+	        
 	        // 나머지 로직 추가
 	        for(String editorImage : getEditorImageList(tripContents)) {
 	            ImageDto productImage = ImageDto.builder()
@@ -108,10 +110,7 @@ public class ProductServiceImpl implements ProductService {
 	                .build();
 	            productMapper.insertProductImage(productImage);
 	          }
-	        
-	        
-
-	        int addResult = productMapper.insertProduct(product);
+	              
 
 	        // 추가 로직에 따라 결과 반환
 	        return addResult;

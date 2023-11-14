@@ -23,14 +23,15 @@
 #ckeditor {
   border: 1px solid silver;
 }
-
+   
+  
 </style>
   <div class="container text-center">
  <form method="post" id="frm_product_add" action="${contextPath}/product/add.do">
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 3000px" >
+    <div class="col-10">
       <!--  여기다가 작성  다 작성하고 height 지우기!!!! -->
       
 	  
@@ -60,11 +61,13 @@
  		    <textarea class="form-control" id="plan" name="plan" rows="10"></textarea>
     	  </div>
     	  
+    	  <div>
     	   <div class="choice">상품정보</div>
     	    <label for="tripContents">내용</label>
 			<textarea name="tripContents" id="tripContents" style="display: none;"></textarea>
             <div id="toolbar-container"></div>
-            <div id="ckeditor"></div>  	     	    
+            <div id="ckeditor"></div>  
+           </div>	     	    
     	  
     	  <div>
     	    <label for="guide" class="form-label">가이드</label>
@@ -91,7 +94,7 @@
     	  
     	  
     	</div>   	   
-    	<div class="col-4"> <!-- style="border-left: 2px solid gray;" -->   
+    	<div class="col-4"> 
        <div>
 	   <div style="position: sticky; top: 80px;">
 	   <div><div>
@@ -134,24 +137,51 @@
   
  
 <script>
-	const fnCkeditor = () => {
+const fnCkeditor = () => {
 	  DecoupledEditor
-    .create(document.getElementById('ckeditor'), {
-  	  ckfinder: {
-        // 이미지 업로드 경로
-        uploadUrl: '${contextPath}/product/imageUpload.do'
- 			
-  		}
-	  })
-    .then(editor => {
-      const toolbarContainer = document.getElementById('toolbar-container');
-      toolbarContainer.appendChild(editor.ui.view.toolbar.element);
-      
-    })
-    .catch(error => {
-      console.error(error);
-    });
-}
+	    .create(document.getElementById('ckeditor'), {
+	      ckfinder: {
+	        // 이미지 업로드 경로
+	        uploadUrl: '${contextPath}/product/imageUpload.do'
+	      }
+	    })
+	    .then(editor => {
+	      const toolbarContainer = document.getElementById('toolbar-container');
+	      toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+
+	      // 이미지 초기화 시에 style 및 다른 속성 제거
+	      editor.model.schema.extend('$image', { allowAttributes: ['style'] });
+	      editor.model.schema.setAttribute('image', 'style', true);
+
+	      // 이미지 크기 조절 옵션 추가
+	      editor.ui.componentFactory.add('resizeImage', locale => {
+	        const view = new ButtonView(locale);
+
+	        view.set({
+	          label: 'Resize Image',
+	          tooltip: true
+	        });
+
+	        // 클릭 이벤트 핸들러
+	        view.on('execute', () => {
+	          // 이미지 크기 조절 로직 추가
+	          // 아래는 예시로 50%로 크기를 조절하는 코드
+	          const imageElement = editor.model.document.selection.getSelectedElement();
+	          const newSize = '50%';
+
+	          editor.model.change(writer => {
+	            writer.setAttribute('style', `width: ${newSize}`, imageElement);
+	          });
+	        });
+
+	        return view;
+	      });
+	    })
+	    .catch(error => {
+	      console.error(error);
+	    });
+	}
+
 
   const fnProductAdd = () => {
     $('#frm_product_add').submit((ev) => {
@@ -164,6 +194,9 @@
     });
   };
 
+  
+  
+  
   fnProductAdd();
   fnCkeditor();
 </script>
