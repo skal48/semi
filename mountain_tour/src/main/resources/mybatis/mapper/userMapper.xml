@@ -24,6 +24,8 @@
 	  , SYSDATE
 	  )
 	</insert>
+ 	
+ 
 
 	<insert id="insertUser" parameterType="UserDto">
 	 INSERT INTO USER_T (

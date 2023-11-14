@@ -173,9 +173,8 @@
     <div class="text-center">
       <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
       <button type="button" id="btn_leave" class="btn btn-success">회원탈퇴</button>
-      <button type="button" id="btn_modify" onclick="updateUserInfo()" class="btn btn-success style="color: white;">
-      <a href="${contextPath}/user/main.form" style="color: inherit;">개인정보수정</button></a>
-      
+      <button type="button" id="btn_modify" class="btn btn-success style="color: white;">개인정보수정</button>
+     
       
     </div>
     
