@@ -20,22 +20,34 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
-      <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
+    <div class="col-10" style = "border: 1px gray solid;" >
       
       
       <div>
       
-        <h2> ${inquiry.inquiryTitle}</h2>
-        <div>문의상품: ${inquiry.productDto.tripName}</div>
-        <div>작성일: <fmt:formatDate value="${inquiry.createdAt}" pattern="yyyy/MM/dd" /></div>
-        <div>작성자: ${inquiry.userDto.name}</div>
-        <div>내용: ${inquiry.inquiryContents}</div>
+        <div class="form-floating mb-3">
+          <input type="text" readonly class="form-control-plaintext" id="inquiry_title" value="${inquiry.inquiryTitle}">
+          <label for="inquiry_title">제목</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" readonly class="form-control-plaintext" id="trip_name" value="${inquiry.productDto.tripName}">
+          <label for="trip_name">관심여행</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" readonly class="form-control-plaintext" id="user_name" value="${inquiry.userDto.name}">
+          <label for="user_name">작성자</label>
+        </div>
+        <div class="form-floating mb-3" >
+          <textarea readonly class="form-control-plaintext" id="inquiry_contents" style="height: 300px">${inquiry.inquiryContents}</textarea>
+          <label for="inquiry_contents">내용</label>
+        </div>
+      
+        <div style="text-align: right; color: #696969; margin-top: 10px;">작성일 <fmt:formatDate value="${inquiry.createdAt}" pattern="yyyy/MM/dd" /></div>
         
-        <div>
+        <div style="text-align: right; margin: 10px auto">
           <form method="post" action="${contextPath}/cs/removeInquiry.do" id="frm_removeInquiry">
             <input type="hidden" name="inquiryNo" value="${inquiry.inquiryNo}">
-            <button type="submit">문의삭제</button>
+            <button type="submit" class="btn btn-secondary">문의삭제</button>
           </form>
         </div>
         
@@ -43,21 +55,27 @@
         <div>
           <%-- 회원이 답변을 확인하는 곳 --%>
           <c:if test="${sessionScope.user.auth eq 1}">
-            <textarea rows="10" cols="50" readonly>${answer.contents}</textarea>
+            <div class="form-floating">
+              <textarea class="form-control" readonly placeholder="답변을 작성하세요." id="show_answer_user" style="height: 350px">${answer.contents}</textarea>
+              <label for="show_answer_user">관리자 답변</label>
+            </div>
           </c:if>
         
           <%-- 관리자가 답변 (확인/작성/수정/삭제)하는 곳 --%>
           <c:if test="${sessionScope.user.auth eq 0}">
             <form id="frm_answer" method="post" >
-              <div>
-                <textarea rows="10" cols="50" name="contents" placeholder="답변을 작성하세요.">${answer.contents}</textarea>
+              <div class="form-floating">
+                <textarea class="form-control" name="contents" placeholder="답변을 작성하세요." id="show_answer_manager" style="height: 350px">${answer.contents}</textarea>
+                <label for="show_answer_manager">관리자 답변</label>
               </div>
               <input type="hidden" name="inquiryNo" value="${inquiry.inquiryNo}"> 
               <input type="hidden" name="answerNo" value="${answer.answerNo}">
               <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
-              <button type="button" id="btn_add_answer">답변작성</button>
-              <button type="button" id="btn_modiy_answer">답변수정</button>
-              <button type="button" id="btn_delete_answer">답변삭제</button>
+              <div style="margin: 20px auto;">
+                <button type="button" id="btn_add_answer" class="btn btn-outline-success">답변작성</button>
+                <button type="button" id="btn_modiy_answer" class="btn btn-outline-success">답변수정</button>
+                <button type="button" id="btn_delete_answer" class="btn btn-secondary">답변삭제</button>
+              </div>
             </form>
           </c:if>
             
@@ -66,8 +84,11 @@
         
         
         
-        <div>
-          <a href="${contextPath}/cs/inquiryList.do">목록보기</a>
+        <div style="margin-top: 5%;">
+          <a href="${contextPath}/cs/inquiryList.do">
+            <button type="button" class="btn btn-success col-6">목록보기</button>
+          </a>
+          
         </div>
         
       </div>
