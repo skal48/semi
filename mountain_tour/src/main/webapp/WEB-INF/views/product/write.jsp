@@ -10,6 +10,7 @@
   <jsp:param value="마운틴투어상품게시글작성" name="title"/>
 </jsp:include>
 <style>
+
 .ck.ck-editor {
   max-width: 1000px;
 }
@@ -59,15 +60,11 @@
  		    <textarea class="form-control" id="plan" name="plan" rows="10"></textarea>
     	  </div>
     	  
-    	  <div>
-    	  <div class="choice">상품정보</div>
+    	   <div class="choice">상품정보</div>
     	    <label for="tripContents">내용</label>
 			<textarea name="tripContents" id="tripContents" style="display: none;"></textarea>
             <div id="toolbar-container"></div>
-            <div id="ckeditor"></div>
-    	  </div>   	  
-
-    	  
+            <div id="ckeditor"></div>  	     	    
     	  
     	  <div>
     	    <label for="guide" class="form-label">가이드</label>
@@ -135,48 +132,41 @@
   </div>
 
   
-   <script>     
-      
-      
-      const fnCkeditor = () => {
-    	  DecoupledEditor
-          .create(document.getElementById('ckeditor'), {
-        	  ckfinder: {
-              // 이미지 업로드 경로
-              uploadUrl: '${contextPath}/prdocut/imageUpload.do'    		  
-        		}
-      	  })
-          .then(editor => {
-            const toolbarContainer = document.getElementById('toolbar-container');
-            toolbarContainer.appendChild(editor.ui.view.toolbar.element);
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }
-      
-      const fnProductAdd = () => {
-    	  $('#frm_product_add').submit((ev) => {
-          if($('#tripName').val() === ''){
-            alert('제목은 반드시 입력해야 합니다.');
-            ev.preventDefault();
-            return;
-          }
-    		  $('#tripContents').val($('#ckeditor').html());
-    	  })
-      }
-      
-      
-      
-      
-      fnCkeditor();
-      fnProductAdd();
-      
-      
-      
-	</script>
  
- 
+<script>
+	const fnCkeditor = () => {
+	  DecoupledEditor
+    .create(document.getElementById('ckeditor'), {
+  	  ckfinder: {
+        // 이미지 업로드 경로
+        uploadUrl: '${contextPath}/product/imageUpload.do'
+ 			
+  		}
+	  })
+    .then(editor => {
+      const toolbarContainer = document.getElementById('toolbar-container');
+      toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+      
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+  const fnProductAdd = () => {
+    $('#frm_product_add').submit((ev) => {
+      if ($('#tripName').val() === '') {
+        alert('제목은 반드시 입력해야 합니다.');
+        ev.preventDefault();
+        return;
+      }
+      $('#tripContents').val($('#ckeditor').html());
+    });
+  };
+
+  fnProductAdd();
+  fnCkeditor();
+</script>
  
  
  

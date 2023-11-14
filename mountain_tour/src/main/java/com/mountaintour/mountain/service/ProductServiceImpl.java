@@ -1,6 +1,7 @@
 package com.mountaintour.mountain.service;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,8 @@ import com.mountaintour.mountain.dao.ProductMapper;
 import com.mountaintour.mountain.dto.ImageDto;
 import com.mountaintour.mountain.dto.MountainDto;
 import com.mountaintour.mountain.dto.ProductDto;
-import com.mountaintour.mountain.util.MyFileUtils;
 import com.mountaintour.mountain.util.MyPageUtils;
+import com.mountaintour.mountain.util.MyProductFileUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,44 +35,43 @@ import lombok.RequiredArgsConstructor;
 public class ProductServiceImpl implements ProductService {
 
 	private final ProductMapper productMapper;
-	private final MyFileUtils myFileUtils;
+	private final MyProductFileUtils myFileUtils;
 	private final MyPageUtils myPageUtils;
 	
 	
 	@Override
 	public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest) {
-		 // 이미지가 저장될 경로
-	    String imagePath = myFileUtils.getBlogImagePath();
+	    // 이미지가 저장될 경로
+	    String imagePath = myFileUtils.getProductImagePath();
 	    File dir = new File(imagePath);
-	    if(!dir.exists()) {
-	      dir.mkdirs();
+	    if (!dir.exists()) {
+	        dir.mkdirs();
 	    }
-	    
+
 	    // 이미지 파일 (CKEditor는 이미지를 upload라는 이름으로 보냄)
 	    MultipartFile upload = multipartRequest.getFile("upload");
-	    
+
 	    // 이미지가 저장될 이름
-	    String originalFilename = upload.getOriginalFilename();
-	    String filesystemName = myFileUtils.getFilesystemName(originalFilename);
-	    
+	    String filesystemName = myFileUtils.getFilesystemName(upload.getOriginalFilename());
+
 	    // 이미지 File 객체
 	    File file = new File(dir, filesystemName);
-	    
 	    // 저장
 	    try {
-	      upload.transferTo(file);
+	        upload.transferTo(file);
 	    } catch (Exception e) {
-	      e.printStackTrace();
+	        e.printStackTrace();
 	    }
-	    
 	    // CKEditor로 저장된 이미지의 경로를 JSON 형식으로 반환해야 함
 	    return Map.of("uploaded", true
-	                , "url", multipartRequest.getContextPath() + imagePath + "/" + filesystemName);
+	            , "url", multipartRequest.getContextPath() + imagePath + "/" + filesystemName);
+	}
 
-	  }
 	
 	
 	public int addProduct(HttpServletRequest request) {
+		
+		String tripContents = request.getParameter("tripContents");
 	    try {
 	        String userNoStr = request.getParameter("userNo");
 	        if (userNoStr == null || userNoStr.isEmpty()) {
@@ -90,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
 	                .mountainNo(1)
 	                .build())
 	                .tripName(request.getParameter("tripName"))
-	                .tripContents(request.getParameter("tripContents"))
+	                .tripContents(tripContents)
 	                .guide(request.getParameter("guide"))
 	                .timetaken(request.getParameter("timetaken"))
 	                .price(Integer.parseInt(request.getParameter("price")))
@@ -98,8 +98,18 @@ public class ProductServiceImpl implements ProductService {
 	                .plan(request.getParameter("plan"))
 	                .termUse(request.getParameter("termUse"))
 	                .build();
-
+	        
 	        // 나머지 로직 추가
+	        for(String editorImage : getEditorImageList(tripContents)) {
+	            ImageDto productImage = ImageDto.builder()
+	                .productNo(product.getProductNo())
+	                .imagePath(myFileUtils.getProductImagePath())
+	                .filesystemName(editorImage)
+	                .build();
+	            productMapper.insertProductImage(productImage);
+	          }
+	        
+	        
 
 	        int addResult = productMapper.insertProduct(product);
 
@@ -110,6 +120,9 @@ public class ProductServiceImpl implements ProductService {
 	        e.printStackTrace(); // 또는 로깅 등의 작업 수행
 	        return -1; // 예시로 -1을 반환하였습니다. 실제 상황에 맞게 처리해주세요.
 	    }
+	    
+	    
+	    
 	}
 
 	
@@ -131,6 +144,33 @@ public class ProductServiceImpl implements ProductService {
 		    
 	 return editorImageList;
 	}
+	
+	  @Transactional(readOnly=true)
+	  public void productImageBatch() {
+	    
+	    // 1. 어제 작성된 블로그의 이미지 목록 (DB)
+	    List<ImageDto> productImageList = productMapper.getProductImageInYesterday();
+	    
+	    // 2. List<BlogImageDto> -> List<Path> (Path는 경로+파일명으로 구성)
+	    List<Path> productImagePathList = productImageList.stream()
+	                                                .map(productImageDto -> new File(productImageDto.getImagePath(), productImageDto.getFilesystemName()).toPath())
+	                                                .collect(Collectors.toList());
+	    
+	    // 3. 어제 저장된 블로그 이미지 목록 (디렉토리)
+	    File dir = new File(myFileUtils.getProductImagePathInYesterday());
+	    
+	    // 4. 삭제할 File 객체들
+	    File[] targets = dir.listFiles(file -> !productImagePathList.contains(file.toPath()));
+
+	    // 5. 삭제
+	    if(targets != null && targets.length != 0) {
+	      for(File target : targets) {
+	        target.delete();
+	      }
+	    }
+	    
+	  }
+	
 	
 	@Transactional(readOnly=true)
 	@Override
@@ -197,7 +237,7 @@ public class ProductServiceImpl implements ProductService {
 	      .filter(editorImage -> !productImageList.contains(editorImage))        
 	      .map(editorImage -> ImageDto.builder()                      
 	                            .productNo(productNo)
-	                            .imagePath(myFileUtils.getBlogImagePath())
+	                            .imagePath(myFileUtils.getProductImagePath())
 	                            .filesystemName(editorImage)
 	                            .build())
 	      .forEach(productImageDto -> productMapper.insertProductImage(productImageDto)); 

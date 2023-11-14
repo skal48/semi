@@ -12,6 +12,7 @@ import com.mountaintour.mountain.dto.ProductDto;
 public interface ProductMapper {
 	public int insertProduct(ProductDto product);
 	public int insertProductImage(ImageDto image);
+	public List<ImageDto> getProductImageInYesterday();
 	public int getProductCount();
 	public List<ProductDto> getProductList(Map<String, Object> map);
 	public List<ImageDto> getAttachList(int productNo);
