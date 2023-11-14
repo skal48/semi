@@ -52,6 +52,8 @@ public class ProductController {
   @ResponseBody
   @GetMapping(value="/getList.do", produces="application/json")
   public Map<String, Object> getList(HttpServletRequest request){
+    String page = request.getParameter("page");
+    System.out.println("정답을 알려줘" + page);
     return productService.getProductList(request);
   }  
   
@@ -74,4 +76,12 @@ public class ProductController {
 	  redirectAttributes.addFlashAttribute("modifyResult", modifyResult);
 	  return "redirect:/product/detail.do?productNo=" + request.getParameter("productNo"); 
 	}
+  
+  @PostMapping("/remove.do")
+  public String remove(@RequestParam(value="productNo", required=false, defaultValue="0") int productNo
+                     , RedirectAttributes redirectAttributes) {
+    int removeResult = productService.removeProduct(productNo);
+    redirectAttributes.addFlashAttribute("removeResult", removeResult);
+    return "redirect:/product/list.do";
+  }
 }
