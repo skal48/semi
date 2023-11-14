@@ -40,7 +40,7 @@
 		  </div>
     	  <hr>
     	  <c:if test="${sessionScope.user.auth == 0}">
-    	   <form id="frm_btn" method="post" action="${contextPath}/product/edit.do">
+    	   <form id="frm_btn" method="post">
     	   	  <input type="hidden" name="productNo" value="${product.productNo}">
     	   	  <input type="hidden" name="tripName" value="${product.tripName}">
     	   	  <input type="hidden" name="price" value="${product.price}">	    	
@@ -367,6 +367,14 @@
     })
   }
 
+  const fnRemoveProduct = () => {
+      $('#btn_remove').click(() => {
+        if(confirm('상품을 삭제할까요?')){
+          frmBtn.attr('action', '${contextPath}/product/remove.do');
+          frmBtn.submit();          
+        }
+      })
+    }
   
   
   function fnGoReserve(){
@@ -381,6 +389,7 @@
   
   fnGoReserve();
   fnEditProduct();
+  fnRemoveProduct();
   
   </script>
 

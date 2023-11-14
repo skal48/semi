@@ -16,7 +16,6 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartRequest;
 
 import com.mountaintour.mountain.dao.MagazineMapper;
 import com.mountaintour.mountain.dto.MagazineDto;
@@ -43,8 +42,16 @@ public class MagazineServiceImpl implements MagazineService {
     int total = magazineMapper.getMagazineCount();
     int display = 6;
     
+    myPageUtils.setPaging(page, total, display);
     
-    return null;
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+        , "end", myPageUtils.getEnd());
+
+    List<MagazineDto> uploadList = magazineMapper.MagazineList(map);
+    
+    return Map.of("uploadList", uploadList
+    , "totalPage", myPageUtils.getTotalPage());
+    
   }
   
   @Override
@@ -56,7 +63,7 @@ public class MagazineServiceImpl implements MagazineService {
   }
   
   @Override
-  public int firstUpload(HttpServletRequest request)  {
+  public Map<String, Integer> firstUpload(HttpServletRequest request)  {
     
     String title = request.getParameter("title");
     String contents = request.getParameter("contents");
@@ -81,8 +88,10 @@ public class MagazineServiceImpl implements MagazineService {
                                         .build();
         magazineMapper.insertMagazineMulti(magazineMulti);
       }
+      
+     
                           
-    return addResult;
+    return Map.of("addResult",addResult,"magazineNo", magazine.getMagazineNo());
   }
   
   @Override
@@ -141,7 +150,7 @@ public class MagazineServiceImpl implements MagazineService {
   public boolean addThumbnail(MultipartHttpServletRequest multipartRequest) throws Exception{
     
     String summary = multipartRequest.getParameter("summary");
-    int magazineNo = Integer.parseInt(multipartRequest.getParameter("productNo")); 
+    int magazineNo = Integer.parseInt(multipartRequest.getParameter("magazineNo")); 
     
     MagazineDto magazine = MagazineDto.builder()
                                     .magazineNo(magazineNo)
@@ -181,7 +190,7 @@ public class MagazineServiceImpl implements MagazineService {
         int hasThumbnail = (contentType != null && contentType.startsWith("image")) ? 1 : 0;
         
         if(hasThumbnail == 1) {
-          File thumbnail = new File(dir, "s_" + filesystemName);  // small 이미지를 의미하는 s_을 덧붙임
+          File thumbnail = new File(dir, "m_" + filesystemName);  // small 이미지를 의미하는 m_을 덧붙임
           Thumbnails.of(file)
                     .size(650, 270)      // 가로 100px, 세로 100px
                     .toFile(thumbnail);
@@ -190,6 +199,7 @@ public class MagazineServiceImpl implements MagazineService {
     }
     return false;
   }
+  
   
   
   

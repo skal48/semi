@@ -10,10 +10,20 @@
   <jsp:param value="마운틴투어상품게시글작성" name="title"/>
 </jsp:include>
 <style>
-      .ck-editor__editable { height: 400px; }
-      .ck-content { font-size: 12px; }
+.ck.ck-editor {
+  max-width: 1000px;
+}
+.ck-editor__editable {
+  min-height: 400px;
+}
+.ck-content {
+  color: gray;
+}
+#ckeditor {
+  border: 1px solid silver;
+}
+
 </style>
- 
   <div class="container text-center">
  <form method="post" id="frm_product_add" action="${contextPath}/product/add.do">
   <div class="row">
@@ -52,10 +62,12 @@
     	  <div>
     	  <div class="choice">상품정보</div>
     	    <label for="tripContents">내용</label>
-			<textarea name="tripContents" id="tripContents"></textarea>
+			<textarea name="tripContents" id="tripContents" style="display: none;"></textarea>
             <div id="toolbar-container"></div>
             <div id="ckeditor"></div>
     	  </div>   	  
+
+    	  
     	  
     	  <div>
     	    <label for="guide" class="form-label">가이드</label>
@@ -123,8 +135,7 @@
   </div>
 
   
-   <script>
-      ClassicEditor.create( document.querySelector( '#tripContents' ) );
+   <script>     
       
       
       const fnCkeditor = () => {
@@ -132,7 +143,7 @@
           .create(document.getElementById('ckeditor'), {
         	  ckfinder: {
               // 이미지 업로드 경로
-              uploadUrl: '${contextPath}/product/imageUpload.do'    		  
+              uploadUrl: '${contextPath}/prdocut/imageUpload.do'    		  
         		}
       	  })
           .then(editor => {

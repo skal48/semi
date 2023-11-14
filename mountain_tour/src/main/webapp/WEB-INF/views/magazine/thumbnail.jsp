@@ -61,13 +61,13 @@
       <form class="thumbnail" method="post" action="${contextPath}/magazine/final.do" enctype="multipart/form-data" style = "border: 1px gray solid;" >
           <div class="image_wrapper">
             <div id="previewId"></div>
-		        <input type="file" id="image" class="input-group-text" onchange="previewImage(this,'previewId')"/>
+		        <input type="file" id="image" name="files" class="input-group-text" onchange="previewImage(this,'previewId')"/>
 		        <button type="button" id="btn_reset">지우기</button>
           </div>		      
 		      <div class="big_title">summary</div>
           <textarea rows="10" cols="60" name="summary"></textarea>
           <div>
-          <input type="hidden" value="${magazineNo}">
+          <input type="hidden" value="${map.magazineNo}" name="magazineNo">
           <input type="hidden" name="isThumbnail" value="1">        
 		      <button type="submit" class="btn btn-secondary">완료</button>
           </div>
@@ -123,14 +123,24 @@ function previewImage(targetObj, previewId) {
      }       
   }
 
-  const fnClear = () => {
-	  $('#btn_clear').click(() => {
-		  $('#btn_clear').clear();
-	  })
-  }
-  
-  fnClear();
-
+  const fnFileCheck = () => {
+	    $('#files').change((ev) => {
+	      $('#attached_list').empty();
+	      let maxSize = 1024 * 1024 * 100;
+	      let maxSizePerFile = 1024 * 1024 * 10;
+	      let files = ev.target.files;	      
+	        totalSize += files[i].size;
+	        if(files[i].size > maxSizePerFile){
+	          alert('첨부파일의 최대 크기는 10MB입니다.');
+	          $(ev.target).val('');	      
+	          $('#attached_list').empty();
+	          return;
+	        }
+	    })
+	  }  
+  	
+  fnFileCheck();
+  	
 </script>
  
  

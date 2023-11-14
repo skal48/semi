@@ -36,28 +36,37 @@ public class MagazineController {
     return "magazine/thumbnail";
   }
   
+  @ResponseBody
+  @GetMapping(value="/getList.do", produces="application/json" )
+  public Map<String, Object> getList(HttpServletRequest request){
+    System.out.println("*****"+magazineService.getMagazineList(request));
+    return magazineService.getMagazineList(request);  
+  }
+  
   @ResponseBody  
   @GetMapping(value="/getProductNo.do", produces="application/json")
   public Map<String, Object> getProductNo() { 
-    System.out.println(magazineService.loadProductNo());
     return magazineService.loadProductNo();
   }
   
  @PostMapping("/thumbnail.do")
  public String firstAdd(HttpServletRequest request, RedirectAttributes redirectAttributes) { 
-   int addResult = magazineService.firstUpload(request);
-   redirectAttributes.addFlashAttribute("addResult", addResult);   
+   redirectAttributes.addFlashAttribute("map", magazineService.firstUpload(request));   
    return "redirect:/magazine/thumbnail.form";
  }
+ 
+ 
  @ResponseBody
  @PostMapping(value="/imageUpload.do", produces="application/json")    //매거진 작성 이미지 파일 저장
  public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest) {
    return magazineService.imageUpload(multipartRequest);
  }
+ 
+ 
  @PostMapping("/final.do")
  public String finalAdd(MultipartHttpServletRequest multipartRequest
                , RedirectAttributes redirectAttributes) throws Exception {
-   boolean addResult = 0;
+   boolean addResult =magazineService.addThumbnail(multipartRequest);
    redirectAttributes.addFlashAttribute("addResult", addResult);
    return "redirect:/magazine/list.do";
  }
