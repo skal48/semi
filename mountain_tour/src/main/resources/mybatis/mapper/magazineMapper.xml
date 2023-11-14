@@ -109,4 +109,15 @@
 		  FROM MAGAZINE_STAR_T
 		 WHERE MAGAZINE_NO = #{magazineNo} 
  </select>
+ 
+ <delete id="deleteMagazine" parameterType="int">
+ 	DELETE MAGAZINE_T WHERE MAGAZINE_NO = #{magazineNo}
+ </delete>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 </mapper>

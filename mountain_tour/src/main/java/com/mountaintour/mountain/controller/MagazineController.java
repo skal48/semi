@@ -83,9 +83,10 @@ public class MagazineController {
    return "magazine/modify";
  }
  
- @GetMapping("/delete.do")
- public String delete() {
-   return "magazine/list";
+ @PostMapping("/delete.do")
+ public String delete(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+   redirectAttributes.addAttribute("deleteRemove",magazineService.deleteMagazine(request));
+   return "redirect:/magazine/list.do";
  }
  
 }
