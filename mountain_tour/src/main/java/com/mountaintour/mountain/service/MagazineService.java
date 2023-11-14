@@ -17,5 +17,6 @@ public interface MagazineService {
   public List<String> getEditorImageList(String contents);
   public boolean addThumbnail(MultipartHttpServletRequest multipartRequest) throws Exception;
   public void loadMagazine(HttpServletRequest request, Model model);  
+  public int deleteMagazine(HttpServletRequest request);
   
 }

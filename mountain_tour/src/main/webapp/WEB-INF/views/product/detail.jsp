@@ -23,6 +23,11 @@
   } );
 
   </script>
+  <style>
+  
+
+  
+  </style>
 </head>
 <body>
 
@@ -31,7 +36,7 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height:4000px">
+    <div class="col-10">
       <!--  여기다가 작성  다 작성하고 height 지우기!!!! -->
       <div class="row">
     	<div class="col-8" style="margin-top: 30px; margin-bottom: 30px;">
@@ -45,7 +50,7 @@
     	   	  <input type="hidden" name="tripName" value="${product.tripName}">
     	   	  <input type="hidden" name="price" value="${product.price}">	    	
     	   	  <input type="hidden" name="plan" value="${product.plan}">	    	
-    	   	  <input type="hidden" name="tripContents" value="${product.tripContents}">
+    	   	  <input type="hidden" name="tripContents" value="<c:out value='${product.tripContents}' />">
     	   	  <input type="hidden" name="guide" value="${product.guide}">
     	   	  <input type="hidden" name="timetaken" value="${product.timetaken}">
     	   	  <input type="hidden" name="danger" value="${product.danger}">
@@ -123,10 +128,13 @@
     	    <div style = "border: 1px gray solid; height: 200px">
     	  	${product.plan} 
  	     </div>
-    	  <div class="choice">상품정보</div>
-    	    <div style = "border: 1px gray solid; height: 200px">
+ 	     
+ 	      <div>
+    	   <div class="choice" >상품정보</div>
+    	    <div class="mt-3">
     	  	${product.tripContents} 
     	    </div>
+    	  </div>
     	    
     	    <div class="choice">소요시간</div>
     	    <div style = "border: 1px gray solid; height: 100px">
@@ -382,8 +390,6 @@
          location.href='${contextPath}/reserve/write.form?productNo=${product.productNo}&resDate=' + $("#datepicker").val();
       })
    }
-  
-  
   
   
   
