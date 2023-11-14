@@ -152,7 +152,7 @@
 		            <div id="totalPrice">원</div>
 		        </div>
 		    </div>
-		    <a href="${contextPath}/reserve/write.form?productNo=${product.productNo}" style="display: inline-block;">
+		    <a style="display: inline-block;">
 		        <button type="button" id="btn_reserve" class="btn btn-outline-success">예약하기</button>
 		    </a>
 		</div>
