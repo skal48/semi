@@ -1,20 +1,26 @@
 package com.mountaintour.mountain.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mountaintour.mountain.dto.UserDto;
 import com.mountaintour.mountain.service.ManageService;
+import com.mountaintour.mountain.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @RequestMapping("/manage")
+@RequiredArgsConstructor
 @Controller
 public class ManageController {
   
@@ -56,6 +62,11 @@ public class ManageController {
     UserDto user = manageService.getUser(userNo);
     model.addAttribute("user", user);
     return "manage/memberDetail";
+  }
+  
+  @PostMapping(value="/modify.do", produces=MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Map<String, Object>> modifyUser(HttpServletRequest request){
+    return manageService.modifyUser(request);
   }
   
   /* 탈퇴 회원 목록 페이지 */

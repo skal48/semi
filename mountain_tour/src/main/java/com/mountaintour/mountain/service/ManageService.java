@@ -1,7 +1,10 @@
 package com.mountaintour.mountain.service;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 
 import com.mountaintour.mountain.dto.UserDto;
@@ -16,4 +19,6 @@ public interface ManageService {
   
   /* 기존 회원 상세*/
   public UserDto getUser(int userNo);
+  
+  public ResponseEntity<Map<String, Object>> modifyUser(HttpServletRequest request);
 }
