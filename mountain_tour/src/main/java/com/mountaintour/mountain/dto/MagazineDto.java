@@ -18,7 +18,7 @@ public class MagazineDto {
   private String contents;
   private String summary;
   private int hit;
-  private Date createAt;
+  private String createAt;
   private int productNo;
   private MagazineMultiDto magazineMultiDto;
 }

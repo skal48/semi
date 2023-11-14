@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 public interface MagazineService {
@@ -15,6 +16,6 @@ public interface MagazineService {
   public Map<String, Object> imageUpload(MultipartHttpServletRequest mnultipartRequest);
   public List<String> getEditorImageList(String contents);
   public boolean addThumbnail(MultipartHttpServletRequest multipartRequest) throws Exception;
-    
+  public void loadMagazine(HttpServletRequest request, Model model);  
   
 }
