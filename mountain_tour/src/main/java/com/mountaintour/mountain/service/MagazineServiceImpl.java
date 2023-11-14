@@ -1,6 +1,7 @@
 package com.mountaintour.mountain.service;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import com.mountaintour.mountain.util.MagazineFileUtils;
 import com.mountaintour.mountain.util.MyPageUtils;
 
 import lombok.RequiredArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 
 @Service
 @RequiredArgsConstructor
@@ -168,6 +170,21 @@ public class MagazineServiceImpl implements MagazineService {
         File dir = new File(path);
         if(!dir.exists()) {
           dir.mkdirs();
+        }
+        String originalFilename = multipartFile.getOriginalFilename();
+        String filesystemName = magazineFileUtils.getFilesystemName(originalFilename);
+        File file = new File(dir, filesystemName);
+        
+        multipartFile.transferTo(file);
+        
+        String contentType = Files.probeContentType(file.toPath());  // 이미지의 Content-Type은 image/jpeg, image/png 등 image로 시작한다.
+        int hasThumbnail = (contentType != null && contentType.startsWith("image")) ? 1 : 0;
+        
+        if(hasThumbnail == 1) {
+          File thumbnail = new File(dir, "s_" + filesystemName);  // small 이미지를 의미하는 s_을 덧붙임
+          Thumbnails.of(file)
+                    .size(650, 270)      // 가로 100px, 세로 100px
+                    .toFile(thumbnail);
         }
       }
     }
