@@ -106,10 +106,19 @@
                 <c:forEach items="${userList}" var="u">
                   <tr>
                     <th scope="row">${u.userNo}</th>
-                    <td>${u.email}</td>
-                    <td>${u.name}</td>
-                    <td>${u.mobile}</td>
-                    <td>${u.gender}</td>
+                    <td>
+                      <a href="${contextPath}/manage/member.form?userNo=${u.userNo}">${u.email}</a>
+                    </td>
+                    <td>
+                      <a href="${contextPath}/manage/member.form?userNo=${u.userNo}">${u.name}</a>
+                    </td>
+                    <td>
+                      <a href="${contextPath}/manage/member.form?userNo=${u.userNo}">${u.mobile}</a>
+                    </td>
+                    <td>
+                      <c:if test="${u.gender == 'F'}">여자</c:if>
+                      <c:if test="${u.gender == 'M'}">남자</c:if>
+                    </td>
                     <td>
                       <c:if test="${u.state == 0}">일반회원</c:if>
                       <c:if test="${u.state == 1}">네이버 간편로그인</c:if>
@@ -127,24 +136,23 @@
               <%-- 페이징 처리 --%>
               <tfoot>
                 <tr>
-                  <td cospan="8">${paging}</td>
+                  <td colspan="8">${paging}</td>
                 </tr>
               </tfoot>
             </table>
             
             <%-- 검색기능 --%>
             <div>
-              <form method="get" action="${contextPath}/manage/memberSearchList.do" >
-                <select name="column" class="form-select-sm" style="height: 40px">
+              <form id="frm_search" method="get" action="${contextPath}/manage/memberSearchList.do" >
+                <select name="column" id="column" class="form-select-sm" style="height: 40px">
                   <option value="USER_NO">회원번호</option>
                   <option value="EMAIL">이메일</option>
                   <option value="NAME">이름</option>
                   <option value="MOBILE">전화번호</option>
                   <option value="GENDER">성별</option>
                   <option value="JOINED_AT">가입일</option>
-                  <option value="AUTH">권한</option>
                 </select>
-                <input type="text" name="query" class="form-control-sm" placeholder="검색어 입력" >
+                <input type="text" name="query" id="query" class="form-control-sm" placeholder="검색어 입력" >
                 <button type="submit" class="btn btn-outline-success" >검색</button>
               </form>
             </div>
@@ -165,12 +173,6 @@
         
         </div>
 
-
-
-
-      
-      
-
       </div>
       
       
@@ -185,8 +187,18 @@
   </div>
 </div>
   
- 
- 
+
+
+<script>
+
+  
+</script>
+
+
+
+
+
+
  
  
  
