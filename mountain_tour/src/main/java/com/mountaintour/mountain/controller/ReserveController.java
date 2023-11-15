@@ -65,7 +65,10 @@ public class ReserveController {
     redirectAttributes.addFlashAttribute("addTouristResult", addTouristResult);
     return "redirect:/reserve/detail.do?reserveNo=" + req.getParameter("reserveNo");
   }
-  
-  
+
+  @GetMapping(value="/getTouristInfo.do", produces="application/json")
+  public Map<String, Object> getTourists(HttpServletRequest request) {
+    return reserveService.loadTourists(request);
+  }
   
 }

@@ -154,8 +154,6 @@
       <if test="reserveNo != null">RES.RESERVE_NO = #{reserveNo}</if>
     </where>   
   </select>
-  
-
 
   
   

@@ -159,7 +159,14 @@ public class ReserveServiceImpl implements ReserveService{
     
   }
   
-  
+  @Override
+  public Map<String, Object> loadTourists(HttpServletRequest request) {
+    int reserveNo = Integer.parseInt(request.getParameter("reserveNo"));
+    
+    List<TouristDto> tourists = reserveMapper.getTourists(reserveNo);
+    
+    return Map.of("tourists", tourists);
+  }
   
   
 }

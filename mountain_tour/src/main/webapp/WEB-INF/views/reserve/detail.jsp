@@ -115,7 +115,24 @@
   </div>
 </div>
   
- 
+<script>
+	
+	function fnShowTourist(){
+		$('#btn_peopleInfo').click(function(){
+			$.ajax({
+				type: 'get',
+				url: '${contextPath}/reserve/getTouristInfo.do',
+				data: 'reserveNo=${reserve.reserveNo}',
+				dataType: 'json',
+				success:(function(resData){
+					console.log(resData);
+				})
+			})
+		})
+	}
+	
+	fnShowTourist();
+</script>
  
  
  
