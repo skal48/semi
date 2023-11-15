@@ -35,4 +35,9 @@ public interface ManageService {
   /* 탈퇴 회원 검색 */
   public void loadSearchLeaveList(HttpServletRequest request, Model model);
   
+  /* 여행 상품 목록 */
+  public void loadProductList(HttpServletRequest request, Model model);
+  
+  
+  
 }

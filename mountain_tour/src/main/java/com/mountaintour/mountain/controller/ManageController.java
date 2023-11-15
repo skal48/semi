@@ -99,7 +99,8 @@ public class ManageController {
   
   /* 상품,예약 목록 페이지 */
   @GetMapping("/productList.form")
-  public String productList() {
+  public String productList(HttpServletRequest request, Model model) {
+    manageService.loadProductList(request, model);
     return "manage/productList";
   }
   

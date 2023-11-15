@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.mountaintour.mountain.dao.ManageMapper;
+import com.mountaintour.mountain.dao.ProductMapper;
 import com.mountaintour.mountain.dao.UserMapper;
 import com.mountaintour.mountain.dto.LeaveUserDto;
+import com.mountaintour.mountain.dto.ProductDto;
 import com.mountaintour.mountain.dto.UserDto;
 import com.mountaintour.mountain.util.MyPageUtils;
 import com.mountaintour.mountain.util.MySecurityUtils;
@@ -27,6 +29,7 @@ public class ManageServiceImpl implements ManageService {
 
   private final UserMapper userMapper;
   private final ManageMapper manageMapper;
+  private final ProductMapper productMapper;
   private final MyPageUtils myPageUtils;
   private final MySecurityUtils mySecurityUtils;
   
@@ -214,6 +217,14 @@ public class ManageServiceImpl implements ManageService {
     
   }
   
+  /**
+   * 탈퇴 회원 검색
+   * 
+   * @author 심희수
+   * @param request
+   * @param model
+   * @return 검색된 탈퇴 회원 목록, 페이징 정보, 검색된 총 탈퇴 회원수를 반환
+   */
   @Override
   public void loadSearchLeaveList(HttpServletRequest request, Model model) {
 
@@ -227,8 +238,7 @@ public class ManageServiceImpl implements ManageService {
     int total = manageMapper.getSearchLeaveCount(map);
     
     Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
-    String strPage = opt.orElse("1");
-    int page = Integer.parseInt(strPage);
+    int page = Integer.parseInt(opt.orElse("1"));
     
     int display = 20;
     
@@ -243,6 +253,29 @@ public class ManageServiceImpl implements ManageService {
     model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/manage/leaveMemberSearch.do", "column=" + column + "&query=" + query));
     model.addAttribute("beginNo", total - (page - 1) * display);
     model.addAttribute("total", total);
+  }
+  
+  @Override
+  public void loadProductList(HttpServletRequest request, Model model) {
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = productMapper.getProductCount();
+    int display = 20;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("begin", myPageUtils.getBegin());
+    map.put("end", myPageUtils.getEnd());
+    
+    List<ProductDto> productList = productMapper.getProductList(map);
+    
+    model.addAttribute("productList", productList);
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/manage/productList.form"));
+    model.addAttribute("beginNo", total - (page - 1) * display);
+    model.addAttribute("total", total);
+    
     
   }
   
