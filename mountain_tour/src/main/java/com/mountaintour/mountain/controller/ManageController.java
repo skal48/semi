@@ -3,7 +3,9 @@ package com.mountaintour.mountain.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mountaintour.mountain.dto.UserDto;
 import com.mountaintour.mountain.service.ManageService;
@@ -26,36 +29,21 @@ public class ManageController {
   
   private final ManageService manageService;
   
-  /**
-   * 기존 회원 목록 페이지
-   * @param request
-   * @param model
-   * @return
-   */
+  /* 기존 회원 목록 페이지 */
   @GetMapping("/memberList.form")
   public String memberList(HttpServletRequest request, Model model) {
     manageService.loadUserList(request, model);
     return "manage/memberList";
   }
   
-  /**
-   * 기존 회원 검색
-   * @param request
-   * @param model
-   * @return
-   */
+  /* 기존 회원 검색 */
   @GetMapping("/memberSearchList.do")
   public String memberSearchList(HttpServletRequest request, Model model) {
     manageService.loadSearchUserList(request, model);
     return "manage/memberList";
   }
   
-  /**
-   * 기존 회원 상세
-   * @param request
-   * @param model
-   * @return
-   */
+  /* 기존 회원 상세 */
   @GetMapping("/member.form")
   public String member(@RequestParam(value="userNo", required=false, defaultValue="0") int userNo
                      , Model model) {
@@ -64,9 +52,35 @@ public class ManageController {
     return "manage/memberDetail";
   }
   
-  @PostMapping(value="/modify.do", produces=MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Map<String, Object>> modifyUser(HttpServletRequest request){
+  /* 기존 회원 정보 수정 */
+  @PostMapping(value="/modifyMember.do", produces=MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Map<String, Object>> modifyMember(HttpServletRequest request){
     return manageService.modifyUser(request);
+  }
+  
+  /* 기존 회원 비밀번호 수정 폼으로 이동 */
+  @GetMapping("/modifyMemberPw.form")
+  public String modifyMemberPwForm(@Param(value="userNo") int userNo, Model model) {
+    model.addAttribute("userNo", userNo);
+    return "manage/modifyMemberPw";
+  }
+  
+  /* 기존 회원 비밀번호 수정하기 */
+  @PostMapping("/modifyMemberPw.do")
+  public String modifyMemberPw(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    int modifyPwResult = manageService.modifyPw(request);
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    redirectAttributes.addFlashAttribute("modifyPwResult", modifyPwResult);
+    redirectAttributes.addFlashAttribute("userNo", userNo);
+    return "redirect:/manage/modifyMemberPw.form?userNo=" + userNo;
+  }
+  
+  /* 기존 회원 탈퇴 */
+  @PostMapping(value="/removeMember.do")
+  public String removeMember(@Param(value="UserNo") int userNo, RedirectAttributes redirectAttributes) {
+    int removeResult = manageService.removeMember(userNo);
+    redirectAttributes.addFlashAttribute("removeResult", removeResult);
+    return "redirect:/manage/memberList.form";
   }
   
   /* 탈퇴 회원 목록 페이지 */
