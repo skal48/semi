@@ -45,6 +45,14 @@
     color: gray;
  }
  
+ img {
+  max-width: 100%;
+  height: auto;
+ }
+ .ck.ck-reset_all.ck-widget__resizer {
+  display: none;
+ }
+ 
  </style>
   <div class="container text-center">
   <div class="row">
@@ -58,8 +66,8 @@
             <form id="btn_frm" method="post">
               <input type="hidden" name="magazineNo" value="${magazine.magazineNo}">
               <input type="hidden" name="title" value="${magazine.title}">
-              <input type="hidden" name="contents" value="${magazine.contents}">
-              <input type="hidden" name="productNo" value="${magazine.productNo}">
+              <input type="hidden" class = "hidden_contents" name="contents" value="<c:out value = '${magazine.contents}' />">
+              <input type="hidden" name="productNo" value="${magazine.magazineNo}">
     	        <button type="button" class="goDelete btn btn-secondary">삭제</button>
     	        <button type="button" class="goModify btn btn-secondary">수정</button>
              </form> 

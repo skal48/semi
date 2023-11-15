@@ -106,8 +106,8 @@ public class MagazineServiceImpl implements MagazineService {
       if(elements != null) {
         for(Element element : elements) {
           String src = element.attr("src");
-          String filesystemName = src.substring(src.lastIndexOf("/") + 1);
-          editorImageList.add(filesystemName);
+          String filesysName = src.substring(src.lastIndexOf("/") + 1);
+          editorImageList.add(filesysName);
         }
       }
       
@@ -115,7 +115,9 @@ public class MagazineServiceImpl implements MagazineService {
 
   }
   
-  
+  /**
+   * CK에디터로 저장되는 사진(글쓸때)
+   */
   @Override
   public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest) {
    
@@ -130,9 +132,9 @@ public class MagazineServiceImpl implements MagazineService {
     
     //이미지가 저장될 경로 
     String originalFileName = upload.getOriginalFilename();
-    String filesystemName = magazineFileUtils.getFilesystemName(originalFileName);
+    String filesysName = magazineFileUtils.getFilesystemName(originalFileName);
     
-    File file = new File(dir, filesystemName);
+    File file = new File(dir, filesysName);
     
     try {
       upload.transferTo(file);
@@ -144,10 +146,13 @@ public class MagazineServiceImpl implements MagazineService {
  // /blog/** 주소 요청을 /blog 디렉터리로 연결하는 <resources> 태그를 추가해야 함
 
     return Map.of("uploaded", true
-         , "url", multipartRequest.getContextPath() + imagePath + "/" + filesystemName); 
+         , "url", multipartRequest.getContextPath() + imagePath + "/" + filesysName); 
     
   }
-  
+  /**
+   * 썸네일 넣을 때(글쓸때이어서) 
+   * 
+   */
   @Override
   public boolean addThumbnail(MultipartHttpServletRequest multipartRequest) throws Exception{
     
@@ -182,24 +187,30 @@ public class MagazineServiceImpl implements MagazineService {
         if(!dir.exists()) {
           dir.mkdirs();
         }
-        String originalFilename = multipartFile.getOriginalFilename();
-        String filesystemName = magazineFileUtils.getFilesystemName(originalFilename);
-        File file = new File(dir, filesystemName);
+        
+        String filesysName = magazineFileUtils.getFilesystemName(multipartFile.getOriginalFilename());
+        File file = new File(dir, filesysName);
         
         multipartFile.transferTo(file);
+               
+        int isThumbnail = Integer.parseInt(multipartRequest.getParameter("isThumbnail"));
+                
+        MagazineMultiDto magazineMulti = MagazineMultiDto.builder()
+            .magazineNo(magazineNo)
+            .filesysName(filesysName)
+            .multiPath(path)
+            .isThumbnail(isThumbnail)
+            .build();
+                      
+        attachCount += magazineMapper.insertMagazineMulti(magazineMulti);
         
-        String contentType = Files.probeContentType(file.toPath());  // 이미지의 Content-Type은 image/jpeg, image/png 등 image로 시작한다.
-        int hasThumbnail = (contentType != null && contentType.startsWith("image")) ? 1 : 0;
+        }  // if
         
-        if(hasThumbnail == 1) {
-          File thumbnail = new File(dir, "m_" + filesystemName);  // small 이미지를 의미하는 m_을 덧붙임
-          Thumbnails.of(file)
-                    .size(650, 270)      // 가로 100px, 세로 100px
-                    .toFile(thumbnail);
-        }
-      }
-    }
-    return false;
+        }  // for
+        
+        return (updateResult == 1) && (files.size() == attachCount);
+                
+
   }
   
   @Override
@@ -217,7 +228,9 @@ public class MagazineServiceImpl implements MagazineService {
     int deleteResult = magazineMapper.deleteMagazine(magazineNo);       
     return deleteResult;
   }
-  
+  /**
+   *
+   */
   @Override
   public Map<String, Object> firstModify(HttpServletRequest request) {
     String title = request.getParameter("title");
@@ -234,12 +247,22 @@ public class MagazineServiceImpl implements MagazineService {
     
     int resultModifyOne = magazineMapper.updateModifyOne(magazine);
     
-    MagazineDto thumbnail = magazineMapper.getMagazine(magazineNo);
+    MagazineDto thumbnail = magazineMapper.getThumbnailInfo(magazineNo);
     
  // DB에 저장된 기존 이미지 가져오기
     // 1. blogImageDtoList : BlogImageDto를 요소로 가지고 있음
     // 2. blogImageList    : 이미지 이름(filesystemName)을 요소로 가지고 있음
     List<MagazineMultiDto> magazineMultiDtoList = magazineMapper.getMagazineMultiList(magazineNo);
+            
+      for(int i = 0; i < magazineMultiDtoList.size() ; i++) {
+        if( magazineMultiDtoList.get(i).getIsThumbnail() == 0) {
+          magazineMapper.updateIsThumbnail(magazineNo);
+        }
+        
+      }
+    
+    
+    
     List<String> magazineMultiList = magazineMultiDtoList.stream()
                                   .map(magazineMultiDto -> magazineMultiDto.getFilesysName())
                                   .collect(Collectors.toList());
@@ -254,8 +277,10 @@ public class MagazineServiceImpl implements MagazineService {
                             .magazineNo(magazineNo)
                             .multiPath(magazineFileUtils.getMagazineImagePath())
                             .filesysName(editorImage)
-                            .build())
+                            .build())     
       .forEach(magazineMultiDto -> magazineMapper.insertMagazineMulti(magazineMultiDto));  // 순회 : 변환된 BlogImageDto를 BLOG_IMAGE_T에 추가한다.
+    
+    System.out.println(magazineNo+"/"+ magazineFileUtils.getMagazineImagePath()+"/"+ editorImageList );
     
     // 기존 이미지에 있으나 Editor에 포함되지 않은 이미지는 삭제해야 함
     List<MagazineMultiDto> removeList = magazineMultiDtoList.stream()
@@ -264,7 +289,10 @@ public class MagazineServiceImpl implements MagazineService {
 
     for(MagazineMultiDto magazineMultiDto : removeList) {
       // BLOG_IMAGE_T에서 삭제
-      magazineMapper.deleteMagazineMulti(magazineMultiDto.getFilesysName());  // 파일명은 UUID로 만들어졌으므로 파일명의 중복은 없다고 생각하면 된다.
+      if(magazineMultiDto.getIsThumbnail() != 1 ) {
+        magazineMapper.deleteMagazineMulti(magazineMultiDto.getFilesysName());  // 파일명은 UUID로 만들어졌으므로 파일명의 중복은 없다고 생각하면 된다.        
+      }
+      
       // 파일 삭제
       File file = new File(magazineMultiDto.getMultiPath(), magazineMultiDto.getFilesysName());
       if(file.exists()) {

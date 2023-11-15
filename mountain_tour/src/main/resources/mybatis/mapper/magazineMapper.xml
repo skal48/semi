@@ -50,11 +50,12 @@
           MAGAZINE_NO, 
           MULTI_PATH, 
           FILESYS_NAME,
-          IS_THUMBNAIL
+          IS_THUMBNAIL          
       ) VALUES (
           #{magazineNo},
           #{multiPath},
-          #{filesystemName},
+          #{filesysName},
+          #{isThumbnail}
       )
  </insert>
  
@@ -98,19 +99,6 @@
    WHERE MAGAZINE_NO = #{magazineNo}
  </update>
  
- <insert id="insertThumbnail" parameterType="MagazineMultiDto">
-    INSERT INTO MAGAZINE_MULTI_T (
-	        MAGAZINE_NO, 
-	        MULTI_PATH, 
-	        FILESYS_NAME, 
-	        IS_THUMBNAIL
-      ) VALUES (
-	        #{magazineNo}, 
-	        #{multiPath},
-	        #{filesysName},
-	        #{isThumbnail}
-      )  
- </insert>
  
  <select id="getMagazine" parameterType="int" resultType="MagazineDto">
 	 	SELECT MAGAZINE_NO, USER_NO, TITLE, CONTENTS, SUMMARY, CREATE_AT, PRODUCT_NO
@@ -150,6 +138,12 @@
 		 WHERE MAGAZINE_NO = #{magazineNo} 
  
  </select>
+ <update id="updateIsThumbnail" parameterType="int">
+ 		 UPDATE MAGAZINE_MULTI_T SET
+					   IS_THUMBNAIL = 0
+			WHERE MAGAZINE_NO = #{magazineNo} AND IS_THUMBNAIL IS NULL
+ 
+ </update> 
  
  
  
