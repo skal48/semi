@@ -58,7 +58,7 @@
         <input type="text" id="title" name="title" class="title form-control mb-3" value="${magazine.title}"></div>
       </div>
       <div class="contents">
-        <h4>내용}</h4>
+        <h4>내용</h4>
                
           <textarea name="contents" id="contents" style="display: none;" ></textarea>
           <div id="toolbar-container"></div>
