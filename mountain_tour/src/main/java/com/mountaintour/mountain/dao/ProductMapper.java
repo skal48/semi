@@ -11,10 +11,17 @@ import com.mountaintour.mountain.dto.ProductDto;
 @Mapper
 public interface ProductMapper {
 	public int insertProduct(ProductDto product);
-	public int insertImage(ImageDto image);
+	public int insertProductImage(ImageDto image);
+	public List<ImageDto> getProductImageInYesterday();
 	public int getProductCount();
 	public List<ProductDto> getProductList(Map<String, Object> map);
+	public ImageDto getThumbnail(int thumbnailNo);
 	public ProductDto getProduct(int productNo);
-	public void updateProduct(ProductDto product);
-	public void deleteProduct(int productNo);
+	public int productHit(int productNo);
+	public int updateProduct(ProductDto product);
+	public List<ImageDto> getProductImageList(int productNo);
+	public int deleteProductImage(String filesystemName);
+	public int deleteProductImageList(int productNo);
+	public int deleteProduct(int productNo);
+	public int insertThumbnail(ImageDto image);
 }

@@ -71,7 +71,7 @@
   <select id="getSearchInquiry" parameterType="Map" resultMap="InquiryMap">
     SELECT A.INQUIRY_NO, A.PRODUCT_NO, A.INQUIRY_TITLE, A.INQUIRY_CONTENTS, A.IP, A.CREATED_AT, A.USER_NO, A.NAME
       FROM (SELECT ROW_NUMBER() OVER(ORDER BY INQUIRY_NO DESC) AS RN, INQ.INQUIRY_NO, INQ.PRODUCT_NO, INQ.INQUIRY_TITLE, INQ.INQUIRY_CONTENTS, INQ.IP, INQ.CREATED_AT, U.USER_NO, U.NAME
-              FROM USER_T U LEFT OUTER JOIN INQUIRY_T INQ
+              FROM USER_T U INNER JOIN INQUIRY_T INQ
                 ON INQ.USER_NO = U.USER_NO
              WHERE ${column} LIKE '%' || #{query} || '%') A
      WHERE A.RN BETWEEN #{begin} AND #{end}
@@ -109,6 +109,11 @@
       , SYSDATE
     )
   </insert>
+  
+  <select id="getProductList" resultType="ProductDto">
+    SELECT ROW_NUMBER() OVER(ORDER BY PRODUCT_NO DESC) AS RN, PRODUCT_NO, USER_NO, MOUNTAIN_NO, TRIP_NAME, TRIP_CONTENTS, GUIDE, TIMETAKEN, PRICE, DANGER, REGISTERED_AT, MODIFIED_DATE, PEOPLE, HIT, PLAN, STATUS, TERM_USE
+      FROM PRODUCT_T
+  </select>
   
   <!-- 문의글 삭제 -->
   <delete id="deleteInquiry" parameterType="int">

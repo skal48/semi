@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.mountaintour.mountain.dto.InquiryDto;
+import com.mountaintour.mountain.dto.ProductDto;
 
 @Mapper
 public interface InquiryMapper {
@@ -23,6 +24,7 @@ public interface InquiryMapper {
   
   /* 1:1문의 작성(추가)하기 */
   public int insertInquiry(InquiryDto inquiry);
+  public List<ProductDto> getProductList(); // product 목록 가져오기
   
   /* 1:1문의 삭제하기 */
   public int deleteInquiry(int inquiryNo);

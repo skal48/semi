@@ -28,7 +28,7 @@
     <association javaType="ImageDto"         property="imageDto">
         <result  column="IMAGE_PATH" 		 property="imagePath" />
         <result  column="FILESYSTEM_NAME" 	 property="filesystemName"/>
-        <result  column="THUMBNAIL" 		 property="thumbnail"/>
+        <result  column="THUMBNAIL" 		 property="thumbnail"/>  
     </association>
   </resultMap>
 
@@ -66,11 +66,9 @@
         #{plan},  
         #{termUse}
     )
-</insert>
+</insert>                                                                                                            
 
-                                                                                                             
-
-  <insert id="insertImage" parameterType="ImageDto">
+  <insert id="insertThumbnail" parameterType="ImageDto">
     INSERT INTO IMAGE_T (
         IMAGE_PATH
       , FILESYSTEM_NAME
@@ -83,6 +81,34 @@
       , #{productNo}
     )
   </insert>
+
+
+  <insert id="insertProductImage" parameterType="ImageDto">
+    INSERT INTO IMAGE_T (
+        IMAGE_PATH
+      , FILESYSTEM_NAME
+      , PRODUCT_NO
+    ) VALUES (
+        #{imagePath}
+      , #{filesystemName}
+      , #{productNo}
+    )
+  </insert>
+  
+  <select id="getThumbnail" parameterType="int" resultType="ImageDto">
+    SELECT IMAGE_PATH, FILESYSTEM_NAME, THUMBNAIL, PRODUCT_NO
+      FROM IMAGE_T
+     WHERE PRODUCT_NO = #{productNo}
+  </select>
+  
+  
+  <select id="getProductImageInYesterday" resultType="ImageDto">
+    SELECT IMAGE_PATH
+      	 , FILESYSTEM_NAME
+     	 , PRODUCT_NO
+      FROM IMAGE_T
+     WHERE IMAGE_PATH = '/product/' || TO_CHAR(SYSDATE - 1, 'YYYY/MM/DD')
+  </select>
   
   <select id="getProductCount" resultType="int">
     SELECT COUNT(*)
@@ -90,58 +116,57 @@
   </select>
   
   <select id="getProductList" parameterType="Map" resultMap="ProductMap">
-    SELECT
-        A.PRODUCT_NO,
-        A.USER_NO,
-        A.MOUNTAIN_NO,
-        A.TRIP_NAME,
-        A.TRIP_CONTENTS,
-        A.GUIDE,
-        A.TIMETAKEN,
-        A.PRICE,
-        A.DANGER,
-        A.REGISTERED_AT,
-        A.MODIFIED_DATE,
-        A.PEOPLE,
-        A.HIT,
-        A.PLAN,
-        A.STATUS,
-        A.TERM_USE,
-        M.MOUNTAIN_NAME,
-        M.IMPORMATION,
-        M.LOCATION,
-        I.IMAGE_PATH,
-        I.FILESYSTEM_NAME,
-        I.THUMBNAIL
-    FROM
-        (
-            SELECT
-                P.PRODUCT_NO,
-                P.USER_NO,
-                P.MOUNTAIN_NO,
-                P.TRIP_NAME,
-                P.TRIP_CONTENTS,
-                P.GUIDE,
-                P.TIMETAKEN,
-                P.PRICE,
-                P.DANGER,
-                P.REGISTERED_AT,
-                P.MODIFIED_DATE,
-                P.PEOPLE,
-                P.HIT,
-                P.PLAN,
-                P.STATUS,
-                P.TERM_USE,
-                ROW_NUMBER() OVER(ORDER BY P.PRODUCT_NO DESC) AS RN
-            FROM
-                PRODUCT_T P
-            WHERE
-                ROWNUM BETWEEN #{begin} AND #{end}) A
-    JOIN
-        MOUNTAIN_T M ON A.MOUNTAIN_NO = M.MOUNTAIN_NO
-    LEFT JOIN
-        IMAGE_T I ON A.PRODUCT_NO = I.PRODUCT_NO
-  </select>
+   SELECT
+        PRODUCT_NO,
+        USER_NO,
+        MOUNTAIN_NO,
+        TRIP_NAME,
+        TRIP_CONTENTS,
+        GUIDE,
+        TIMETAKEN,
+        PRICE,
+        DANGER,
+        REGISTERED_AT,
+        MODIFIED_DATE,
+        PEOPLE,
+        HIT,
+        PLAN,
+        STATUS,
+        TERM_USE,
+        MOUNTAIN_NAME,
+        IMPORMATION,
+        LOCATION,
+        IMAGE_PATH,
+        FILESYSTEM_NAME,
+        THUMBNAIL
+    FROM (SELECT ROW_NUMBER() OVER(ORDER BY P.PRODUCT_NO DESC) AS RN, 
+            P.PRODUCT_NO,
+            P.USER_NO,
+            M.MOUNTAIN_NO,
+            P.TRIP_NAME,
+            P.TRIP_CONTENTS,
+            P.GUIDE,
+            P.TIMETAKEN,
+            P.PRICE,
+            P.DANGER,
+            P.REGISTERED_AT,
+            P.MODIFIED_DATE,
+            P.PEOPLE,
+            P.HIT,
+            P.PLAN,
+            P.STATUS,
+            P.TERM_USE,
+            M.MOUNTAIN_NAME,
+            M.IMPORMATION,
+            M.LOCATION,
+            I.IMAGE_PATH,
+            I.FILESYSTEM_NAME,
+            I.THUMBNAIL 
+            FROM PRODUCT_T P JOIN MOUNTAIN_T M ON P.MOUNTAIN_NO = M.MOUNTAIN_NO
+            LEFT JOIN IMAGE_T I ON P.PRODUCT_NO = I.PRODUCT_NO)
+            WHERE RN BETWEEN #{begin} AND #{end}
+</select>
+
   
   <select id="getProduct" parameterType="int" resultMap="ProductMap">
     SELECT P.PRODUCT_NO, P.TRIP_NAME, P.TRIP_CONTENTS, P.GUIDE, P.TIMETAKEN, P.PRICE, P.DANGER, P.REGISTERED_AT, P.MODIFIED_DATE
@@ -149,35 +174,47 @@
       FROM PRODUCT_T P, MOUNTAIN_T M
      WHERE P.MOUNTAIN_NO = M.MOUNTAIN_NO
        AND P.PRODUCT_NO = #{productNo}
-  </select>
-
-
-  <update id="updateProduct" parameterType="int">
-     UPDATE PRODUCT_T 
-        SET TRIP_NAME = #{tripName},
-            TRIP_CONTENTS = #{tripContents}, 
-            GUIDE = #{guide}, 
-            TIMETAKEN = #{timeTaken}, 
-            PRICE = #{price},
-            DANGER = #{danger}, 
-            REGISTERED_AT = #{registeredAt}, 
-            MODIFIED_DATE = #{modifiedDate},  
-            THUMBNAIL = #{thumbnail}, 
-            PLAN = #{plan}, 
-            STATUS = #{status},
-            TERM_USE = #{termUse}
-      WHERE PRODUCT_NO = #{productNo}
+  </select>  
+  
+  <update id="productHit" parameterType="int">
+    UPDATE PRODUCT_T
+       SET HIT = HIT + 1
+     WHERE PRODUCT_NO = #{productNo}  
   </update>
   
+  <update id="updateProduct" parameterType="ProductDto">
+    UPDATE PRODUCT_T
+       SET TRIP_NAME = #{tripName}
+         , TRIP_CONTENTS = #{tripContents}
+         , GUIDE = #{guide} 
+         , TIMETAKEN = #{timetaken}
+         , PRICE = #{price}
+         , DANGER = #{danger} 
+         , REGISTERED_AT = SYSDATE
+         , MODIFIED_DATE = SYSDATE
+         , PLAN = #{plan} 
+         , STATUS = #{status}
+         , TERM_USE = #{termUse}
+     WHERE PRODUCT_NO = #{productNo}  
+  </update>
   
-  
-  
-  
-  
-  
-  
-  
-  
+  <select id="getProductImageList" parameterType="int" resultType="ImageDto">
+    SELECT PRODUCT_NO, IMAGE_PATH, FILESYSTEM_NAME, THUMBNAIL 
+      FROM IMAGE_T
+     WHERE PRODUCT_NO = #{productNo}  
+  </select>
+
+  <delete id="deleteProductImage" parameterType="String">
+    DELETE
+      FROM IMAGE_T
+     WHERE FILESYSTEM_NAME = #{filesystemName}
+  </delete>
+
+  <delete id="deleteProductImageList" parameterType="int">
+    DELETE
+      FROM IMAGE_T
+     WHERE PRODUCT_NO = #{productNo}
+  </delete>
   
   <delete id="deleteProduct" parameterType="int">
      DELETE 

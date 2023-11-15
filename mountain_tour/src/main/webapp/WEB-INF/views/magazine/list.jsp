@@ -10,7 +10,7 @@
   <jsp:param value="매거진" name="title"/>
 </jsp:include>
   <style>
-    .magazine {
+    .magazineKing {
       width: 60%;
       margin: auto;
     }
@@ -72,59 +72,118 @@
     <div class="col-1">      
     </div>
     
-    <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
+    <div class="col-10" style = "border: 1px gray solid; " >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
-      <div class="magazine">
+      <div class="magazineKing">
         <h3>매거진</h3>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
           <button type="button" class="m_write btn btn-secondary">작성</button>
         </div>  
-        
-	      <div class="big_magazine" style = "border: 1px gray solid;" data-magazine_no="${magazine.magazineNo}">
-		      <div class="big_picture" >사진</div>
-		      <div class="big_title">번호.title</div>
-		       <span class="big_date position-absolute bottom-0 start-0">date</span>
-           <span class="big_hit position-absolute bottom-0">조회수</span>
-	      </div>
-	      
-	      <div class="small_magazine" style = "border: 1px gray solid;">
-          <div class="row">
-            <div class="col">
-               <div class="small_picture" style = "border: 1px gray solid;">사진</div>
-            </div>
-            <div class="col">
-              <div class="small_title">번호.title</div>
-    	        <div class="small_summary">summary</div>
-    	        <span class="small_date position-absolute bottom-0 start-0">date</span>
-              <span class="small_hit position-absolute bottom-0">조회수</span>
-            </div>
-          </div>
-	      </div>       
+        <div class="big_wrapper">
+  	      
+  	     </div>
+	       
+	      <div class="small_magazine" id="small_wrapper" style = "border: 1px gray solid;">
+                 
+	      </div>          
    </div>
   </div> 
     <div class="col-1">
     </div>
- 	 </div>
- </div>
+ 	 
+  </div>
+ </div> 
 
 <script>
+	
+  var page = 1;
+  var totalPage = 0;
 	
   const fnMagazineWrite = () => {
   	$('.btn').click(() => {
   		location.href = '${contextPath}/magazine/write.form';  		
   	})
   }
-	//나중에 지우기 
-  const fnTemp = () => {
-	  $('.big_magazine').click(() => {
-		  location.href = '${contextPath}/magazine/detail.do';
-	  })
+
+  const fnGetUploadList = () => {
+	    $.ajax({
+	      // 요청
+	      type: 'get',
+	      url: '${contextPath}/magazine/getList.do',
+	      data: 'page=' + page,
+	      // 응답
+	      dataType: 'json',
+	      success: (resData) => {  // resData = {"uploadList": [], "totalPage": 10}
+	    	  totalPage = resData.totalPage;
+	    	  $.each(resData.magazineList, (i, upload) => {
+	        if(page === 1 && i === 0){
+	        	console.log(upload.magazineNo)
+  	      	let big = '<div class="big_magazine magazine" style = "border: 1px gray solid;" data-magazine_no="'+ upload.magazineNo +'">';
+  			        big += '<img src="" class="big_picture" alt="썸네일" >';
+  			        big += '<div class="big_title">'+ upload.title +'</div>';
+  			        big += '<span class="big_date position-absolute bottom-0 start-0">date'+ upload.createAt +'</span>';
+  	            big += '<span class="big_hit position-absolute bottom-0">조회수' + upload.hit +'</span> </div>';
+  	      	$('.big_wrapper').append(big);
+	        } else {
+	        	let small = '<div class="row magazine" data-magazine_no="'+ upload.magazineNo+'"><div class="col"><img src="" class="small_picture" style = "border: 1px gray solid;"></div>';
+	        			small += '<div class="col"><div class="small_title">'+upload.title+'</div>';
+	        			small += '<div class="small_summary">summary</div>';
+	        			small += '<span class="small_date position-absolute bottom-0 start-0">date'+ upload.createAt +'</span>';
+	        			small += '<span class="small_hit position-absolute bottom-0">조회수' + upload.hit +' </span></div></div>';
+	        	$('#small_wrapper').append(small);  
+	        	}
+	    	  })
+	      }
+	    })
   }
   
+  const fnUploadDetail = () => {
+	    $(document).on('click', '.magazine', function(){
+	    	console.log($(this).data('magazine_no'));
+	      location.href = '${contextPath}/magazine/detail.do?magazineNo=' + $(this).data('magazine_no');
+	    })
+	  }
+  
+  const fnScroll = () => {
+	    
+	    var timerId;  // 최초 undefined 상태
+	    
+	    $(window).on('scroll', () => {
+	      
+	      if(timerId){  // timerId가 undefined이면 false로 인식, timerId가 값을 가지면 true로 인식
+	        clearTimeout(timerId);
+	      }
+	     
+	      timerId = setTimeout(() => {  // setTimeout 실행 전에는 timerId가 undefined 상태, setTimeout이 한 번이라도 동작하면 timerId가 값을 가짐
+	    	  
+	        let scrollTop = $(window).scrollTop();     // 스크롤바 위치(스크롤 된 길이)
+	        let windowHeight = $(window).height();     // 화면 전체 크기
+	        let documentHeight = $(document).height(); // 문서 전체 크기
+	        
+	        if((scrollTop + windowHeight + 100) >= documentHeight) {  // 스크롤이 바닥에 닿기 100px 전에 true가 됨
+	          if(page > totalPage){  // 마지막 페이지를 보여준 이후에 true가 됨
+	            return;              // 마지막 페이지를 보여준 이후에는 아래 코드를 수행하지 말 것 
+	          }
+	          
+	          page++;
+	          fnGetUploadList();
+	        }
+	        
+	      }, 200);  // 200밀리초(0.2초) 후 동작(시간은 임의로 조정 가능함)
+	      
+	    })
+	    
+	  }
   
   
   
-  fnTemp();
+  
+  
+  
+  fnGetUploadList();
+  fnUploadDetail();
+  fnScroll();
+  
   fnMagazineWrite();	
 
 

@@ -23,6 +23,15 @@
   } );
 
   </script>
+  <style>
+  .image img {
+
+  width:100%;
+}
+   
+
+  
+  </style>
 </head>
 <body>
 
@@ -31,21 +40,26 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height:3500px">
-      <!--  여기다가 작성  다 작성하고 height 지우기!!!! -->
+    <div class="col-10">
+      <div class="text-center">
+		 <c:if test="${product.thumbnail == 1}">
+		   <img src="${contextPath}/path/to/your/image.jpg" alt="상품 이미지">
+		 </c:if>
+		</div>
+
       <div class="row">
     	<div class="col-8" style="margin-top: 30px; margin-bottom: 30px;">
     	  <div class="text-center">
-			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
+			<!-- 여기 첨부파일이 보여줘야함 -->
 		  </div>
     	  <hr>
-    	  <c:if test="${sessionScope.user.userNo == product.userNo}">
+    	  <c:if test="${sessionScope.user.auth == 0}">
     	   <form id="frm_btn" method="post">
     	   	  <input type="hidden" name="productNo" value="${product.productNo}">
     	   	  <input type="hidden" name="tripName" value="${product.tripName}">
     	   	  <input type="hidden" name="price" value="${product.price}">	    	
     	   	  <input type="hidden" name="plan" value="${product.plan}">	    	
-    	   	  <input type="hidden" name="tripContents" value="${product.tripContents}">
+    	   	  <input type="hidden" name="tripContents" value="<c:out value='${product.tripContents}' />">
     	   	  <input type="hidden" name="guide" value="${product.guide}">
     	   	  <input type="hidden" name="timetaken" value="${product.timetaken}">
     	   	  <input type="hidden" name="danger" value="${product.danger}">
@@ -103,56 +117,14 @@
     	  
     	  </div>
 	    <div> 
-	    <div class="row" style="margin-top: 20px; text-align: center;">
-		    <div class="col">
-		      <div style="display: inline-block; margin: 0px 120px;">
-		        <div>성인</div>
-		        <div>${product.price}</div>
-		    </div>
-		    <table style="margin:0; text-align:center;">
-			    <tr>
-			        <td class="bseq_ea"></td>
-			        <td>
-			            <div style="margin: 10px 65px; text-align: center;">
-			                <button type="button" class="btn btn-dark" onclick="fnCalCount('m', this);">-</button>
-			                <input type="text" name="pop_out1" value="0" readonly="readonly" style="text-align:center; width: 100px;" />
-			                <button type="button" class="btn btn-dark" onclick="fnCalCount('p', this);">+</button>
-			            </div>
-			        </td>
-			    </tr>
-			</table>
-		    </div>
-		    <div class="col" style="text-align: center;">
-		      <div style="display: inline-block; margin: 0px 120px;">
-		        <div>유아</div>
-		        <div>${product.price}</div>
-		    </div>
-		    <table style="margin: 0;">
-			    <tr>		       
-			        <td class="bseq_ea"></td>
-			        <td>
-			            <div style="margin: 10px 65px; text-align: center;">
-			                <button type="button" class="btn btn-dark" onclick="fnCalCount('m', this);">-</button>
-			                <input type="text" name="pop_out2" value="0" readonly="readonly" style="text-align:center; width: 100px;" />
-			                <button type="button" class="btn btn-dark" onclick="fnCalCount('p', this);">+</button>
-			            </div>
-			        </td>
-			    </tr>
-			 </table>
-		    </div>
-		</div>
+	   
 	    
 	    
 		 
 		
 		<div style="text-align: right;">
-		    <div style="display: inline-block; margin-right: 20px; font-weight: 1000;">
-		        <div>총 금액</div>
-		        <div>
-		            <div id="totalPrice">원</div>
-		        </div>
-		    </div>
-		    <a style="display: inline-block;">
+
+		    <a style="display: inline-block; margin-top: 20px">
 		        <button type="button" id="btn_reserve" class="btn btn-outline-success">예약하기</button>
 		    </a>
 		</div>
@@ -165,27 +137,33 @@
     	    <div style = "border: 1px gray solid; height: 200px">
     	  	${product.plan} 
  	     </div>
-    	  <div class="choice">상품정보</div>
-    	    <div style = "border: 1px gray solid; height: 200px">
+ 	     
+ 	      <div>
+    	   <div class="choice" >상품정보</div>
+    	    <div class="mt-3">
     	  	${product.tripContents} 
     	    </div>
+    	  </div>
     	    
     	    <div class="choice">소요시간</div>
+    	    <div style = "border: 1px gray solid; height: 100px">
+    	  	${product.timetaken}
+    	    </div>
     	    <div class="choice">가이드</div>
-    	    
+    	    <div style = "border: 1px gray solid; height: 100px">
+    	  	${product.guide}
+    	    </div>
     	    <div class="choice">주의사항</div>
-
+			<div style = "border: 1px gray solid; height: 100px">
+    	  	${product.danger}
+    	    </div>
     	    
     	    
     	    
     	    
     	  <div class="choice">약관/정보</div>
-    	    <div style = "border: 1px gray solid; height: 100px">
-    	  
-    	  
-    	  
-    	  
-    	  
+    	    <div style = "border: 1px gray solid; height: 100px">	  
+    	    ${product.termUse}
     	    </div>
     	
 	    <div class="choice">리뷰</div> 
@@ -395,56 +373,7 @@
     $( "#datepicker" ).datepicker();
   } );
 
-  function fnCalCount(type, ths){
-      var $input = $(ths).siblings("input");
-      var tCount = Number($input.val());
-      
-      if (type == 'p') {
-          $input.val(Number(tCount) + 1);
-      } else {
-          if (tCount > 0) $input.val(Number(tCount) - 1);
-      }
-  }
   
-  
-//성인과 유아 수를 저장할 변수
-  let adultCount = 0;
-  let childCount = 0;
-
-  // 제품 가격
-  const productPrice = parseInt("${product.price}");
-
-  // DOM 업데이트 함수
-  function updateTotalPrice() {
-    // 성인과 유아 수에 따른 가격 계산
-    const totalAdultPrice = adultCount * productPrice;
-    const totalChildPrice = childCount * productPrice;
-
-    // 총 금액 계산
-    const totalPrice = totalAdultPrice + totalChildPrice;
-
-    // DOM 업데이트
-    document.getElementById("totalPrice").innerText = `${totalPrice.toLocaleString()}원`;
-  }
-
-  // 수량 증가/감소 함수
-  function fnCalCount(type, element) {
-    const targetInput = element.parentElement.querySelector("input");
-    
-    if (type === 'm' && targetInput.value > 0) {
-      targetInput.value--;
-    } else if (type === 'p') {
-      targetInput.value++;
-    }
-
-    // 성인과 유아 수 업데이트
-    adultCount = parseInt(document.getElementsByName("pop_out1")[0].value);
-    childCount = parseInt(document.getElementsByName("pop_out2")[0].value);
-
-    // 총 금액 업데이트
-    updateTotalPrice();
-  }
-
   
   var frmBtn = $('#frm_btn');
   
@@ -454,6 +383,15 @@
       frmBtn.submit();
     })
   }
+
+  const fnRemoveProduct = () => {
+      $('#btn_remove').click(() => {
+        if(confirm('상품을 삭제할까요?')){
+          frmBtn.attr('action', '${contextPath}/product/remove.do');
+          frmBtn.submit();          
+        }
+      })
+    }
   
   
   function fnGoReserve(){
@@ -464,10 +402,9 @@
   
   
   
-  
-  
   fnGoReserve();
   fnEditProduct();
+  fnRemoveProduct();
   
   </script>
 
