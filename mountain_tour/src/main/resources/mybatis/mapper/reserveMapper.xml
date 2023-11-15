@@ -33,7 +33,6 @@
     <result column="PICKUP_LOC" property="pickupLoc"/>
     <result column="RESERVE_STATUS" property="reserveStatus"/>
     <result column="RESERVE_START" property="reserveStart"/>
-    <result column="RESERVE_FINISH" property="reserveFinish"/>
     <result column="RESERVE_PERSON" property="reservePerson"/>
     <association javaType="UserDto" property="userDto">
       <id column="USER_NO" property="userNo"/>
@@ -60,20 +59,19 @@
       <result column="TRIP_CONTENTS" property="tripContents"/>
       <result column="GUIDE" property="guide"/>
       <result column="TIMETAKEN" property="timetaken"/>
-      <result column="PRIZE" property="prize"/>
+      <result column="PRICE" property="price"/>
       <result column="DANGER" property="danger"/>
       <result column="REGISTERED_AT" property="registeredAt"/>
       <result column="MODIFIED_DATE" property="modifiedDate"/>
       <result column="PEOPLE" property="people"/>
       <result column="HIT" property="hit"/>
-      <result column="THUMBNAIL" property="thumbnail"/>
       <result column="PLAN" property="plan"/>
       <result column="STATUS" property="status"/>
       <result column="TERM_USE" property="termUse"/>
     </association>
   </resultMap>
 
-  <insert id="insertReserve" parameterType="ReserveDto">
+  <insert id="insertReserve" parameterType="ReserveDto" useGeneratedKeys="true" keyProperty="reserveNo">
     <selectKey order="BEFORE" keyProperty="reserveNo" resultType="int">
       SELECT RESERVE_SEQ.NEXTVAL 
         FROM DUAL
@@ -85,25 +83,45 @@
       , AGREE
       , PICKUP_LOC
       , RESERVE_START
-      , RESERVE_FINISH
       , RESERVE_PERSON
       , USER_NO
       , PRODUCT_NO
     ) VALUES (
         #{reserveNo}
-      , TO_DATE(SYSDATE, 'YYYYMMDD') 
+      , TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD'), 'YYYYMMDD') 
       , #{request}
       , #{agree}
       , #{pickupLoc}
       , #{reserveStart}
-      , #{reserveFinish}
       , #{reservePerson}
       , #{userDto.userNo}
       , #{productDto.productNo}  
     )
   </insert>
 
-
+  <insert id="insertTourist" parameterType="TouristDto">
+    <selectKey order="BEFORE" keyProperty="touristNo" resultType="int">
+      SELECT TOURIST_SEQ.NEXTVAL
+        FROM DUAL
+    </selectKey>
+    INSERT INTO TOURIST_T (
+        TOURIST_NO
+      , NAME
+      , BIRTH_DATE
+      , GENDER
+      , CONTACT
+      , AGE_CASE
+      , RESERVE_NO
+    ) VALUES (
+        #{touristNo}
+      , #{name}
+      , #{birthDate}
+      , #{gender}
+      , #{contact}
+      , #{ageCase}
+      , #{reserveDto.reserveNo}
+    )
+  </insert>
 
   
   <select id="getReserveCount" resultType="int">
@@ -112,26 +130,33 @@
   </select>
   
   <select id="getReserveList" parameterType="Map" resultMap="ReserveMap">
-    SELECT A.RESERVE_NO, A.RESERVE_DATE, A.REQUEST, A.AGREE, A.PICKUP_LOC, A.RESERVE_STATUS, A.RESERVE_START, A.RESERVE_FINISH, A.RESERVE_PERSON, A.USER_NO, A.PRODUCT_NO, A.TRIP_NAME, A.PRIZE, A.TIMETAKEN, A.STATUS
+    SELECT A.RESERVE_NO, A.RESERVE_DATE, A.REQUEST, A.AGREE, A.PICKUP_LOC, A.RESERVE_STATUS, A.RESERVE_START, A.RESERVE_PERSON, A.USER_NO, A.PRODUCT_NO, A.TRIP_NAME, A.PRICE, A.TIMETAKEN, A.STATUS
       FROM (SELECT ROW_NUMBER() OVER(ORDER BY RES.RESERVE_NO DESC) AS RN
-                 , RES.RESERVE_NO, RES.RESERVE_DATE, RES.REQUEST, RES.AGREE, RES.PICKUP_LOC, RES.RESERVE_STATUS, RES.RESERVE_START, RES.RESERVE_FINISH, RES.RESERVE_PERSON, RES.USER_NO
-                 , P.PRODUCT_NO, P.TRIP_NAME, P.PRIZE, P.TIMETAKEN, P.STATUS
+                 , RES.RESERVE_NO, RES.RESERVE_DATE, RES.REQUEST, RES.AGREE, RES.PICKUP_LOC, RES.RESERVE_STATUS, RES.RESERVE_START, RES.RESERVE_PERSON, RES.USER_NO
+                 , P.PRODUCT_NO, P.TRIP_NAME, P.PRICE, P.TIMETAKEN, P.STATUS
               FROM PRODUCT_T P INNER JOIN RESERVE_T RES
                 ON P.PRODUCT_NO = RES.PRODUCT_NO) A
-     WHERE A.RN BETWEEN #{begin} AND #{end}
+     <where>
+       <if test="begin != null">A.RN BETWEEN #{begin} AND #{end}</if>
+       <if test="userNo != null">AND A.USER_NO = #{userDto.userNo}</if> 
+     </where>
+     <!-- WHERE A.RN BETWEEN #{begin} AND #{end} -->
   </select> 
   
   <select id="getReserve" parameterType="int"  resultMap="ReserveMap">
-    SELECT RES.RESERVE_NO, RES.RESERVE_DATE, RES.REQUEST, RES.AGREE, RES.PICKUP_LOC, RES.RESERVE_STATUS, RES.RESERVE_START, RES.RESERVE_FINISH, RES.RESERVE_PERSON
+    SELECT RES.RESERVE_NO, RES.RESERVE_DATE, RES.REQUEST, RES.AGREE, RES.PICKUP_LOC, RES.RESERVE_STATUS, RES.RESERVE_START, RES.RESERVE_PERSON
          , U.USER_NO, U.EMAIL, U.MOBILE, U.AUTH
-         , P.PRODUCT_NO, P.TRIP_NAME, P.TIMETAKEN, P.DANGER
+         , P.PRODUCT_NO, P.TRIP_NAME, P.TIMETAKEN, P.PRICE, P.PEOPLE, P.DANGER
       FROM USER_T U INNER JOIN RESERVE_T RES
         ON U.USER_NO = RES.USER_NO INNER JOIN PRODUCT_T P
         ON P.PRODUCT_NO = RES.PRODUCT_NO 
-     WHERE RES.RESERVE_NO = #{reserveNo}
+    <where>
+      <if test="reserveNo != null">RES.RESERVE_NO = #{reserveNo}</if>
+    </where>   
   </select>
   
-  
+
+
   
   
   

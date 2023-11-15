@@ -1,6 +1,7 @@
 package com.mountaintour.mountain.service;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -29,6 +29,7 @@ import com.mountaintour.mountain.util.MyPageUtils;
 import com.mountaintour.mountain.util.MyProductFileUtils;
 
 import lombok.RequiredArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 
 @RequiredArgsConstructor
 @Service
@@ -37,6 +38,60 @@ public class ProductServiceImpl implements ProductService {
 	private final ProductMapper productMapper;
 	private final MyProductFileUtils myFileUtils;
 	private final MyPageUtils myPageUtils;
+	
+	@Override
+	public Map<String, Object> addThumbnail(MultipartHttpServletRequest multipartRequest) throws Exception {
+	    
+	    List<MultipartFile> files =  multipartRequest.getFiles("files");
+	    
+	    int thumbnailCount;
+	    if(files.get(0).getSize() == 0) {
+	        thumbnailCount = 1;
+	    } else {
+	        thumbnailCount = 0;
+	    }
+	    
+	    for(MultipartFile multipartFile : files) {
+	        
+	        if(multipartFile != null && !multipartFile.isEmpty()) {
+	            
+	            String path = myFileUtils.getUploadPath();
+	            File dir = new File(path);
+	            if(!dir.exists()) {
+	                dir.mkdirs();
+	            }
+	            
+	            String filesystemName = myFileUtils.getFilesystemName(multipartFile.getOriginalFilename());
+	            File file = new File(dir, filesystemName);
+	            
+	            multipartFile.transferTo(file);
+	            
+	            String contentType = Files.probeContentType(file.toPath());
+	            int thumbnail = (contentType != null && contentType.startsWith("image")) ? 1 : 0;
+	            
+	            if(thumbnail == 1) {
+	                File hasthumbnail = new File(dir, "s_" + filesystemName);
+	                Thumbnails.of(file)
+	                            .size(100, 100)
+	                            .toFile(hasthumbnail);
+	            }
+	            
+	            ImageDto attach = ImageDto.builder()
+	                            .productNo(Integer.parseInt(multipartRequest.getParameter("productNo")))   
+	                            .imagePath(path)
+	                            .filesystemName(filesystemName)
+	                            .thumbnail(thumbnail)
+	                            .build();
+	            
+	            thumbnailCount += productMapper.insertThumbnail(attach);
+	            
+	        }  // if
+	        
+	    }  // for
+	    
+	    return Map.of("thumbnailResult", files.size() == thumbnailCount);
+	    
+	}
 	
 	
 	@Override
@@ -67,18 +122,22 @@ public class ProductServiceImpl implements ProductService {
 	            , "url", multipartRequest.getContextPath() + imagePath + "/" + filesystemName);
 	}
 
+	@Transactional(readOnly=true)
+	@Override
+	public ImageDto getThumbnail(int productNo) {
+	  return productMapper.getThumbnail(productNo);
+	  }
 	
-	
-	public int addProduct(HttpServletRequest request) {
-		
-		String tripContents = request.getParameter("tripContents");
+	@Override
+	public int addProduct(MultipartHttpServletRequest multipartRequest) throws Exception {
+	    String tripContents = multipartRequest.getParameter("tripContents");
+
 	    try {
-	        String userNoStr = request.getParameter("userNo");
+	        String userNoStr = multipartRequest.getParameter("userNo");
 	        if (userNoStr == null || userNoStr.isEmpty()) {
-	            // userNo 파라미터가 없거나 비어있을 경우 처리
-	            // 예를 들어 기본값을 사용하거나 오류 처리 로직을 추가할 수 있습니다.
-	            return -1; // 예시로 -1을 반환하였습니다. 실제 상황에 맞게 처리해주세요.
+	            return 0; // Invalid user number
 	        }
+
 	        int userNo = Integer.parseInt(userNoStr);
 
 	        // 다른 파라미터들에 대한 유사한 방어 코드 추가
@@ -86,42 +145,79 @@ public class ProductServiceImpl implements ProductService {
 	        // ProductDto 생성
 	        ProductDto product = ProductDto.builder()
 	                .userNo(userNo)
-	                .mountainDto(MountainDto.builder()
-	                .mountainNo(1)
-	                .build())
-	                .tripName(request.getParameter("tripName"))
+	                .mountainDto(MountainDto.builder().mountainNo(1).build())
+	                .tripName(multipartRequest.getParameter("tripName"))
 	                .tripContents(tripContents)
-	                .guide(request.getParameter("guide"))
-	                .timetaken(request.getParameter("timetaken"))
-	                .price(Integer.parseInt(request.getParameter("price")))
-	                .danger(request.getParameter("danger"))
-	                .plan(request.getParameter("plan"))
-	                .termUse(request.getParameter("termUse"))
+	                .guide(multipartRequest.getParameter("guide"))
+	                .timetaken(multipartRequest.getParameter("timetaken"))
+	                .price(Integer.parseInt(multipartRequest.getParameter("price")))
+	                .danger(multipartRequest.getParameter("danger"))
+	                .plan(multipartRequest.getParameter("plan"))
+	                .termUse(multipartRequest.getParameter("termUse"))
 	                .build();
-	        
-	        int addResult = productMapper.insertProduct(product);
-	        
-	        // 나머지 로직 추가
-	        for(String editorImage : getEditorImageList(tripContents)) {
-	            ImageDto productImage = ImageDto.builder()
-	                .productNo(product.getProductNo())
-	                .imagePath(myFileUtils.getProductImagePath())
-	                .filesystemName(editorImage)
-	                .build();
-	            productMapper.insertProductImage(productImage);
-	          }
-	              
 
-	        // 추가 로직에 따라 결과 반환
-	        return addResult;
+	        int addResult = productMapper.insertProduct(product);
+
+	        // CKEditor 이미지 처리
+	        List<String> editorImages = getEditorImageList(tripContents);
+	        for (String editorImage : editorImages) {
+	            ImageDto productImage = ImageDto.builder()
+	                    .productNo(product.getProductNo())
+	                    .imagePath(myFileUtils.getProductImagePath())
+	                    .filesystemName(editorImage)
+	                    .thumbnail(0) // CKEditor 이미지는 썸네일이 필요 없다고 가정
+	                    .build();
+	            productMapper.insertProductImage(productImage);
+	        }
+
+	        // 파일 업로드 및 이미지 처리
+	        List<MultipartFile> files = multipartRequest.getFiles("files");
+
+	        int thumbnailCount = 0;
+	        for (MultipartFile multipartFile : files) {
+	            if (multipartFile != null && !multipartFile.isEmpty()) {
+	                String path = myFileUtils.getUploadPath();
+	                File dir = new File(path);
+	                if (!dir.exists()) {
+	                    dir.mkdirs();
+	                }
+
+	                String filesystemName = myFileUtils.getFilesystemName(multipartFile.getOriginalFilename());
+	                File file = new File(dir, filesystemName);
+
+	                multipartFile.transferTo(file);
+
+	                String contentType = Files.probeContentType(file.toPath());
+	                int thumbnail = (contentType != null && contentType.startsWith("image")) ? 1 : 0;
+
+	                if (thumbnail == 1) {
+	                    File thumbnailFile = new File(dir, "s_" + filesystemName);
+	                    Thumbnails.of(file).size(100, 100).toFile(thumbnailFile);
+	                }
+
+	                try {
+	                    ImageDto attach = ImageDto.builder()
+	                            .productNo(product.getProductNo())
+	                            .imagePath(path)
+	                            .filesystemName(filesystemName)
+	                            .thumbnail(thumbnail)
+	                            .build();
+
+	                    thumbnailCount += productMapper.insertThumbnail(attach);
+
+	                } catch (Exception e) {
+	                    e.printStackTrace();
+
+	                }
+	            }
+	        }
+
+	        // 성공 시 1, 실패 시 0 반환
+	        return addResult == 1 && files.size() == thumbnailCount ? 1 : 0;
 	    } catch (NumberFormatException e) {
-	        // 숫자 변환 오류 발생 시 처리
-	        e.printStackTrace(); // 또는 로깅 등의 작업 수행
-	        return -1; // 예시로 -1을 반환하였습니다. 실제 상황에 맞게 처리해주세요.
+	        e.printStackTrace();
+	        return 0; // Invalid number format
 	    }
-	    
-	    
-	    
 	}
 
 	
@@ -184,24 +280,17 @@ public class ProductServiceImpl implements ProductService {
 	    
 	    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
 	                                   , "end", myPageUtils.getEnd());
-	    System.out.println(map);
+	    	   	    
 	    List<ProductDto> productList = productMapper.getProductList(map);
 	    return Map.of("productList", productList
 	                , "totalPage", myPageUtils.getTotalPage());
 	    
 	}
 	
-	@Transactional(readOnly=true)
 	@Override
-	public void attachUpload(HttpServletRequest request, Model model) {
-	    
-	    Optional<String> opt = Optional.ofNullable(request.getParameter("productNo"));
-	    int productNo = Integer.parseInt(opt.orElse("0"));
-	    
-	    model.addAttribute("productNo", productMapper.getProduct(productNo));
-	    model.addAttribute("attachList", productMapper.getAttachList(productNo));
-	    
-	  }
+    public int getTotalProductCount() {
+        return productMapper.getProductCount();
+    }
 	
 	@Transactional(readOnly=true)
 	@Override

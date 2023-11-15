@@ -18,8 +18,7 @@ public class ReserveDto {
   private int agree;
   private String pickupLoc;
   private int reserveStatus;
-  private Date reserveStart;
-  private Date reserveFinish;
+  private String reserveStart;
   private int reservePerson;
   private UserDto userDto;       // private int userNo;
   private ProductDto productDto; // private int productNo;

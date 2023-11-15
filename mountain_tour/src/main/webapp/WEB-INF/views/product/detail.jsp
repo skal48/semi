@@ -24,7 +24,11 @@
 
   </script>
   <style>
-  
+  .image img {
+
+  width:100%;
+}
+   
 
   
   </style>
@@ -37,11 +41,13 @@
     <div class="col-1">      
     </div>
     <div class="col-10">
-      <!--  여기다가 작성  다 작성하고 height 지우기!!!! -->
+      <div class="text-center">
+		</div>
+
       <div class="row">
     	<div class="col-8" style="margin-top: 30px; margin-bottom: 30px;">
     	  <div class="text-center">
-			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
+			<!-- 여기 첨부파일이 보여줘야함 -->
 		  </div>
     	  <hr>
     	  <c:if test="${sessionScope.user.auth == 0}">
