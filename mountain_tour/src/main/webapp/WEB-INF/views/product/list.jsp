@@ -30,16 +30,17 @@
       </a>
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div style="display: inline-block;"> 
-          00개의 상품
+         <span>${count}</span>개의 상품
         </div>
         <div class="btn-group btn-group-sm" role="group" aria-label="Small button group" style="display: inline-block;">
-          <button type="button" class="btn btn-outline-dark">추천순</button>
-          <button type="button" class="btn btn-outline-dark">인기순</button>
+          <button type="button" class="btn btn-outline-dark" >추천순</button>
           <button type="button" class="btn btn-outline-dark">리뷰순</button>
         </div>
       </div>
       <hr>
+		
 
+		
       <div class="container">
         <div class="row" id="product_list"> <!-- Added id attribute -->
           <!-- Product cards will be appended here -->
@@ -67,14 +68,14 @@
 	    success: (resData) => {  
 	      totalPage = resData.totalPage;
 	      if (resData.productList != null && resData.productList.length > 0) {
-	        $.each(resData.productList, (i, product) => {
+	        $.each(resData.productList, (i, product) => {	        	
 	          let str = '<div class="col-md-4">';
 	          str += '<div class="card">';
 	          str += '<img src="' + product.imagePath + '" class="card-img-top" alt="Product Image">';
 	          str += '<div class="card-body">';
 	          str += '<h5 class="card-title">' + product.tripName + '</h5>';
-	          str += '<p class="card-text">' + product.tripContents + '</p>';
-	          str += '<a href="' + '${contextPath}/product/detail.do?productNo=' + product.productNo + '" class="btn btn-primary">상세보기</a>';
+	          str += '<p class="card-text">' + product.tripplan + '</p>';
+	          str += '<a href="' + '${contextPath}/product/increseHit.do?productNo=' + product.productNo + '" class="btn btn-primary">상세보기</a>';	         
 	          str += '</div>';
 	          str += '</div>';
 	          str += '</div>';
@@ -88,6 +89,7 @@
 	      console.error('Ajax 요청 에러:', error);
 	    }
 	  });
+	  
 	};
 
     const fnScroll = () => {
@@ -110,7 +112,12 @@
 	        }, 200);  // 200밀리초(0.2초) 후 동작(시간은 임의로 조정 가능함)
         })
     }
-	    
+
+
+	
+
+    
+    
 	fnGetProductList();
 	fnScroll();
 

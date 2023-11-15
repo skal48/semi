@@ -37,8 +37,8 @@
           <td>${reserve.productDto.tripName}</td>
         </tr>
         <tr>
-          <td>여행기간</td>
-          <td>${reserve.reserveStart}~${reserve.reserveFinish}</td>
+          <td>여행시작일</td>
+          <td>${reserve.reserveStart}</td>
         </tr>
         <tr>
           <td>소요시간</td>
@@ -46,7 +46,12 @@
         </tr>
         <tr>
           <td>총인원</td>
-          <td>${reserve.reservePerson}명(버튼누르면 실제여행객 정보 보여주기?)</td>
+          <td>
+            ${reserve.reservePerson}명(버튼누르면 실제여행객 정보 보여주기?)
+            <span id="tourPeopleInfo">
+              <button id="btn_peopleInfo">상세</button>
+            </span>
+          </td>
         </tr>
         <tr>
           <td>픽업장소</td>
@@ -98,6 +103,10 @@
           <td>???원(결제 여부?)</td>
         </tr>
       </table>
+    </div>
+    <hr>
+    <div>
+      <button type="button" onclick="location.href='${contextPath}/product/list.do'">다른상품 예약하러가기</button>
     </div>
     
     </div>

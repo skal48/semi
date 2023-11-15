@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -14,6 +16,7 @@ import com.mountaintour.mountain.dao.ManageMapper;
 import com.mountaintour.mountain.dao.UserMapper;
 import com.mountaintour.mountain.dto.UserDto;
 import com.mountaintour.mountain.util.MyPageUtils;
+import com.mountaintour.mountain.util.MySecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,11 +27,16 @@ public class ManageServiceImpl implements ManageService {
   private final UserMapper userMapper;
   private final ManageMapper manageMapper;
   private final MyPageUtils myPageUtils;
+  private final MySecurityUtils mySecurityUtils;
   
   
   /**
    * 기존 회원 목록
-   * MVC 페이징
+   * MVC 페이징 처리
+   * 
+   * @author 심희수
+   * @param request
+   * @param model
    */
   @Override
   public void loadUserList(HttpServletRequest request, Model model) {
@@ -54,6 +62,10 @@ public class ManageServiceImpl implements ManageService {
   
   /**
    * 기존 회원 검색
+   * 
+   * @author 심희수
+   * @param request
+   * @param model
    */
   @Override
   public void loadSearchUserList(HttpServletRequest request, Model model) {
@@ -86,11 +98,90 @@ public class ManageServiceImpl implements ManageService {
     
   }
   
+  /**
+   * 기존 회원 상세
+   * 
+   * @author 심희수
+   * @param userNo 회원번호
+   * @return 회원번호를 Map에 담아서 반환
+   */
   @Override
   public UserDto getUser(int userNo) {
     return userMapper.getUser(Map.of("userNo", userNo));
   }
   
+  /**
+   * 기존 회원 정보 수정
+   * 
+   * @author 심희수
+   * @param request
+   */
+  @Override
+  public ResponseEntity<Map<String, Object>> modifyUser(HttpServletRequest request) {
+    
+    String name = mySecurityUtils.preventXSS(request.getParameter("name"));
+    String gender = request.getParameter("gender");
+    String mobile = request.getParameter("mobile");
+    String postcode = request.getParameter("postcode");
+    String roadAddress = request.getParameter("roadAddress");
+    String jibunAddress = request.getParameter("jibunAddress");
+    String detailAddress = mySecurityUtils.preventXSS(request.getParameter("detailAddress"));
+    String event = request.getParameter("event");
+    int agree = event.equals("on") ? 1 : 0;
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    
+    UserDto user = UserDto.builder()
+                    .name(name)
+                    .gender(gender)
+                    .mobile(mobile)
+                    .postcode(postcode)
+                    .roadAddress(roadAddress)
+                    .jibunAddress(jibunAddress)
+                    .detailAddress(detailAddress)
+                    .agree(agree)
+                    .userNo(userNo)
+                    .build();
+    
+    int modifyResult = userMapper.updateUser(user);
+    
+    return new ResponseEntity<Map<String,Object>>(Map.of("modifyResult", modifyResult), HttpStatus.OK);
+  }
+  
+  /**
+   * 기존 회원 비밀번호 수정
+   * 
+   * @author 심희수
+   * @param request 
+   * @return
+   */
+  @Override
+  public int modifyPw(HttpServletRequest request) {
+    
+    String pw = mySecurityUtils.getSHA256(request.getParameter("pw"));
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    
+    UserDto user = UserDto.builder()
+                    .pw(pw)
+                    .userNo(userNo)
+                    .build();
+    
+    int modifyPwResult = userMapper.updateUserPw(user);
+    
+    return modifyPwResult;
+  }
+  
+  
+  /**
+   * 기존 회원 탈퇴
+   * 
+   * @author 심희수
+   * @param  userNo 회원번호
+   * @return 삭제할 회원번호를 반환
+   */
+  @Override
+  public int removeMember(int userNo) {
+    return userMapper.deleteUser(userNo);
+  }
   
   
 }
