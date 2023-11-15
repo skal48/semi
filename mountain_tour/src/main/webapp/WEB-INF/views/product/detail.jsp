@@ -42,9 +42,6 @@
     </div>
     <div class="col-10">
       <div class="text-center">
-		 <c:if test="${product.thumbnail == 1}">
-		   <img src="${contextPath}/path/to/your/image.jpg" alt="상품 이미지">
-		 </c:if>
 		</div>
 
       <div class="row">

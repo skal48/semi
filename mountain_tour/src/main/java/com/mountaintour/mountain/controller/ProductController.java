@@ -1,22 +1,21 @@
 package com.mountaintour.mountain.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.mountaintour.mountain.dto.ImageDto;
 import com.mountaintour.mountain.dto.ProductDto;
 import com.mountaintour.mountain.service.ProductService;
 
@@ -31,6 +30,7 @@ public class ProductController {
 	
   @GetMapping("/list.do")
   public String list(Model model) {
+	  model.addAttribute("count", productService.getTotalProductCount());
 	 return "product/list"; 
 	}
   
@@ -65,21 +65,12 @@ public class ProductController {
   }
   
   @ResponseBody
-  @GetMapping(value="/getThumbnail.do", produces="application/json")
-  public Map<String, Object> getThumbnail(@PathVariable int productNo, Model model){
-	  ImageDto imageDto = productService.getThumbnail(productNo);
-
-      // 이미지 정보를 Model에 추가하여 JSP로 전달
-      model.addAttribute("imageDto", imageDto);
-
-      return "image/showThumbnail"; // JSP 파일의 경로
-  }
-  
-  @ResponseBody
   @GetMapping(value="/getList.do", produces="application/json")
   public Map<String, Object> getList(HttpServletRequest request){
     return productService.getProductList(request);
   }  
+
+  
   
   @GetMapping("/detail.do")
   public String detail(@RequestParam(value="productNo", required=false, defaultValue="0") int productNo

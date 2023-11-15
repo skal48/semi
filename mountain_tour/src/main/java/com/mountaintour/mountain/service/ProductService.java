@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.mountaintour.mountain.dto.ImageDto;
@@ -16,6 +15,7 @@ public interface ProductService {
   public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest);
   public ImageDto getThumbnail(int productNo);
   public int addProduct(MultipartHttpServletRequest multipartRequest) throws Exception;
+  public int getTotalProductCount();
   public List<String> getEditorImageList(String contents);
   public void productImageBatch();
   public Map<String, Object> getProductList(HttpServletRequest request);

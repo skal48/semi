@@ -40,7 +40,7 @@
     INSERT INTO PRODUCT_T (
         PRODUCT_NO, 
         USER_NO, 
-        MOUNTAIN_NO, 
+         MOUNTAIN_NO, 
         TRIP_NAME, 
         TRIP_CONTENTS, 
         GUIDE, 
@@ -94,13 +94,6 @@
       , #{productNo}
     )
   </insert>
-  
-  <select id="getThumbnail" parameterType="int" resultType="ImageDto">
-    SELECT IMAGE_PATH, FILESYSTEM_NAME, THUMBNAIL, PRODUCT_NO
-      FROM IMAGE_T
-     WHERE PRODUCT_NO = #{productNo}
-  </select>
-  
   
   <select id="getProductImageInYesterday" resultType="ImageDto">
     SELECT IMAGE_PATH
@@ -199,7 +192,7 @@
   </update>
   
   <select id="getProductImageList" parameterType="int" resultType="ImageDto">
-    SELECT PRODUCT_NO, IMAGE_PATH, FILESYSTEM_NAME, THUMBNAIL 
+    SELECT PRODUCT_NO, IMAGE_PATH, FILESYSTEM_NAME
       FROM IMAGE_T
      WHERE PRODUCT_NO = #{productNo}  
   </select>

@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -281,24 +280,17 @@ public class ProductServiceImpl implements ProductService {
 	    
 	    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
 	                                   , "end", myPageUtils.getEnd());
-	    System.out.println(map);
+	    	   	    
 	    List<ProductDto> productList = productMapper.getProductList(map);
 	    return Map.of("productList", productList
 	                , "totalPage", myPageUtils.getTotalPage());
 	    
 	}
-//	
-//	@Transactional(readOnly=true)
-//	@Override
-//	public void attachUpload(HttpServletRequest request, Model model) {
-//	    
-//	    Optional<String> opt = Optional.ofNullable(request.getParameter("productNo"));
-//	    int productNo = Integer.parseInt(opt.orElse("0"));
-//	    
-//	    model.addAttribute("productNo", productMapper.getProduct(productNo));
-//	    model.addAttribute("attachList", productMapper.getAttachList(productNo));
-//	    
-//	  }
+	
+	@Override
+    public int getTotalProductCount() {
+        return productMapper.getProductCount();
+    }
 	
 	@Transactional(readOnly=true)
 	@Override
