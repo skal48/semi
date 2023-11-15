@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -20,10 +21,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import com.mountaintour.mountain.dao.UserMapper;
+import com.mountaintour.mountain.dto.HeartDto;
 import com.mountaintour.mountain.dto.UserDto;
 import com.mountaintour.mountain.util.MyJavaMailUtils;
+import com.mountaintour.mountain.util.MyPageUtils;
 import com.mountaintour.mountain.util.MySecurityUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -37,6 +41,7 @@ public class UserServiceImpl implements UserService {
   private final UserMapper userMapper;
   private final MySecurityUtils mySecurityUtils;
   private final MyJavaMailUtils myJavaMailUtils;
+  private final MyPageUtils myPageUtils;
 
   private final String client_id = "dteUoZxabIKjJ8XhKGY0";
   private final String client_secret = "hzj3TKHiSm";
@@ -58,7 +63,7 @@ public class UserServiceImpl implements UserService {
     UserDto user = userMapper.getUser(map);
     
     if(user != null) {
-      request.getSession().setAttribute("user", user);
+      session.setAttribute("user", user);
       userMapper.insertAccess(email);
       response.sendRedirect(request.getParameter("referer"));
     } else {
@@ -439,6 +444,7 @@ public class UserServiceImpl implements UserService {
   
   @Override
 	public void leave(HttpServletRequest request, HttpServletResponse response) {
+
 		
 	  Optional<String> opt = Optional.ofNullable(request.getParameter("userNo"));
 	  int userNo = Integer.parseInt(opt.orElse("0"));
@@ -460,7 +466,6 @@ public class UserServiceImpl implements UserService {
 		  }
 	  }
 	  
-	 
 	  int deleteUserResult = userMapper.deleteUser(user);
 	  
 	  try {
@@ -484,6 +489,35 @@ public class UserServiceImpl implements UserService {
 	  } catch(Exception e) {
 		  e.printStackTrace();
 	  }
+	}
+  
+  @Override
+	public void heartProduct(HttpServletRequest request, Model model) {
+	int userNo = Integer.parseInt(request.getParameter("userNo"));
+		
+	Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = userMapper.getHeartCount();
+    int display = 10;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd()
+                                   , "userNo", userNo);
+    
+    List<HeartDto> heartList = userMapper.selectHeartList(map);
+    
+    model.addAttribute("heartList", heartList);
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/user/heartList.do", request.getParameter("userNo")));
+    model.addAttribute("beginNo", total - (page - 1) * display);  
+		
+	}
+  
+  @Override
+	public void findId(HttpServletRequest request, HttpServletResponse response) {
+	
+		
 	}
 }
   

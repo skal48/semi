@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 
 import com.mountaintour.mountain.dto.UserDto;
 
@@ -24,5 +25,6 @@ public interface UserService {
 	public ResponseEntity<Map<String, Object>> modify(HttpServletRequest request);
 	public void modifyPw(HttpServletRequest request, HttpServletResponse response);
 	public void leave(HttpServletRequest request, HttpServletResponse response);
-	
+	public void heartProduct(HttpServletRequest request, Model model);
+	public void findId(HttpServletRequest request, HttpServletResponse response);
 }

@@ -84,7 +84,7 @@
     <div class="col-sm-12"><span id="guide" style="color:#999;display:none"></span></div>
     <div class="row mb-2">
       <div class="col-sm-6"><input type="text" name="detailAddress" value="${sessionScope.user.detailAddress}" id="detailAddress" class="form-control" placeholder="상세주소"></div>
-      <div class="col-sm-6"><input type="text" id="extraAddress" class="form-control" placeholder="참고항목"></div>
+      
     </div>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
@@ -182,13 +182,30 @@
         <button type="button" id="btn_modify_pw" class="btn btn-success">비밀번호변경하기</button>  
    		</c:if>
    	  <button type="button" id="btn_love" class="btn btn-danger">내가찜한목록보기♥</button>
-   
+   		</form>
+   		
+    <script>
+    const fnHeart = () => {
+    	$('#btn_love').click(() => {
+    		location.href='${contextPath}/user/heartList.do?userNo=${sessionScope.user.userNo}';
+    		
+    	}) 	
+    }
+    
+    
+    
+    fnHeart();
+    
+    
+    </script>
       
     </div>
     
-  </form>
+  
+  
+  
 </div>
 </div>
 </div>
-
+s
 <%@ include file="../layout/footer.jsp" %>

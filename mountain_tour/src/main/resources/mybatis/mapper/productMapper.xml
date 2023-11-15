@@ -28,9 +28,39 @@
     <association javaType="ImageDto"         property="imageDto">
         <result  column="IMAGE_PATH" 		 property="imagePath" />
         <result  column="FILESYSTEM_NAME" 	 property="filesystemName"/>
-        <result  column="THUMBNAIL" 		 property="thumbnail"/>
+        <result  column="THUMBNAIL" 		 property="thumbnail"/>  
     </association>
   </resultMap>
+
+	<resultMap type="ReviewDto" id="ReviewMap">
+    <id column="REVIEW_NO" property="reviewNo"/>
+    <result column="PRODUCT_NO" property="productNo"/>
+    <result column="RESERVE_NO" property="reserveNo"/>
+    <result column="USER_NO" property="userNo"/>
+    <result column="CONTENTS" property="contents"/>
+    <result column="CREATED_AT" property="createdAt"/>
+    <result column="MODIFIED_AT" property="modifiedAt"/>
+    <result column="STATUS" property="status"/>
+    <result column="STAR" property="star"/>   
+    <association javaType="UserDto" property="userDto">
+        <id column="USER_NO" property="userNo"/>
+        <result column="EMAIL" property="email" />
+        <result column="PW" property="pw" />
+        <result column="NAME" property="name" />
+        <result column="GENDER" property="gender" />
+        <result column="MOBILE" property="mobile" />
+        <result column="POSTCODE" property="postcode" />
+        <result column="ROAD_ADDRESS" property="roadAddress" />
+        <result column="JIBUN_ADDRESS" property="jibunAddress" />
+        <result column="DETAIL_ADDRESS" property="detailAddress" />
+        <result column="AGREE" property="agree" />
+        <result column="STATE" property="state" />
+        <result column="AUTH" property="auth" />
+        <result column="PW_MODIFIED_AT" property="pwModifiedAt" />
+        <result column="JOINED_AT" property="joinedAt" />
+    </association>
+	</resultMap>
+	
 
   <insert id="insertProduct" parameterType="ProductDto">
     <selectKey order="BEFORE" keyProperty="productNo" resultType="int">
@@ -68,6 +98,21 @@
     )
 </insert>                                                                                                            
 
+  <insert id="insertThumbnail" parameterType="ImageDto">
+    INSERT INTO IMAGE_T (
+        IMAGE_PATH
+      , FILESYSTEM_NAME
+      , THUMBNAIL
+      , PRODUCT_NO
+    ) VALUES (
+        #{imagePath}
+      , #{filesystemName}
+      , #{thumbnail}
+      , #{productNo}
+    )
+  </insert>
+
+
   <insert id="insertProductImage" parameterType="ImageDto">
     INSERT INTO IMAGE_T (
         IMAGE_PATH
@@ -83,7 +128,6 @@
   <select id="getProductImageInYesterday" resultType="ImageDto">
     SELECT IMAGE_PATH
       	 , FILESYSTEM_NAME
-      	 , THUMBNAIL
      	 , PRODUCT_NO
       FROM IMAGE_T
      WHERE IMAGE_PATH = '/product/' || TO_CHAR(SYSDATE - 1, 'YYYY/MM/DD')
@@ -140,7 +184,7 @@
             M.LOCATION,
             I.IMAGE_PATH,
             I.FILESYSTEM_NAME,
-            I.THUMBNAIL  
+            I.THUMBNAIL 
             FROM PRODUCT_T P JOIN MOUNTAIN_T M ON P.MOUNTAIN_NO = M.MOUNTAIN_NO
             LEFT JOIN IMAGE_T I ON P.PRODUCT_NO = I.PRODUCT_NO)
             WHERE RN BETWEEN #{begin} AND #{end}
@@ -161,6 +205,30 @@
      WHERE PRODUCT_NO = #{productNo}  
   </update>
   
+  <insert id="heartProduct" parameterType="heartDto">
+    INSERT INTO HEART_T (
+      PRODUCT_NO	
+    , USER_NO
+    )VALUES(
+      #{productNo}
+    , #{userNo}
+     )
+  </insert>
+  
+  <select id="getcalendar" resultType="map">      
+        SELECT 
+            P.PRODUCT_NO,
+            P.TRIP_NAME,
+            P.PEOPLE - NVL(SUM(R.RESERVE_PERSON), 0) AS CH
+        FROM 
+            PRODUCT_T P
+        LEFT JOIN 
+            RESERVE_T R ON P.PRODUCT_NO = R.PRODUCT_NO
+        GROUP BY 
+            P.PRODUCT_NO, P.TRIP_NAME, P.PEOPLE
+   </select>
+  
+  
   <update id="updateProduct" parameterType="ProductDto">
     UPDATE PRODUCT_T
        SET TRIP_NAME = #{tripName}
@@ -178,10 +246,50 @@
   </update>
   
   <select id="getProductImageList" parameterType="int" resultType="ImageDto">
-    SELECT PRODUCT_NO, IMAGE_PATH, FILESYSTEM_NAME, THUMBNAIL
+    SELECT PRODUCT_NO, IMAGE_PATH, FILESYSTEM_NAME
       FROM IMAGE_T
      WHERE PRODUCT_NO = #{productNo}  
   </select>
+
+	<insert id="insertReview" parameterType="ReviewDto">
+    INSERT INTO REVIEW_T (
+        REVIEW_NO
+      , PRODUCT_NO
+      <!--  , RESERVE_NO -->
+      , USER_NO
+      , CONTENTS
+      , CREATED_AT
+      , MODIFIED_AT
+      , STATUS
+      , STAR
+    ) VALUES (
+        REVIEW_SEQ.NEXTVAL
+      , #{productNo}
+    <!-- , #{reserveNo} -->  
+      , #{userNo}
+      , #{contents}
+      , TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS')
+      , TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS')
+      , 1
+      , 0
+    )
+  </insert>
+  
+  <select id="getReviewCount" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+      FROM REVIEW_T
+     WHERE PRODUCT_NO = #{productNo}
+  </select>
+
+  <select id="getReviewList" parameterType="Map" resultMap="ReviewMap">
+    SELECT A.REVIEW_NO, A.PRODUCT_NO, A.RESERVE_NO, A.USER_NO, A.CONTENTS, A.CREATED_AT, A.STATUS, A.NAME
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY REVIEW_NO DESC) AS RN, C.REVIEW_NO, C.CONTENTS, C.PRODUCT_NO, C.RESERVE_NO, C.CREATED_AT, C.STATUS, U.USER_NO, U.NAME
+              FROM USER_T U INNER JOIN REVIEW_T C
+                ON U.USER_NO = C.USER_NO
+             WHERE C.PRODUCT_NO = #{productNo}) A
+     WHERE A.RN BETWEEN #{begin} AND #{end}
+  </select>
+
 
   <delete id="deleteProductImage" parameterType="String">
     DELETE

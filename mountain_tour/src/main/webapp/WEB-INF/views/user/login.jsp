@@ -46,7 +46,7 @@
       	<button type="button" class="btn btn-primary">회원가입</button>
       	</a>
       	
-      	<li><a href="${contextPath}">아이디/비밀번호 찾기</a>
+      	<li><a href="${contextPath}/user/findIdCheck.form">아이디/비밀번호 찾기</a>
       	</ul>
       	
       <hr class="my-4">

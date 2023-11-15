@@ -11,10 +11,113 @@
   <jsp:param value="${inquiry.inquiryNo}번 문의" name="title"/>
 </jsp:include>
 
-<style>
+<script>
 
+  /* 호출 */
+  $(() => {
+    fnDeleteInquiry();
+    fnAddAnswer();
+    fnModifyAnswer();
+    fnDeleteAnswer();
+    fnAddAnswerResult();
+    fnModifyAnswerResult();
+    fnRemoveAnswerResult();
+  })
+
+  /* 문의글 삭제 취소시 서브밋 방지 */ 
+  const fnDeleteInquiry = () => {
+    $('#frm_removeInquiry').submit((ev) => {
+      if (!confirm('문의글을 삭제하면 답변 확인이 불가능합니다. 삭제하시겠습니까?')) {
+        ev.preventDefault(); 
+        return;
+      }
+    })
+  }
   
-</style>
+  
+  
+  /* 답변 작성 버튼 클릭 시 서브밋 */
+  const fnAddAnswer = () => {
+    $('#btn_add_answer').click(() => {
+      let answerContents = "${answer.contents}";
+      
+	  if($('#show_answer_manager').val().trim() === ''){
+	    	alert('답변을 작성하세요.');
+	    	return;
+	      }
+	  
+      // 이미 작성된 답변이 있다면 서브밋 방지
+      if (answerContents.trim() !== '') {
+          alert('이미 작성된 답변이 존재합니다.');
+          return;
+      } 
+      // 기존에 작성된 데이터가 없다면 서브밋 수행
+      $('#frm_answer').attr('action', '${contextPath}/cs/addAnswer.do');
+      $('#frm_answer').submit(); // 폼 제출
+    })
+  }
+  
+  /* 답변 수정 버튼 서브밋 */
+  const fnModifyAnswer = () => {
+	$('#btn_modiy_answer').click(() => {
+      $('#frm_answer').attr('action', '${contextPath}/cs/modifyAnswer.do');
+      $('#frm_answer').submit(); 
+	})
+  }
+  
+  /* 답변 삭제 버튼 서브밋 */
+  const fnDeleteAnswer = () => {
+	$('#btn_delete_answer').click(() => {
+      if(!confirm('답변을 삭제하시겠습니까?')){
+  		return;
+  	  }
+      $('#frm_answer').attr('action', '${contextPath}/cs/removeAnswer.do');
+      $('#frm_answer').submit(); 
+	})
+  }
+  
+  /* 답변 등록 시 전달되는 데이터 확인 */
+  const fnAddAnswerResult = () => {
+	let addAnswerResult = '${addAnswerResult}';
+	if(addAnswerResult !== ''){
+	  if(addAnswerResult === '1'){
+		alert('답변이 등록되었습니다.');
+	  } else {
+		alert('답변이 등록되지 않았습니다.');
+	  }
+	}
+  }
+  
+  /* 답변 수정 시 전달되는 데이터 확인 */
+  const fnModifyAnswerResult = () => {
+	let modifyAnswerResult = '${modifyAnswerResult}';
+	if(modifyAnswerResult !== ''){
+	  if(modifyAnswerResult === '1'){
+		alert('답변이 수정되었습니다.');
+	  } else {
+		alert('답변이 수정되지 않았습니다.');
+	  }
+	}
+  }
+  
+  /* 답변 삭제 시 전달되는 데이터 확인 */
+  const fnRemoveAnswerResult = () => {
+	let removeAnswerResult = '${removeAnswerResult}';
+	if(removeAnswerResult !== ''){
+	  if(removeAnswerResult === '1'){
+		alert('답변이 삭제되었습니다.');
+	  } else {
+		alert('답변이 삭제되지 않았습니다.');
+	  }
+	}
+  }
+  
+  
+  
+
+	
+</script>
+
  
   <div class="container text-center">
   <div class="row">
@@ -104,103 +207,6 @@
  
 
 
-<script>
-
-  /* 문의글 삭제 취소시 서브밋 방지 */ 
-  const fnDeleteInquiry = () => {
-    $('#frm_removeInquiry').submit((ev) => {
-      if (!confirm('문의글을 삭제하면 답변 확인이 불가능합니다. 삭제하시겠습니까?')) {
-        ev.preventDefault(); 
-        return;
-      }
-    });
-  };
-  
-  
-  
-  /* 답변 작성 버튼 클릭 시 서브밋 */
-  const fnAddAnswer = () => {
-    $('#btn_add_answer').click(() => {
-      let answerContents = "${answer.contents}";
-
-      // 이미 작성된 답변이 있다면 서브밋 방지
-      if (answerContents.trim() !== '') {
-          alert('이미 작성된 답변이 존재합니다.');
-          return;
-      }
-      // 작성된 데이터가 없다면 서브밋 수행
-      $('#frm_answer').attr('action', '${contextPath}/cs/addAnswer.do');
-      $('#frm_answer').submit(); // 폼 제출
-    });
-  };
-  
-  /* 답변 수정 버튼 서브밋 */
-  const fnModifyAnswer = () => {
-	$('#btn_modiy_answer').click(() => {
-      $('#frm_answer').attr('action', '${contextPath}/cs/modifyAnswer.do');
-      $('#frm_answer').submit(); 
-	})
-  }
-  
-  /* 답변 삭제 버튼 서브밋 */
-  const fnDeleteAnswer = () => {
-	$('#btn_delete_answer').click(() => {
-      if(!confirm('답변을 삭제하시겠습니까?')){
-  		return;
-  	  }
-      $('#frm_answer').attr('action', '${contextPath}/cs/removeAnswer.do');
-      $('#frm_answer').submit(); 
-	})
-  }
-  
-  /* 답변 등록 시 전달되는 데이터 확인 */
-  const fnAddAnswerResult = () => {
-	let addAnswerResult = '${addAnswerResult}';
-	if(addAnswerResult !== ''){
-	  if(addAnswerResult === '1'){
-		alert('답변이 등록되었습니다.');
-	  } else {
-		alert('답변이 등록되지 않았습니다.');
-	  }
-	}
-  }
-  
-  /* 답변 수정 시 전달되는 데이터 확인 */
-  const fnModifyAnswerResult = () => {
-	let modifyAnswerResult = '${modifyAnswerResult}';
-	if(modifyAnswerResult !== ''){
-	  if(modifyAnswerResult === '1'){
-		alert('답변이 수정되었습니다.');
-	  } else {
-		alert('답변이 수정되지 않았습니다.');
-	  }
-	}
-  }
-  
-  /* 답변 삭제 시 전달되는 데이터 확인 */
-  const fnRemoveAnswerResult = () => {
-	let removeAnswerResult = '${removeAnswerResult}';
-	if(removeAnswerResult !== ''){
-	  if(removeAnswerResult === '1'){
-		alert('답변이 삭제되었습니다.');
-	  } else {
-		alert('답변이 삭제되지 않았습니다.');
-	  }
-	}
-  }
-  
-  
-  
-  /* 호출 */
-  fnDeleteInquiry();
-  fnAddAnswer();
-  fnModifyAnswer();
-  fnDeleteAnswer();
-  fnAddAnswerResult();
-  fnModifyAnswerResult();
-  fnRemoveAnswerResult();
-	
-</script>
 
 
  

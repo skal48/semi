@@ -28,7 +28,7 @@
 		<typeAlias alias="MagazineStarDto" type="com.mountaintour.mountain.dto.MagazineStarDto"/>
 		<typeAlias alias="ReviewDto" type="com.mountaintour.mountain.dto.ReviewDto"/>
 		<typeAlias alias="LeaveUserDto" type="com.mountaintour.mountain.dto.LeaveUserDto"/>
-		<!-- <typeAlias alias="LeaveUserDto" type="com.mountaintour.mountain.dto.LeaveUserDto"/> -->
+		
   </typeAliases>
 
 </configuration>
