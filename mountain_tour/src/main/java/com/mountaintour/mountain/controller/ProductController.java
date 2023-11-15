@@ -87,8 +87,6 @@ public class ProductController {
     return productService.getProductList(request);
   }  
 
-  
-  
   @GetMapping("/detail.do")
   public String detail(@RequestParam(value="productNo", required=false, defaultValue="0") int productNo
           , Model model) {
@@ -115,5 +113,17 @@ public class ProductController {
     int removeResult = productService.removeProduct(productNo);
     redirectAttributes.addFlashAttribute("removeResult", removeResult);
     return "redirect:/product/list.do";
+  }
+  
+  @ResponseBody
+  @PostMapping(value="/addReview.do", produces="application/json")
+  public Map<String, Object> addReview(HttpServletRequest request) {
+    return productService.addReview(request);
+  }
+  
+  @ResponseBody
+  @GetMapping(value="/reviewList.do", produces="application/json")
+  public Map<String, Object> ReviewList(HttpServletRequest request){
+    return productService.loadReviewList(request);
   }
 }
