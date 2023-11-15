@@ -56,6 +56,7 @@
     
     .small_picture {
       height: 200px;
+      width: 100%;
     }
     .small_title {
       margin-top: 20px;
@@ -65,12 +66,6 @@
     }
     .small_summary {
       margin: 10px;   
-    }
-    .small_summary {
-    
-    }
-    .small_summary {
-    
     }
   
   </style>
@@ -153,8 +148,18 @@
   
   const fnUploadDetail = () => {
 	    $(document).on('click', '.magazine', function(){
-	    	console.log($(this).data('magazine_no'));
-	      location.href = '${contextPath}/magazine/detail.do?magazineNo=' + $(this).data('magazine_no');
+	    	magazineNo = $(this).text();
+	    
+	    	$.ajax({
+    		 // 요청
+          type: 'get',
+          url: '${contextPath}/magazine/increseHit.do',
+          data: 'magazineNo=' + magazineNo,
+          // 응답
+          dataType: 'json',
+          success: (resData) => {  // resData = {"uploadList": [], "totalPage": 10}
+          }
+	    	})
 	    })
 	  }
   
@@ -188,7 +193,17 @@
 	    })
 	    
 	  }
-  
+ const fnModifyResult = () => {
+	 let modifyResult = '${modifyResult}';
+	 if(modifyResult !== ''){
+		 if(modifyResult === 'true'){
+        alert('수정을 성공했습니다. ');
+     } else {
+       alert('수정이 실패하였습니다.');
+     }
+	 }
+	 
+ }
   
   
   
@@ -197,7 +212,7 @@
   fnGetUploadList();
   fnUploadDetail();
   fnScroll();
-  
+  fnModifyResult();
   fnMagazineWrite();	
 
 

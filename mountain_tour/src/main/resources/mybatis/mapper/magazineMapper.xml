@@ -128,6 +128,14 @@
              SUMMARY = #{summary}
       WHERE MAGAZINE_NO = #{magazineNo}
  </update>
+ <update id="updateThumbnailFinal" parameterType="MagazineMultiDto">
+    UPDATE MAGAZINE_MULTI_T SET
+			  MULTI_PATH = #{multiPath}, 
+			  FILESYS_NAME = #{filesysName}, 
+			  IS_THUMBNAIL = #{isThumbnail}
+		WHERE MAGAZINE_NO = #{magazineNo}
+ </update>
+ 
  
  <select id="getThumbnailInfo" parameterType="int" resultMap="MagazineMap">
     SELECT MAGAZINE_NO, SUMMARY, MULTI_PATH, FILESYS_NAME, IS_THUMBNAIL
@@ -139,12 +147,17 @@
  
  </select>
  <update id="updateIsThumbnail" parameterType="int">
- 		 UPDATE MAGAZINE_MULTI_T SET
-					   IS_THUMBNAIL = 0
-			WHERE MAGAZINE_NO = #{magazineNo} AND IS_THUMBNAIL IS NULL
+	 UPDATE MAGAZINE_MULTI_T SET
+			   IS_THUMBNAIL = 0
+		WHERE MAGAZINE_NO = #{magazineNo} AND IS_THUMBNAIL IS NULL
  
  </update> 
  
+ <update id="updateHit" parameterType="int">
+	  UPDATE MAGAZINE_T SET 
+	  HIT = HIT+1
+	  WHERE MAGAZINE_NO = #{magazineNo};  
+ </update>
  
  
 </mapper>
