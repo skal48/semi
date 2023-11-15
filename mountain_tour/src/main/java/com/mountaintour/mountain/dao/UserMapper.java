@@ -1,6 +1,5 @@
 package com.mountaintour.mountain.dao;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -16,7 +15,7 @@ public interface UserMapper {
 	public int updateUser(UserDto user);
 	public int updateUserPw(UserDto user);
 	public int insertNaverUser(UserDto user);
-	public int deleteUser(UserDto user);
+	public int deleteUser(int userNo);
 	
 	
 }
