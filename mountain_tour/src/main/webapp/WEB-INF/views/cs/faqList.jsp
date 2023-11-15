@@ -149,7 +149,7 @@
             
             <%-- 검색기능 --%>
             <div>
-              <form method="get" action="${contextPath}/cs/faqSearch.do">
+              <form method="get" action="${contextPath}/cs/faqSearch.do" >
                 <select name="column" class="form-select-sm" style="height: 40px">
                   <option value="TITLE">제목</option>
                   <option value="CONTENTS">내용</option>

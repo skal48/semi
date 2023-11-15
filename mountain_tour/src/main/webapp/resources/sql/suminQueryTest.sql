@@ -181,7 +181,7 @@ CREATE TABLE MAGAZINE_T (
 
 -- 매거진 멀티미디어
 CREATE TABLE MAGAZINE_MULTI_T (
-    MAGAZINE_NO	 NUMBER	       NOT NULL,  -- 매거진 번호
+    MAGAZINE_NO	 NUMBER	        NULL,  -- 매거진 번호
     MULTI_PATH	 VARCHAR2(100 BYTE) NULL, -- 멀티미디어 경로
     FILESYS_NAME VARCHAR2(100 BYTE) NULL, -- 파일 이름
     IS_THUMBNAIL NUMBER             NULL, -- 썸네일로 쓰이는 사진 구분
@@ -421,83 +421,6 @@ INSERT INTO MAGAZINE_MULTI_T (MAGAZINE_NO, MULTI_PATH, FILESYS_NAME, IS_THUMBNAI
 
 UPDATE MAGAZINE_T SET SUMMARY= 'dfk' where MAGAZINE_NO = 12;
 
+DELETE FROM MAGAZINE_T WHERE MAGAZINE_NO = 10;
 
- <select id="getProductList" parameterType="Map" resultMap="ProductMap">
-    SELECT
-        PRODUCT_NO,
-        USER_NO,
-        MOUNTAIN_NO,
-        TRIP_NAME,
-        TRIP_CONTENTS,
-        GUIDE,
-        TIMETAKEN,
-        PRICE,
-        DANGER,
-        REGISTERED_AT,
-        MODIFIED_DATE,
-        PEOPLE,
-        HIT,
-        PLAN,
-        STATUS,
-        TERM_USE,
-        MOUNTAIN_NAME,
-        IMPORMATION,
-        LOCATION,
-        IMAGE_PATH,
-        FILESYSTEM_NAME,
-        THUMBNAIL
-    FROM ( ROW_NUMBER() OVER(ORDER BY P.PRODUCT_NO DESC) AS RN, 
-            P.PRODUCT_NO,
-            P.USER_NO,
-            M.MOUNTAIN_NO,
-            P.TRIP_NAME,
-            P.TRIP_CONTENTS,
-            P.GUIDE,
-            P.TIMETAKEN,
-            P.PRICE,
-            P.DANGER,
-            P.REGISTERED_AT,
-            P.MODIFIED_DATE,
-            P.PEOPLE,
-            P.HIT,
-            P.PLAN,
-            P.STATUS,
-            P.TERM_USE
-            M.MOUNTAIN_NAME,
-            M.IMPORMATION,
-            M.LOCATION,
-            I.IMAGE_PATH,
-            I.FILESYSTEM_NAME,
-            I.THUMBNAIL
-            ,  
-            FROM PRODUCT_T P JOIN MOUNTAIN_T M ON A.MOUNTAIN_NO = M.MOUNTAIN_NO
-            LEFT JOIN IMAGE_T I ON A.PRODUCT_NO = I.PRODUCT_NO)
-            WHERE A.RN BETWEEN #{begin} AND #{end}        
-    
-    
-    
-    
-        SELECT
-            P.PRODUCT_NO,
-            P.USER_NO,
-            P.MOUNTAIN_NO,
-            P.TRIP_NAME,
-            P.TRIP_CONTENTS,
-            P.GUIDE,
-            P.TIMETAKEN,
-            P.PRICE,
-            P.DANGER,
-            P.REGISTERED_AT,
-            P.MODIFIED_DATE,
-            P.PEOPLE,
-            P.HIT,
-            P.PLAN,
-            P.STATUS,
-            P.TERM_USE,
-            ROW_NUMBER() OVER(ORDER BY P.PRODUCT_NO DESC) AS RN
-        FROM PRODUCT_T P
-    ) A
-    JOIN MOUNTAIN_T M ON A.MOUNTAIN_NO = M.MOUNTAIN_NO
-    LEFT JOIN IMAGE_T I ON A.PRODUCT_NO = I.PRODUCT_NO
-    WHERE A.RN BETWEEN #{begin} AND #{end}
-</select>
+ 

@@ -53,6 +53,11 @@
     margin-top: 10%;
   }
   
+  .table_to_detail a {
+    color: #1a1a1a;
+    cursor: pointer;
+  }
+  
 </style>
 
  
@@ -60,8 +65,7 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
-      <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
+    <div class="col-10" style = "border: 1px gray solid;" >
       
       
       <div class="mainWrap">
@@ -102,7 +106,7 @@
                   <th scope="col">권한</th>
                 </tr>
               </thead>
-              <tbody class="table-group-divider">
+              <tbody class="table-group-divider table_to_detail">
                 <c:forEach items="${userList}" var="u">
                   <tr>
                     <th scope="row">${u.userNo}</th>

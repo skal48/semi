@@ -11,6 +11,13 @@
 </jsp:include>
 <style>
 
+  .col-8 > .qna_table{
+  width: 500px;
+  
+  
+  }
+  
+  
   .wrap1 > .box1{
   width : 100px;
   height : 80px;
@@ -77,9 +84,9 @@ img {
       
       
        <div>
-      <a href="${contextPath}/notice/write.form">
+       <a href="${contextPath}/notice/write.form">
         <button type="button" class="btn btn-primary">새글작성</button>
-      </a>
+       </a>
      </div>
      
 
@@ -129,44 +136,19 @@ img {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>5</td>
-          <td>이용후기</td>
-          <td>23/11/10</td>
-          <td>99/12/12</td>
-          <td>20</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>게시판이용문의</td>
-          <td>23/11/10</td>
-          <td>99/12/11</td>
-          <td>15</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>가입인사</td>
-          <td>23/11/10</td>
-          <td>99/12/10</td>
-          <td>7</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>[필독]게시판이용안내</td>
-          <td>23/11/10</td>
-          <td>99/12/09</td>
-          <td>94</td>
-        </tr>
+        <c:forEach items="${noticeList}"  var="n" varStatus="vs">
+          <tr>
+            
+            <td>${beginNo - vs.index}</td>
+            <td>
+              <a href="${contextPath}/notice/detail.do?noticeNo=${n.noticeNo}">${n.title}</a>
+            </td>
+            <td>${n.createdAt}</td>
+            <td>${n.modifiedAt}</td>
+            <td>${n.hit}</td>
+          </tr>
+        </c:forEach>
       </tbody>
-      <tfoot>
-        <tr>
-          <td>1</td>
-          <td>[긴급]공지사항</td>
-          <td>23/11/10</td>
-          <td>99/12/08</td>
-          <td>85</td>
-        </tr>
-      </tfoot>
     </table>
       
       </div>
@@ -178,12 +160,7 @@ img {
       
       
       <script>
-      const fnDetail = () => {
-  		$('#title').click(() => {
-  			location.href='${contextPath}/notice/detail.form'	
-  		})
-  		
-    	} 
+
       
       </script>
       

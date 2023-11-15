@@ -73,7 +73,7 @@
 	          str += '<img src="' + product.imagePath + '" class="card-img-top" alt="Product Image">';
 	          str += '<div class="card-body">';
 	          str += '<h5 class="card-title">' + product.tripName + '</h5>';
-	          str += '<p class="card-text">' + product.tripContents + '</p>';
+	          str += '<p class="card-text">' + product.tripplan + '</p>';
 	          str += '<a href="' + '${contextPath}/product/detail.do?productNo=' + product.productNo + '" class="btn btn-primary">상세보기</a>';
 	          str += '</div>';
 	          str += '</div>';

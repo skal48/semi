@@ -10,15 +10,27 @@
   <jsp:param value="${product.productNo}상품수정" name="title"/>
 </jsp:include>
 <style>
-      .ck-editor__editable { height: 400px; }
-      .ck-content { font-size: 12px; }
+ 
+   .ck.ck-editor {
+     max-width: 1000px;
+   }
+   .ck-editor__editable {
+     min-height: 300px;
+   }
+  
+.ck-content {
+  color: gray;
+}
+#ckeditor {
+  border: 1px solid silver;
+}
 </style>
  
   <div class="container text-center">
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 3000px" >
+    <div class="col-10">
       <!--  여기다가 작성  다 작성하고 height 지우기!!!! -->
       
 	  
@@ -52,8 +64,11 @@
     	  
     	  <div>
     	  <div class="choice">상품정보</div>
-			<textarea name="tripContents" id="tripContents">${product.tripContents}</textarea>
-    	  </div>
+    	    <label for="tripContents">내용</label>
+			<textarea name="tripContents" id="tripContents" style="display: none;">${product.tripContents}</textarea>
+            <div id="toolbar-container"></div>
+            <div id="ckeditor"></div>  
+          </div>	 
     	        	       	  
     	  <div>
     	    <label for="guide" class="form-label">가이드</label>
@@ -120,7 +135,26 @@
 
   
    <script>
-      ClassicEditor.create( document.querySelector( '#tripContents' ) );
+   const fnCkeditor = () => {
+		  DecoupledEditor
+	    .create(document.getElementById('ckeditor'), {
+	  	  ckfinder: {
+	        // 이미지 업로드 경로
+	        uploadUrl: '${contextPath}/product/imageUpload.do'
+	 			
+	  		}
+		  })
+	    .then(editor => {
+	      const toolbarContainer = document.getElementById('toolbar-container');
+	      toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+	      
+	    })
+	    .catch(error => {
+	      console.error(error);
+	    });
+	}
+   
+   fnCkeditor();
 	</script>
  
  

@@ -1,5 +1,6 @@
 package com.mountaintour.mountain.dto;
 
+
 import java.sql.Date;
 
 import lombok.AllArgsConstructor;
@@ -15,4 +16,5 @@ public class LeaveUserDto {
 	private String email;
 	private Date joinedAt;
 	private Date leavedAt;
+
 }
