@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 
 import com.mountaintour.mountain.dao.ManageMapper;
 import com.mountaintour.mountain.dao.UserMapper;
+import com.mountaintour.mountain.dto.LeaveUserDto;
 import com.mountaintour.mountain.dto.UserDto;
 import com.mountaintour.mountain.util.MyPageUtils;
 import com.mountaintour.mountain.util.MySecurityUtils;
@@ -179,8 +180,70 @@ public class ManageServiceImpl implements ManageService {
    * @return 삭제할 회원번호를 반환
    */
   @Override
-  public int removeMember(int userNo) {
-    return userMapper.deleteUser(userNo);
+  public int removeMember(UserDto user) {
+    return userMapper.deleteUser(user);
+  }
+  
+  /**
+   * 탈퇴 회원 목록
+   * MVC페이징 처리
+   * @author 심희수
+   * @param request
+   * @param model
+   * @return 탈퇴한 회원 리스트, 페이징 정보, 총 탈퇴 회원수를 반환
+   */
+  @Override
+  public void loadLeaveList(HttpServletRequest request, Model model) {
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = manageMapper.getLeaveUserCount();
+    int display = 20;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
+    
+    List<LeaveUserDto> leaveUserList = manageMapper.getLeaveUserList(map);
+    
+    model.addAttribute("leaveUserList", leaveUserList);
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/manage/leaveMemberList.form"));
+    model.addAttribute("beginNo", total - (page - 1) * display);
+    model.addAttribute("total", total);
+    
+  }
+  
+  @Override
+  public void loadSearchLeaveList(HttpServletRequest request, Model model) {
+
+    String column = request.getParameter("column");
+    String query = request.getParameter("query");
+    
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("column", column);
+    map.put("query", query);
+    
+    int total = manageMapper.getSearchLeaveCount(map);
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    String strPage = opt.orElse("1");
+    int page = Integer.parseInt(strPage);
+    
+    int display = 20;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    map.put("begin", myPageUtils.getBegin());
+    map.put("end", myPageUtils.getEnd());
+    
+    List<LeaveUserDto> leaveUserList = manageMapper.getSearchLeave(map);
+    
+    model.addAttribute("leaveUserList", leaveUserList);
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/manage/leaveMemberSearch.do", "column=" + column + "&query=" + query));
+    model.addAttribute("beginNo", total - (page - 1) * display);
+    model.addAttribute("total", total);
+    
   }
   
   

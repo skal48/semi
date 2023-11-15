@@ -105,12 +105,14 @@
   const fnLeaveUser = () => {
     $('#btn_leave').click(() => {
       if(confirm('회원을 탈퇴시키면 되돌릴 수 없습니다. 탈퇴시키겠습니까?')){
-    	if(confirm('진짜로 탈퇴 시켜요?')){
-    	  if(confirm('다시 한번 생각해보세요.. 정말로 탈퇴시킬까요?')){
-    	    if(confirm('안 되는데.. 진짜로요? 저는 말렸어요.')){
-              $('#frm_mypage').prop('action', '${contextPath}/manage/removeMember.do');
-              $('#frm_mypage').submit();
-    	    }
+    	if(confirm('회원 탈퇴는 조심해서 하셔야 합니다. 탈퇴시키겠습니까?')){
+    	  if(confirm('회원 탈퇴는 정말 신중해야합니다. 탈퇴시키겠습니까?')){
+    		if(confirm('회원 탈퇴는 다시한번 생각해봐야 합니다. 탈퇴시키겠습니까?')){
+    		  if(confirm('진짜로 탈퇴시켜요?')){
+                $('#frm_memberDetail').prop('action', '${contextPath}/manage/removeMember.do');
+                $('#frm_memberDetail').submit();
+    		  }
+    		}
     	  }
     	}
       }
