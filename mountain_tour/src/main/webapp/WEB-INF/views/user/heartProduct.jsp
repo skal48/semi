@@ -18,8 +18,7 @@
     	<div>${beginNo - vs.index}</div>
     	<div>${h.userNo}</div>
     	<div>${h.productNo}</div>
-   <!-- <div>${h.productNo.tripName}</div> --> 	
-   <!-- <div>${h.productNo.tripContents}</div> --> 	
+   
     </c:forEach>
     </div>
 
