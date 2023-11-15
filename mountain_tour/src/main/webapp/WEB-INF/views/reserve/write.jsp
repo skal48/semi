@@ -128,8 +128,8 @@
           </table>
         </div>
         <hr>
+        
         <!-- 여행자 정보 -->
-        <!-- 요금 및 여행인원 ajax 생성 폼 -->
         <form id="frm_tourist"  method="post">
           <div>
             <div>
@@ -337,7 +337,6 @@
 
 <script>
 
-<<<<<<< HEAD
 
 
 	// insertReserve 필요한 데이터
@@ -345,9 +344,9 @@
 	// frm_pickup : pickupLoc, reservePerson(총예약인원수)
 	// frm_agree : chkAgree
 
-=======
+
 	/*
->>>>>>> main
+
 	function fnReserve(){
   	  $("#btn_reserve").click(function(e) {
       	
@@ -369,9 +368,7 @@
           });
       });
 	}
-<<<<<<< HEAD
 
-=======
 	*/
 	
 	function fnAddReserve(){
@@ -402,7 +399,7 @@
 		$('#frm_tourist').submit();
 	}
 	
->>>>>>> main
+
 	//  요금 옵션 선택시 총금액, 총인원수 반영
 	function fnChangeTotalPrice(){
 	  $(document).ready(function() {
