@@ -18,5 +18,6 @@ public interface MagazineService {
   public boolean addThumbnail(MultipartHttpServletRequest multipartRequest) throws Exception;
   public void loadMagazine(HttpServletRequest request, Model model);  
   public int deleteMagazine(HttpServletRequest request);
+  public Map<String, Object> firstModify(HttpServletRequest request); 
   
 }

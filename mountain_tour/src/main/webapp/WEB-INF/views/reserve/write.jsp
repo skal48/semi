@@ -134,6 +134,7 @@
           <div>
             <div>
               <h4>여행자 정보</h4>
+              <span id="msg_mobile"></span>
             </div>
             <table>
               <colgroup>
@@ -155,7 +156,8 @@
               <tbody id="inp_tourist">
               <!-- 여행인원 선택시 선택한만큼 추가되어야 함 -->
               </tbody>
-            </table>      
+            </table>
+               
           </div>
         </form>
         
@@ -208,10 +210,14 @@
           </div>
           <div>
             총<span class="totalPerson">0</span>명
-            <input type="hidden" name="reservePerson" class="totalPerson">
+            <input type="hidden" id="reservePerson" name="reservePerson" class="totalPerson">
           </div>
           <div>
             <ul>
+              <li>
+                <input type="radio" name="pickupLoc" id="byOwn" value="자차" checked>
+                <label for="byOwn">자차 이용</label> 
+              </li>
               <li>
                 <input type="radio" name="pickupLoc" id="pickupSeoul" value="서울역" >
                 <label for="pickupSeoul">서울역</label> 
@@ -237,8 +243,21 @@
                     <td>
                       <div>
                         <span>
-                          <input type="checkbox" id="chkAgree" name="chkAgree" value="0">
+                          <input type="checkbox" id="chkAgree" name="chkAgree" value="0" class="chk_each">
                           <label for="chkAgree">개인정보 수집에 동의합니다(필수)</label>
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="#" >자세히</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>
+                        <span>
+                          <input type="checkbox" id="chkMarketing" name="chkAgree" value="1" class="chk_each">
+                          <label for="chkMarketing">마케팅 이용 정보 수집에 동의합니다(선택)</label>
                         </span>
                       </div>
                     </td>
@@ -338,7 +357,8 @@
 <script>
 
 
-
+	var mobilePassed = false;
+	
 	// insertReserve 필요한 데이터
 	// frm_res_user : userNo,productNo 'hidden', resReq
 	// frm_pickup : pickupLoc, reservePerson(총예약인원수)
@@ -372,7 +392,17 @@
 	*/
 	
 	function fnAddReserve(){
-		$('#btn_reserve').click(function(){
+		$('#btn_reserve').click(function(ev){
+			/*
+			if(!$('#chkAgree').is(':checked')){
+	  			  alert('필수 약관에 동의하세요.');
+	  			  this.preventDefault();
+	  			  return;
+	  		}*/
+	  		fnRegTotalPerson();
+	  		fnRegInputName();
+	  		fnRegInputMobile();
+	  		fnRegAgree();
 			$.ajax({
 				type: 'post',
 				url: '${contextPath}/reserve/addReserve.do',
@@ -474,37 +504,87 @@
             });
         });
 	}
-	/*
-	  <tr>
-        <td>
-          <span>성인??소아??</span>
-          <span class="ageNum">몇번째??</span>
-        </td> 
-        <td>
-          <input type="text" name="touristName" maxlength="10">
-        </td>
-        <td>
-          <input type="date" name="birthDate" max="9999-12-31">
-        </td>
-        <td>
-          <select name="gender">
-            <option value="">선택</option>
-            <option value="M">남</option>
-            <option value="F">여</option>
-          </select>
-        </td>
-        <td> 
-          <input type="text" class="inpMob" name="tourContact1" id="tourContact1" style="width: 32%;" maxlength="4">
-          <input type="text" class="inpMob" name="tourContact2" id="tourContact2" style="width: 32%;" maxlength="4">
-          <input type="text" class="inpMob" name="tourContact3" id="tourContact3" style="width: 32%;" maxlength="4">
-        </td>
-      </tr>
-	*/
+  
+	function fnRegTotalPerson(){
+		var reservePerson = parseInt($('#reservePerson').val());
+		if(isNaN(reservePerson) || reservePerson < 1){
+			alert('여행 인원을 선택해주세요');
+			ev.preventDefault();
+			return;
+		}
+	}
 	
 	
+	function fnRegInputName(){
+		var inputs = document.getElementsByName("touristName");
+		var hasEmptyValue = false;
+    	for (var i = 0; i < inputs.length; i++) {
+    	  var inputValue = inputs[i].value.trim();
+    
+    	  if (inputValue === "") {
+    	    hasEmptyValue = true;
+    	    break;
+    	  }
+    	}
+    
+    	if (hasEmptyValue) {
+    	  alert("이름은 필수 항목입니다.");
+    	  ev.preventDefault();
+    	  return;
+    	}
+	}
+	
+	function fnRegInputMobile(){
+		var inputM = document.getElementsByName("tourContact");
+		var hasEmptyM = false;
+    	for (var i = 0; i < inputM.length; i++) {
+    	  var inputValue = inputM[i].value.trim();
+    	  let regMobile = /^010[0-9]{8}$/;
+    	  mobilePassed = regMobile.test(inputM.value);
+    	  if (inputValue === "" && !mobilePassed) {
+    	    hasEmptyM = true;
+    	    break;
+    	  }
+    	}
+    	if (hasEmptyM) {
+    	  alert("연락처를 확인해주세요.");
+    	  ev.preventDefault();
+    	  return;
+    	}
+	}
+	
+	
+    function fnRegAgree(){
+	  if(!$('#chkAgree').is(':checked')){
+		  alert('필수 약관에 동의하세요.');
+		  ev.preventDefault();
+		  return;
+	  }
+    }
+  
+    
+    function fnChkAll(){
+    	  $('#chkAll').click(function(){
+    		  $('#chkAgree').prop('checked', $(this).prop('checked'));
+    		  $('#chkMarketing').prop('checked', $(this).prop('checked'));
+    	  })
+    }
+    
+    
+    function fnChkEach(){
+    	$('.chk_each').click(function(){
+    		  var total = 0;
+  			  total += $('#chkAgree').prop('checked');
+  			  total += $('#chkMarketing').prop('checked');
+    		  $('#chkAll').prop('checked', total === $('.chk_each').length);
+    	})
+    }	
+    
 	fnChangeTotalPrice();
 	fnAddTouristForm();
 	fnAddReserve();
+	fnChkAll();
+	fnChkEach();
 </script> 
  
  

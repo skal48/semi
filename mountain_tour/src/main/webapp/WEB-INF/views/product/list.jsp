@@ -33,12 +33,14 @@
          <span>${count}</span>개의 상품
         </div>
         <div class="btn-group btn-group-sm" role="group" aria-label="Small button group" style="display: inline-block;">
-          <button type="button" class="btn btn-outline-dark">추천순</button>
+          <button type="button" class="btn btn-outline-dark" >추천순</button>
           <button type="button" class="btn btn-outline-dark">리뷰순</button>
         </div>
       </div>
       <hr>
+		
 
+		
       <div class="container">
         <div class="row" id="product_list"> <!-- Added id attribute -->
           <!-- Product cards will be appended here -->
@@ -73,7 +75,7 @@
 	          str += '<div class="card-body">';
 	          str += '<h5 class="card-title">' + product.tripName + '</h5>';
 	          str += '<p class="card-text">' + product.tripplan + '</p>';
-	          str += '<a href="' + '${contextPath}/product/detail.do?productNo=' + product.productNo + '" class="btn btn-primary">상세보기</a>';
+	          str += '<a href="' + '${contextPath}/product/increseHit.do?productNo=' + product.productNo + '" class="btn btn-primary">상세보기</a>';	         
 	          str += '</div>';
 	          str += '</div>';
 	          str += '</div>';
@@ -87,6 +89,7 @@
 	      console.error('Ajax 요청 에러:', error);
 	    }
 	  });
+	  
 	};
 
     const fnScroll = () => {
@@ -111,7 +114,7 @@
     }
 
 
-
+	
 
     
     
