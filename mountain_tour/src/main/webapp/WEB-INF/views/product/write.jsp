@@ -23,11 +23,16 @@
 #ckeditor {
   border: 1px solid silver;
 }
+
+.image_resized img {
+
+  width: 80%;
+}
    
   
 </style>
   <div class="container text-center">
- <form method="post" id="frm_product_add" action="${contextPath}/product/add.do">
+ <form method="post" id="frm_product_add" action="${contextPath}/product/add.do" enctype="multipart/form-data">
   <div class="row">
     <div class="col-1">      
     </div>
@@ -37,9 +42,11 @@
 	  
 	 <div class="row">
     	<div class="col-8"  style="margin-top: 30px; margin-bottom: 30px;">
-    	  <div class="text-center">
-			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
+    	  <div class="mt-3">
+		      <label for="files" class="form-label">첨부</label>
+		      <input type="file" name="files" id="files" class="form-control" multiple>
 		  </div>
+		  <div class="attached_list mt-2" id="attached_list"></div>
     	  <hr>
     	  <div style = "text-align: left;">
     	   <div>
@@ -137,6 +144,36 @@
   
  
 <script>
+
+
+const fnThumbnailCheck = () => {
+    $('#files').change((ev) => {
+      $('#attached_list').empty();
+      let maxSize = 1024 * 1024 * 100;
+      let maxSizePerFile = 1024 * 1024 * 10;
+      let totalSize = 0;
+      let files = ev.target.files;
+      for(let i = 0; i < files.length; i++){
+        totalSize += files[i].size;
+        if(files[i].size > maxSizePerFile){
+          alert('각 첨부파일의 최대 크기는 10MB입니다.');
+          $(ev.target).val('');
+          $('#attached_list').empty();
+          return;
+        }
+        $('#attached_list').append('<div>' + files[i].name + '</div>');
+      }
+      if(totalSize > maxSize){
+        alert('전체 첨부파일의 최대 크기는 100MB입니다.');
+        $(ev.target).val('');
+        $('#attached_list').empty();
+        return;
+      }
+    })
+  }
+
+
+
 const fnCkeditor = () => {
 	  DecoupledEditor
 	    .create(document.getElementById('ckeditor'), {
@@ -196,7 +233,7 @@ const fnCkeditor = () => {
 
   
   
-  
+  fnThumbnailCheck();
   fnProductAdd();
   fnCkeditor();
 </script>

@@ -1,9 +1,11 @@
 package com.mountaintour.mountain.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.mountaintour.mountain.dto.ProductDto;
 import com.mountaintour.mountain.service.ProductService;
 
@@ -29,6 +30,7 @@ public class ProductController {
 	
   @GetMapping("/list.do")
   public String list(Model model) {
+	  model.addAttribute("count", productService.getTotalProductCount());
 	 return "product/list"; 
 	}
   
@@ -37,10 +39,23 @@ public class ProductController {
 	 return "product/write"; 
 	}
   @PostMapping("/add.do")
-  public String add(HttpServletRequest request, RedirectAttributes redirectAttributes) {   
-	int addResult = productService.addProduct(request);
-	redirectAttributes.addFlashAttribute("addResult", addResult);
-    return "redirect:/product/list.do";
+  public String add(MultipartHttpServletRequest multipartRequest, RedirectAttributes redirectAttributes) throws Exception {
+      int addResult = productService.addProduct(multipartRequest);
+
+      if (addResult == 1) {
+          redirectAttributes.addFlashAttribute("successMessage", "Product added successfully!");
+      } else {
+          redirectAttributes.addFlashAttribute("errorMessage", "Failed to add product. Please try again.");
+      }
+
+      return "redirect:/product/list.do";
+  }
+
+  
+  @ResponseBody
+  @PostMapping(value="/addThumbnail.do", produces="application/json")
+  public Map<String, Object> addThumbnail(MultipartHttpServletRequest multipartRequest) throws Exception {
+    return productService.addThumbnail(multipartRequest);
   }
   
   @ResponseBody
@@ -54,6 +69,8 @@ public class ProductController {
   public Map<String, Object> getList(HttpServletRequest request){
     return productService.getProductList(request);
   }  
+
+  
   
   @GetMapping("/detail.do")
   public String detail(@RequestParam(value="productNo", required=false, defaultValue="0") int productNo
