@@ -17,7 +17,6 @@ public interface MagazineMapper {
   public int insertMagazineOne(MagazineDto magazineDto);
   public int insertMagazineMulti(MagazineMultiDto magazineMultiDto);
   public int insertMagazineTwo(MagazineDto magazineDto);
-  public int insertThumbnail(MagazineMultiDto magazineMultiDto);
   public MagazineDto getMagazine(int magazineNo);
   public int countLike(int magazineNo);
   public int deleteMagazine(int magazineNo);
@@ -26,4 +25,5 @@ public interface MagazineMapper {
   public List<MagazineMultiDto> getMagazineMultiList(int magazineNo);
   public int deleteMagazineMulti(String filesysName);
   public MagazineDto getThumbnailInfo(int magazineNo);
+  public int updateIsThumbnail(int magazineNo);
 }
