@@ -49,6 +49,72 @@
   }
   
 </style>
+<script>
+
+  /* 호출 */
+  $(() => {
+    fnWrite();
+    fnDetail();
+    fnAddResult();
+    fnRemove();
+  })
+
+
+  /* 로그인 검사 */
+  const fnloginCheck = () => {
+    if('${sessionScope.user}' === ''){
+      if(confirm('로그인 후 이용 가능합니다. 로그인 하시겠습니까?')){
+      location.href = '${contextPath}/user/login.form';
+      return;
+      } 
+    }
+  }
+  
+  /* 작성하기 가능 유무 */
+  const fnWrite = () => {
+  $('#btn_inquiry_write').click(() => {
+      if('${sessionScope.user}' !== ''){
+      location.href = '${contextPath}/cs/addInquiry.form';
+      return;
+      }
+      fnloginCheck();
+    })
+  }
+
+  
+  /* 상세보기 가능 유무 */
+  const fnDetail = () => {
+    $('.title').click(() => {
+      fnloginCheck();
+    })
+  }
+  
+  /* 문의 작성시 전달되는 데이터 값 */
+  const fnAddResult = () => {
+    let addResult = '${addResult}';
+    if(addResult !== ''){
+      if(addResult === '1'){
+      alert('문의글이 등록되었습니다.');
+      } else {
+      alert('문의글이 등록되지 않았습니다.');
+      }
+    }
+  }
+  
+  /* 문의 삭제시 전달되는 데이터 값 */
+  const fnRemove = () => {
+    let removeResult = '${removeResult}';
+    if(removeResult !== ''){
+      if(removeResult === '1'){
+      alert('문의글이 삭제되었습니다.');
+      } else {
+      alert('문의글이 삭제되지 않았습니다.');
+      }
+    }
+  }
+
+
+</script>
  
   <div class="container text-center">
   <div class="row">
@@ -149,72 +215,7 @@
 
 
 
-<script>
 
-  /* 로그인 검사 */
-  const fnloginCheck = () => {
-    if('${sessionScope.user}' === ''){
-   	  if(confirm('로그인 후 이용 가능합니다. 로그인 하시겠습니까?')){
-    	location.href = '${contextPath}/user/login.form';
-    	return;
-      } 
-    }
-  }
-  
-  /* 작성하기 가능 유무 */
-  const fnWrite = () => {
-	$('#btn_inquiry_write').click(() => {
-	  if('${sessionScope.user}' !== ''){
-		location.href = '${contextPath}/cs/addInquiry.form';
-		return;
-	  }
-	  fnloginCheck();
-	})
-  }
-
-  
-  /* 상세보기 가능 유무 */
-  const fnDetail = () => {
-	$('.title').click(() => {
-	  fnloginCheck();
-	})
-  }
-  
-  /* 문의 작성시 전달되는 데이터 값 */
-  const fnAddResult = () => {
-	let addResult = '${addResult}';
-	if(addResult !== ''){
-	  if(addResult === '1'){
-		alert('문의글이 등록되었습니다.');
-	  } else {
-		alert('문의글이 등록되지 않았습니다.');
-	  }
-	}
-  }
-  
-  /* 문의 삭제시 전달되는 데이터 값 */
-  const fnRemove = () => {
-	let removeResult = '${removeResult}';
-	if(removeResult !== ''){
-	  if(removeResult === '1'){
-		alert('문의글이 삭제되었습니다.');
-	  } else {
-		alert('문의글이 삭제되지 않았습니다.');
-	  }
-	}
-  }
-  
-  
-  
-  fnWrite();
-  fnDetail();
-  fnAddResult();
-  fnRemove();
-
-
-
-
-</script>
 
 
 
