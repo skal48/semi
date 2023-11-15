@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,35 +37,44 @@ public class MagazineController {
     return "magazine/thumbnail";
   }
   
+  @ResponseBody
+  @GetMapping(value="/getList.do", produces="application/json" )
+  public Map<String, Object> getList(HttpServletRequest request){
+    return magazineService.getMagazineList(request);  
+  }
+  
   @ResponseBody  
   @GetMapping(value="/getProductNo.do", produces="application/json")
   public Map<String, Object> getProductNo() { 
-    System.out.println(magazineService.loadProductNo());
     return magazineService.loadProductNo();
   }
   
  @PostMapping("/thumbnail.do")
  public String firstAdd(HttpServletRequest request, RedirectAttributes redirectAttributes) { 
-   int addResult = magazineService.firstUpload(request);
-   redirectAttributes.addFlashAttribute("addResult", addResult);   
+   redirectAttributes.addFlashAttribute("map", magazineService.firstUpload(request));   
    return "redirect:/magazine/thumbnail.form";
  }
+ 
+ 
  @ResponseBody
  @PostMapping(value="/imageUpload.do", produces="application/json")    //매거진 작성 이미지 파일 저장
  public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest) {
    return magazineService.imageUpload(multipartRequest);
  }
+ 
+ 
  @PostMapping("/final.do")
  public String finalAdd(MultipartHttpServletRequest multipartRequest
                , RedirectAttributes redirectAttributes) throws Exception {
-   boolean addResult = 0;
+   boolean addResult =magazineService.addThumbnail(multipartRequest);
    redirectAttributes.addFlashAttribute("addResult", addResult);
    return "redirect:/magazine/list.do";
  }
  
  
  @GetMapping("/detail.do")
- public String detail() {
+ public String detail(HttpServletRequest request, Model model) {
+   magazineService.loadMagazine(request, model);
    return "magazine/detail";
  }
  
@@ -73,9 +83,10 @@ public class MagazineController {
    return "magazine/modify";
  }
  
- @GetMapping("/delete.do")
- public String delete() {
-   return "magazine/list";
+ @PostMapping("/delete.do")
+ public String delete(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+   redirectAttributes.addAttribute("deleteRemove",magazineService.deleteMagazine(request));
+   return "redirect:/magazine/list.do";
  }
  
 }

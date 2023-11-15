@@ -10,24 +10,43 @@
   <jsp:param value="마운틴투어상품게시글작성" name="title"/>
 </jsp:include>
 <style>
-      .ck-editor__editable { height: 400px; }
-      .ck-content { font-size: 12px; }
+
+.ck.ck-editor {
+  max-width: 1000px;
+}
+.ck-editor__editable {
+  min-height: 400px;
+}
+.ck-content {
+  color: gray;
+}
+#ckeditor {
+  border: 1px solid silver;
+}
+
+.image_resized img {
+
+  width: 80%;
+}
+   
+  
 </style>
- 
   <div class="container text-center">
- <form method="post" id="frm_product_add" action="${contextPath}/product/add.do">
+ <form method="post" id="frm_product_add" action="${contextPath}/product/add.do" enctype="multipart/form-data">
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 3000px" >
+    <div class="col-10">
       <!--  여기다가 작성  다 작성하고 height 지우기!!!! -->
       
 	  
 	 <div class="row">
     	<div class="col-8"  style="margin-top: 30px; margin-bottom: 30px;">
-    	  <div class="text-center">
-			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
+    	  <div class="mt-3">
+		      <label for="files" class="form-label">첨부</label>
+		      <input type="file" name="files" id="files" class="form-control" multiple>
 		  </div>
+		  <div class="attached_list mt-2" id="attached_list"></div>
     	  <hr>
     	  <div style = "text-align: left;">
     	   <div>
@@ -50,12 +69,12 @@
     	  </div>
     	  
     	  <div>
-    	  <div class="choice">상품정보</div>
+    	   <div class="choice">상품정보</div>
     	    <label for="tripContents">내용</label>
-			<textarea name="tripContents" id="tripContents"></textarea>
+			<textarea name="tripContents" id="tripContents" style="display: none;"></textarea>
             <div id="toolbar-container"></div>
-            <div id="ckeditor"></div>
-    	  </div>   	  
+            <div id="ckeditor"></div>  
+           </div>	     	    
     	  
     	  <div>
     	    <label for="guide" class="form-label">가이드</label>
@@ -82,7 +101,7 @@
     	  
     	  
     	</div>   	   
-    	<div class="col-4"> <!-- style="border-left: 2px solid gray;" -->   
+    	<div class="col-4"> 
        <div>
 	   <div style="position: sticky; top: 80px;">
 	   <div><div>
@@ -123,49 +142,101 @@
   </div>
 
   
-   <script>
-      ClassicEditor.create( document.querySelector( '#tripContents' ) );
-      
-      
-      const fnCkeditor = () => {
-    	  DecoupledEditor
-          .create(document.getElementById('ckeditor'), {
-        	  ckfinder: {
-              // 이미지 업로드 경로
-              uploadUrl: '${contextPath}/product/imageUpload.do'    		  
-        		}
-      	  })
-          .then(editor => {
-            const toolbarContainer = document.getElementById('toolbar-container');
-            toolbarContainer.appendChild(editor.ui.view.toolbar.element);
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }
-      
-      const fnProductAdd = () => {
-    	  $('#frm_product_add').submit((ev) => {
-          if($('#tripName').val() === ''){
-            alert('제목은 반드시 입력해야 합니다.');
-            ev.preventDefault();
-            return;
-          }
-    		  $('#tripContents').val($('#ckeditor').html());
-    	  })
-      }
-      
-      
-      
-      
-      fnCkeditor();
-      fnProductAdd();
-      
-      
-      
-	</script>
  
- 
+<script>
+
+
+const fnThumbnailCheck = () => {
+    $('#files').change((ev) => {
+      $('#attached_list').empty();
+      let maxSize = 1024 * 1024 * 100;
+      let maxSizePerFile = 1024 * 1024 * 10;
+      let totalSize = 0;
+      let files = ev.target.files;
+      for(let i = 0; i < files.length; i++){
+        totalSize += files[i].size;
+        if(files[i].size > maxSizePerFile){
+          alert('각 첨부파일의 최대 크기는 10MB입니다.');
+          $(ev.target).val('');
+          $('#attached_list').empty();
+          return;
+        }
+        $('#attached_list').append('<div>' + files[i].name + '</div>');
+      }
+      if(totalSize > maxSize){
+        alert('전체 첨부파일의 최대 크기는 100MB입니다.');
+        $(ev.target).val('');
+        $('#attached_list').empty();
+        return;
+      }
+    })
+  }
+
+
+
+const fnCkeditor = () => {
+	  DecoupledEditor
+	    .create(document.getElementById('ckeditor'), {
+	      ckfinder: {
+	        // 이미지 업로드 경로
+	        uploadUrl: '${contextPath}/product/imageUpload.do'
+	      }
+	    })
+	    .then(editor => {
+	      const toolbarContainer = document.getElementById('toolbar-container');
+	      toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+
+	      // 이미지 초기화 시에 style 및 다른 속성 제거
+	      editor.model.schema.extend('$image', { allowAttributes: ['style'] });
+	      editor.model.schema.setAttribute('image', 'style', true);
+
+	      // 이미지 크기 조절 옵션 추가
+	      editor.ui.componentFactory.add('resizeImage', locale => {
+	        const view = new ButtonView(locale);
+
+	        view.set({
+	          label: 'Resize Image',
+	          tooltip: true
+	        });
+
+	        // 클릭 이벤트 핸들러
+	        view.on('execute', () => {
+	          // 이미지 크기 조절 로직 추가
+	          // 아래는 예시로 50%로 크기를 조절하는 코드
+	          const imageElement = editor.model.document.selection.getSelectedElement();
+	          const newSize = '50%';
+
+	          editor.model.change(writer => {
+	            writer.setAttribute('style', `width: ${newSize}`, imageElement);
+	          });
+	        });
+
+	        return view;
+	      });
+	    })
+	    .catch(error => {
+	      console.error(error);
+	    });
+	}
+
+
+  const fnProductAdd = () => {
+    $('#frm_product_add').submit((ev) => {
+      if ($('#tripName').val() === '') {
+        alert('제목은 반드시 입력해야 합니다.');
+        ev.preventDefault();
+        return;
+      }
+      $('#tripContents').val($('#ckeditor').html());
+    });
+  };
+
+  
+  
+  fnThumbnailCheck();
+  fnProductAdd();
+  fnCkeditor();
+</script>
  
  
  

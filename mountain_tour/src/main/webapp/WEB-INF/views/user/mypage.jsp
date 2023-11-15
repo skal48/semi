@@ -12,20 +12,21 @@
 
 <script src="${contextPath}/resources/js/user_modify.js?dt=${dt}"></script>
 
-<div class="wrap wrap_6">
+
+  <div class="container text-center">
+  <div class="row">
+    <div class="col-1">      
+    </div>
+    <div class="col-10" style = "border: 1px gray solid;" >
+      <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
+
 
   <h1 class="title">마이페이지</h1>
 
   <form id="frm_mypage" method="post">
     
-    <c:if test="${sessionScope.user.state == 0}">
-      <div class="text-center">
-        <div class="mb-2"></div>
-        <button type="button" id="btn_modify_pw" class="btn btn-success">비밀번호변경하기</button>
-      </div>      
-      <hr class="my-3">
-    </c:if>
-    
+ 
+    <hr class="my-3">
     <div class="text-center mb-4"><h3>개인정보 변경</h3></div>
     <div class="row mb-4">
       <div class="col-sm-3">이메일</div>
@@ -68,7 +69,7 @@
       $(':radio[value=${sessionScope.user.gender}]').prop('checked', true);
     </script>
     
-    <hr class="my-3">
+ 
     
     <div class="row mb-2">
       <label for="postcode" class="col-sm-3 col-form-label">주소</label>
@@ -143,10 +144,13 @@
       }
     </script>
     
+    <hr>
+    
     <div class="row mt-3">
       <label class="col-sm-12 form-label">이벤트 알림 동의(선택)</label>
     </div>
-    <div class="row mb-2">
+   <div class="conatiner">
+    <div class="row mb-2 justify-content-center">
       <div class="col-sm-3">
         <input type="radio" name="event" value="on" id="event_on" class="form-check-input">
         <label class="form-check-label" for="event_on">동의함</label>
@@ -173,14 +177,18 @@
     <div class="text-center">
       <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
       <button type="button" id="btn_leave" class="btn btn-success">회원탈퇴</button>
-      <button type="button" id="btn_modify" onclick="updateUserInfo()" class="btn btn-success style="color: white;">
-      <a href="${contextPath}/user/main.form" style="color: inherit;">개인정보수정</button></a>
-      
+      <button type="button" id="btn_modify" class="btn btn-success style="color: white;">개인정보수정</button>
+        <c:if test="${sessionScope.user.state == 0}">
+        <button type="button" id="btn_modify_pw" class="btn btn-success">비밀번호변경하기</button>  
+   		</c:if>
+   	  <button type="button" id="btn_love" class="btn btn-danger">내가찜한목록보기♥</button>
+   
       
     </div>
     
   </form>
-
+</div>
+</div>
 </div>
 
 <%@ include file="../layout/footer.jsp" %>

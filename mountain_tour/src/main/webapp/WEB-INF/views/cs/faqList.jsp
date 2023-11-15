@@ -68,7 +68,7 @@
       <div class="mainWrap">
       
       
-        <%-- 각 페이지로 이동가능한 목록 --%>
+        <%-- 각 문의 페이지로 이동가능한 목록 --%>
         <div class="listWrap1">
           <div class="faq">
             <a href="${contextPath}/cs/faqList.do" >자주 묻는 질문</a>
@@ -149,7 +149,7 @@
             
             <%-- 검색기능 --%>
             <div>
-              <form method="get" action="${contextPath}/cs/faqSearch.do">
+              <form method="get" action="${contextPath}/cs/faqSearch.do" >
                 <select name="column" class="form-select-sm" style="height: 40px">
                   <option value="TITLE">제목</option>
                   <option value="CONTENTS">내용</option>

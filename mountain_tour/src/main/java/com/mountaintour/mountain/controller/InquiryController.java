@@ -68,7 +68,8 @@ public class InquiryController {
    * @return
    */
   @GetMapping("/addInquiry.form")
-  public String addInquiryForm () {
+  public String addInquiryForm (Model model) {
+    inquiryService.getProductList(model);
     return "cs/inquiryWrite";
   }
   

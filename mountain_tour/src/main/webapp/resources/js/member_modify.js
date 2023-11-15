@@ -39,7 +39,7 @@ const fnCheckName = () => {
     namePassed = (bytes <= 50);
     if(!namePassed){
       $('#msg_name').text('이름은 50바이트 이내로 작성해야 합니다.');
-    }
+    } 
   })
 }
 
@@ -67,7 +67,7 @@ const fnModifyUser = () => {
     $.ajax({
       // 요청
       type: 'post',
-      url: getContextPath() + '/user/modify.do',
+      url: getContextPath() + '/member/modify.do',
       data: $('#frm_mypage').serialize(),
       // 응답
       dataType: 'json',
@@ -84,14 +84,14 @@ const fnModifyUser = () => {
 
 const fnModifyPasswordForm = () => {
   $('#btn_modify_pw').click(() => {
-    location.href = getContextPath() + '/user/modifyPw.form';
+    location.href = getContextPath() + '/member/modifyPw.form';
   })
 }
 
 const fnLeaveUser = () => {
   $('#btn_leave').click(() => {
     if(confirm('회원 탈퇴하시겠습니까?')){
-      $('#frm_mypage').prop('action', getContextPath() + '/user/leave.do');
+      $('#frm_mypage').prop('action', getContextPath() + '/member/leave.do');
       $('#frm_mypage').submit();
     }
   })

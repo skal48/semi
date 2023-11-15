@@ -18,7 +18,11 @@ public interface UserService {
 	public void naverJoin(HttpServletRequest request, HttpServletResponse response);
 	public void naverLogin(HttpServletRequest request, HttpServletResponse response, UserDto naverProfile) throws Exception;
 	public void logout(HttpServletRequest request, HttpServletResponse response);
+	public ResponseEntity<Map<String, Object>> checkEmail(String email);
+	public ResponseEntity<Map<String, Object>> sendCode(String email);
+	public void join(HttpServletRequest request, HttpServletResponse response);
 	public ResponseEntity<Map<String, Object>> modify(HttpServletRequest request);
 	public void modifyPw(HttpServletRequest request, HttpServletResponse response);
+	public void leave(HttpServletRequest request, HttpServletResponse response);
 	
 }
