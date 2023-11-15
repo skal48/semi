@@ -28,7 +28,7 @@
     <association javaType="ImageDto"         property="imageDto">
         <result  column="IMAGE_PATH" 		 property="imagePath" />
         <result  column="FILESYSTEM_NAME" 	 property="filesystemName"/>
-     <!-- <result  column="THUMBNAIL" 		 property="thumbnail"/> -->   
+        <result  column="THUMBNAIL" 		 property="thumbnail"/>  
     </association>
   </resultMap>
 
@@ -67,6 +67,21 @@
         #{termUse}
     )
 </insert>                                                                                                            
+
+  <insert id="insertThumbnail" parameterType="ImageDto">
+    INSERT INTO IMAGE_T (
+        IMAGE_PATH
+      , FILESYSTEM_NAME
+      , THUMBNAIL
+      , PRODUCT_NO
+    ) VALUES (
+        #{imagePath}
+      , #{filesystemName}
+      , #{thumbnail}
+      , #{productNo}
+    )
+  </insert>
+
 
   <insert id="insertProductImage" parameterType="ImageDto">
     INSERT INTO IMAGE_T (
@@ -115,7 +130,8 @@
         IMPORMATION,
         LOCATION,
         IMAGE_PATH,
-        FILESYSTEM_NAME
+        FILESYSTEM_NAME,
+        THUMBNAIL
     FROM (SELECT ROW_NUMBER() OVER(ORDER BY P.PRODUCT_NO DESC) AS RN, 
             P.PRODUCT_NO,
             P.USER_NO,
@@ -137,8 +153,8 @@
             M.IMPORMATION,
             M.LOCATION,
             I.IMAGE_PATH,
-            I.FILESYSTEM_NAME
-            <!-- I.THUMBNAIL  --> 
+            I.FILESYSTEM_NAME,
+            I.THUMBNAIL 
             FROM PRODUCT_T P JOIN MOUNTAIN_T M ON P.MOUNTAIN_NO = M.MOUNTAIN_NO
             LEFT JOIN IMAGE_T I ON P.PRODUCT_NO = I.PRODUCT_NO)
             WHERE RN BETWEEN #{begin} AND #{end}

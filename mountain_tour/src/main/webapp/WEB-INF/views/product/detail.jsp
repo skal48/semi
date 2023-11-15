@@ -24,7 +24,11 @@
 
   </script>
   <style>
-  
+  .image img {
+
+  width:100%;
+}
+   
 
   
   </style>
@@ -41,7 +45,7 @@
       <div class="row">
     	<div class="col-8" style="margin-top: 30px; margin-bottom: 30px;">
     	  <div class="text-center">
-			<img src="https://github.com/skal48/portfolio/blob/main/seolark2.jpg?raw=true" class="rounded" alt="..."  width="500px" height="400px">
+			${image.thumbnail}
 		  </div>
     	  <hr>
     	  <c:if test="${sessionScope.user.auth == 0}">

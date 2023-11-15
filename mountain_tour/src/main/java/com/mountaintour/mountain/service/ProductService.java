@@ -11,8 +11,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.mountaintour.mountain.dto.ProductDto;
 
 public interface ProductService {
+  public Map<String, Object> addThumbnail(MultipartHttpServletRequest multipartRequest) throws Exception;
   public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest);
-  public int addProduct(HttpServletRequest request);
+  public int addProduct(MultipartHttpServletRequest multipartRequest) throws Exception;
   public List<String> getEditorImageList(String contents);
   public void productImageBatch();
   public Map<String, Object> getProductList(HttpServletRequest request);

@@ -23,4 +23,5 @@ public interface ProductMapper {
 	public int deleteProductImage(String filesystemName);
 	public int deleteProductImageList(int productNo);
 	public int deleteProduct(int productNo);
+	public int insertThumbnail(ImageDto image);
 }

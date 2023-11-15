@@ -37,10 +37,23 @@ public class ProductController {
 	 return "product/write"; 
 	}
   @PostMapping("/add.do")
-  public String add(HttpServletRequest request, RedirectAttributes redirectAttributes) {   
-	int addResult = productService.addProduct(request);
-	redirectAttributes.addFlashAttribute("addResult", addResult);
-    return "redirect:/product/list.do";
+  public String add(MultipartHttpServletRequest multipartRequest, RedirectAttributes redirectAttributes) throws Exception {
+      int addResult = productService.addProduct(multipartRequest);
+
+      if (addResult == 1) {
+          redirectAttributes.addFlashAttribute("successMessage", "Product added successfully!");
+      } else {
+          redirectAttributes.addFlashAttribute("errorMessage", "Failed to add product. Please try again.");
+      }
+
+      return "redirect:/product/list.do";
+  }
+
+  
+  @ResponseBody
+  @PostMapping(value="/addThumbnail.do", produces="application/json")
+  public Map<String, Object> addThumbnail(MultipartHttpServletRequest multipartRequest) throws Exception {
+    return productService.addThumbnail(multipartRequest);
   }
   
   @ResponseBody
