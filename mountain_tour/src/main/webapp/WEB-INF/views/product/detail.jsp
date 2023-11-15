@@ -41,11 +41,16 @@
     <div class="col-1">      
     </div>
     <div class="col-10">
-      <!--  여기다가 작성  다 작성하고 height 지우기!!!! -->
+      <div class="text-center">
+		 <c:if test="${product.thumbnail == 1}">
+		   <img src="${contextPath}/path/to/your/image.jpg" alt="상품 이미지">
+		 </c:if>
+		</div>
+
       <div class="row">
     	<div class="col-8" style="margin-top: 30px; margin-bottom: 30px;">
     	  <div class="text-center">
-			${image.thumbnail}
+			<!-- 여기 첨부파일이 보여줘야함 -->
 		  </div>
     	  <hr>
     	  <c:if test="${sessionScope.user.auth == 0}">

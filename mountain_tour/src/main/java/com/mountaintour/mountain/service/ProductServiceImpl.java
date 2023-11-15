@@ -123,6 +123,11 @@ public class ProductServiceImpl implements ProductService {
 	            , "url", multipartRequest.getContextPath() + imagePath + "/" + filesystemName);
 	}
 
+	@Transactional(readOnly=true)
+	@Override
+	public ImageDto getThumbnail(int productNo) {
+	  return productMapper.getThumbnail(productNo);
+	  }
 	
 	@Override
 	public int addProduct(MultipartHttpServletRequest multipartRequest) throws Exception {
@@ -200,7 +205,6 @@ public class ProductServiceImpl implements ProductService {
 	                            .build();
 
 	                    thumbnailCount += productMapper.insertThumbnail(attach);
-	                    System.out.println("뭐냐뭐내ㅑ" + attach);
 
 	                } catch (Exception e) {
 	                    e.printStackTrace();
@@ -283,18 +287,18 @@ public class ProductServiceImpl implements ProductService {
 	                , "totalPage", myPageUtils.getTotalPage());
 	    
 	}
-	
-	@Transactional(readOnly=true)
-	@Override
-	public void attachUpload(HttpServletRequest request, Model model) {
-	    
-	    Optional<String> opt = Optional.ofNullable(request.getParameter("productNo"));
-	    int productNo = Integer.parseInt(opt.orElse("0"));
-	    
-	    model.addAttribute("productNo", productMapper.getProduct(productNo));
-	    model.addAttribute("attachList", productMapper.getAttachList(productNo));
-	    
-	  }
+//	
+//	@Transactional(readOnly=true)
+//	@Override
+//	public void attachUpload(HttpServletRequest request, Model model) {
+//	    
+//	    Optional<String> opt = Optional.ofNullable(request.getParameter("productNo"));
+//	    int productNo = Integer.parseInt(opt.orElse("0"));
+//	    
+//	    model.addAttribute("productNo", productMapper.getProduct(productNo));
+//	    model.addAttribute("attachList", productMapper.getAttachList(productNo));
+//	    
+//	  }
 	
 	@Transactional(readOnly=true)
 	@Override

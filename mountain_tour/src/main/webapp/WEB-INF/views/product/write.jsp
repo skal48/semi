@@ -43,8 +43,8 @@
 	 <div class="row">
     	<div class="col-8"  style="margin-top: 30px; margin-bottom: 30px;">
     	  <div class="mt-3">
-		      <label for="thumbnail" class="form-label">첨부</label>
-		      <input type="file" name="thumbnail" id="thumbnail" class="form-control" multiple>
+		      <label for="files" class="form-label">첨부</label>
+		      <input type="file" name="files" id="files" class="form-control" multiple>
 		  </div>
 		  <div class="attached_list mt-2" id="attached_list"></div>
     	  <hr>
@@ -147,7 +147,7 @@
 
 
 const fnThumbnailCheck = () => {
-    $('#thumbnail').change((ev) => {
+    $('#files').change((ev) => {
       $('#attached_list').empty();
       let maxSize = 1024 * 1024 * 100;
       let maxSizePerFile = 1024 * 1024 * 10;

@@ -95,6 +95,13 @@
     )
   </insert>
   
+  <select id="getThumbnail" parameterType="int" resultType="ImageDto">
+    SELECT IMAGE_PATH, FILESYSTEM_NAME, THUMBNAIL, PRODUCT_NO
+      FROM IMAGE_T
+     WHERE PRODUCT_NO = #{productNo}
+  </select>
+  
+  
   <select id="getProductImageInYesterday" resultType="ImageDto">
     SELECT IMAGE_PATH
       	 , FILESYSTEM_NAME
@@ -192,7 +199,7 @@
   </update>
   
   <select id="getProductImageList" parameterType="int" resultType="ImageDto">
-    SELECT PRODUCT_NO, IMAGE_PATH, FILESYSTEM_NAME
+    SELECT PRODUCT_NO, IMAGE_PATH, FILESYSTEM_NAME, THUMBNAIL 
       FROM IMAGE_T
      WHERE PRODUCT_NO = #{productNo}  
   </select>
