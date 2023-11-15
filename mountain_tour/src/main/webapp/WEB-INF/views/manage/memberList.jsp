@@ -59,6 +59,24 @@
   }
   
 </style>
+<script>
+
+  $(() => {
+	fnRemoveMember();
+  })
+	
+  const fnRemoveMember = () => {
+	let removeResult = '${removeResult}';
+	if(removeResult !== ''){
+	  if(reremoveResult === '1'){
+		alert('회원이 탈퇴되었습니다.');
+	  } else {
+		alert('회원이 탈퇴되지 않았습니다.');
+	  }
+	}
+  }
+	
+</script>
 
  
   <div class="container text-center">
@@ -192,11 +210,6 @@
 </div>
   
 
-
-<script>
-
-  
-</script>
 
 
 

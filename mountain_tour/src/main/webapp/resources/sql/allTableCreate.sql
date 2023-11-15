@@ -206,8 +206,7 @@ CREATE TABLE RESERVE_T (
     AGREE           NUMBER              NOT NULL,   -- 0:필수동의, 1:선택까지동의
     PICKUP_LOC      VARCHAR2(100 BYTE)  NULL,       -- 버스 탑승지
     RESERVE_STATUS  NUMBER              DEFAULT 0,  -- 0:정상, 1:대기, 2:불가
-    RESERVE_START   DATE                NULL,       -- 예약시작일
-    RESERVE_FINISH  DATE                NULL,       -- 예약종료일
+    RESERVE_START   VARCHAR2(30 BYTE)   NULL,       -- 예약시작일
     RESERVE_PERSON  NUMBER              NULL,       -- 예약한 총 인원수
     PRODUCT_NO      NUMBER              NOT NULL,   -- 상품번호(FK)    
     USER_NO         NUMBER              NULL,       -- 유저번호(FK)
@@ -315,89 +314,22 @@ CREATE TABLE NOTICE_T (
     CONTENTS        CLOB,                          -- 공지 내용
     CREATED_AT      DATE,                          -- 공지 작성일
     MODIFIED_AT     DATE,                          -- 공지 수정일
-    HIT             NUMBER,                        -- 조회수
     CONSTRAINT PK_NOTICE_T PRIMARY KEY(NOTICE_NO)
 ); 
 
 --**********************************************************************************
--- 유저 등록
+-- 테스트 정보 등록
 
+
+-- 관리자 삽입
+INSERT INTO USER_T (USER_NO, EMAIL, PW, NAME, AGREE, AUTH) VALUES(USER_SEQ.NEXTVAL, 'admin', STANDARD_HASH('1', 'SHA256'), '관리자admin', 0, 0);
+INSERT INTO USER_T (USER_NO, EMAIL, PW, NAME, AGREE, AUTH) VALUES(USER_SEQ.NEXTVAL, 'master', STANDARD_HASH('1', 'SHA256'), '관리자master', 0, 0);
+COMMIT;
+
+-- 회원 삽입
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user1@naver.com', STANDARD_HASH('1111', 'SHA256'), '사용자1', 'M', '01011111111', '11111', '디지털로', '가산동', '101동 101호', 0, 0, 1, TO_DATE('20231001', 'YYYYMMDD'), TO_DATE('20220101', 'YYYYMMDD'));
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user2@naver.com', STANDARD_HASH('2222', 'SHA256'), '사용자2', 'F', '01022222222', '22222', '디지털로', '가산동', '102동 102호', 0, 0, 1, TO_DATE('20231002', 'YYYYMMDD'), TO_DATE('20220102', 'YYYYMMDD'));
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user3@naver.com', STANDARD_HASH('3333', 'SHA256'), '사용자3', 'M', '01033333333', '33333', '디지털로', '가산동', '103동 103호', 0, 0, 1, TO_DATE('20231003', 'YYYYMMDD'), TO_DATE('20220103', 'YYYYMMDD'));
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user4@naver.com', STANDARD_HASH('4444', 'SHA256'), '사용자4', 'F', '01044444444', '44444', '디지털로', '가산동', '104동 104호', 0, 0, 1, TO_DATE('20231004', 'YYYYMMDD'), TO_DATE('20220104', 'YYYYMMDD'));
-
-INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user6@naver.com', STANDARD_HASH('0000', 'SHA256'), '사용자5', 'M', '01011121111', '31111', '디지털로', '가산동', '101동 101호', 0, 0, 0, TO_DATE('20231001', 'YYYYMMDD'), TO_DATE('20220101', 'YYYYMMDD'));
 COMMIT;
 
-INSERT INTO MOUNTAIN_T VALUES(MOUNTAIN_SEQ.NEXTVAL, '한라산', '멋있음', '제주도');
-INSERT INTO MOUNTAIN_T VALUES(MOUNTAIN_SEQ.NEXTVAL, '한라산2', '멋있음11', '제주도2');
-INSERT INTO MOUNTAIN_T VALUES(MOUNTAIN_SEQ.NEXTVAL, '한라산3', '멋있음11', '제주도2');
-INSERT INTO MOUNTAIN_T VALUES(MOUNTAIN_SEQ.NEXTVAL, '한라산4', '멋있음11', '제주도2');
-INSERT INTO MOUNTAIN_T VALUES(MOUNTAIN_SEQ.NEXTVAL, '한라산5', '멋있음11', '제주도2');
-INSERT INTO MOUNTAIN_T VALUES(MOUNTAIN_SEQ.NEXTVAL, '한라산6', '멋있음11', '제주도2');
-INSERT INTO MOUNTAIN_T VALUES(MOUNTAIN_SEQ.NEXTVAL, '한라산7', '멋있음11', '제주도2');
-INSERT INTO PRODUCT_T VALUES(PRODUCT_SEQ.NEXTVAL, 1, 1, '우당탕탕한라산', '엄청나요', '김세콩', '당일', 28000, '주의사항', TO_DATE('20231101', 'YYYYMMDD'), TO_DATE('20231201', 'YYYYMMDD'), 30, 14, '오전, 오후', 0, '약관동의');
-INSERT INTO PRODUCT_T VALUES(PRODUCT_SEQ.NEXTVAL, 1, 2, '우당탕탕한라산2', '엄청나요!!!!', '김콩콩', '당일', 33000, '주의사항', TO_DATE('20230801', 'YYYYMMDD'), TO_DATE('20231021', 'YYYYMMDD'), 30, 55, '오전, 오후', 0, '약관동의');
-INSERT INTO PRODUCT_T VALUES(PRODUCT_SEQ.NEXTVAL, 1, 3, '우당탕탕한라산3', '엄청나요', '김세콩2', '당일', 28000, '주의사항', TO_DATE('20231101', 'YYYYMMDD'), TO_DATE('20231201', 'YYYYMMDD'), 30, 14, '오전, 오후', 0, '약관동의');
-INSERT INTO PRODUCT_T VALUES(PRODUCT_SEQ.NEXTVAL, 1, 4, '우당탕탕한라산4', '엄청나요', '김세콩3', '당일', 28200, '주의사항', TO_DATE('20231101', 'YYYYMMDD'), TO_DATE('20231201', 'YYYYMMDD'), 30, 14, '오전, 오후', 0, '약관동의');
-INSERT INTO PRODUCT_T VALUES(PRODUCT_SEQ.NEXTVAL, 1, 5, '우당탕탕한라산4', '엄청나요', '김세콩3', '당일', 28200, '주의사항', TO_DATE('20231101', 'YYYYMMDD'), TO_DATE('20231201', 'YYYYMMDD'), 30, 14, '오전, 오후', 0, '약관동의');
-INSERT INTO PRODUCT_T VALUES(PRODUCT_SEQ.NEXTVAL, 1, 6, '우당탕탕한라산4', '엄청나요', '김세콩3', '당일', 28200, '주의사항', TO_DATE('20231101', 'YYYYMMDD'), TO_DATE('20231201', 'YYYYMMDD'), 30, 14, '오전, 오후', 0, '약관동의');
-INSERT INTO PRODUCT_T VALUES(PRODUCT_SEQ.NEXTVAL, 1, 7, '우당탕탕한라산4', '엄청나요', '김세콩3', '당일', 28200, '주의사항', TO_DATE('20231101', 'YYYYMMDD'), TO_DATE('20231201', 'YYYYMMDD'), 30, 14, '오전, 오후', 0, '약관동의');
-COMMIT;
-INSERT INTO IMAGE_T VALUES('사진.jpg', '한라산사진', 1, 1);
-INSERT INTO IMAGE_T VALUES('사진2.jpg', '한라산2사진', 0, 2);
-INSERT INTO HEART_T VALUES(1, 1);
-INSERT INTO HEART_T VALUES(2, 2);
-COMMIT;
-
-  SELECT
-        PRODUCT_NO,
-        USER_NO,
-        MOUNTAIN_NO,
-        TRIP_NAME,
-        TRIP_CONTENTS,
-        GUIDE,
-        TIMETAKEN,
-        PRICE,
-        DANGER,
-        REGISTERED_AT,
-        MODIFIED_DATE,
-        PEOPLE,
-        HIT,
-        PLAN,
-        STATUS,
-        TERM_USE,
-        MOUNTAIN_NAME,
-        IMPORMATION,
-        LOCATION,
-        IMAGE_PATH,
-        FILESYSTEM_NAME,
-        THUMBNAIL
-    FROM (SELECT ROW_NUMBER() OVER(ORDER BY P.PRODUCT_NO DESC) AS RN, 
-            P.PRODUCT_NO,
-            P.USER_NO,
-            M.MOUNTAIN_NO,
-            P.TRIP_NAME,
-            P.TRIP_CONTENTS,
-            P.GUIDE,
-            P.TIMETAKEN,
-            P.PRICE,
-            P.DANGER,
-            P.REGISTERED_AT,
-            P.MODIFIED_DATE,
-            P.PEOPLE,
-            P.HIT,
-            P.PLAN,
-            P.STATUS,
-            P.TERM_USE,
-            M.MOUNTAIN_NAME,
-            M.IMPORMATION,
-            M.LOCATION,
-            I.IMAGE_PATH,
-            I.FILESYSTEM_NAME,
-            I.THUMBNAIL  
-            FROM PRODUCT_T P JOIN MOUNTAIN_T M ON P.MOUNTAIN_NO = M.MOUNTAIN_NO
-            LEFT JOIN IMAGE_T I ON P.PRODUCT_NO = I.PRODUCT_NO)
-            WHERE RN BETWEEN 7 AND 10;        
-    

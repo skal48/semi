@@ -77,6 +77,7 @@ const fnModifyUser = () => {
         } else {
           alert('회원 정보가 수정되지 않았습니다.');
         }
+        
       }
     })
   })

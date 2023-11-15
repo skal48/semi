@@ -32,7 +32,11 @@ public class ManageServiceImpl implements ManageService {
   
   /**
    * 기존 회원 목록
-   * MVC 페이징
+   * MVC 페이징 처리
+   * 
+   * @author 심희수
+   * @param request
+   * @param model
    */
   @Override
   public void loadUserList(HttpServletRequest request, Model model) {
@@ -58,6 +62,10 @@ public class ManageServiceImpl implements ManageService {
   
   /**
    * 기존 회원 검색
+   * 
+   * @author 심희수
+   * @param request
+   * @param model
    */
   @Override
   public void loadSearchUserList(HttpServletRequest request, Model model) {
@@ -92,12 +100,22 @@ public class ManageServiceImpl implements ManageService {
   
   /**
    * 기존 회원 상세
+   * 
+   * @author 심희수
+   * @param userNo 회원번호
+   * @return 회원번호를 Map에 담아서 반환
    */
   @Override
   public UserDto getUser(int userNo) {
     return userMapper.getUser(Map.of("userNo", userNo));
   }
   
+  /**
+   * 기존 회원 정보 수정
+   * 
+   * @author 심희수
+   * @param request
+   */
   @Override
   public ResponseEntity<Map<String, Object>> modifyUser(HttpServletRequest request) {
     
@@ -129,6 +147,41 @@ public class ManageServiceImpl implements ManageService {
     return new ResponseEntity<Map<String,Object>>(Map.of("modifyResult", modifyResult), HttpStatus.OK);
   }
   
+  /**
+   * 기존 회원 비밀번호 수정
+   * 
+   * @author 심희수
+   * @param request 
+   * @return
+   */
+  @Override
+  public int modifyPw(HttpServletRequest request) {
+    
+    String pw = mySecurityUtils.getSHA256(request.getParameter("pw"));
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    
+    UserDto user = UserDto.builder()
+                    .pw(pw)
+                    .userNo(userNo)
+                    .build();
+    
+    int modifyPwResult = userMapper.updateUserPw(user);
+    
+    return modifyPwResult;
+  }
+  
+  
+  /**
+   * 기존 회원 탈퇴
+   * 
+   * @author 심희수
+   * @param  userNo 회원번호
+   * @return 삭제할 회원번호를 반환
+   */
+  @Override
+  public int removeMember(int userNo) {
+    return userMapper.deleteUser(userNo);
+  }
   
   
 }

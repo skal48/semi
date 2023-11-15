@@ -8,10 +8,9 @@
 
 
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="회원관리" name="title"/>
+  <jsp:param value="회원관리 상세페이지" name="title"/>
 </jsp:include>
 
-<script src="${contextPath}/resources/js/member_modify.js?dt=${dt}"></script>
 
 <style>
   h3 {
@@ -21,6 +20,106 @@
 
   
 </style>
+<script>
+  
+  /* 함수 호출 */
+  $(() => {
+    fnCheckName();
+    fnCheckMobile();
+    fnModifyUser();
+    fnModifyPasswordForm();
+    fnLeaveUser();
+  })
+
+
+  /* 전역변수 선언 */
+  var namePassed = true;
+  var mobilePassed = true;
+  
+  
+  /* 함수 정의 */
+  
+  const fnCheckName = () => {
+    $('#name').blur((ev) => {
+      let name = ev.target.value;
+      let bytes = 0;
+      for(let i = 0; i < name.length; i++){
+        if(name.charCodeAt(i) > 128){  // 코드값이 128을 초과하는 문자는 한 글자 당 2바이트
+          bytes += 2;
+        } else {
+          bytes++;
+        }
+      }
+      namePassed = (bytes <= 50);
+      if(!namePassed){
+        $('#msg_name').text('이름은 50바이트 이내로 작성해야 합니다.');
+      } 
+    })
+  }
+  
+  const fnCheckMobile = () => {
+    $('#mobile').keyup((ev) => {
+      ev.target.value = ev.target.value.replaceAll('-', '');
+      // 휴대전화번호 검사 정규식 (010숫자8개)
+      let regMobile = /^010[0-9]{8}$/;
+      mobilePassed = regMobile.test(ev.target.value);
+      if(mobilePassed){
+        $('#msg_mobile').text('');
+      } else {
+        $('#msg_mobile').text('휴대전화번호를 확인하세요.');       
+      }
+    })
+  }
+  
+  const fnModifyUser = () => {
+    $('#btn_modify').click(() => {
+      if(!mobilePassed){
+        alert('휴대전화번호를 확인하세요.');
+        return;
+     
+      }
+      $.ajax({
+        // 요청
+        type: 'post',
+        url: '${contextPath}/manage/modifyMember.do',
+        data: $('#frm_memberDetail').serialize(),
+        // 응답
+        dataType: 'json',
+        success: (resData) => {  // {"modifyResult": 1}
+          if(resData.modifyResult === 1){
+            alert('회원 정보가 수정되었습니다.');
+          } else {
+            alert('회원 정보가 수정되지 않았습니다.');
+          }
+        }
+      })
+    })
+  }
+  
+  const fnModifyPasswordForm = () => {
+    $('#btn_modify_pw').click(() => {
+      location.href = '${contextPath}/manage/modifyMemberPw.form?userNo=${user.userNo}';
+    })
+  }
+  
+  const fnLeaveUser = () => {
+    $('#btn_leave').click(() => {
+      if(confirm('회원을 탈퇴시키면 되돌릴 수 없습니다. 탈퇴시키겠습니까?')){
+    	if(confirm('진짜로 탈퇴 시켜요?')){
+    	  if(confirm('다시 한번 생각해보세요.. 정말로 탈퇴시킬까요?')){
+    	    if(confirm('안 되는데.. 진짜로요? 저는 말렸어요.')){
+              $('#frm_mypage').prop('action', '${contextPath}/manage/removeMember.do');
+              $('#frm_mypage').submit();
+    	    }
+    	  }
+    	}
+      }
+    })
+  }
+  
+
+  
+</script>
 
  
   <div class="container text-center">
@@ -98,10 +197,11 @@
         
         
         <div class="container" style="margin-top: 5%;">
+        <div style="text-align: left; margin-left: 5%; margin-bottom: 3%;">주소</div>
           <div class="row">
             <div class="col-md-6">
               <div class="form-group mb-2">
-                <input type="text" id="postcode" placeholder="우편번호" onclick="execDaumPostcode()" readonly value="${user.postcode}" class="form-control">
+                <input type="text" id="postcode" name="postcode" placeholder="우편번호" onclick="execDaumPostcode()" readonly value="${user.postcode}" class="form-control">
               </div>
             </div>
             <div class="col-md-6">
@@ -113,7 +213,7 @@
           <div class="row">
             <div class="col-md-12">
               <div class="form-group mb-2">
-                <input type="text" id="roadAddress" onclick="execDaumPostcode()" readonly placeholder="도로명주소" value="${user.roadAddress}" class="form-control">
+                <input type="text" id="roadAddress" name="roadAddress" onclick="execDaumPostcode()" readonly placeholder="도로명주소" value="${user.roadAddress}" class="form-control">
               </div>
             </div>
           </div>
@@ -121,21 +221,13 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group mb-2">
-                <input type="text" id="jibunAddress" onclick="execDaumPostcode()" readonly placeholder="지번주소" value="${user.jibunAddress}" class="form-control">
+                <input type="text" id="jibunAddress" name="jibunAddress" onclick="execDaumPostcode()" readonly placeholder="지번주소" value="${user.jibunAddress}" class="form-control">
               </div>
             </div>
             <span id="guide" style="color:#999;display:none"></span>
             <div class="col-md-6">
               <div class="form-group mb-2">
-                <input type="text" id="detailAddress" placeholder="상세주소" value="${user.detailAddress}" class="form-control">
-              </div>
-            </div>
-          </div>
-        
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group mb-2">
-                <input type="text" id="extraAddress" placeholder="참고항목" class="form-control">
+                <input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" value="${user.detailAddress}" class="form-control">
               </div>
             </div>
           </div>
@@ -244,11 +336,7 @@
 </div>
   
  
-<script>
-  
-  
-  
-</script>
+
  
  
  

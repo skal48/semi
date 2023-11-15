@@ -11,10 +11,41 @@
   <jsp:param value="${sessionScope.user.name}님의 문의작성" name="title"/>
 </jsp:include>
 
-<style>
+<script>
+
+  /* 호출 */
+  $(() => {
+    fnAddInqiury();
+    fnFrmWrite();
+  })
+
+  /* 작성 전 로그인 검사 */
+  const fnAddInqiury = () => {
+	if('${sessionScope.user}' === ''){
+	  alert('로그인 후 이용 가능합니다.');
+	  history.go(-1);
+	  return;
+	}
+  }
+  
+  /* textarea 공백 체크 */
+  const fnFrmWrite = () => {
+	  $('#frm_write').submit((ev) => {
+	    /* textarea의 현재 내용을 가져와서 체크 */
+	    const contents = $('#contents').val().trim();
+
+	    if (contents.length === 0) {
+	      ev.preventDefault();
+	      alert("문의 내용을 입력하세요.");
+	      $('#contents').focus();
+	      return;
+	    }
+	  })
+	}
+
 
   
-</style>
+</script>
  
   <div class="container text-center">
   <div class="row">
@@ -76,36 +107,7 @@
 </div>
   
  
-<script>
 
-  /* 작성 전 로그인 검사 */
-  const fnAddInqiury = () => {
-	if('${sessionScope.user}' === ''){
-	  alert('로그인 후 이용 가능합니다.');
-	  history.go(-1);
-	  return;
-	}
-  }
-  
-  /* textarea 공백 체크 */
-  const fnFrmWrite = () => {
-	  $('#frm_write').submit((ev) => {
-	    /* textarea의 현재 내용을 가져와서 체크 */
-	    const contents = $('#contents').val().trim();
-
-	    if (contents.length === 0) {
-	      ev.preventDefault();
-	      alert("문의 내용을 입력하세요.");
-	      $('#contents').focus();
-	      return;
-	    }
-	  });
-	};
-
-  fnAddInqiury();
-  fnFrmWrite();
-  
-</script>
  
  
  
