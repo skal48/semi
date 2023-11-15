@@ -47,10 +47,27 @@ public class ProductController {
       } else {
           redirectAttributes.addFlashAttribute("errorMessage", "Failed to add product. Please try again.");
       }
-
+  
       return "redirect:/product/list.do";
   }
 
+  @GetMapping("/increseHit.do")
+  public String increseHit(@RequestParam(value="productNo", required=false, defaultValue="0") int productNo) {
+    int increseResult = productService.increseHit(productNo);
+    if(increseResult == 1) {
+      return "redirect:/product/detail.do?productNo=" + productNo;
+    } else {
+      return "redirect:/product/list.do";
+    }
+  }
+  
+  @PostMapping(value="/heartProduct.do" , produces="application/json")
+  public String heart(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+	int heartResult = productService.addHeart(request);
+	redirectAttributes.addFlashAttribute("heartResult", heartResult);
+	return "redirect:/product/detail.do?productNo=" + request.getParameter("productNo"); 
+  }
+  
   
   @ResponseBody
   @PostMapping(value="/addThumbnail.do", produces="application/json")

@@ -18,9 +18,6 @@
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
   <script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
 
   </script>
   <style>
@@ -46,13 +43,16 @@
 
       <div class="row">
     	<div class="col-8" style="margin-top: 30px; margin-bottom: 30px;">
+    	
+    	 <div style = "text-align: left;">조회수 : <fmt:formatNumber value="${product.hit}" pattern="#,##0"></fmt:formatNumber></div>
     	  <div class="text-center">
 			<!-- 여기 첨부파일이 보여줘야함 -->
 		  </div>
     	  <hr>
     	  <c:if test="${sessionScope.user.auth == 0}">
     	   <form id="frm_btn" method="post">
-    	   	  <input type="hidden" name="productNo" value="${product.productNo}">
+    	   	  <input type="hidden" name="productNo" class="heart" value="${product.productNo}">
+    	   	  <input type="hidden" name="usertNo" class="heart2" value="${sessionScope.user.userNo}">
     	   	  <input type="hidden" name="tripName" value="${product.tripName}">
     	   	  <input type="hidden" name="price" value="${product.price}">	    	
     	   	  <input type="hidden" name="plan" value="${product.plan}">	    	
@@ -66,8 +66,9 @@
 	       </form>
     	  </c:if>    	  
     	  
-    	  
-    	  
+    	  <input type="hidden" name="productNo" class="heart" value="${product.productNo}">
+    	  <input type="hidden" name="usertNo" class="heart2" value="${sessionScope.user.userNo}">
+    	
     	  
     	 <div style="text-align: left;">
 			 <span class="badge text-bg-success">단순코스</span>
@@ -80,7 +81,7 @@
 	    	 <div class="calender_mini">
 	    	  <div class="row">
 			    <div class="col">
-			      <div id="datepicker"></div>
+			      <input id="datepicker" width="276" />
 			    </div>
 			    <div class="col" style = "border: 1px gray solid;">
 			      예약이 가능해요!<br>
@@ -193,7 +194,28 @@
 	        </select>
 	    </div>
 	</div>
-
+		<div class="ui-grid-b">
+        <div class="ui-block-a">
+            <label>시작일</label>
+        </div>
+        <div class="ui-block-b">
+            <label>마지막일</label>
+        </div>
+        <div class="ui-block-c">
+        </div>
+    </div>
+    <div class="ui-grid-b">
+        <div class="ui-block-a">
+            <input type="text" id="datepicker_start" readonly="readonly">
+        </div>
+        <div class="ui-block-b">
+            <input type="text" id="datepicker_end" readonly="readonly">
+        </div>
+        <div class="ui-block-c">
+            <button id="date_search">날짜검색</button>
+        </div>
+    </div>
+    
 	    
 	    
 			
@@ -261,7 +283,7 @@
 	   </div>
 	   <button class="btn btn-success"  style="margin: 20px auto;">
 	   <div>
-	   <div style="color: white;">찜하기♥</div>
+		<div id="heartButton" style="color: white; cursor: pointer;">찜하기♥</div>
 	   </div>
 	   </button>
 	   </div>
@@ -366,11 +388,15 @@
  
 
   <script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
 
+
+  $('#datepicker').datepicker({
+      uiLibrary: 'bootstrap5'
+  });
   
+  
+  
+	  
   
   var frmBtn = $('#frm_btn');
   
@@ -397,8 +423,47 @@
       })
    }
   
+  $(document).ready(function () {
+	    // 이벤트 리스너 등록
+	    $('#heartButton').on('click', function () {
+	        addHeart();
+	    });
+
+	    fnGetProductList();
+	    fnScroll();
+	});
+
+  function addHeart() {
+	    var productNo = $('.heart').val();
+	    var userNo = $('.heart2').val();
+
+	    // 확인 창 띄우기
+	    var confirmResult = confirm('찜하기 페이지로 이동하시겠습니까?');
+
+	    if (confirmResult) {
+	        // 사용자가 "예"를 선택한 경우
+	        $.ajax({
+	            type: 'post',
+	            url: '${contextPath}/product/heartProduct.do',
+	            data: {
+	                productNo: productNo,
+	                userNo: userNo
+	            },
+	            success: function (response) {
+	                console.log('찜하기 성공');
+	                window.location.href = '${contextPath}/user/heartProduct.do;
+	            },
+	            error: function (error) {
+	                console.error('찜하기 실패:', error);
+	            }
+	        });
+	    } else {	        
+	        console.log('사용자가 "아니오"를 선택함');
+	    }
+	}
+
   
-  
+
   fnGoReserve();
   fnEditProduct();
   fnRemoveProduct();

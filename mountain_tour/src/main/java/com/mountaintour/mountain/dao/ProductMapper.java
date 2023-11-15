@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.mountaintour.mountain.dto.HeartDto;
 import com.mountaintour.mountain.dto.ImageDto;
 import com.mountaintour.mountain.dto.ProductDto;
 
@@ -24,4 +25,6 @@ public interface ProductMapper {
 	public int deleteProductImageList(int productNo);
 	public int deleteProduct(int productNo);
 	public int insertThumbnail(ImageDto image);
+	public int heartProduct(HeartDto heart);
+	public void getcalendar(Map<String, Object> map);
 }
