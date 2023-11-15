@@ -72,9 +72,9 @@ public class ReserveServiceImpl implements ReserveService{
   @Override
   public int addTourist(HttpServletRequest req) throws Exception {
 
-    String oldFormat = "yyyy-MM-dd";
-    String newFormat = "yyyy/MM/dd";
-    SimpleDateFormat sdf = new SimpleDateFormat(oldFormat);
+//    String oldFormat = "yyyy-MM-dd";
+//    String newFormat = "yyyy/MM/dd";
+//    SimpleDateFormat sdf = new SimpleDateFormat(oldFormat);
     
 
     String[] names = req.getParameterValues("touristName");
@@ -86,16 +86,16 @@ public class ReserveServiceImpl implements ReserveService{
     
     int result = 0;
     for (int i = 0; i < names.length; i++) {
-      if (bDates[i] != null && !bDates[i].isEmpty()) {
-        Date d = sdf.parse(bDates[i]);
-        sdf.applyPattern(newFormat);
-        String birthDate = sdf.format(d); 
+//      if (bDates[i] != null && !bDates[i].isEmpty()) {
+//        Date d = sdf.parse(bDates[i]);
+//        sdf.applyPattern(newFormat);
+//        String birthDate = sdf.format(d); 
         
         int ageCase = Integer.parseInt(ageCases[i]);
         
         TouristDto tourist = TouristDto.builder()
             .name(names[i])
-            .birthDate(birthDate)
+            .birthDate(bDates[i])
             .gender(genders[i])
             .contact(contacts[i])
             .ageCase(ageCase)
@@ -104,19 +104,17 @@ public class ReserveServiceImpl implements ReserveService{
                 .build())
             .build();
         result += reserveMapper.insertTourist(tourist);
-      } else {
-        System.out.println(bDates[i].toString());
-      }
+//      } else {
+//        System.out.println(bDates[i].toString());
+//      }
     }
     return result;
   }
-  
   
   @Override
   public ReserveDto loadReserve(int reserveNo) {
     return reserveMapper.getReserve(reserveNo);
   }
-  
   
   @Override
   public void loadReserveList(HttpServletRequest request, Model model) {
@@ -138,5 +136,30 @@ public class ReserveServiceImpl implements ReserveService{
     model.addAttribute("beginNo", total - (page - 1) * display);
     
   }
+  
+  @Override
+  public void loadReserveListByUser(HttpServletRequest request, Model model) {
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = reserveMapper.getReserveCount();
+    int display = 10;
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd() 
+                                   , "userNo", userNo);
+    
+    List<ReserveDto> reserveList = reserveMapper.getReserveList(map);
+    
+    model.addAttribute("reserveList", reserveList);
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/reserve/list.do", request.getParameter("userNo")));
+    model.addAttribute("beginNo", total - (page - 1) * display);
+    
+  }
+  
+  
+  
   
 }

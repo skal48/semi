@@ -99,6 +99,10 @@
         </tr>
       </table>
     </div>
+    <hr>
+    <div>
+      <button type="button" onclick="location.href='${contextPath}/product/list.do'">다른상품 예약하러가기</button>
+    </div>
     
     </div>
     <div class="col-1">

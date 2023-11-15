@@ -15,4 +15,5 @@ public interface ReserveService {
   
   public ReserveDto loadReserve(int reserveNo);
   public void loadReserveList(HttpServletRequest request, Model model);
+  public void loadReserveListByUser(HttpServletRequest request, Model model);
 }

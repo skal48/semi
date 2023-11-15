@@ -48,7 +48,8 @@
                 <td>
                   <div>
                     출발일 : 
-                    <span>${resDate}</span>
+                    <fmt:parseDate value="${resDate}" var="parsedDate" pattern="MM/dd/yyyy" />
+                    <fmt:formatDate value="${parsedDate}" pattern="yyyy/MM/dd (E)" type="date"/>
                   </div>
                   <div>
                     소요시간 : 
@@ -59,6 +60,104 @@
             </tbody>
           </table>
         </div>
+        
+        <hr>
+        <!-- 요금 및 여행인원 -->
+        <div>
+          <h4>요금 및 여행인원</h4>
+        </div>
+        <div>
+          <table>
+            <colgroup>
+              <col>
+              <col style="width:11%;">
+              <col style="width:11%;">
+              <col style="width:10%;">
+              <col style="width:10%;">
+              <col style="width:14%;">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>요금구분</th>
+                <th>성인요금</th>
+                <th>소아요금</th>
+                <th>성인인원</th>
+                <th>소아인원</th>
+                <th>합계</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td id="adultPrice">${product.price}</td> <!-- 상품가격 -->
+                <td id="childPrice">${product.price}</td> <!-- 성인요금에서 금액변동 적용하기 -->
+                <td>
+                  <select name="adultCnt">
+                    <c:forEach var="cnt" begin="0" end="20" step="1"> <!-- end값으로 product.person(최대인원수) 적용하기 -->
+                      <option class="adtCnt" value="${cnt}">${cnt}명</option>
+                    </c:forEach>
+                  </select>
+                </td>
+                <td>
+                  <select name="childCnt">
+                    <c:forEach var="cnt" begin="0" end="20" step="1"> <!-- end값으로 product.person(최대인원수) 적용하기 -->
+                      <option class="cldCnt" value="${cnt}">${cnt}명</option>
+                    </c:forEach>
+                  </select>
+                </td>
+                <td>
+                  <span id="totalPriceOne">
+                  <!-- 계산된 총 금액 -->
+                  
+                  </span>
+                  원
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3">총계</td>
+                <td>
+                  <span class="adultCntVal">0</span>명
+                </td>
+                <td>
+                  <span class="childCntVal">0</span>명
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <hr>
+        <!-- 여행자 정보 -->
+        <!-- 요금 및 여행인원 ajax 생성 폼 -->
+        <form id="frm_tourist"  method="post">
+          <div>
+            <div>
+              <h4>여행자 정보</h4>
+            </div>
+            <table>
+              <colgroup>
+                <col style="width:5%;">
+                <col style="width:11%;">
+                <col style="width:10%;">
+                <col style="width:10%;">
+                <col style="width:30%;">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>구분</th>
+                  <th>이름</th>
+                  <th>생년월일</th>
+                  <th>성별</th>
+                  <th>연락처</th>
+                </tr>
+              </thead>
+              <tbody id="inp_tourist">
+              <!-- 여행인원 선택시 선택한만큼 추가되어야 함 -->
+              </tbody>
+            </table>      
+          </div>
+        </form>
         
         <hr>
         
@@ -102,77 +201,7 @@
           -->
         
           <hr>
-          <!-- 요금 및 여행인원 -->
-          <!-- ajax으로 여행자 정보 생성 -->
-          <div>
-            <h4>요금 및 여행인원</h4>
-          </div>
-          <div>
-            <table>
-              <colgroup>
-                <col>
-                <col style="width:11%;">
-                <col style="width:11%;">
-                <col style="width:10%;">
-                <col style="width:10%;">
-                <col style="width:14%;">
-              </colgroup>
-              <thead>
-                <tr>
-                  <th>요금구분</th>
-                  <th>성인요금</th>
-                  <th>소아요금</th>
-                  <th>성인인원</th>
-                  <th>소아인원</th>
-                  <th>합계</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td></td>
-                  <td id="adultPrice">${product.price}</td> <!-- 상품가격 -->
-                  <td id="childPrice">${product.price}</td> <!-- 성인요금에서 금액변동 적용하기 -->
-                  <td>
-                    <select name="adultCnt">
-                      <c:forEach var="cnt" begin="0" end="20" step="1"> <!-- end값으로 product.person(최대인원수) 적용하기 -->
-                        <option class="adtCnt" value="${cnt}">${cnt}명</option>
-                      </c:forEach>
-                    </select>
-                  </td>
-                  <td>
-                    <select name="childCnt">
-                      <c:forEach var="cnt" begin="0" end="20" step="1"> <!-- end값으로 product.person(최대인원수) 적용하기 -->
-                        <option class="cldCnt" value="${cnt}">${cnt}명</option>
-                      </c:forEach>
-                    </select>
-                  </td>
-                  <td>
-                    <span id="totalPriceOne">
-                    <!-- 계산된 총 금액 -->
-                    
-                    </span>
-                    원
-                  </td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="3">총계</td>
-                  <td>
-                    <span class="adultCntVal">0</span>명
-                  </td>
-                  <td>
-                    <span class="childCntVal">0</span>명
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        
-          <hr>
-         
           
-          <hr>
           <!-- 픽업장소 선택 -->
           <div>
             <h4>승차장소 선택</h4>
@@ -233,37 +262,7 @@
             <button type="button" onclick="location.href='${contextPath}/reserve/list.do'">예약목록</button>
           </div>
         </form>
-        <hr>
-         <!-- 여행자 정보 -->
-        <!-- 요금 및 여행인원 ajax 생성 폼 -->
-        <form id="frm_tourist"  method="post">
-          <div>
-            <div>
-              <h4>여행자 정보</h4>
-            </div>
-            <table>
-              <colgroup>
-                <col style="width:5%;">
-                <col style="width:11%;">
-                <col style="width:10%;">
-                <col style="width:10%;">
-                <col style="width:30%;">
-              </colgroup>
-              <thead>
-                <tr>
-                  <th>구분</th>
-                  <th>이름</th>
-                  <th>생년월일</th>
-                  <th>성별</th>
-                  <th>연락처</th>
-                </tr>
-              </thead>
-              <tbody id="inp_tourist">
-              <!-- 여행인원 선택시 선택한만큼 추가되어야 함 -->
-              </tbody>
-            </table>      
-          </div>
-        </form>
+
         <!-- 결제정보 -->
         <!-- 따로 구현 -->
         <div>
@@ -372,7 +371,7 @@
 				dataType: 'json',
 				success: function(resData){
 					if(resData.addReserveResult === 1){
-						alert('예약만 등록성공');
+						alert('예약이 등록되었습니다.');
 						fnAddTourist(resData.reserveNo);
 					}
 				}

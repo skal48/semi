@@ -51,6 +51,8 @@ public class ReserveController {
     return "reserve/list";
   }
   
+  
+  
   @ResponseBody
   @PostMapping(value="/addReserve.do", produces="application/json")
   public Map<String, Object> addReserve(HttpServletRequest req, RedirectAttributes redirectAttributes) throws Exception {
@@ -61,7 +63,7 @@ public class ReserveController {
   public String addTourist(HttpServletRequest req, RedirectAttributes redirectAttributes) throws Exception {
     int addTouristResult = reserveService.addTourist(req);
     redirectAttributes.addFlashAttribute("addTouristResult", addTouristResult);
-    return "redirect:/detail.do?reserveNo=" + req.getParameter("reserveNo");
+    return "redirect:/reserve/detail.do?reserveNo=" + req.getParameter("reserveNo");
   }
   
   
