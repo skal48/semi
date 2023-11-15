@@ -46,7 +46,12 @@
         </tr>
         <tr>
           <td>총인원</td>
-          <td>${reserve.reservePerson}명(버튼누르면 실제여행객 정보 보여주기?)</td>
+          <td>
+            ${reserve.reservePerson}명(버튼누르면 실제여행객 정보 보여주기?)
+            <span id="tourPeopleInfo">
+              <button id="btn_peopleInfo">상세</button>
+            </span>
+          </td>
         </tr>
         <tr>
           <td>픽업장소</td>

@@ -10,7 +10,7 @@
   <jsp:param value="마운틴투어" name="title"/>
 </jsp:include>
 <style>
-    .thumbnail { 
+   .thumbnail { 
       margin: auto;     
       margin-top: 20px;
       width: 60%;
@@ -55,14 +55,16 @@
     </div>
     <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
-      <form class="thumbnail" style = "border: 1px gray solid;" >
+       <form class="thumbnail" method="post" action="${contextPath}/magazine/finalModify.do" enctype="multipart/form-data" style = "border: 1px gray solid;" >
           <div class="image_wrapper">
             <div id="previewId"></div>
-            <input type="file" id="image" class="input-group-text" onchange="previewImage(this,'previewId')"/>
+            <input type="file" id="image" name="files" class="input-group-text" onchange="previewImage(this,'previewId')"/>
           </div>          
           <div class="big_title">summary</div>
-          <textarea rows="10" cols="60"></textarea>
+          <textarea rows="10" cols="60" name="summary">${map.magazine.summary}</textarea>
           <div>
+          <input type="hidden" value="${map.magazine.magazineNo}" name="magazineNo">
+          <input type="hidden" name="isThumbnail" value="1">        
           <button type="submit" class="btn btn-secondary">완료</button>
           </div>
       </form>
@@ -83,7 +85,6 @@ function previewImage(targetObj, previewId) {
     var preview = document.getElementById(previewId); //div id   
      var ua = window.navigator.userAgent;
 
-
      var files = targetObj.files;
      for ( var i = 0; i < files.length; i++) {
 
@@ -92,7 +93,11 @@ function previewImage(targetObj, previewId) {
          var imageType = /image.*/; //이미지 파일일경우만.. 뿌려준다.
          if (!file.type.match(imageType))
              continue;
-
+				 if (${map.magazine.magazineMultiDto.isThumbnail} === 1){
+					 $('#image').attr("value", "${map.magazine.magazineMultiDto.isThumbnail}")
+				 }
+         
+         
          var prevImg = document.getElementById("prev_" + previewId); //이전에 미리보기가 있다면 삭제
          if (prevImg) {
              preview.removeChild(prevImg);
@@ -118,6 +123,25 @@ function previewImage(targetObj, previewId) {
          }   
      }       
   }
+  
+		const fnFileCheck = () => {
+		    $('#files').change((ev) => {
+		      $('#attached_list').empty();
+		      let maxSize = 1024 * 1024 * 100;
+		      let maxSizePerFile = 1024 * 1024 * 10;
+		      let files = ev.target.files;        
+		        totalSize += files[i].size;
+		        if(files[i].size > maxSizePerFile){
+		          alert('첨부파일의 최대 크기는 10MB입니다.');
+		          $(ev.target).val('');       
+		          $('#attached_list').empty();
+		          return;
+		        }
+		    })
+		  }  
+		  
+		fnFileCheck();
+  
 
 </script>
   

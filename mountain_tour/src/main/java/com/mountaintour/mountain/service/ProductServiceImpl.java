@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.mountaintour.mountain.dao.ProductMapper;
+import com.mountaintour.mountain.dto.HeartDto;
 import com.mountaintour.mountain.dto.ImageDto;
 import com.mountaintour.mountain.dto.MountainDto;
 import com.mountaintour.mountain.dto.ProductDto;
@@ -379,5 +380,19 @@ public class ProductServiceImpl implements ProductService {
 	    productMapper.deleteProductImageList(productNo);
 	    
 	    return productMapper.deleteProduct(productNo);
+	}
+	
+@Override
+	public int addHeart(HttpServletRequest request) {
+	
+	int productNo = Integer.parseInt(request.getParameter("productNo"));
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    
+    HeartDto heart = HeartDto.builder()
+		    		.productNo(productNo)
+		    		.userNo(userNo)
+		            .build();
+     
+	return productMapper.heartProduct(heart);
 	}
 }	

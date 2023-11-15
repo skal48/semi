@@ -45,6 +45,14 @@
     color: gray;
  }
  
+ img {
+  max-width: 100%;
+  height: auto;
+ }
+ .ck.ck-reset_all.ck-widget__resizer {
+  display: none;
+ }
+ 
  </style>
   <div class="container text-center">
   <div class="row">
@@ -54,9 +62,12 @@
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
       <div class="wapper">
 	      <div class="btn_wrapper">
-          <c:if test="${sessionScope.user.auth == null }">  <!-- 바꿔야해 관리자로 -->
-            <form id="btn_frm">
+          <c:if test="${sessionScope.user.auth == 1}">  <!-- 바꿔야해 관리자로 -->
+            <form id="btn_frm" method="post">
               <input type="hidden" name="magazineNo" value="${magazine.magazineNo}">
+              <input type="hidden" name="title" value="${magazine.title}">
+              <input type="hidden" class = "hidden_contents" name="contents" value="<c:out value = '${magazine.contents}' />">
+              <input type="hidden" name="productNo" value="${magazine.magazineNo}">
     	        <button type="button" class="goDelete btn btn-secondary">삭제</button>
     	        <button type="button" class="goModify btn btn-secondary">수정</button>
              </form> 
@@ -90,8 +101,9 @@
 	
   const fnModify = () => {
 	  $('.goModify').click(() => {
-		  location.href = '${contextPath}/magazine/modify.do';
-	  })	  
+		  btn_frm.attr('action', '${contextPath}/magazine/modify.form');
+		  btn_frm.submit();
+	  })  
   }
   
   

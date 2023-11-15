@@ -50,7 +50,7 @@
     </div>
     <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
-       <form action="${contextPath}/magazine/thumbnail.do" id="write_form" method="post">
+       <form action="${contextPath}/magazine/uploadOne.do" id="write_form" method="post">
       <div class="wrapper">   
         <h4>제목</h4>
        
@@ -95,6 +95,8 @@
 		    })  
 		  }
 		  fnProductNo();
+		  
+		  
 		  const fnCkeditor = () => {
 			    DecoupledEditor
 			      .create(document.getElementById('ckeditor'), {
@@ -134,7 +136,7 @@
 		  
 		  
 		  
-		  
+		
 			  fnCkeditor();
 			  fnBlogAdd();
 			  
