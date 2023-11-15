@@ -15,7 +15,7 @@ public interface UserMapper {
 	public int updateUser(UserDto user);
 	public int updateUserPw(UserDto user);
 	public int insertNaverUser(UserDto user);
-	public int deleteUser(int userNo);
+	public int deleteUser(UserDto user);
 	
 	
 }
