@@ -139,7 +139,16 @@ public class UserController {
 	}
 	
 	//아이디, 비밀번호 찾기
-
+	@PostMapping("/findIdCheck.do")
+	public String findId(HttpServletRequest request, HttpServletResponse response) {
+		userService.findId(request,response);
+		return"";
+	}
+	
+	@GetMapping("/findIdCheck.form")
+	public String findIdCheck() {
+		return "user/findIdCheck";
+	}
 	
 	//찜하기
 	@GetMapping("/heartProduct.do")

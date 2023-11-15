@@ -513,5 +513,11 @@ public class UserServiceImpl implements UserService {
     model.addAttribute("beginNo", total - (page - 1) * display);  
 		
 	}
+  
+  @Override
+	public void findId(HttpServletRequest request, HttpServletResponse response) {
+	
+		
+	}
 }
   

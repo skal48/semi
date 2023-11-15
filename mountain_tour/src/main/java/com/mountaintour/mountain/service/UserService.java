@@ -26,4 +26,5 @@ public interface UserService {
 	public void modifyPw(HttpServletRequest request, HttpServletResponse response);
 	public void leave(HttpServletRequest request, HttpServletResponse response);
 	public void heartProduct(HttpServletRequest request, Model model);
+	public void findId(HttpServletRequest request, HttpServletResponse response);
 }
