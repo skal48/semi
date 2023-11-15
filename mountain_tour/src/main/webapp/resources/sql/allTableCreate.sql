@@ -206,8 +206,7 @@ CREATE TABLE RESERVE_T (
     AGREE           NUMBER              NOT NULL,   -- 0:필수동의, 1:선택까지동의
     PICKUP_LOC      VARCHAR2(100 BYTE)  NULL,       -- 버스 탑승지
     RESERVE_STATUS  NUMBER              DEFAULT 0,  -- 0:정상, 1:대기, 2:불가
-    RESERVE_START   DATE                NULL,       -- 예약시작일
-    RESERVE_FINISH  DATE                NULL,       -- 예약종료일
+    RESERVE_START   VARCHAR2(30 BYTE)   NULL,       -- 예약시작일
     RESERVE_PERSON  NUMBER              NULL,       -- 예약한 총 인원수
     PRODUCT_NO      NUMBER              NOT NULL,   -- 상품번호(FK)    
     USER_NO         NUMBER              NULL,       -- 유저번호(FK)
@@ -315,18 +314,22 @@ CREATE TABLE NOTICE_T (
     CONTENTS        CLOB,                          -- 공지 내용
     CREATED_AT      DATE,                          -- 공지 작성일
     MODIFIED_AT     DATE,                          -- 공지 수정일
-    HIT             NUMBER,                        -- 조회수
     CONSTRAINT PK_NOTICE_T PRIMARY KEY(NOTICE_NO)
 ); 
 
 --**********************************************************************************
--- 유저 등록
+-- 테스트 정보 등록
 
+
+-- 관리자 삽입
+INSERT INTO USER_T (USER_NO, EMAIL, PW, NAME, AGREE, AUTH) VALUES(USER_SEQ.NEXTVAL, 'admin', STANDARD_HASH('1', 'SHA256'), '관리자admin', 0, 0);
+INSERT INTO USER_T (USER_NO, EMAIL, PW, NAME, AGREE, AUTH) VALUES(USER_SEQ.NEXTVAL, 'master', STANDARD_HASH('1', 'SHA256'), '관리자master', 0, 0);
+COMMIT;
+
+-- 회원 삽입
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user1@naver.com', STANDARD_HASH('1111', 'SHA256'), '사용자1', 'M', '01011111111', '11111', '디지털로', '가산동', '101동 101호', 0, 0, 1, TO_DATE('20231001', 'YYYYMMDD'), TO_DATE('20220101', 'YYYYMMDD'));
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user2@naver.com', STANDARD_HASH('2222', 'SHA256'), '사용자2', 'F', '01022222222', '22222', '디지털로', '가산동', '102동 102호', 0, 0, 1, TO_DATE('20231002', 'YYYYMMDD'), TO_DATE('20220102', 'YYYYMMDD'));
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user3@naver.com', STANDARD_HASH('3333', 'SHA256'), '사용자3', 'M', '01033333333', '33333', '디지털로', '가산동', '103동 103호', 0, 0, 1, TO_DATE('20231003', 'YYYYMMDD'), TO_DATE('20220103', 'YYYYMMDD'));
 INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user4@naver.com', STANDARD_HASH('4444', 'SHA256'), '사용자4', 'F', '01044444444', '44444', '디지털로', '가산동', '104동 104호', 0, 0, 1, TO_DATE('20231004', 'YYYYMMDD'), TO_DATE('20220104', 'YYYYMMDD'));
-
-INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user6@naver.com', STANDARD_HASH('0000', 'SHA256'), '사용자5', 'M', '01011121111', '31111', '디지털로', '가산동', '101동 101호', 0, 0, 0, TO_DATE('20231001', 'YYYYMMDD'), TO_DATE('20220101', 'YYYYMMDD'));
 COMMIT;
 

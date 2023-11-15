@@ -460,7 +460,6 @@ public class UserServiceImpl implements UserService {
 		  }
 	  }
 	  
-	 
 	  int deleteUserResult = userMapper.deleteUser(user);
 	  
 	  try {

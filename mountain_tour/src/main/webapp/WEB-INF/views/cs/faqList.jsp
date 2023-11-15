@@ -54,8 +54,111 @@
     cursor: pointer;
   }
   
-  
 </style>
+<script>
+
+  /* 함수 호출 */
+  $(() => {
+    fnBlindAdd();
+    fnAddFaq();
+    fnBlind();
+    fnBlindModify(); 
+    fnModifyResult();
+    fnRemove();
+    fnRemoveResult();
+  })
+
+  // 작성하기 버튼을 누르면 작성 폼이 나타난다. (관리자만 사용가능)
+  const fnBlindAdd = () => {
+  $('#btn_faq_write').click((ev) => {
+      let write = $('.faq_add');
+      if(write.hasClass('blind')){
+      $('.show_content').addClass('blind');
+      $('.frm_modifyFaq').addClass('blind');
+      write.removeClass('blind');
+      } else {
+      write.addClass('blind');
+      }
+    })
+  }
+  
+  // 작성 데이터가 전달되면 alert창으로 표시한다.
+  const fnAddFaq = () => {
+    let addResult = '${addResult}';
+    if(addResult !== ''){
+      if(addResult === '1'){
+      alert('자주묻는질문이 작성되었습니다.');
+      } else {
+      alert('자주묻는질문이 작성되지 않았습니다.');
+      }
+    }
+  }
+
+  // 게시글의 제목을 클릭하면 내용이 나타난다.
+  const fnBlind = () => {
+  $('.open_content').click((ev) => {
+      let openContent = $(ev.target).parent().next();
+      if(openContent.hasClass('blind')){
+      $('.show_content').addClass('blind');
+      $('.frm_modifyFaq').addClass('blind');
+      $('.faq_add').addClass('blind');
+      openContent.removeClass('blind');
+      } else {
+      openContent.addClass('blind');
+      }
+    })
+  }
+  
+  // 수정버튼을 클릭하면 수정폼이 나타난다. (관리자만 사용 가능)
+  const fnBlindModify = () => {
+  $('.btn_modify').click((ev) => {
+      let modify = $(ev.target).parent().next();
+      if(modify.hasClass('blind')){
+      modify.removeClass('blind');
+      } else {
+      modify.addClass('blind');
+      }
+    })
+  }
+  
+  // 수정 데이터가 전달되면 alert창으로 표시한다.
+  const fnModifyResult = () => {
+    let modifyResult = '${modifyResult}';
+    if(modifyResult !== ''){
+      if(modifyResult === '1'){
+        alert('자주묻는질문이 수정되었습니다.');
+      } else {
+      alert('자주묻는질문이 수정되지 않았습니다.');
+      }
+    }
+  }
+
+  // 삭제 버튼이 눌리면 확인후 submit을 진행하거나 막는다.
+  const fnRemove = () => {
+  $('.frm_removeFaq').submit((ev) => {
+      if(!confirm('자주묻는질문을 삭제할까요?')){
+      ev.preventDefault();
+      return;
+      }
+    })
+  }
+  
+  // 삭제 데이터가 전달되면 alert창으로 표시한다
+  const fnRemoveResult = () => {
+    let removeResult = '${removeResult}';
+    if(removeResult !== ''){
+      if(removeResult === '1'){
+      alert('자주묻는질문이 삭제되었습니다.');
+      } else {
+      alert('자주묻는질문이 삭제되지 않았습니다.');
+      }
+    }
+  }
+  
+ 
+  
+</script>
+
  
   <div class="container text-center">
   <div class="row">
@@ -176,106 +279,7 @@
 
 
 
-<script>
 
-  // 작성하기 버튼을 누르면 작성 폼이 나타난다. (관리자만 사용가능)
-  const fnBlindAdd = () => {
-	$('#btn_faq_write').click((ev) => {
-	  let write = $('.faq_add');
-	  if(write.hasClass('blind')){
-		$('.show_content').addClass('blind');
-		$('.frm_modifyFaq').addClass('blind');
-		write.removeClass('blind');
-	  } else {
-		write.addClass('blind');
-	  }
-	})
-  }
-  
-  // 작성 데이터가 전달되면 alert창으로 표시한다.
-  const fnAddFaq = () => {
-	let addResult = '${addResult}';
-	if(addResult !== ''){
-	  if(addResult === '1'){
-		alert('자주묻는질문이 작성되었습니다.');
-	  } else {
-		alert('자주묻는질문이 작성되지 않았습니다.');
-	  }
-	}
-  }
-
-  // 게시글의 제목을 클릭하면 내용이 나타난다.
-  const fnBlind = () => {
-	$('.open_content').click((ev) => {
-	  let openContent = $(ev.target).parent().next();
-	  if(openContent.hasClass('blind')){
-		$('.show_content').addClass('blind');
-		$('.frm_modifyFaq').addClass('blind');
-		$('.faq_add').addClass('blind');
-		openContent.removeClass('blind');
-	  } else {
-		openContent.addClass('blind');
-	  }
-	})
-  }
-  
-  // 수정버튼을 클릭하면 수정폼이 나타난다. (관리자만 사용 가능)
-  const fnBlindModify = () => {
-	$('.btn_modify').click((ev) => {
-	  let modify = $(ev.target).parent().next();
-	  if(modify.hasClass('blind')){
-		modify.removeClass('blind');
-	  } else {
-		modify.addClass('blind');
-	  }
-	})
-  }
-  
-  // 수정 데이터가 전달되면 alert창으로 표시한다.
-  const fnModifyResult = () => {
-	let modifyResult = '${modifyResult}';
-	if(modifyResult !== ''){
-	  if(modifyResult === '1'){
-    	alert('자주묻는질문이 수정되었습니다.');
-	  } else {
-		alert('자주묻는질문이 수정되지 않았습니다.');
-	  }
-	}
-  }
-
-  // 삭제 버튼이 눌리면 확인후 submit을 진행하거나 막는다.
-  const fnRemove = () => {
-	$('.frm_removeFaq').submit((ev) => {
-	  if(!confirm('자주묻는질문을 삭제할까요?')){
-		ev.preventDefault();
-		return;
-	  }
-	})
-  }
-  
-  // 삭제 데이터가 전달되면 alert창으로 표시한다
-  const fnRemoveResult = () => {
-	let removeResult = '${removeResult}';
-	if(removeResult !== ''){
-	  if(removeResult === '1'){
-		alert('자주묻는질문이 삭제되었습니다.');
-	  } else {
-		alert('자주묻는질문이 삭제되지 않았습니다.');
-	  }
-	}
-  }
-  
-  
-  fnBlindAdd();
-  fnAddFaq();
-  fnBlind();
-  fnBlindModify(); 
-  fnModifyResult();
-  fnRemove();
-  fnRemoveResult();
-
-	
-</script>
 
 
 
