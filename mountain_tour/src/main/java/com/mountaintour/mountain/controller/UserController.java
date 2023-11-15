@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mountaintour.mountain.dto.UserDto;
 import com.mountaintour.mountain.service.UserService;
@@ -136,5 +138,23 @@ public class UserController {
 		userService.leave(request, response);
 	}
 	
+	//아이디, 비밀번호 찾기
+
+	
+	//찜하기
+	@GetMapping("/heartProduct.do")
+	public String heartProduct() {
+	    return "user/heartProduct";
+	  }
+	
+	
+	@GetMapping(value = "/heartList.do")
+	public String heartProductList(HttpServletRequest request, Model model) {
+		userService.heartProduct(request, model);
+	    return "user/heartProduct";
+	    		
+	  }
+	
 }
+
 	
