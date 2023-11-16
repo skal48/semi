@@ -131,7 +131,7 @@
     <hr>
     <div>
       <button type="button" onclick="location.href='${contextPath}/product/list.do'">다른상품 예약하러가기</button>
-      <button type="button" onclick="location.href='${contextPath}/reserve/list.do'">내 예약목록</button>
+      <button type="button" onclick="location.href='${contextPath}/reserve/list.do?userNo=' + '${sessionScope.user.userNo}'">나의예약목록</button>
     </div>
     
     </div>
@@ -198,9 +198,10 @@
 				location.href = '${contextPath}/user/login.form';
 			}
 		} else if('${sessionScope.user.userNo}' !== '${reserve.userDto.userNo}') {
-			alert('예약 목록으로 이동합니다.')
-			location.href = '${contextPath}/reserve/list.do';
-		} else {
+			alert('내 예약 목록으로 이동합니다.')
+			location.href = '${contextPath}/reserve/list.do?userNo=${sessionScope.user.userNo}';
+			return;
+		} else if(){
 			return;
 		}
 	}

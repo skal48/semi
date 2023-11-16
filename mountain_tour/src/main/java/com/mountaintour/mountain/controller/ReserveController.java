@@ -47,7 +47,11 @@ public class ReserveController {
   
   @GetMapping("/list.do")
   public String list(HttpServletRequest request, Model model) {
-    reserveService.loadReserveList(request, model);
+    if(request.getParameter("userNo") != null) { // userNo가 파라미터로 넘어오는 경우 
+      reserveService.loadReserveListByUser(request, model);
+    } else { // 파라미터가 없는 경우
+      reserveService.loadReserveList(request, model);
+    }
     return "reserve/list";
   }
   
