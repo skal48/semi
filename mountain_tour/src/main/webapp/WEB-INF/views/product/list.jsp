@@ -25,16 +25,18 @@
     <div class="col-1">      
     </div>
     <div class="col-10">
+    <c:if test="${sessionScope.user.auth == 0}">    
       <a href="${contextPath}/product/write.form">
         <button type="button" class="admin_btn" style="margin-left: auto;">게시글 작성</button>
       </a>
+    </c:if>
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div style="display: inline-block;"> 
          <span>${count}</span>개의 상품
         </div>
         <div class="btn-group btn-group-sm" role="group" aria-label="Small button group" style="display: inline-block;">
-          <button type="button" class="btn btn-outline-dark" >추천순</button>
-          <button type="button" class="btn btn-outline-dark">리뷰순</button>
+          <button type="button" class="btn btn-outline-dark" id="recommend">추천순</button>
+          <button type="button" class="btn btn-outline-dark" id="reviewProduct">리뷰순</button>
         </div>
       </div>
       <hr>
@@ -71,10 +73,10 @@
 	        $.each(resData.productList, (i, product) => {	        	
 	          let str = '<div class="col-md-4">';
 	          str += '<div class="card">';
-	          str += '<img src="' + product.imagePath + '" class="card-img-top" alt="Product Image">';
+	          str += '<img src="https://github.com/skal48/portfolio/blob/main/hanla.jpg?raw=true" style="height: 150px;" class="card-img-top" alt="Product Image">';
 	          str += '<div class="card-body">';
 	          str += '<h5 class="card-title">' + product.tripName + '</h5>';
-	          str += '<p class="card-text">' + product.tripplan + '</p>';
+	          str += '<p class="card-text"></p>';
 	          str += '<a href="' + '${contextPath}/product/increseHit.do?productNo=' + product.productNo + '" class="btn btn-primary">상세보기</a>';	         
 	          str += '</div>';
 	          str += '</div>';
@@ -92,6 +94,74 @@
 	  
 	};
 
+	$('#recommend').on('click', function () {
+	    $.ajax({
+	        type: 'get',
+	        url: '${contextPath}/product/hitList.do',
+	        data: 'page=' + page,
+	        dataType: 'json',
+	        success: (resData) => {
+	            totalPage = resData.totalPage;
+	            if (resData.hitList != null && resData.hitList.length > 0) {
+	                // #product_list의 내용을 새로 가져온 데이터로 대체
+	                $('#product_list').empty();
+	                $.each(resData.hitList, (i, product) => {
+	                    let str = '<div class="col-md-4">';
+	                    str += '<div class="card">';
+	                    str += '<img src="https://github.com/skal48/portfolio/blob/main/hanla.jpg?raw=true" style="height: 150px;" class="card-img-top" alt="Product Image">';
+	                    str += '<div class="card-body">';
+	                    str += '<h5 class="card-title">' + product.tripName + '</h5>';
+	                    str += '<p class="card-text"></p>';
+	                    str += '<a href="' + '${contextPath}/product/increseHit.do?productNo=' + product.productNo + '" class="btn btn-primary">상세보기</a>';
+	                    str += '</div>';
+	                    str += '</div>';
+	                    str += '</div>';
+	                    $('#product_list').append(str);
+	                });
+	            } else {
+	                console.log('데이터가 없습니다.');
+	            }
+	        },
+	        error: (error) => {
+	            console.error('Ajax 요청 에러:', error);
+	        }
+	    });
+	});
+	
+	$('#reviewProduct').on('click', function () {
+	    $.ajax({
+	        type: 'get',
+	        url: '${contextPath}/product/reviewProductList.do',
+	        data: 'page=' + page,
+	        dataType: 'json',
+	        success: (resData) => {
+	            totalPage = resData.totalPage;
+	            if (resData.reviewList != null && resData.reviewList.length > 0) {
+	                // #product_list의 내용을 새로 가져온 데이터로 대체
+	                $('#product_list').empty();
+	                $.each(resData.reviewList, (i, product) => {
+	                    let str = '<div class="col-md-4">';
+	                    str += '<div class="card">';
+	                    str += '<img src="https://github.com/skal48/portfolio/blob/main/hanla.jpg?raw=true" style="height: 150px;" class="card-img-top" alt="Product Image">';
+	                    str += '<div class="card-body">';
+	                    str += '<h5 class="card-title">' + product.tripName + '</h5>';
+	                    str += '<p class="card-text"></p>';
+	                    str += '<a href="' + '${contextPath}/product/increseHit.do?productNo=' + product.productNo + '" class="btn btn-primary">상세보기</a>';
+	                    str += '</div>';
+	                    str += '</div>';
+	                    str += '</div>';
+	                    $('#product_list').append(str);
+	                });
+	            } else {
+	                console.log('데이터가 없습니다.');
+	            }
+	        },
+	        error: (error) => {
+	            console.error('Ajax 요청 에러:', error);
+	        }
+	    });
+	});
+	        
     const fnScroll = () => {
         var timerId;  // 최초 undefined 상태
         $(window).on('scroll', () => {
@@ -114,11 +184,11 @@
     }
 
 
-	
-
+    
     
     
 	fnGetProductList();
+	fnGetHitList();
 	fnScroll();
 
 </script>

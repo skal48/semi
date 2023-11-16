@@ -15,12 +15,12 @@ public class ReviewDto {
     private int reviewNo;
     private int productNo;
     private int reserveNo;
-    private UserDto userDto;
     private String contents;
     private Date createdAt;
     private Date modifiedAt;
     private String status;
     private int star;
+    private UserDto userDto;
     
     private int userNo;
     public int getUserNo() {

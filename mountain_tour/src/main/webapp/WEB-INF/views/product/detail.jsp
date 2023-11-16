@@ -40,16 +40,16 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10">
+    <div class="col-10" style="padding-top: 0;">
       <div class="text-center">
 		</div>
 
       <div class="row">
     	<div class="col-8" style="margin-top: 30px; margin-bottom: 30px;">
     	
-    	 <div style = "text-align: left;">조회수 : <fmt:formatNumber value="${product.hit}" pattern="#,##0"></fmt:formatNumber></div>
+    	 <div style = "text-align: left; margin: 0;">조회수 : <fmt:formatNumber value="${product.hit}" pattern="#,##0"></fmt:formatNumber></div>
     	  <div class="text-center">
-			<!-- 여기 첨부파일이 보여줘야함 -->
+			<img src="https://github.com/skal48/portfolio/blob/main/hanla.jpg?raw=true" width="600px;" height="400px;" style="margin-top: 20px;">
 		  </div>
     	  <hr>
     	  <c:if test="${sessionScope.user.auth == 0}">
@@ -78,6 +78,12 @@
 			 <span class="badge text-bg-warning">난이도하</span>
 			 <span class="badge text-bg-secondary">트레킹</span>
 		 </div>
+		 
+		<div style="text-align: left; margin-top: 20px">
+		 <div style="font-weight: bolder;">${product.tripName}</div>
+		 <div>${product.price}원</div>
+		</div>
+		
     	  <div class="choice">상품선택</div>
     	  <div class="calender">
     	  <div style = "text-align: left; font-size:16px;">출발일 선택</div>
@@ -86,10 +92,12 @@
 			    <div class="col">
 			     <div id="datepicker"></div>
 			    </div>
-			    <div class="col" style = "border: 1px gray solid;">
+			    <div class="col" style = "border: 1px #1f753d solid; margin-right: 20px;">
+			     <div style="margin: 60px 20px;"> 
 			      예약이 가능해요!<br>
 			      인원수를 정해주시고<br>
 			      예약하기를 클릭해주세요!
+			     </div>
 			    </div>
 			  </div>
 	    	 
@@ -99,10 +107,10 @@
 	    	  
 	    	 </div>
 	      <div style="text-align: left; font-weight: bold; color: red;">상품 선택</div>
-    	  <div style = "text-align: left; font-size:16px; border: 1px red solid; height: 150px">
+    	  <div style = "text-align: left; font-size:16px; border: 1px red solid; margin: 0;">
     	  
-    	  <span class="badge text-bg-dark" style="margin: 10px">예약가능</span>
-    	  <div style="margin: 10px">
+    	  <span class="badge text-bg-dark" style="margin: 10px ">예약가능</span>
+    	  <div style="margin: 10px">  	    
 	    	  <div>${product.tripName}상품</div>
 			  <div>예약가능인원수</div>
 		      <div>현재예약</div>
@@ -122,49 +130,50 @@
 	    	 </div>
     	  </div>
     	  <div class="choice">주요 여행일정</div>
-    	    <div style = "border: 1px gray solid; height: 200px">
+    	    <div style="text-align: left; margin-left: 20px;">
     	  	${product.plan} 
  	     </div>
  	     
  	      <div>
     	   <div class="choice" >상품정보</div>
-    	    <div class="mt-3">
+    	    <div class="mt-3" style="text-align: left; margin-left: 20px;">
     	  	${product.tripContents} 
     	    </div>
     	  </div>
     	    
-    	    <div class="choice">소요시간</div>
-    	    <div style = "border: 1px gray solid; height: 100px">
+    	    <div class="choice" >소요시간</div>
+    	    <div style="text-align: left; margin-left: 20px;">
     	  	${product.timetaken}
     	    </div>
     	    <div class="choice">가이드</div>
-    	    <div style = "border: 1px gray solid; height: 100px">
+    	    <div style="text-align: left; margin-left: 20px;">
     	  	${product.guide}
     	    </div>
     	    <div class="choice">주의사항</div>
-			<div style = "border: 1px gray solid; height: 100px">
+			<div style="text-align: left; margin-left: 20px;">
     	  	${product.danger}
     	    </div>
   
     	    
     	  <div class="choice">약관/정보</div>
-    	    <div style = "border: 1px gray solid; height: 100px">	  
+    	    <div style="text-align: left; margin-left: 20px;">	  
     	    ${product.termUse}
     	    </div>
     	
 	    <div class="choice">리뷰</div> 
+	    <c:if test="${sessionScope.user.userNo != null}">
 	 	<form class="mb-3 frm_review_add" id="myform" method="post">
 		<fieldset>
 			<span class="text-bold"> ❤️ 별점을 선택해주세요</span>
-			<input type="radio" name="reviewStar" value="5" id="rate1"><label
+			<input type="radio" name="star" value="5" id="rate1"><label
 				for="rate1">★</label>
-			<input type="radio" name="reviewStar" value="4" id="rate2"><label
+			<input type="radio" name="star" value="4" id="rate2"><label
 				for="rate2">★</label>
-			<input type="radio" name="reviewStar" value="3" id="rate3"><label
+			<input type="radio" name="star" value="3" id="rate3"><label
 				for="rate3">★</label>
-			<input type="radio" name="reviewStar" value="2" id="rate4"><label
+			<input type="radio" name="star" value="2" id="rate4"><label
 				for="rate4">★</label>
-			<input type="radio" name="reviewStar" value="1" id="rate5"><label
+			<input type="radio" name="star" value="1" id="rate5"><label
 				for="rate5">★</label>
 		</fieldset>
 		
@@ -172,12 +181,12 @@
 				<input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
         		<input type="hidden" name="productNo" value="${product.productNo}">
 				<textarea class="col-auto form-control" id="contents" name="contents" placeholder="행복했던 여행후기를 남겨보세요🙂"></textarea>   <!-- 예약한사람만 보이게 -->
-				<button type="button" class="btn btn-success btn-sm" id="btn_review_add" style="margin-top: 20px; margin-left: 700px">작성완료</button>
+				<button type="button" class="btn btn-success btn-sm" id="btn_review_add" style="margin-top: 20px; margin-left: 600px">작성완료</button>
 			</div>
-		 </form>	
+		 </form>
+		 </c:if>	
 	    
     <div style="overflow: hidden;">
-	    <strong class="tit mid" style="float: left;">여행후기</strong> 
 	    <div style="height: 100px; float: right;">
 	        <select class="form-select form-select-sm mb-3 h-50 d-inline-block" style="width: 120px;" aria-label=".form-select-sm example">
 	            <option value="1" selected>최신순</option>
@@ -187,27 +196,22 @@
 	</div>
 	<div id="reviewAccordion">
 	  	 <input type="hidden" id="productNo" name="productNo" value="${product.productNo}">  		
-	</div>
-	
-	    
-	    
-	    
-	
+	</div>	
     	</div>   	
     	   
     	<div class="col-4"> <!-- style="border-left: 2px solid gray;" -->
-       <div>
+       <div style="margin-top: 200px;">
 	   <div style="position: sticky; top: 80px;">
 	   <div><div class="css-a5xtki">
+	   <div style="text-align: left;">
 	   <div>
-	   <div>
-	   <div>선택중인 행사</div>
+	   <div style="font-size: large; font-weight: bolder;">선택중인 행사</div>
 	   <div>${product.tripName}</div>
 	   </div>
 	   <hr>
 	   <div>행사금액</div>
 	   <div>
-	   <div>${product.price}원</div>
+	   <div style="font-weight: bolder;">${product.price}원</div>
 	   </div>
 	   <button class="btn btn-success"  style="margin: 20px auto;">
 	   <div>
@@ -419,7 +423,6 @@
       data: { page: page, productNo: productNo, name: name},
       dataType: 'json',
       success: (resData) => {
-        console.log('Product Number:', productNo);
         totalPage = resData.totalPage;
         $('#reviewAccordion').empty();
         if (resData.reviewList != null && resData.reviewList.length > 0) {
@@ -431,13 +434,20 @@
         	  str += '</h2>';
         	  str += '<div id="flush-collapse' + i + '" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">';
         	  str += '<div class="accordion-body">' + review.contents + '</div>';
+        	  str += '  <div>';
+        	  if('${sessionScope.user.userNo}' == review.userDto.userNo){                
+                  str += '  <input type="hidden" value="' + review.reviewNo + '">';
+                  str += '  <button type="button" class="btn remove_Review" style="margin-left: 550px;">삭제하기</button>';
+                }
+                  str += '  </div>';
         	  str += '</div>';
         	  str += '</div>';
         	  str += '</div>';
               $('#reviewAccordion').append(str);         
           });
         } else {
-          console.log('데이터가 없습니다.');
+          // 리뷰가 없을 때
+          $('#reviewAccordion').append('<div class="text-center">등록된 리뷰가 없습니다.</div>');
         }
       },
       error: (error) => {
@@ -458,10 +468,36 @@
 	  fnReviewList(productNo);
   });
 
+  const fnReviewRemove = () => {
+      $(document).on('click', '.remove_Review', (ev) => {
+        if(!confirm('리뷰를 삭제할까요?')){
+          return;
+        }
+        $.ajax({
+          // 요청
+          type: 'post',
+          url: '${contextPath}/product/removeReview.do',
+          data: 'reviewNo=' + $(ev.target).prev().val(),
+          // 응답
+          dataType: 'json',
+          success: (resData) => { 
+            if(resData.removeResult === 1){
+              alert('해당 리뷰가 삭제되었습니다.');
+              fnReviewList();
+            } else {
+              alert('리뷰가 삭제되지 않았습니다.');
+            }
+          }
+        })
+      })
+    }
+  
 
+	    
   
   fnReviewAdd();
   fnReviewList();
+  fnReviewRemove();
   
   </script>
 

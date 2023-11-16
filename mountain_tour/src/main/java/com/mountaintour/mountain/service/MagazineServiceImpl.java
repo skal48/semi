@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.mountaintour.mountain.dao.MagazineMapper;
 import com.mountaintour.mountain.dto.MagazineDto;
 import com.mountaintour.mountain.dto.MagazineMultiDto;
+import com.mountaintour.mountain.dto.MagazineStarDto;
 import com.mountaintour.mountain.dto.ProductDto;
 import com.mountaintour.mountain.util.MagazineFileUtils;
 import com.mountaintour.mountain.util.MyPageUtils;
@@ -359,12 +360,33 @@ public class MagazineServiceImpl implements MagazineService {
         }  // if
     
         return modifyResult;
-
   }
   
   @Override
   public int increaseHit(int magazineNo) {  
     return magazineMapper.updateHit(magazineNo);
+  }
+  
+  @Override
+  public Map<String, Object> addLike(HttpServletRequest request) {
+    int magazineNo = Integer.parseInt(request.getParameter("magazineNo"));
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    
+    MagazineStarDto magazineStarDto = MagazineStarDto.builder()
+                                         .magazineNo(magazineNo)
+                                         .userNo(userNo)
+                                         .build();
+    
+    int existMaUser = magazineMapper.selectCountLike(magazineStarDto);
+    int deleteResult = 0;
+    int insertResult = 0;
+    if(existMaUser == 1) {
+      deleteResult = magazineMapper.deleteLike(magazineStarDto);
+    } else {
+      insertResult = magazineMapper.insertLike(magazineStarDto);
+    }
+    
+    return Map.of("existMaUser", existMaUser);
   }
   
   

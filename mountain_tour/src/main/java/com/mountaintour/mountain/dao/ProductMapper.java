@@ -28,9 +28,12 @@ public interface ProductMapper {
 	public int insertThumbnail(ImageDto image);
 	public int heartProduct(HeartDto heart);
 	public void getcalendar(Map<String, Object> map);
+	public List<ProductDto> getHitList(Map<String, Object> map);
+	public List<ProductDto> getProductReviewList(Map<String, Object> map);
 	
 	// 리뷰
 	public int insertReview(ReviewDto review);
 	public int getReviewCount(int productNo);
 	public List<ReviewDto> getReviewList(Map<String, Object> map);
+	public int deleteReview(int reviewNo);
 }

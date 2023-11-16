@@ -21,6 +21,7 @@ import com.mountaintour.mountain.util.MyPageUtils;
 
 import lombok.RequiredArgsConstructor;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class InquiryServiceImpl implements InquiryService {
@@ -33,6 +34,7 @@ public class InquiryServiceImpl implements InquiryService {
    * 전체 목록 보기
    * MVC 페이징 처리
    */
+  @Transactional(readOnly=true)
   @Override
   public void loadInquiryList(HttpServletRequest request, Model model) {
     
@@ -58,6 +60,7 @@ public class InquiryServiceImpl implements InquiryService {
   /**
    * 검색 결과 보기
    */
+  @Transactional(readOnly=true)
   @Override
   public void loadSearchList(HttpServletRequest request, Model model) {
     
@@ -166,6 +169,7 @@ public class InquiryServiceImpl implements InquiryService {
   /**
    * 답변 상세
    */
+  @Transactional(readOnly=true)
   @Override
   public InquiryAnswerDto getAnswer(int inquiryNo) {
     return inquiryAnswerMapper.getAnswer(inquiryNo);

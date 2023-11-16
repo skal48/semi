@@ -76,6 +76,21 @@
         <result column="PW_MODIFIED_AT" property="pwModifiedAt" />
         <result column="JOINED_AT" property="joinedAt" />
     </association>
+    <association javaType="PRODUCTDto" property="productDto">
+       <id      column="PRODUCT_NO"      property="productNo"/>
+	   <result  column="TRIP_NAME"   	  property="tripName"/>
+	   <result  column="TRIP_CONTENTS"   property="tripContents"/>
+	   <result  column="GUIDE" 		  property="guide"/>
+	   <result  column="TIMETAKEN" 	  property="timetaken"/>
+	   <result  column="PRICE" 		  property="price"/>
+	   <result  column="DANGER"		  property="danger"/>
+	   <result  column="REGISTERED_AT"   property="registeredAt"/>
+	   <result  column="MODIFIED_DATE"   property="modifiedDate"/>
+	   <result  column="PEOPLE" 		  property="people"/>
+	   <result  column="HIT" 		  	  property="hit"/>
+	   <result  column="PLAN" 		      property="plan"/>
+	   <result  column="TERM_USE"		  property="termUse"/>
+    </association>
 	</resultMap>
 	
 
@@ -100,7 +115,7 @@
         TERM_USE
     ) VALUES (
         #{productNo}, 
-        #{userNo}, 
+        #{userDto.userNo}, 
         #{mountainDto.mountainNo}, 
         #{tripName}, 
         #{tripContents},
@@ -222,7 +237,7 @@
      WHERE PRODUCT_NO = #{productNo}  
   </update>
   
-  <insert id="heartProduct" parameterType="heartDto">
+  <insert id="heartProduct" parameterType="HeartDto">
     INSERT INTO HEART_T (
       PRODUCT_NO	
     , USER_NO
@@ -307,6 +322,28 @@
      WHERE A.RN BETWEEN #{begin} AND #{end}
   </select>
 
+  <select id="getHitList" parameterType="map" resultType="productDto">
+    SELECT PRODUCT_NO, TRIP_NAME, PLAN, HIT 
+    FROM PRODUCT_T
+    ORDER BY HIT DESC
+  </select>
+
+  <select id="getProductReviewList" parameterType="Map" resultMap="ReviewMap">
+    SELECT
+        P.PRODUCT_NO,
+        P.TRIP_NAME,
+        P.PLAN,
+        (
+          SELECT COUNT(R.REVIEW_NO)
+          FROM REVIEW_T R
+          WHERE R.PRODUCT_NO = P.PRODUCT_NO
+        ) AS REVIEW_COUNT
+    FROM
+        PRODUCT_T 
+    ORDER BY
+        REVIEW_COUNT DESC;
+  </select>
+  
 
   <delete id="deleteProductImage" parameterType="String">
     DELETE
@@ -324,6 +361,12 @@
      DELETE 
        FROM PRODUCT_T 
       WHERE PRODUCT_NO = #{productNo}
+  </delete>
+  
+  <delete id="deleteReview" parameterType="int">
+	 DELETE 
+	   FROM REVIEW_T
+	  WHERE REVIEW_NO = #{reviewNo}
   </delete>
   
 </mapper>
