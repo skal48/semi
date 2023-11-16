@@ -57,8 +57,12 @@
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
        <form class="thumbnail" method="post" action="${contextPath}/magazine/finalModify.do" enctype="multipart/form-data" style = "border: 1px gray solid;" >
           <div class="image_wrapper">
+          <div class="temp"></div>
             <div id="previewId"></div>
             <input type="file" id="image" name="files" class="input-group-text" onchange="previewImage(this,'previewId')"/>
+            <input type="hidden" id="filesysName" name="filesysName" value="${map.magazine.magazineMultiDto.filesysName}">
+            <input type="hidden" id="multiPath" name="multiPath" value="${map.magazine.magazineMultiDto.multiPath}">
+            <input type="hidden" id="isThumbnail" name="isThumbnail" value="${map.magazine.magazineMultiDto.isThumbnail}">
           </div>          
           <div class="big_title">summary</div>
           <textarea rows="10" cols="60" name="summary">${map.magazine.summary}</textarea>
@@ -93,10 +97,6 @@ function previewImage(targetObj, previewId) {
          var imageType = /image.*/; //이미지 파일일경우만.. 뿌려준다.
          if (!file.type.match(imageType))
              continue;
-				 if (${map.magazine.magazineMultiDto.isThumbnail} === 1){
-					 $('#image').attr("value", "${map.magazine.magazineMultiDto.isThumbnail}")
-				 }
-         
          
          var prevImg = document.getElementById("prev_" + previewId); //이전에 미리보기가 있다면 삭제
          if (prevImg) {
@@ -137,11 +137,24 @@ function previewImage(targetObj, previewId) {
 		          $('#attached_list').empty();
 		          return;
 		        }
+		        
 		    })
 		  }  
+		
+		const fnLoadimage = () => {
+				 console.log($('#isThumbnail').val());
+				 console.log($('#multiPath').val());
+				 console.log($('#filesysName').val());
+				 var multiPath = $('#multiPath').val();
+				 var filesysName = $('#filesysName').val();
+			 if ($('#isThumbnail').val() == 1){
+				 var str = '<img src="${contextPath}'+ multiPath +'/'+filesysName+'">';
+				 $('.temp').append(str);
+			 }
+		}
 		  
 		fnFileCheck();
-  
+		fnLoadimage();
 
 </script>
   

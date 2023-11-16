@@ -182,13 +182,30 @@
         <button type="button" id="btn_modify_pw" class="btn btn-success">비밀번호변경하기</button>  
    		</c:if>
    	  <button type="button" id="btn_love" class="btn btn-danger">내가찜한목록보기♥</button>
-   
+   		</form>
+   		
+    <script>
+    const fnHeart = () => {
+    	$('#btn_love').click(() => {
+    		location.href='${contextPath}/user/heartList.do?userNo=${sessionScope.user.userNo}';
+    		
+    	}) 	
+    }
+    
+    
+    
+    fnHeart();
+    
+    
+    </script>
       
     </div>
     
-  </form>
+  
+  
+  
 </div>
 </div>
 </div>
-
+s
 <%@ include file="../layout/footer.jsp" %>

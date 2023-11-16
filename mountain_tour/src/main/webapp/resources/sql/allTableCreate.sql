@@ -122,7 +122,7 @@ CREATE TABLE MOUNTAIN_T (
 CREATE TABLE PRODUCT_T(
    PRODUCT_NO     NUMBER             NOT NULL,  -- 상품 번호 
    USER_NO        NUMBER             NOT NULL,  -- 작성자(관리자) 번호
-   MOUNTAIN_NO   NUMBER              NOT NULL,  -- 산 번호
+   MOUNTAIN_NO    NUMBER             NOT NULL,  -- 산 번호
    TRIP_NAME      VARCHAR2(255 BYTE) NOT NULL,  -- 여행이름(제목)
    TRIP_CONTENTS  CLOB               NULL,      -- 여행내용(설명)
    GUIDE          VARCHAR2(100 BYTE) NULL,      -- 가이드 정보
@@ -130,12 +130,12 @@ CREATE TABLE PRODUCT_T(
    PRICE          NUMBER             NULL,      -- 가격
    DANGER         VARCHAR2(500 BYTE) NULL,      -- 주의사항
    REGISTERED_AT  DATE               NULL,      -- 등록일
-   MODIFIED_DATE  DATE                NULL,      -- 수정일
+   MODIFIED_DATE  DATE               NULL,      -- 수정일
    PEOPLE         NUMBER             NULL,      -- 최대인원수
-   HIT            NUMBER             NULL,      -- 조회수
+   HIT            NUMBER             DEFAULT 0,     -- 조회수
    PLAN           VARCHAR2(255 BYTE) NULL,      -- 여행계획
    STATUS         NUMBER             NULL,      -- 상품상태 (예약가능:0, 예약불가:1)
-   TERM_USE      VARCHAR2(500 BYTE)   NULL,  -- 이용약관 (동의체크X, 약관내용을 DB에 저장해놓는 용도)
+   TERM_USE       VARCHAR2(500 BYTE) NULL,  -- 이용약관 (동의체크X, 약관내용을 DB에 저장해놓는 용도)
    CONSTRAINT PK_PRODUCT PRIMARY KEY(PRODUCT_NO),
    CONSTRAINT FK_USER_PRODUCT     FOREIGN KEY(USER_NO)     REFERENCES USER_T(USER_NO)         ON DELETE CASCADE,
    CONSTRAINT FK_MOUNTAIN_PRODUCT FOREIGN KEY(MOUNTAIN_NO) REFERENCES MOUNTAIN_T(MOUNTAIN_NO) ON DELETE CASCADE
