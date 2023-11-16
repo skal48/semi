@@ -100,8 +100,31 @@
      WHERE RN BETWEEN #{begin} AND #{end}
   </select>
   
+  <!-- 리뷰관리 목록 -->
+  <select id="getReviewCount" resultType="int">
+    SELECT COUNT(*)
+      FROM REVIEW_T
+  </select>
+  <select id="getReviewList" parameterType="Map" resultType="ReviewDto">
+    SELECT REVIEW_NO, PRODUCT_NO, RESERVE_NO, USER_NO, CONTENTS, CREATED_AT, MODIFIED_AT, STATUS, STAR
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY REVIEW_NO DESC) AS RN, REVIEW_NO, PRODUCT_NO, RESERVE_NO, USER_NO, CONTENTS, CREATED_AT, MODIFIED_AT, STATUS, STAR
+              FROM REVIEW_T)
+     WHERE RN BETWEEN #{begin} AND #{end}
+  </select>
   
-  
+  <!-- 리뷰 검색 -->
+  <select id="getSearchReviewCount" parameterType="Map" resultType="int">
+    SELECT COUNT(*)
+      FROM REVIEW_T
+     WHERE ${column} LIKE '%' || #{query} || '%'
+  </select>
+  <select id="getSearchReviewList" parameterType="Map" resultType="ReviewDto">
+    SELECT REVIEW_NO, PRODUCT_NO, RESERVE_NO, USER_NO, CONTENTS, CREATED_AT, MODIFIED_AT, STATUS, STAR
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY REVIEW_NO DESC) AS RN, REVIEW_NO, PRODUCT_NO, RESERVE_NO, USER_NO, CONTENTS, CREATED_AT, MODIFIED_AT, STATUS, STAR
+             FROM REVIEW_T 
+            WHERE ${column} LIKE '%' || #{query} || '%')
+     WHERE RN BETWEEN #{begin} AND #{end}
+  </select>
   
   
   
