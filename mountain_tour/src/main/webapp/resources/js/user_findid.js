@@ -1,73 +1,56 @@
-/**
-* 아이디,비밀번호 찾기 페이지
-*/
 
-/* 함수 호출 */
-$(() => {
-  fnCheckName();
-  fnCheckMobile();
-  
+const getContextPath = () => {
+  let begin = location.href.indexOf(location.host) + location.host.length;
+  let end = location.href.indexOf('/', begin + 1);
+  return location.href.substring(begin, end);
+}
+
+
+	function findId_click(){
+	
+		var name=$('#name').val()
+		var mobile=$('#mobile').val()
+		
+		$.ajax({
+			url: getContextPath() + "/user/find_id.do",
+			type: "POST",
+			data: "name="+name+"&mobile="+mobile,
+			success:function(resData){  // resData = {"userNo":1, "email":"zzzzz", ...}
+				if(resData == null){
+					$('#id_value').text("회원 정보를 확인해주세요!");
+					$('#name').val('');
+					$('#mobile').val('');
+				} else {
+					$('#id_value').text(resData.email);
+					$('#name').val('');
+					$('#mobile').val('');
+					
+				}
+			},
+			 error:function(){
+	                alert("에러입니다");
+	            }
+		});
+	};
+
+const modal = document.getElementById("modal")
+const btnModal = document.getElementById("find_id")
+
+btnModal.addEventListener("click", e => {
+    modal.style.display = "flex"
+    findId_click();
 })
 
+    
+const closeBtn = modal.querySelector(".close-area")
+closeBtn.addEventListener("click", e => {
+    modal.style.display = "none"
+})
 
-/* 전역변수 선언 */
-var namePassed = false;
-var mobilePassed = false;
-
-
-/* 함수 정의 */
-
-const fnCheckName = () => {
-  $('#name').blur((ev) => {
-    let name = ev.target.value;
-    let bytes = 0;
-    for(let i = 0; i < name.length; i++){
-      if(name.charCodeAt(i) > 128){  // 코드값이 128을 초과하는 문자는 한 글자 당 2바이트임
-        bytes += 2;
-      } else {
-        bytes++;
-      }
+modal.addEventListener("click", e => {
+    const evTarget = e.target
+    if(evTarget.classList.contains("modal-overlay")) {
+        modal.style.display = "none"
     }
-    namePassed = (bytes <= 50);
-    if(!namePassed){
-      $('#msg_name').text('이름은 50바이트 이내로 작성해야 합니다.');
-    }
-  })
-}
+})
 
-const fnCheckMobile = () => {
-  $('#mobile').keyup((ev) => {
-    ev.target.value = ev.target.value.replaceAll('-', '');
-    // 휴대전화번호 검사 정규식 (010숫자8개)
-    let regMobile = /^010[0-9]{8}$/;
-    mobilePassed = regMobile.test(ev.target.value);
-    if(mobilePassed){
-      $('#msg_mobile').text('');
-    } else {
-      $('#msg_mobile').text('휴대전화번호를 확인하세요.');       
-    }
-  })
-}
-
-const fnJoin = () => {
-  $('#frm_join').submit((ev) => {
-    if(!emailPassed){
-      alert('이메일을 인증 받아야 합니다.');
-      ev.preventDefault();
-      return;
-    } else if(!pwPassed || !pw2Passed){
-      alert('비밀번호를 확인하세요.');
-      ev.preventDefault();
-      return;
-    } else if(!namePassed){
-      alert('이름을 확인하세요.');
-      ev.preventDefault();
-      return;
-    } else if(!mobilePassed){
-      alert('휴대전화번호를 확인하세요.');
-      ev.preventDefault();
-      return;
-    }
-  })
-}
- 

@@ -54,7 +54,45 @@
     margin-top: 10%;
   }
   
+  .blind {
+    display: none;
+  }
+  .open_contents {
+    cursor: pointer;
+  }
+  
 </style>
+<script>
+
+  $(() => {
+	fnSubstring();
+	fnBlind();
+  })
+
+  /* 내용의 일부만 보여주기 */
+  const fnSubstring = () => {
+    $('.btn_contents').each(function() {
+      var text = $(this).text().trim();
+      var truncatedText = text.length > 10 ? text.substring(0, 10) + '...' : text;
+      $(this).text(truncatedText);
+    })
+  }
+  
+  
+  /* 게시글 내용을 클릭하면 전체 내용 나타내기 */
+  const fnBlind = () => {
+	$('.open_contents').click((ev) => {
+	  ler openContents = $(ev.target).parent().next();
+	  if(openContents.hasClass('blind')){
+		$('.show_content').addClass('blind');
+		openContents.removeClass('blind');
+	  } else {
+		openContents.addClass('blind');
+	  }
+	})
+  }
+  
+</script>
 
  
   <div class="container text-center">
@@ -85,7 +123,9 @@
         <div class="listWrap2">
           
           <%-- 총 리뷰 수를 표시 --%>
-          <div style="text-align: right;">총 ${total}개</div>
+          <div style="text-align: right;">
+            <span>총 ${total}개</span>
+          </div>
           
           <%-- 전체 목록을 나타내는 테이블 --%>
           <div>
@@ -103,46 +143,25 @@
                 </tr>
               </thead>
               <tbody class="table-group-divider">
-                <tr>
-                  <th scope="row">1</th>
-                  <td>테스트</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>삭제</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>테스트</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>테스트</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>테스트</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>테스트</td>
-                  <td></td>
-                </tr>
+                <c:forEach items="${reviewList}" var="r" >
+                  <tr>
+                    <th scope="row">${r.reviewNo}</th>
+                    <td>${r.productNo}</td>
+                    <td>${r.userDto.name}</td>
+                    <td class="open_contents">${r.contents}</td>
+                    <td>
+                      <fmt:formatDate value="${r.createdAt}" pattern="yy/MM/dd" />
+                    </td>
+                    <td>
+                      <fmt:formatDate value="${r.modifiedAt}" pattern="yy/MM/dd" />
+                    </td>
+                    <td>${r.status}</td>
+                    <td>${r.star}</td>
+                  </tr>
+                  <tr class="blind show_content">
+                    <td colspan="8">${r.contents}</td>
+                  </tr>
+                </c:forEach>
               </tbody>
               <%-- 페이징 처리 --%>
               <tfoot>
@@ -154,7 +173,7 @@
             
             <%-- 검색기능 --%>
             <div>
-              <form method="get" action="#" >
+              <form method="get" action="${contextPath}/manage/searchReview.do" >
                 <select name="column" class="form-select-sm" style="height: 40px">
                   <option value="REVIEW_NO">리뷰번호</option>
                   <option value="PRODUCT_NO">상품번호</option>

@@ -1,7 +1,6 @@
 package com.mountaintour.mountain.service;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +21,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.mountaintour.mountain.dao.MagazineMapper;
 import com.mountaintour.mountain.dto.MagazineDto;
 import com.mountaintour.mountain.dto.MagazineMultiDto;
+import com.mountaintour.mountain.dto.MagazineStarDto;
 import com.mountaintour.mountain.dto.ProductDto;
 import com.mountaintour.mountain.util.MagazineFileUtils;
 import com.mountaintour.mountain.util.MyPageUtils;
 
 import lombok.RequiredArgsConstructor;
-import net.coobird.thumbnailator.Thumbnails;
 
 @Service
 @RequiredArgsConstructor
@@ -214,12 +213,9 @@ public class MagazineServiceImpl implements MagazineService {
   }
   
   @Override
-  public void loadMagazine(HttpServletRequest request, Model model) {
-    
-    int magazineNo = Integer.parseInt(request.getParameter("magazineNo"));
+  public void loadMagazine(int magazineNo, Model model) {
     model.addAttribute("magazine", magazineMapper.getMagazine(magazineNo));
     model.addAttribute("like", magazineMapper.countLike(magazineNo));
-    
   }
   
   @Override
@@ -253,19 +249,16 @@ public class MagazineServiceImpl implements MagazineService {
     // 1. blogImageDtoList : BlogImageDto를 요소로 가지고 있음
     // 2. blogImageList    : 이미지 이름(filesystemName)을 요소로 가지고 있음
     List<MagazineMultiDto> magazineMultiDtoList = magazineMapper.getMagazineMultiList(magazineNo);
-            
+    List<String> magazineMultiList = magazineMultiDtoList.stream()
+                                          .map(magazineMultiDto -> magazineMultiDto.getFilesysName())
+                                          .collect(Collectors.toList());
+        
+        
       for(int i = 0; i < magazineMultiDtoList.size() ; i++) {
         if( magazineMultiDtoList.get(i).getIsThumbnail() == 0) {
           magazineMapper.updateIsThumbnail(magazineNo);
-        }
-        
+        }        
       }
-    
-    
-    
-    List<String> magazineMultiList = magazineMultiDtoList.stream()
-                                  .map(magazineMultiDto -> magazineMultiDto.getFilesysName())
-                                  .collect(Collectors.toList());
         
     // Editor에 포함된 이미지 이름(filesystemName)
     List<String> editorImageList = getEditorImageList(contents);
@@ -290,17 +283,110 @@ public class MagazineServiceImpl implements MagazineService {
     for(MagazineMultiDto magazineMultiDto : removeList) {
       // BLOG_IMAGE_T에서 삭제
       if(magazineMultiDto.getIsThumbnail() != 1 ) {
-        magazineMapper.deleteMagazineMulti(magazineMultiDto.getFilesysName());  // 파일명은 UUID로 만들어졌으므로 파일명의 중복은 없다고 생각하면 된다.        
+        magazineMapper.deleteMagazineMulti(magazineMultiDto.getFilesysName());
+        File file = new File(magazineMultiDto.getMultiPath(), magazineMultiDto.getFilesysName());
+        if(file.exists()) {
+          file.delete();
+        }// 파일명은 UUID로 만들어졌으므로 파일명의 중복은 없다고 생각하면 된다.        
       }
       
       // 파일 삭제
-      File file = new File(magazineMultiDto.getMultiPath(), magazineMultiDto.getFilesysName());
-      if(file.exists()) {
-        file.delete();
-      }
+      
     }
     
     return Map.of("resultModify", resultModifyOne, "magazine", thumbnail);
+  }
+  
+  @Override
+  public int finalModify(MultipartHttpServletRequest multipartRequest) throws Exception {
+    
+    String summary = multipartRequest.getParameter("summary");
+    int magazineNo = Integer.parseInt(multipartRequest.getParameter("magazineNo"));
+    
+    MagazineDto magazine = MagazineDto.builder()
+                                   .magazineNo(magazineNo)
+                                   .summary(summary)
+                                   .build();
+    
+    int modifyResult = magazineMapper.updateModifyTwo(magazine);
+    
+    List<MultipartFile> files = multipartRequest.getFiles("files");
+    
+    // 첨부 없을 때 : [MultipartFile[field="files", filename=, contentType=application/octet-stream, size=0]]
+    // 첨부 1개     : [MultipartFile[field="files", filename="animal1.jpg", contentType=image/jpeg, size=123456]]
+    
+    int attachCount;
+    if(files.get(0).getSize() == 0) {
+      attachCount = 1;
+    } else {
+      attachCount = 0;
+    }
+    
+      if(files != null && ! files.isEmpty()) {
+        
+        String path = magazineFileUtils.getUploadPath();
+        File dir = new File(path);
+        if(!dir.exists()) {
+          dir.mkdirs();
+        }
+        Optional<String> opt = Optional.ofNullable(multipartRequest.getParameter("filesysName"));
+        String getMultiName = opt.orElse("****");
+        List<MagazineMultiDto> magazineMulti = magazineMapper.getMagazineMultiList(magazineNo);
+        String MultiName = magazineMulti.get(0).getFilesysName();
+        String filesysName;
+        
+        if(!getMultiName.equals(MultiName)) {
+          
+          filesysName = magazineFileUtils.getFilesystemName(files.get(0).getOriginalFilename());
+          File file = new File(dir, filesysName);
+          
+          files.get(0).transferTo(file);
+        } else {
+          
+          filesysName = getMultiName;
+        }
+        
+        int isThumbnail = Integer.parseInt(multipartRequest.getParameter("isThumbnail"));
+                
+        MagazineMultiDto magazineMultiDto = MagazineMultiDto.builder()
+            .magazineNo(magazineNo)
+            .filesysName(filesysName)
+            .multiPath(path)
+            .isThumbnail(isThumbnail)
+            .build();
+                      
+        attachCount += magazineMapper.updateThumbnailFinal(magazineMultiDto);
+        
+        }  // if
+    
+        return modifyResult;
+  }
+  
+  @Override
+  public int increaseHit(int magazineNo) {  
+    return magazineMapper.updateHit(magazineNo);
+  }
+  
+  @Override
+  public Map<String, Object> addLike(HttpServletRequest request) {
+    int magazineNo = Integer.parseInt(request.getParameter("magazineNo"));
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    
+    MagazineStarDto magazineStarDto = MagazineStarDto.builder()
+                                         .magazineNo(magazineNo)
+                                         .userNo(userNo)
+                                         .build();
+    
+    int existMaUser = magazineMapper.selectCountLike(magazineStarDto);
+    int deleteResult = 0;
+    int insertResult = 0;
+    if(existMaUser == 1) {
+      deleteResult = magazineMapper.deleteLike(magazineStarDto);
+    } else {
+      insertResult = magazineMapper.insertLike(magazineStarDto);
+    }
+    
+    return Map.of("existMaUser", existMaUser);
   }
   
   

@@ -44,6 +44,10 @@
       font-family: strong;
       font-size: 24px;
     }
+    #getImage {
+      width: 560px;
+      
+    }
   
    
 
@@ -56,10 +60,10 @@
     <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
        <form class="thumbnail" method="post" action="${contextPath}/magazine/finalModify.do" enctype="multipart/form-data" style = "border: 1px gray solid;" >
-          <div class="image_wrapper">
-          <div class="temp"></div>
-            <div id="previewId"></div>
-            <input type="file" id="image" name="files" class="input-group-text" onchange="previewImage(this,'previewId')"/>
+          <div class="image_wrapper">   
+            <div id="temp">       
+            <div id="previewId"></div></div>
+            <input type="file" id="image" name="files" class="input-group-text" onchange="previewImage(this,'previewId')" accept="image/gif,image/jpeg,image/png" required/>
             <input type="hidden" id="filesysName" name="filesysName" value="${map.magazine.magazineMultiDto.filesysName}">
             <input type="hidden" id="multiPath" name="multiPath" value="${map.magazine.magazineMultiDto.multiPath}">
             <input type="hidden" id="isThumbnail" name="isThumbnail" value="${map.magazine.magazineMultiDto.isThumbnail}">
@@ -97,6 +101,15 @@ function previewImage(targetObj, previewId) {
          var imageType = /image.*/; //이미지 파일일경우만.. 뿌려준다.
          if (!file.type.match(imageType))
              continue;
+       
+         var preview = document.getElementById(previewId);
+         if (preview) {      
+           //preview.innerHTML = '';
+           document.getElementById('getImage').style.display = 'none';
+           
+          };
+         
+         
          
          var prevImg = document.getElementById("prev_" + previewId); //이전에 미리보기가 있다면 삭제
          if (prevImg) {
@@ -120,8 +133,22 @@ function previewImage(targetObj, previewId) {
                  };
              })(img);
              reader.readAsDataURL(file);
-         }   
-     }       
+             
+         }
+         console.log($('#filesysName').val())
+         
+         var filename;
+         if (window.FileReader){
+        	    filename = ($('#image')[0]).files[0].name;
+        	  }
+         
+         if(filename !== $('#filesysName').val()){
+        	 $('#filesysName').removeAttr('value');
+         }
+         
+         console.log($('#filesysName').val())
+         
+     }
   }
   
 		const fnFileCheck = () => {
@@ -136,23 +163,48 @@ function previewImage(targetObj, previewId) {
 		          $(ev.target).val('');       
 		          $('#attached_list').empty();
 		          return;
-		        }
+		        0}
 		        
 		    })
 		  }  
-		
+		 var multiPath = $('#multiPath').val();
+     var filesysName = $('#filesysName').val();
+     
 		const fnLoadimage = () => {
-				 console.log($('#isThumbnail').val());
-				 console.log($('#multiPath').val());
-				 console.log($('#filesysName').val());
-				 var multiPath = $('#multiPath').val();
-				 var filesysName = $('#filesysName').val();
+			 //$('#previewId').hide();
+				 //console.log($('#isThumbnail').val());
+				// console.log($('#multiPath').val());
+				// console.log($('#filesysName').val());
+				
 			 if ($('#isThumbnail').val() == 1){
-				 var str = '<img src="${contextPath}'+ multiPath +'/'+filesysName+'">';
-				 $('.temp').append(str);
+				 var str = '<img src="${contextPath}'+ multiPath +'/'+filesysName+'" id="getImage">';
+				 $('#previewId').append(str);	
+				 
 			 }
+			 
+		       //var prevTempImage = document.getElementById(temp);
+		       //var tempImage = document.getElementById(getImage);
+		       
+		 
 		}
-		  
+		   
+	           
+	           	           
+	    // Get a reference to our file input
+	    const fileInput = document.querySelector('#image');
+
+	    // Create a new File object
+	    const myFile = new File([], filesysName, {
+	        type: 'image/x-icon',
+	        lastModified: new Date(),
+	    });
+
+	    // Now let's create a DataTransfer to get a FileList
+	    const dataTransfer = new DataTransfer();
+	    dataTransfer.items.add(myFile);
+	    fileInput.files = dataTransfer.files;
+	
+		
 		fnFileCheck();
 		fnLoadimage();
 

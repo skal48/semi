@@ -132,7 +132,6 @@ img {
           <td>제목</td>
           <td>작성일</td>
           <td>수정일</td>
-          <td>조회수</td>
         </tr>
       </thead>
       <tbody>
@@ -145,11 +144,33 @@ img {
             </td>
             <td>${n.createdAt}</td>
             <td>${n.modifiedAt}</td>
-            <td>${n.hit}</td>
           </tr>
         </c:forEach>
       </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5">${paging}</td>
+        </tr>
+       </tfoot> 
     </table>
+    <div>
+      <form method="get" action="${contextPath}/notice/search.do">
+        <select name="column">
+          <option value="TITLE">제목</option>
+        </select>
+        <input type="text" name="query" placeholder="검색어 입력">
+        <button type="submit" class="btn btn-outline-primary">검색</button>
+      </form>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
       
       </div>
       </div>

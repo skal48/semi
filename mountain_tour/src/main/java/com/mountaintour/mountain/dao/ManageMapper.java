@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.mountaintour.mountain.dto.LeaveUserDto;
 import com.mountaintour.mountain.dto.ProductDto;
+import com.mountaintour.mountain.dto.ReviewDto;
 import com.mountaintour.mountain.dto.UserDto;
 
 @Mapper
@@ -32,5 +33,13 @@ public interface ManageMapper {
 	/* 여행상품 검색 목록 */
 	public int getSearchProductCount(Map<String, Object> map);
 	public List<ProductDto> getSearchProductList(Map<String, Object> map);
+	
+	/* 리뷰 관리 목록 */
+	public int getReviewCount();
+	public List<ReviewDto> getReviewList(Map<String, Object> map);
+	
+	/* 리뷰 검색 목록 */
+	public int getSearchReviewCount(Map<String, Object> map);
+	public List<ReviewDto> getSearchReviewList(Map<String, Object> map);
 	
 }
