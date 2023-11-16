@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProductDto {
     private int productNo;
-    private UserDto userDto;
     private MountainDto mountainDto;
     private String tripName;
     private String tripContents; // 여행내용
@@ -28,14 +27,18 @@ public class ProductDto {
     private String plan;         // 여행일정
     private int status;		
     private String termUse;      // 이용약관
+    private UserDto userDto;
 	
     
     private ImageDto imageDto;  // imageDto 속성 추가
+    private ProductDto productDto;
     
     public ImageDto getImageDto() {
         return imageDto;
     }
-
+    public ProductDto getProductDto() {
+        return this.productDto;
+    }
 
 }
 
