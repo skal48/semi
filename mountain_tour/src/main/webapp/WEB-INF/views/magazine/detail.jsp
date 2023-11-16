@@ -84,7 +84,6 @@
 		        <span>조회수   ${magazine.hit}</span>
 	        </div>
 	        <div class="contents">${magazine.contents}</div>
-          <form action=""
 	        <div class="like">
               <input type="hidden" class ="magazineNoLike" name="magazineNo" value="${magazine.magazineNo}">
               <input type="hidden" class ="userNoLike" name="userNo" value="${sessionScope.user.userNo}">

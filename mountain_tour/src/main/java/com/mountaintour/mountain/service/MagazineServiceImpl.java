@@ -14,6 +14,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -36,6 +37,7 @@ public class MagazineServiceImpl implements MagazineService {
   private final MyPageUtils myPageUtils;
   private final MagazineFileUtils magazineFileUtils; 
   
+  @Transactional(readOnly=true)
   @Override
   public Map<String, Object> getMagazineList(HttpServletRequest request) {
     Optional<String> opt = Optional.of(request.getParameter("page"));
@@ -54,7 +56,7 @@ public class MagazineServiceImpl implements MagazineService {
     , "totalPage", myPageUtils.getTotalPage());
     
   }
-  
+  @Transactional(readOnly=true)
   @Override
   public Map<String, Object> loadProductNo() {
     
@@ -94,7 +96,7 @@ public class MagazineServiceImpl implements MagazineService {
                           
     return Map.of("addResult",addResult,"magazineNo", magazine.getMagazineNo());
   }
-  
+  @Transactional(readOnly=true)
   @Override
   public List<String> getEditorImageList(String contents) {
     List<String> editorImageList = new ArrayList<>();
@@ -211,7 +213,7 @@ public class MagazineServiceImpl implements MagazineService {
                 
 
   }
-  
+  @Transactional(readOnly=true)
   @Override
   public void loadMagazine(int magazineNo, Model model) {
     model.addAttribute("magazine", magazineMapper.getMagazine(magazineNo));

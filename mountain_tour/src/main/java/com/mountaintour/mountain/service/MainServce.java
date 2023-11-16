@@ -1,5 +1,7 @@
 package com.mountaintour.mountain.service;
 
-public interface MainServce {
+import java.util.Map;
 
+public interface MainServce {
+  public Map<String, Object> getProductBest();
 }

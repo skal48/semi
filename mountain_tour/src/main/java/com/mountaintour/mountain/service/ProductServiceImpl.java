@@ -226,7 +226,7 @@ public class ProductServiceImpl implements ProductService {
 	    }
 	}
 
-	
+	@Transactional(readOnly=true)
 	@Override
 	public List<String> getEditorImageList(String contents) {
 		
@@ -292,7 +292,7 @@ public class ProductServiceImpl implements ProductService {
 	                , "totalPage", myPageUtils.getTotalPage());
 	    
 	}
-	
+	@Transactional(readOnly=true)
 	@Override
     public int getTotalProductCount() {
         return productMapper.getProductCount();
@@ -436,7 +436,7 @@ public class ProductServiceImpl implements ProductService {
 	        return Map.of("hitList", hitList,
 	                      "totalPage", myPageUtils.getTotalPage());
 	    }
-	
+	@Transactional(readOnly=true)
 	@Override
 	public Map<String, Object> getReviewProductList(HttpServletRequest request) {
 		

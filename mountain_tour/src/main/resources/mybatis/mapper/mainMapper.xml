@@ -47,17 +47,19 @@
 
 
   
- <select id="selectCountBest" resultType="ReserveDto">
- 	SELECT PRODUCT_NO, SUM(RESERVE_PERSON) AS RC
-  	FROM RESERVE_T
-	 GROUP BY PRODUCT_NO 
-	 ORDER BY RC DESC
+ <select id="selectCountBest" resultType="List">
+ 	SELECT PRODUCT_NO
+    FROM (SELECT PRODUCT_NO, RANK() OVER (ORDER BY SUM(RESERVE_PERSON) DESC) AS RN
+            FROM RESERVE_T
+           GROUP BY PRODUCT_NO
+          ) 
+   WHERE RN BETWEEN 1 AND 3
  </select> 
- <select id="selectGetProduct" parameterType="int" resultType="ProductDto">
-  SELECT TRIP_NAME, LOCATION
-  	FROM PRODUCT_T P LEFT OUTER JOIN MOUNTAIN_T M
-      ON P.MOUNTAIN_NO = M.MOUNTAIN_NO
-   WHERE PRODUCT_NO = #{productNo}
+ 
+ <select id="selectGetProduct" parameterType="Map" resultType="ProductDto">
+  SELECT TRIP_NAME
+  	FROM PRODUCT_T P     
+   WHERE PRODUCT_NO = #{reserve.productNo}
  
  </select>
  

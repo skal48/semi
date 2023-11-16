@@ -69,21 +69,21 @@
 <script>
   const fnBest = () => {
 	  $.ajax({ 
-		    method: 'GET', 
-		    url:  , 
+		    method: 'get', 
+		    url: '${contextPath}/mountain/main/best.do' , 
 		    dataType: 'json',  
 		    success : function (resData) {
-		        
+		        console.log(resData.product+'123');
 		        
 		    },
-		    error: function (xhr) {
-		        
+		    error: function () {
+		        console.log('asd')
 		    }
 		})
   	
   }
 
-
+fnBest(); 
 </script>
   
   
