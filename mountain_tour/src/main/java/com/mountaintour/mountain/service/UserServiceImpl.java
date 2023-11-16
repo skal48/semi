@@ -497,7 +497,7 @@ public class UserServiceImpl implements UserService {
 		
 	Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
     int page = Integer.parseInt(opt.orElse("1"));
-    int total = userMapper.getHeartCount();
+    int total = userMapper.getHeartCount(userNo);
     int display = 10;
     
     myPageUtils.setPaging(page, total, display);
@@ -509,7 +509,7 @@ public class UserServiceImpl implements UserService {
     List<HeartDto> heartList = userMapper.selectHeartList(map);
     
     model.addAttribute("heartList", heartList);
-    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/user/heartList.do", request.getParameter("userNo")));
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/user/heartList.do", "userNo="+userNo ));
     model.addAttribute("beginNo", total - (page - 1) * display);  
 		
 	}
