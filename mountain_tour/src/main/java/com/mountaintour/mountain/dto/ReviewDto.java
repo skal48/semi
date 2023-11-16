@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ReviewDto {
     private int reviewNo;
-    private int productNo;
+    private ProductDto productDto;
     private int reserveNo;
     private String contents;
     private Date createdAt;
@@ -21,13 +21,5 @@ public class ReviewDto {
     private String status;
     private int star;
     private UserDto userDto;
-    
-    private int userNo;
-    public int getUserNo() {
-        return userDto.getUserNo();
-    }
 
-    public void setUserNo(int userNo) {
-        this.userNo = userNo;
-    }
 }
