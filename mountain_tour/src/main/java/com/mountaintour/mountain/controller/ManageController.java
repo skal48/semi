@@ -97,10 +97,17 @@ public class ManageController {
     return "manage/leaveMemberList";
   }
   
-  /* 상품,예약 목록 페이지 */
+  /* 여행상품 목록 페이지 */
   @GetMapping("/productList.form")
   public String productList(HttpServletRequest request, Model model) {
     manageService.loadProductList(request, model);
+    return "manage/productList";
+  }
+  
+  /* 여행상품 검색 */
+  @GetMapping("/productSearch.do")
+  public String productSearch(HttpServletRequest request, Model model) {
+    manageService.loadSearchProductList(request, model);
     return "manage/productList";
   }
   
@@ -109,5 +116,6 @@ public class ManageController {
   public String reviewList() {
     return "manage/reviewList";
   }
+  
   
 }
