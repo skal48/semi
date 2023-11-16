@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -25,8 +26,9 @@ public interface UserService {
 	public ResponseEntity<Map<String, Object>> modify(HttpServletRequest request);
 	public void modifyPw(HttpServletRequest request, HttpServletResponse response);
 	public void leave(HttpServletRequest request, HttpServletResponse response);
-	public void heartProduct(HttpServletRequest request, Model model);
 	public void findId(HttpServletRequest request, HttpServletResponse response);
 	// 아이디 찾기
 		public UserDto find_id(String name, String mobile);
+  //찜하기
+		public Map<String,Object> heartProduct(int page, HttpServletRequest request);
 }

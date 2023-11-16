@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.mountaintour.mountain.dto.HeartDto;
+import com.mountaintour.mountain.dto.ProductDto;
 import com.mountaintour.mountain.dto.UserDto;
 
 @Mapper
@@ -20,7 +21,8 @@ public interface UserMapper {
 	public int updateUserPw(UserDto user);
 	public int insertNaverUser(UserDto user);
 	public int deleteUser(UserDto user);
-	public List<HeartDto> selectHeartList(Map<String, Object> map);
+	
+	public List<ProductDto> selectHeartList(Map<String, Object> map);
 	public int getHeartCount(int userNo);
 	
 	//아이디찾기

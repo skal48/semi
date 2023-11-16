@@ -190,7 +190,7 @@
     <script>
     const fnHeart = () => {
     	$('#btn_love').click(() => {
-    		location.href='${contextPath}/user/heartList.do?userNo=${sessionScope.user.userNo}';
+    		location.href='${contextPath}/user/heart.form';
     		
     	}) 	
     }

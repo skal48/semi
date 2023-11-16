@@ -134,9 +134,9 @@
       , SYSDATE
     )
   </insert>
-  <select id="selectHeartList" parameterType="Map" resultMap="HeartResultMap">
-      SELECT A.USER_NO, A.PRODUCT_NO, A.TRIP_NAME, A.TRIP_CONTENTS
-        FROM (SELECT ROW_NUMBER() OVER(ORDER BY H.USER_NO DESC) AS RN, H.USER_NO, H.PRODUCT_NO, P.TRIP_NAME, P.TRIP_CONTENTS
+  <select id="selectHeartList" parameterType="Map" resultType="productDto">
+      SELECT  A.PRODUCT_NO, A.TRIP_NAME, A.TRIP_CONTENTS, A.GUIDE, A.PRICE
+        FROM (SELECT ROW_NUMBER() OVER(ORDER BY H.USER_NO DESC) AS RN, H.USER_NO, H.PRODUCT_NO, P.TRIP_NAME, P.TRIP_CONTENTS, P.PRICE, P.GUIDE
                 FROM HEART_T H INNER JOIN PRODUCT_T P
                   ON H.PRODUCT_NO = P.PRODUCT_NO
                WHERE H.USER_NO = #{userNo}) A

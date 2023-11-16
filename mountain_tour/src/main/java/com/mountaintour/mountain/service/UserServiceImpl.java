@@ -25,6 +25,7 @@ import org.springframework.ui.Model;
 
 import com.mountaintour.mountain.dao.UserMapper;
 import com.mountaintour.mountain.dto.HeartDto;
+import com.mountaintour.mountain.dto.ProductDto;
 import com.mountaintour.mountain.dto.UserDto;
 import com.mountaintour.mountain.util.MyJavaMailUtils;
 import com.mountaintour.mountain.util.MyPageUtils;
@@ -491,33 +492,11 @@ public class UserServiceImpl implements UserService {
 	  }
 	}
   
-  @Override
-	public void heartProduct(HttpServletRequest request, Model model) {
-	int userNo = Integer.parseInt(request.getParameter("userNo"));
-		
-	Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
-    int page = Integer.parseInt(opt.orElse("1"));
-    int total = userMapper.getHeartCount(userNo);
-    int display = 10;
-    
-    myPageUtils.setPaging(page, total, display);
-    
-    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
-                                   , "end", myPageUtils.getEnd()
-                                   , "userNo", userNo);
-    
-    List<HeartDto> heartList = userMapper.selectHeartList(map);
-    
-    model.addAttribute("heartList", heartList);
-    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/user/heartList.do", "userNo="+userNo ));
-    model.addAttribute("beginNo", total - (page - 1) * display);  
-		
-	}
+  
   
   @Override
 	public void findId(HttpServletRequest request, HttpServletResponse response) {
-	
-		
+
 	}
   //아이디 찾기 
   @Override
@@ -534,5 +513,30 @@ public class UserServiceImpl implements UserService {
 		
 		return result ;
 	}
+  
+  @Override
+  public Map<String, Object> heartProduct(int page, HttpServletRequest request) {
+    HttpSession session = request.getSession();
+    UserDto userDto = (UserDto)session.getAttribute("userDto");
+    int userNo = userDto.getUserNo();
+    
+    int total = userMapper.getHeartCount(userNo);
+    int display = 2;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd()
+                                   ,"userNo", userNo);
+    
+    List<ProductDto> product = userMapper.selectHeartList(map);
+    String paging = myPageUtils.getAjaxPaging();
+    
+    return Map.of("product", product, "paging",paging);
+  }
+  
+  
+  
+  
 }
   
