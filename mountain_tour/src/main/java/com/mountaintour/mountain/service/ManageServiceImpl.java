@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.mountaintour.mountain.dao.ManageMapper;
@@ -24,6 +25,7 @@ import com.mountaintour.mountain.util.MySecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class ManageServiceImpl implements ManageService {
@@ -43,6 +45,7 @@ public class ManageServiceImpl implements ManageService {
    * @param request
    * @param model
    */
+  @Transactional(readOnly=true)
   @Override
   public void loadUserList(HttpServletRequest request, Model model) {
 
@@ -72,6 +75,7 @@ public class ManageServiceImpl implements ManageService {
    * @param request
    * @param model
    */
+  @Transactional(readOnly=true)
   @Override
   public void loadSearchUserList(HttpServletRequest request, Model model) {
     
@@ -110,6 +114,7 @@ public class ManageServiceImpl implements ManageService {
    * @param userNo 회원번호
    * @return 회원번호를 Map에 담아서 반환
    */
+  @Transactional(readOnly=true)
   @Override
   public UserDto getUser(int userNo) {
     return userMapper.getUser(Map.of("userNo", userNo));
@@ -196,6 +201,7 @@ public class ManageServiceImpl implements ManageService {
    * @param model
    * @return 탈퇴한 회원 리스트, 페이징 정보, 총 탈퇴 회원수를 반환
    */
+  @Transactional(readOnly=true)
   @Override
   public void loadLeaveList(HttpServletRequest request, Model model) {
     
@@ -226,6 +232,7 @@ public class ManageServiceImpl implements ManageService {
    * @param model
    * @return 검색된 탈퇴 회원 목록, 페이징 정보, 검색된 총 탈퇴 회원수를 반환
    */
+  @Transactional(readOnly=true)
   @Override
   public void loadSearchLeaveList(HttpServletRequest request, Model model) {
 
@@ -264,6 +271,7 @@ public class ManageServiceImpl implements ManageService {
    * @param model
    * @return 여행상품 관리목록, 페이징 정보, 총 상품 수 반환
    */
+  @Transactional(readOnly=true)
   @Override
   public void loadProductList(HttpServletRequest request, Model model) {
     
@@ -294,6 +302,7 @@ public class ManageServiceImpl implements ManageService {
    * @param model
    * @return 검색된 여행상품 목록, 페이징 정보, 검색된 총 여행상품 수 반환 
    */
+  @Transactional(readOnly=true)
   @Override
   public void loadSearchProductList(HttpServletRequest request, Model model) {
     
@@ -331,6 +340,7 @@ public class ManageServiceImpl implements ManageService {
    * @param model
    * @return 전체 리뷰 목록, 페이징 정보, 총 리뷰 수 반환
    */
+  @Transactional(readOnly=true)
   @Override
   public void loadReviewList(HttpServletRequest request, Model model) {
     
@@ -362,6 +372,7 @@ public class ManageServiceImpl implements ManageService {
    * @param model
    * @return 검색한 리뷰 목록, 페이징 정보, 검색한 총 리뷰 수 반환
    */
+  @Transactional(readOnly=true)
   @Override
   public void loadSearchReviewList(HttpServletRequest request, Model model) {
     
@@ -392,5 +403,12 @@ public class ManageServiceImpl implements ManageService {
     
   }
   
+  /**
+   * 리뷰삭제
+   */
+  @Override
+  public int removeReview(int reviewNo) {
+    return manageMapper.deleteReview(reviewNo);
+  }
   
 }

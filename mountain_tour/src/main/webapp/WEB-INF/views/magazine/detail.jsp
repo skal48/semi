@@ -67,7 +67,8 @@
 	      <div class="btn_wrapper">
           <c:if test="${sessionScope.user.auth == 1}">  <!-- 바꿔야해 관리자로 -->
             <form id="btn_frm" method="post">
-              <input type="hidden" name="magazineNo" value="${magazine.magazineNo}">
+              <input type="hidden" class ="magazineNo" name="magazineNo" value="${magazine.magazineNo}">
+              <input type="hidden" class ="userNo" name="userNo" value="${sessionScope.user.userNo}">
               <input type="hidden" name="title" value="${magazine.title}">
               <input type="hidden" class = "hidden_contents" name="contents" value="<c:out value = '${magazine.contents}' />">
               <input type="hidden" name="productNo" value="${magazine.magazineNo}">
@@ -83,7 +84,10 @@
 		        <span>조회수   ${magazine.hit}</span>
 	        </div>
 	        <div class="contents">${magazine.contents}</div>
+          <form action=""
 	        <div class="like">
+              <input type="hidden" class ="magazineNoLike" name="magazineNo" value="${magazine.magazineNo}">
+              <input type="hidden" class ="userNoLike" name="userNo" value="${sessionScope.user.userNo}">
 	          <button type="button" class="btn_like"><i class="fa-regular fa-thumbs-up fa-bounce fa-2xl" style="color: #1f753d;"></i></button>
 	          <div class="like_num">${like} </div> 
 	        </div>
@@ -122,13 +126,37 @@
   }
   
   const fnLike = () => {
-	  $('')
-  }
+	  $('.btn_like').click(() => { 		 
+		  $.ajax({
+			  type: 'post',
+	      url: '${contextPath}/magazine/like.do',
+	      data: {userNo: $('.userNoLike').val(), magazineNo: $('.magazineNoLike').val()},
+	      dataType: 'json',
+	      success: (resData) => {  
+	    	  console.log(resData.existMaUser+'qweqwe');
+	    	  let str;
+			  	if(resData.existMaUser === 1){				  		
+			  		$('.btn_like').empty();
+			  		str += '<i class="fa-solid fa-thumbs-up fa-2xl" style="color: #1f753d;"></i>';
+			  		$('.btn_like').append(str);
+			  	} else if(resData.existMaUser === 0){	
+			  		$('.btn_like').empty();
+			  		str += '<i class="fa-regular fa-thumbs-up fa-bounce fa-2xl" style="color: #1f753d;"></i>';
+			  		$('.btn_like').append(str);
+			  	}			  				 
+			  	$('.like_num').text(resData.countLike);
+		  },
+		  error : (error) => {
+			  console.log('못가져왔어');
+		  }
+	  })
+  })
+ }
   
   
   fnModify();
   fnDelete();
-  
+  fnLike();
   
 </script>
  

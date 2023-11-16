@@ -103,7 +103,7 @@
                   <th scope="col">가이드</th>
                   <th scope="col">가격</th>
                   <th scope="col">인원수</th>
-                  <th scope="col">상품상태</th>
+                  <th scope="col">예약상태</th>
                   <th scope="col">등록일</th>
                 </tr>
               </thead>

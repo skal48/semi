@@ -166,7 +166,7 @@
                 ON P.PRODUCT_NO = RES.PRODUCT_NO) A
      <where>
        <if test="begin != null">A.RN BETWEEN #{begin} AND #{end}</if>
-       <if test="userNo != null">AND A.USER_NO = #{userDto.userNo}</if> 
+       <if test="userNo != null">AND A.USER_NO = #{userNo}</if> 
      </where>
      <!-- WHERE A.RN BETWEEN #{begin} AND #{end} -->
   </select> 
@@ -190,9 +190,18 @@
      WHERE RES.RESERVE_NO = #{reserveNo}
   </select>
   
+  <delete id="deleteReserve" parameterType="int">
+    DELETE 
+      FROM RESERVE_T
+     WHERE RESERVE_NO = #{reserveNo}
+  </delete>
   
-  
-  
+  <update id="updateReserve" parameterType="ReserveDto">
+    UPDATE RESERVE_T
+       SET REQUEST = #{request}
+         , PICKUP_LOC = #{pickupLoc}
+     WHERE RESERVE_NO = #{reserveNo}
+  </update>
   
   
   

@@ -21,4 +21,5 @@ public interface MagazineService {
   public Map<String, Object> firstModify(HttpServletRequest request); 
   public int finalModify(MultipartHttpServletRequest multipartRequest) throws Exception; 
   public int increaseHit(int magazineNo);
+  public Map<String, Integer> addLike(HttpServletRequest request);
 }

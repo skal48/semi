@@ -109,7 +109,7 @@
       , SYSDATE
     )
   </insert>
-  
+  <!-- 문의글에 여행상품 목록 나타내기 -->
   <select id="getProductList" resultType="ProductDto">
     SELECT ROW_NUMBER() OVER(ORDER BY PRODUCT_NO DESC) AS RN, PRODUCT_NO, USER_NO, MOUNTAIN_NO, TRIP_NAME, TRIP_CONTENTS, GUIDE, TIMETAKEN, PRICE, DANGER, REGISTERED_AT, MODIFIED_DATE, PEOPLE, HIT, PLAN, STATUS, TERM_USE
       FROM PRODUCT_T
