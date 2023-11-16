@@ -167,11 +167,12 @@
 			<input type="radio" name="reviewStar" value="1" id="rate5"><label
 				for="rate5">★</label>
 		</fieldset>
+		
 			<div>
 				<input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
         		<input type="hidden" name="productNo" value="${product.productNo}">
 				<textarea class="col-auto form-control" id="contents" name="contents" placeholder="행복했던 여행후기를 남겨보세요🙂"></textarea>   <!-- 예약한사람만 보이게 -->
-				<button type="button" class="btn btn-primary btn-sm" id="btn_review_add">작성완료</button>
+				<button type="button" class="btn btn-success btn-sm" id="btn_review_add" style="margin-top: 20px; margin-left: 700px">작성완료</button>
 			</div>
 		 </form>	
 	    
@@ -184,7 +185,9 @@
 	        </select>
 	    </div>
 	</div>
-	
+	<div id="reviewAccordion">
+	  	 <input type="hidden" id="productNo" name="productNo" value="${product.productNo}">  		
+	</div>
 	
 	    
 	    
@@ -337,9 +340,6 @@
 	    $('#heartButton').on('click', function () {
 	        addHeart();
 	    });
-
-	    fnGetProductList();
-	    fnScroll();
 	});
 
   function addHeart() {
@@ -391,12 +391,10 @@
           // 요청
           type: 'post',
           url: '${contextPath}/product/addReview.do',
-          data: $('#frm_review_add').serialize(),
+          data: $('.frm_review_add').serialize(),
           // 응답
           dataType: 'json',
-          success: (resData) => {  
-        	  
-          console.log(resData)
+          success: (resData) => {          	  
             if(resData.addReviewResult === 1){
               alert('리뷰가 등록되었습니다.');
               $('#contents').val('');
@@ -412,32 +410,31 @@
   var page = 1;
   var totalPage = 0;
 
-  // 리뷰 리스트 불러오기 함수
+  const productNo = $('#productNo').val();
+
   const fnReviewList = () => {
     $.ajax({
       type: 'get',
-      url: '${contextPath}/review/getList.do',
-      data: { page: page },
+      url: '${contextPath}/product/reviewList.do',
+      data: { page: page, productNo: productNo, name: name},
       dataType: 'json',
       success: (resData) => {
+        console.log('Product Number:', productNo);
         totalPage = resData.totalPage;
         $('#reviewAccordion').empty();
         if (resData.reviewList != null && resData.reviewList.length > 0) {
-          resData.reviewList.forEach((review, index) => {
-            const accordionItem = `
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="heading${index}">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${index}" aria-expanded="false" aria-controls="collapse${index}">
-                    ${review.user}님의 후기
-                  </button>
-                </h2>
-                <div id="collapse${index}" class="accordion-collapse collapse" aria-labelledby="heading${index}" data-bs-parent="#reviewAccordion">
-                  <div class="accordion-body">
-                    ${review.content}
-                  </div>
-                </div>
-              </div>`;
-            $('#reviewAccordion').append(accordionItem);
+        	$.each(resData.reviewList, (i, review)=> {
+        	  let str = '<div class="accordion accordion-flush">';
+        	  str += '<div class="accordion-item">';
+        	  str += '<h2 class="accordion-header">';
+        	  str += '<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse' + i + '" aria-expanded="false" aria-controls="flush-collapse' + i + '">' + review.userNo + '님의 리뷰</button>';
+        	  str += '</h2>';
+        	  str += '<div id="flush-collapse' + i + '" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">';
+        	  str += '<div class="accordion-body">' + review.contents + '</div>';
+        	  str += '</div>';
+        	  str += '</div>';
+        	  str += '</div>';
+              $('#reviewAccordion').append(str);         
           });
         } else {
           console.log('데이터가 없습니다.');
@@ -449,9 +446,16 @@
     });
   };
 
-  // 페이지 로딩 시 호출
+  // 문서가 완전히 로드된 후에 함수 호출
   $(document).ready(() => {
     fnReviewList();
+  });
+
+  
+  // 페이지 로딩 시 호출
+  $(document).ready(() => {
+	  const productNo = $('#productNo').val();
+	  fnReviewList(productNo);
   });
 
 

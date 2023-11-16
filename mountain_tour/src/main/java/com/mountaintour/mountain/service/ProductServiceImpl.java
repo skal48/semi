@@ -148,7 +148,9 @@ public class ProductServiceImpl implements ProductService {
 
 	        // ProductDto 생성
 	        ProductDto product = ProductDto.builder()
-	                .userNo(userNo)
+	        		.userDto(UserDto.builder()
+                            .userNo(userNo)
+                            .build())
 	                .mountainDto(MountainDto.builder().mountainNo(1).build())
 	                .tripName(multipartRequest.getParameter("tripName"))
 	                .tripContents(tripContents)
@@ -404,9 +406,25 @@ public class ProductServiceImpl implements ProductService {
 	
 	  String contents = request.getParameter("contents");
 	  String userNoString = request.getParameter("userNo");
-	  int userNo = userNoString != null ? Integer.parseInt(userNoString) : 0;
+	  int userNo = 0;
+	  if (userNoString != null && !userNoString.isEmpty()) {
+	      try {
+	          userNo = Integer.parseInt(userNoString);
+	      } catch (NumberFormatException e) {
+	          e.printStackTrace(); 
+	      }
+	  }
+
 	  String productNoString = request.getParameter("productNo");
-	  int productNo = productNoString != null ? Integer.parseInt(productNoString) : 0;
+	  int productNo = 0; // 기본값을 0으로 설정
+	  if (productNoString != null && !productNoString.isEmpty()) {
+	      try {
+	          productNo = Integer.parseInt(productNoString);
+	      } catch (NumberFormatException e) {
+	          e.printStackTrace(); 
+	      }
+	  }
+
 
 	 // int reserveNo = Integer.parseInt(request.getParameter("reserveNo"));
 	  
@@ -418,10 +436,9 @@ public class ProductServiceImpl implements ProductService {
 	                        .productNo(productNo)
 	                        //.reserveNo(reserveNo)
 	                        .build();
-	  
+
 	  int addReviewResult = productMapper.insertReview(review);
 	  
-	  System.out.println("알려줘 안올거지!" + addReviewResult);
 	  return Map.of("addReviewResult", addReviewResult);
 	  
 	}
@@ -430,7 +447,9 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Map<String, Object> loadReviewList(HttpServletRequest request) {
 	
-	  int productNo = Integer.parseInt(request.getParameter("productNo"));
+		
+	  int productNo = Integer.parseInt(request.getParameter("productNo") != null ? request.getParameter("productNo") : "0");
+
 	  
 	  int page = Integer.parseInt(request.getParameter("page"));
 	  int total = productMapper.getReviewCount(productNo);
@@ -444,7 +463,7 @@ public class ProductServiceImpl implements ProductService {
 	  
 	  List<ReviewDto> reviewList = productMapper.getReviewList(map);
 	  String paging = myPageUtils.getAjaxPaging();
-	  
+	  System.out.println("뭔데" + productNo);
 	  Map<String, Object> result = new HashMap<String, Object>();
 	  result.put("reviewList", reviewList);
 	  result.put("paging", paging);
