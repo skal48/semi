@@ -390,17 +390,72 @@ public class ProductServiceImpl implements ProductService {
 @Override
 	public int addHeart(HttpServletRequest request) {
 	
-	int productNo = Integer.parseInt(request.getParameter("productNo"));
-    int userNo = Integer.parseInt(request.getParameter("userNo"));
+	String userNoString = request.getParameter("userNo");
+	  int userNo = 0;
+	  if (userNoString != null && !userNoString.isEmpty()) {
+	      try {
+	          userNo = Integer.parseInt(userNoString);
+	      } catch (NumberFormatException e) {
+	          e.printStackTrace(); 
+	      }
+	  }
+
+	  String productNoString = request.getParameter("productNo");
+	  int productNo = 0; // 기본값을 0으로 설정
+	  if (productNoString != null && !productNoString.isEmpty()) {
+	      try {
+	          productNo = Integer.parseInt(productNoString);
+	      } catch (NumberFormatException e) {
+	          e.printStackTrace(); 
+	      }
+	  }
     
     HeartDto heart = HeartDto.builder()
-		    		.productNo(productNo)
+		    		.productDto(ProductDto.builder()
+		                    .productNo(productNo)
+		                    .build())
 		    		.userNo(userNo)
 		            .build();
-     
 	return productMapper.heartProduct(heart);
 	}
 
+	@Override
+	public Map<String, Object> getHit(HttpServletRequest request) {
+				
+		 Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+	        int page = Integer.parseInt(opt.orElse("1"));
+	        int total = productMapper.getProductCount();
+	        int display = 9;
+
+	        myPageUtils.setPaging(page, total, display);
+
+	        Map<String, Object> map = Map.of("begin", myPageUtils.getBegin(),
+	                                        "end", myPageUtils.getEnd());
+
+	        List<ProductDto> hitList = productMapper.getHitList(map);
+	        return Map.of("hitList", hitList,
+	                      "totalPage", myPageUtils.getTotalPage());
+	    }
+	
+	@Override
+	public Map<String, Object> getReviewProductList(HttpServletRequest request) {
+		
+		 Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+	        int page = Integer.parseInt(opt.orElse("1"));
+	        int total = productMapper.getProductCount();
+	        int display = 9;
+
+	        myPageUtils.setPaging(page, total, display);
+
+	        Map<String, Object> map = Map.of("begin", myPageUtils.getBegin(),
+	                                        "end", myPageUtils.getEnd());
+
+	        List<ProductDto> reviewProductList = productMapper.getProductReviewList(map);
+	        System.out.println("ㅇ낭나잉ㅇ" + reviewProductList);
+	        return Map.of("reviewProductList", reviewProductList,
+	                      "totalPage", myPageUtils.getTotalPage());
+	    }
+	
 	@Override
 	public Map<String, Object> addReview(HttpServletRequest request) {
 	
@@ -433,8 +488,10 @@ public class ProductServiceImpl implements ProductService {
 	                        .userDto(UserDto.builder()
 	                                  .userNo(userNo)
 	                                  .build())
-	                        .productNo(productNo)
-	                        //.reserveNo(reserveNo)
+	                        .productDto(ProductDto.builder()
+	    		                    .productNo(productNo)
+	    		                    .build())
+	                        
 	                        .build();
 
 	  int addReviewResult = productMapper.insertReview(review);
@@ -451,7 +508,16 @@ public class ProductServiceImpl implements ProductService {
 	  int productNo = Integer.parseInt(request.getParameter("productNo") != null ? request.getParameter("productNo") : "0");
 
 	  
-	  int page = Integer.parseInt(request.getParameter("page"));
+	  String pageParameter = request.getParameter("page");
+	  int page = 1;  // 기본값 설정
+	  if (pageParameter != null && !pageParameter.isEmpty()) {
+	      try {
+	          page = Integer.parseInt(pageParameter);
+	      } catch (NumberFormatException e) {
+	          // 예외 처리: 유효한 숫자가 아닌 경우
+	          e.printStackTrace();  // 또는 적절한 로깅
+	      }
+	  }
 	  int total = productMapper.getReviewCount(productNo);
 	  int display = 10;
 	  
@@ -463,11 +529,16 @@ public class ProductServiceImpl implements ProductService {
 	  
 	  List<ReviewDto> reviewList = productMapper.getReviewList(map);
 	  String paging = myPageUtils.getAjaxPaging();
-	  System.out.println("뭔데" + productNo);
 	  Map<String, Object> result = new HashMap<String, Object>();
 	  result.put("reviewList", reviewList);
 	  result.put("paging", paging);
 	  return result;
 	  
 	}
+	
+	@Override
+	  public Map<String, Object> removeReview(int reviewNo) {
+	    int removeResult = productMapper.deleteReview(reviewNo);
+	    return Map.of("removeResult", removeResult);
+	  }
 }	

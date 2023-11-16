@@ -9,6 +9,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.mountaintour.mountain.dao.FaqMapper;
@@ -17,6 +18,7 @@ import com.mountaintour.mountain.util.MyPageUtils;
 
 import lombok.RequiredArgsConstructor;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class FaqServiceImpl implements FaqService {
@@ -29,7 +31,7 @@ public class FaqServiceImpl implements FaqService {
    * 전체목록 메서드
    * MVC 페이징 처리
    */
-
+  @Transactional(readOnly=true)
   @Override
   public void loadFaqList(HttpServletRequest request, Model model) {
     
@@ -56,6 +58,7 @@ public class FaqServiceImpl implements FaqService {
   /**
    * 검색 메서드
    */
+  @Transactional(readOnly=true)
   @Override
   public void loadSearchList(HttpServletRequest request, Model model) {
     

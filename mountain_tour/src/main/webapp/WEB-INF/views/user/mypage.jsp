@@ -159,6 +159,7 @@
         <input type="radio" name="event" value="off" id="event_off" class="form-check-input">
         <label class="form-check-label" for="event_off">동의안함</label>
       </div>
+      </div>
     </div>
     <script>
       if('${sessionScope.user.agree}' === '0'){
@@ -181,8 +182,10 @@
         <c:if test="${sessionScope.user.state == 0}">
         <button type="button" id="btn_modify_pw" class="btn btn-success">비밀번호변경하기</button>  
    		</c:if>
-   	  <button type="button" id="btn_love" class="btn btn-danger">내가찜한목록보기♥</button>
+   	  <button type="button" id="btn_love" class="btn btn-danger">내 찜한목록보기♥</button>
+   	 <button type="button" onclick="location.href='${contextPath}/reserve/list.do?userNo=' + '${sessionScope.user.userNo}'">나의예약목록</button>
    		</form>
+ 	</div>
    		
     <script>
     const fnHeart = () => {
@@ -199,13 +202,14 @@
     
     </script>
       
-    </div>
     
   
-  
-  
-</div>
-</div>
-</div>
-s
+    </div>
+    <div class="col-1">
+    </div>
+    </div>
+    </div>
+
+
+
 <%@ include file="../layout/footer.jsp" %>

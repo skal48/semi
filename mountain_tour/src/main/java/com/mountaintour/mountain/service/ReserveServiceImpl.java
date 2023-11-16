@@ -9,6 +9,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.mountaintour.mountain.dao.ReserveMapper;
@@ -20,6 +21,7 @@ import com.mountaintour.mountain.util.MyPageUtils;
 
 import lombok.RequiredArgsConstructor;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class ReserveServiceImpl implements ReserveService{
@@ -111,11 +113,13 @@ public class ReserveServiceImpl implements ReserveService{
     return result;
   }
   
+  @Transactional(readOnly=true)
   @Override
   public ReserveDto loadReserve(int reserveNo) {
     return reserveMapper.getReserve(reserveNo);
   }
   
+  @Transactional(readOnly=true)
   @Override
   public void loadReserveList(HttpServletRequest request, Model model) {
     
@@ -137,6 +141,7 @@ public class ReserveServiceImpl implements ReserveService{
     
   }
   
+  @Transactional(readOnly=true)
   @Override
   public void loadReserveListByUser(HttpServletRequest request, Model model) {
     Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
@@ -159,6 +164,31 @@ public class ReserveServiceImpl implements ReserveService{
     
   }
   
+  @Override
+  public int modifyReserve(HttpServletRequest request) {
+    int reserveNo = Integer.parseInt(request.getParameter("reserveNo"));
+    
+    String reqContent = request.getParameter("resReq");
+    String pickupLoc = request.getParameter("pickupLoc");
+    
+    ReserveDto reserve = ReserveDto.builder()
+                                   .request(reqContent)
+                                   .pickupLoc(pickupLoc)
+                                   .reserveNo(reserveNo)
+                                   .build();
+    
+    int modifyResult = reserveMapper.updateReserve(reserve);
+    return modifyResult;
+  }
+  
+  @Override
+  public int removeReserve(HttpServletRequest request) {
+    int reserveNo = Integer.parseInt(request.getParameter("reserveNo"));
+    int removeResult = reserveMapper.deleteReserve(reserveNo);
+    return removeResult;
+  }
+  
+  @Transactional(readOnly=true)
   @Override
   public Map<String, Object> loadTourists(HttpServletRequest request) {
     int reserveNo = Integer.parseInt(request.getParameter("reserveNo"));
