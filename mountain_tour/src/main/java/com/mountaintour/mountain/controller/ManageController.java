@@ -125,5 +125,17 @@ public class ManageController {
     return "manage/reviewList";
   }
   
+  /* 리뷰 삭제 */
+  @PostMapping("/removeReview.do")
+  public String removeReview(@RequestParam(value="reviewNo") int reviewNo, RedirectAttributes redirectAttributes) {
+    int removeReviewResult = manageService.removeReview(reviewNo);
+    redirectAttributes.addFlashAttribute("removeReviewResult", removeReviewResult);
+    return "redirect:/manage/reviewList.form";
+  }
+<<<<<<< HEAD
+=======
+  
+>>>>>>> heesoo
+  
   
 }

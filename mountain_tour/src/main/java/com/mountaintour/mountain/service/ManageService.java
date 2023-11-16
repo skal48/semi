@@ -47,4 +47,11 @@ public interface ManageService {
   /* 리뷰 검색 */
   public void loadSearchReviewList(HttpServletRequest request, Model model);
   
+  /* 리뷰 삭제 */
+  public int removeReview(int reviewNo);
+  
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> heesoo
