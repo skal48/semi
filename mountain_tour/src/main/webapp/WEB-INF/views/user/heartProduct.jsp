@@ -30,19 +30,57 @@
 
   <div class="col-1"></div>
 
-  <div class="temp table-container">
+  <div class="temp table-container" id="table">
     <c:forEach items="${heartList}" var="h" varStatus="vs">
-      <div>${beginNo - vs.index}</div>
+      
       <div>${h.userNo}</div>
       <div>${h.productNo}</div>
     </c:forEach>
   </div>
 
 </body>
-  
+
+<script>
+//전역변수 
+var page = 1;
+var totalPage = 0;
+var heartList = resData.heartList;
 
 
+const fnLove = () => {
+  $.ajax({
+    //요청
+    type: 'get',
+    url: '${contextPath}/user/getHeartList.do',
+    data: 'page=' + page,
+    //응답 
+    dataType: 'json',
+    success: (resData) => {
+      totalPage = resData.totalPage;
 
+
+      
+      $.each(heartList, function (index, h) {
+        var userNo = h.userNo;
+        var productNo = h.productNo;
+
+       
+        console.log('회원번호:', userNo);
+        console.log('상품번호:', productNo);
+
+        $('#table').append('<div>' + userNo + '</div>');
+        $('#table').append('<div>' + productNo + '</div>');
+      });
+
+     
+    },
+    error: (error) => {
+      console.error('error:', error);
+    }
+  });
+}
+
+</script>
 	
 
 <%@ include file="../layout/footer.jsp" %>
