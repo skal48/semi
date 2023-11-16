@@ -69,6 +69,7 @@
       <result column="STATUS" property="status"/>
       <result column="TERM_USE" property="termUse"/>
     </association>
+    <collection property="touristList" ofType="TouristDto" resultMap="TouristMap"/>
   </resultMap>
 
   <insert id="insertReserve" parameterType="ReserveDto" useGeneratedKeys="true" keyProperty="reserveNo">
@@ -154,10 +155,13 @@
       <if test="reserveNo != null">RES.RESERVE_NO = #{reserveNo}</if>
     </where>   
   </select>
-  
 
-
-  
+  <select id="getTourists" parameterType="int" resultMap="TouristMap">
+    SELECT T.TOURIST_NO, T.NAME, T.BIRTH_DATE, T.GENDER, T.CONTACT, T.AGE_CASE, T.RESERVE_NO, RES.PICKUP_LOC, RES.RESERVE_START, RES.PRODUCT_NO
+      FROM TOURIST_T T INNER JOIN RESERVE_T RES
+        ON T.RESERVE_NO = RES.RESERVE_NO
+     WHERE RES.RESERVE_NO = #{reserveNo}
+  </select>
   
   
   

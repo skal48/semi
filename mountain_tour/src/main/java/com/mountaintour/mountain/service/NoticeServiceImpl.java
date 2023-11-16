@@ -1,5 +1,6 @@
 package com.mountaintour.mountain.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,7 +23,8 @@ import lombok.RequiredArgsConstructor;
 public class NoticeServiceImpl implements NoticeService{
   private final NoticeMapper noticeMapper; 
   private final MyPageUtils myPageUtils;
-   
+  
+  @Transactional(readOnly=true)
   @Override
   public void loadNoticeList(HttpServletRequest request, Model model) {
   
@@ -43,39 +45,66 @@ public class NoticeServiceImpl implements NoticeService{
     model.addAttribute("beginNo", total - (page - 1) * display);  
     }
   
-    @Transactional(readOnly=true)
-    @Override
-    public NoticeDto getNotice(int noticeNo) {
-      return noticeMapper.getNotice(noticeNo);
-    }
+  @Transactional(readOnly=true)
+  @Override
+  public void LoadSearchList(HttpServletRequest request, Model model) {
     
-    
-    
-    
-    @Override
-    public int addNotice(HttpServletRequest request) {
-
-      //** 수정된 메소드 **//
-      
-      // BLOG_T에 추가할 데이터
-      String title = request.getParameter("title");
-      String contents = request.getParameter("contents");
-      
-      // BlogDto 생성
-      NoticeDto notice = NoticeDto.builder()
-                      .title(title)
-                      .contents(contents)
-                      .build();
-      
-      // BLOG_T에 추가
-      // BlogMapper의 insertBlog() 메소드를 실행하면
-      // insertBlog() 메소드로 전달한 blog 객체에 blogNo값이 저장된다.
-      int addResult = noticeMapper.insertNotice(notice);
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
   
+    int display = 10;
     
-      return addResult;
-      
-    }
+    int total = noticeMapper.getNoticeCount();  
+  
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end",   myPageUtils.getEnd());
+    
+    List<NoticeDto> NoticeList = noticeMapper.getNoticeList(map);
+    
+    model.addAttribute("noticeList", NoticeList);
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/notice/list.do"));
+    model.addAttribute("beginNo", total - (page - 1) * display);
+    
+    
+  }
+
+  @Transactional(readOnly=true)
+  @Override
+  public NoticeDto getNotice(int noticeNo) {
+    return noticeMapper.getNotice(noticeNo);
+  }
+  
+  
+  
+  
+  @Override
+  public int addNotice(HttpServletRequest request) {
+
+    //** 수정된 메소드 **//
+    
+    // BLOG_T에 추가할 데이터
+    String title = request.getParameter("title");
+    String contents = request.getParameter("contents");
+    
+    // BlogDto 생성
+    NoticeDto notice = NoticeDto.builder()
+                    .title(title)
+                    .contents(contents)
+                    .build();
+    
+    // BLOG_T에 추가
+    // BlogMapper의 insertBlog() 메소드를 실행하면
+    // insertBlog() 메소드로 전달한 blog 객체에 blogNo값이 저장된다.
+    int addResult = noticeMapper.insertNotice(notice);
+
+  
+    return addResult;
+    
+  }
+  
+
     
     @Override
     public int removeNotice(int NoticeNo) {

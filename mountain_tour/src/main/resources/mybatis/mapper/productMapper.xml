@@ -30,12 +30,29 @@
         <result  column="FILESYSTEM_NAME" 	 property="filesystemName"/>
         <result  column="THUMBNAIL" 		 property="thumbnail"/>  
     </association>
+    <association javaType="UserDto" property="userDto">
+        <id column="USER_NO" property="userNo"/>
+        <result column="EMAIL" property="email"/>
+        <result column="PW" property="pw"/>
+        <result column="NAME" property="name"/>
+        <result column="GENDER" property="gender"/>
+        <result column="MOBILE" property="mobile"/>
+        <result column="POSTCODE" property="postcode"/>
+        <result column="ROAD_ADDRESS" property="roadAddress"/>
+        <result column="JIBUN_ADDRESS" property="jibunAddress"/>
+        <result column="DETAIL_ADDRESS" property="detailAddress"/>
+        <result column="AGREE" property="agree"/>
+        <result column="STATE" property="state"/>
+        <result column="AUTH" property="auth"/>
+        <result column="PW_MODIFIED_AT" property="pwModifiedAt"/>
+        <result column="JOINED_AT" property="joinedAt"/>
+    </association>
   </resultMap>
 
 	<resultMap type="ReviewDto" id="ReviewMap">
     <id column="REVIEW_NO" property="reviewNo"/>
     <result column="PRODUCT_NO" property="productNo"/>
-    <result column="RESERVE_NO" property="reserveNo"/>
+  <!-- <result column="RESERVE_NO" property="reserveNo"/>  --> 
     <result column="USER_NO" property="userNo"/>
     <result column="CONTENTS" property="contents"/>
     <result column="CREATED_AT" property="createdAt"/>
@@ -268,8 +285,8 @@
     <!-- , #{reserveNo} -->  
       , #{userNo}
       , #{contents}
-      , TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS')
-      , TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS')
+      , SYSDATE
+      , SYSDATE
       , 1
       , 0
     )
@@ -282,8 +299,8 @@
   </select>
 
   <select id="getReviewList" parameterType="Map" resultMap="ReviewMap">
-    SELECT A.REVIEW_NO, A.PRODUCT_NO, A.RESERVE_NO, A.USER_NO, A.CONTENTS, A.CREATED_AT, A.STATUS, A.NAME
-      FROM (SELECT ROW_NUMBER() OVER(ORDER BY REVIEW_NO DESC) AS RN, C.REVIEW_NO, C.CONTENTS, C.PRODUCT_NO, C.RESERVE_NO, C.CREATED_AT, C.STATUS, U.USER_NO, U.NAME
+    SELECT A.REVIEW_NO, A.PRODUCT_NO, A.USER_NO, A.CONTENTS, A.CREATED_AT, A.STATUS, A.NAME
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY REVIEW_NO DESC) AS RN, C.REVIEW_NO, C.CONTENTS, C.PRODUCT_NO, C.CREATED_AT, C.STATUS, U.USER_NO, U.NAME
               FROM USER_T U INNER JOIN REVIEW_T C
                 ON U.USER_NO = C.USER_NO
              WHERE C.PRODUCT_NO = #{productNo}) A
