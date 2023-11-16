@@ -138,7 +138,7 @@
 			  	} else if(existMaUser === 0){	
 			  		str = '<i class="fa-regular fa-thumbs-up fa-bounce fa-2xl" style="color: #1f753d;">';
 			  	}
-		  })
+		  }
 	  })
   })
  }
@@ -146,7 +146,7 @@
   
   fnModify();
   fnDelete();
-  
+  fnLike();
   
 </script>
  

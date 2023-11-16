@@ -95,7 +95,6 @@ public class MagazineController {
  @GetMapping("/detail.do")
  public String detail(@RequestParam(value="magazineNo", required=false, defaultValue="0") int magazineNo, Model model) {
    magazineService.loadMagazine(magazineNo, model);
-   System.out.println(model);
    return "magazine/detail";
  }
  
