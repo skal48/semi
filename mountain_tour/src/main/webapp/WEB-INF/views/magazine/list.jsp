@@ -24,6 +24,7 @@
       height: 410px;
       width: 100%;
       margin-top:15px; 
+      cursor: pointer;
     }    
     .big_picture {
       height: 270px;

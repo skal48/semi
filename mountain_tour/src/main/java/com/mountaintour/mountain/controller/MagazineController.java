@@ -84,6 +84,7 @@ public class MagazineController {
  public String increseHit(HttpServletRequest request) {
    int magazineNo = Integer.parseInt(request.getParameter("magazineNo"));
    int increseResult = magazineService.increaseHit(magazineNo);
+   System.out.println("-----" + increseResult + "-----");
    if(increseResult == 1) {
      return "redirect:/magazine/detail.do?magazineNo=" + magazineNo;
    } else {
@@ -95,7 +96,6 @@ public class MagazineController {
  @GetMapping("/detail.do")
  public String detail(@RequestParam(value="magazineNo", required=false, defaultValue="0") int magazineNo, Model model) {
    magazineService.loadMagazine(magazineNo, model);
-   System.out.println(model);
    return "magazine/detail";
  }
  
