@@ -368,7 +368,7 @@ public class MagazineServiceImpl implements MagazineService {
   }
   
   @Override
-  public Map<String, Object> addLike(HttpServletRequest request) {
+  public Map<String, Integer> addLike(HttpServletRequest request) {
     int magazineNo = Integer.parseInt(request.getParameter("magazineNo"));
     int userNo = Integer.parseInt(request.getParameter("userNo"));
     
@@ -378,15 +378,17 @@ public class MagazineServiceImpl implements MagazineService {
                                          .build();
     
     int existMaUser = magazineMapper.selectCountLike(magazineStarDto);
-    int deleteResult = 0;
-    int insertResult = 0;
-    if(existMaUser == 1) {
-      deleteResult = magazineMapper.deleteLike(magazineStarDto);
-    } else {
-      insertResult = magazineMapper.insertLike(magazineStarDto);
-    }
     
-    return Map.of("existMaUser", existMaUser);
+    if(existMaUser == 1) {
+       magazineMapper.deleteLike(magazineStarDto);
+    } else {
+       magazineMapper.insertLike(magazineStarDto);
+    }
+    int countLike = magazineMapper.countLike(magazineNo);
+    
+    
+    
+    return Map.of("existMaUser", existMaUser, "countLike", countLike);
   }
   
   

@@ -161,13 +161,13 @@
 		 WHERE MAGAZINE_NO = #{magazineNo} 
  </select>
 <delete id="deleteLike" parameterType="magazineStarDto">
-		DELETE FROM MAGAZINE_STAR_T WHERE USER_NO = #{userNo} AND MAGAZINE_NO=#{MagazineNo}
+		DELETE FROM MAGAZINE_STAR_T WHERE USER_NO = #{userNo} AND MAGAZINE_NO=#{magazineNo}
 </delete>
 <insert id="insertLike" parameterType="magazineStarDto">
-		INSERT INTO MAGAZINE_STAR_T(MAGAZINE_NO, USER_NO) VALUES (#{MagazineNo}, #{userNo})
+		INSERT INTO MAGAZINE_STAR_T(MAGAZINE_NO, USER_NO) VALUES (#{magazineNo}, #{userNo})
 </insert>
 <select id="selectCountLike" parameterType="magazineStarDto" resultType="int">
-		SELECT COUNT(*) FROM MAGAZINE_STAR_T WHERE MAGAZINE_NO = #{MagazineNo} AND USER_NO = #{userNo};
+		SELECT COUNT(*) FROM MAGAZINE_STAR_T WHERE MAGAZINE_NO = #{magazineNo} AND USER_NO = #{userNo}
 </select>
 
  

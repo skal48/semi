@@ -19,6 +19,7 @@ import com.mountaintour.mountain.dto.MagazineDto;
 import com.mountaintour.mountain.service.MagazineService;
 
 import lombok.RequiredArgsConstructor;
+import oracle.jdbc.proxy.annotation.Post;
 
 @RequiredArgsConstructor
 @RequestMapping("/magazine")
@@ -103,12 +104,11 @@ public class MagazineController {
    return "magazine/modify";  
  }
  /*************좋아요컨트롤러 ***************/
- @GetMapping(value="/like.do", produces="application/json")
- public Map<String, Object> like(HttpServletRequest request, Model model) {
+ @ResponseBody
+ @PostMapping(value="/like.do", produces="application/json")
+ public Map<String, Integer> like(HttpServletRequest request) {
    return magazineService.addLike(request);
  }
- 
- 
  
  /*************수정컨트롤러 ***************/
  
