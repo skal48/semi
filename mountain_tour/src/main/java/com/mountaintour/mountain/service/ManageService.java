@@ -27,5 +27,17 @@ public interface ManageService {
   public int modifyPw(HttpServletRequest request);
   
   /* 기존 회원 탈퇴 */
-  public int removeMember(int userNo);
+  public int removeMember(UserDto user);
+  
+  /* 탈퇴 회원 목록 */
+  public void loadLeaveList(HttpServletRequest request, Model model);
+  
+  /* 탈퇴 회원 검색 */
+  public void loadSearchLeaveList(HttpServletRequest request, Model model);
+  
+  /* 여행 상품 목록 */
+  public void loadProductList(HttpServletRequest request, Model model);
+  
+  
+  
 }

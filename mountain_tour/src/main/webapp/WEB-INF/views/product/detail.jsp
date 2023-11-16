@@ -18,6 +18,9 @@
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
   <script>
+  $( function() {
+	    $( "#datepicker" ).datepicker();
+	  } );
 
   </script>
   <style>
@@ -81,7 +84,7 @@
 	    	 <div class="calender_mini">
 	    	  <div class="row">
 			    <div class="col">
-			      <input id="datepicker" width="276" />
+			     <div id="datepicker"></div>
 			    </div>
 			    <div class="col" style = "border: 1px gray solid;">
 			      예약이 가능해요!<br>
@@ -103,23 +106,10 @@
 	    	  <div>${product.tripName}상품</div>
 			  <div>예약가능인원수</div>
 		      <div>현재예약</div>
-    	  </div>
-    	  
-    	  
-    	  
-    	  
-    	  
-    	  
-    	  
-    	  
-    	  
+    	  </div>  
     	  </div>
 	    <div> 
-	   
-	    
-	    
-		 
-		
+
 		<div style="text-align: right;">
 
 		    <a style="display: inline-block; margin-top: 20px">
@@ -155,9 +145,7 @@
 			<div style = "border: 1px gray solid; height: 100px">
     	  	${product.danger}
     	    </div>
-    	    
-    	    
-    	    
+  
     	    
     	  <div class="choice">약관/정보</div>
     	    <div style = "border: 1px gray solid; height: 100px">	  
@@ -165,7 +153,7 @@
     	    </div>
     	
 	    <div class="choice">리뷰</div> 
-	 	<form class="mb-3" name="myform" id="myform" method="post">
+	 	<form class="mb-3 frm_review_add" id="myform" method="post">
 		<fieldset>
 			<span class="text-bold"> ❤️ 별점을 선택해주세요</span>
 			<input type="radio" name="reviewStar" value="5" id="rate1"><label
@@ -180,8 +168,10 @@
 				for="rate5">★</label>
 		</fieldset>
 			<div>
-				<textarea class="col-auto form-control" type="text" id="reviewContents"
-						  placeholder="행복했던 여행후기를 남겨보세요🙂"></textarea>   <!-- 예약한사람만 보이게 -->
+				<input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
+        		<input type="hidden" name="productNo" value="${product.productNo}">
+				<textarea class="col-auto form-control" id="contents" name="contents" placeholder="행복했던 여행후기를 남겨보세요🙂"></textarea>   <!-- 예약한사람만 보이게 -->
+				<button type="button" class="btn btn-primary btn-sm" id="btn_review_add">작성완료</button>
 			</div>
 		 </form>	
 	    
@@ -194,77 +184,12 @@
 	        </select>
 	    </div>
 	</div>
-		<div class="ui-grid-b">
-        <div class="ui-block-a">
-            <label>시작일</label>
-        </div>
-        <div class="ui-block-b">
-            <label>마지막일</label>
-        </div>
-        <div class="ui-block-c">
-        </div>
-    </div>
-    <div class="ui-grid-b">
-        <div class="ui-block-a">
-            <input type="text" id="datepicker_start" readonly="readonly">
-        </div>
-        <div class="ui-block-b">
-            <input type="text" id="datepicker_end" readonly="readonly">
-        </div>
-        <div class="ui-block-c">
-            <button id="date_search">날짜검색</button>
-        </div>
-    </div>
-    
-	    
-	    
-			
 	
 	
-	    <div class="accordion accordion-flush" id="accordionFlushExample">
-		  <div class="accordion-item">
-		    <h2 class="accordion-header">
-		      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-		        콩이아빠님의 후기
-		      </button>
-		    </h2>
-		    <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-		      <div class="accordion-body">가이드가 별로였어요.. 드라이빙 가이드라고 해서 운전기사도 해주시고 가이드도 해주시는데 타지에서 온 관광객에게 그 지역에 대해 설명도 안해주고 도착하면 몇시까지만 오시면 됩니다~ ...</div>
-		    </div>
-		  </div>
-		  <div class="accordion-item">
-		    <h2 class="accordion-header">
-		      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-		        콩이엄마님의 후기
-		      </button>
-		    </h2>
-		    <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-		      <div class="accordion-body">코로나때문에 여행을 못하다가 이번 친구랑 같이 가서 너무 즐겁게 지내다 왔어요 .</div>
-		    </div>
-		  </div>
-		  <div class="accordion-item">
-		    <h2 class="accordion-header">
-		      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-		        콩이언니님의 후기
-		      </button>
-		    </h2>
-		    <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-		      <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
-		    </div>
-		  </div>
-		</div>
-	   
 	    
 	    
 	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    		
+	
     	</div>   	
     	   
     	<div class="col-4"> <!-- style="border-left: 2px solid gray;" -->
@@ -296,14 +221,7 @@
   	  </div>
 	  
 
-	  	
-		       
-      
-      
-      
-      
-      
-      
+
       
 
     </div>
@@ -344,11 +262,7 @@
 .calender_mini {
   margin: 20px auto;
 }
- 
- 
- 
- 
- 
+
  
  #myform fieldset{
     display: inline-block;
@@ -375,7 +289,7 @@
 #myform input[type=radio]:checked ~ label{
     text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 }
-#reviewContents {
+#contents {
     width: 100%;
     height: 150px;
     padding: 10px;
@@ -390,14 +304,10 @@
   <script>
 
 
-  $('#datepicker').datepicker({
-      uiLibrary: 'bootstrap5'
-  });
-  
-  
-  
-	  
-  
+  $( function() {
+	    $( "#datepicker" ).datepicker();
+	  } );
+
   var frmBtn = $('#frm_btn');
   
   const fnEditProduct = () => {
@@ -424,7 +334,6 @@
    }
   
   $(document).ready(function () {
-	    // 이벤트 리스너 등록
 	    $('#heartButton').on('click', function () {
 	        addHeart();
 	    });
@@ -437,11 +346,9 @@
 	    var productNo = $('.heart').val();
 	    var userNo = $('.heart2').val();
 
-	    // 확인 창 띄우기
 	    var confirmResult = confirm('찜하기 페이지로 이동하시겠습니까?');
 
 	    if (confirmResult) {
-	        // 사용자가 "예"를 선택한 경우
 	        $.ajax({
 	            type: 'post',
 	            url: '${contextPath}/product/heartProduct.do',
@@ -451,14 +358,14 @@
 	            },
 	            success: function (response) {
 	                console.log('찜하기 성공');
-	                window.location.href = '${contextPath}/user/heartProduct.do;
+	                window.location.href = '${contextPath}/user/heartProduct.do';
 	            },
 	            error: function (error) {
 	                console.error('찜하기 실패:', error);
 	            }
 	        });
 	    } else {	        
-	        console.log('사용자가 "아니오"를 선택함');
+	        console.log('아니오');
 	    }
 	}
 
@@ -468,17 +375,92 @@
   fnEditProduct();
   fnRemoveProduct();
   
+  
+  // 리뷰
+  
+  const fnReviewAdd = () => {
+      $('#btn_review_add').click(() => {
+        if('${sessionScope.user}' === ''){
+          if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
+            location.href = '${contextPath}/user/login.form';
+          } else {
+            return;
+          }
+        }
+        $.ajax({
+          // 요청
+          type: 'post',
+          url: '${contextPath}/product/addReview.do',
+          data: $('#frm_review_add').serialize(),
+          // 응답
+          dataType: 'json',
+          success: (resData) => {  
+        	  
+          console.log(resData)
+            if(resData.addReviewResult === 1){
+              alert('리뷰가 등록되었습니다.');
+              $('#contents').val('');
+              fnReviewList();
+            }
+          }
+        })
+      })
+    }
+  
+  
+  
+  var page = 1;
+  var totalPage = 0;
+
+  // 리뷰 리스트 불러오기 함수
+  const fnReviewList = () => {
+    $.ajax({
+      type: 'get',
+      url: '${contextPath}/review/getList.do',
+      data: { page: page },
+      dataType: 'json',
+      success: (resData) => {
+        totalPage = resData.totalPage;
+        $('#reviewAccordion').empty();
+        if (resData.reviewList != null && resData.reviewList.length > 0) {
+          resData.reviewList.forEach((review, index) => {
+            const accordionItem = `
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="heading${index}">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${index}" aria-expanded="false" aria-controls="collapse${index}">
+                    ${review.user}님의 후기
+                  </button>
+                </h2>
+                <div id="collapse${index}" class="accordion-collapse collapse" aria-labelledby="heading${index}" data-bs-parent="#reviewAccordion">
+                  <div class="accordion-body">
+                    ${review.content}
+                  </div>
+                </div>
+              </div>`;
+            $('#reviewAccordion').append(accordionItem);
+          });
+        } else {
+          console.log('데이터가 없습니다.');
+        }
+      },
+      error: (error) => {
+        console.error('Ajax 요청 에러:', error);
+      }
+    });
+  };
+
+  // 페이지 로딩 시 호출
+  $(document).ready(() => {
+    fnReviewList();
+  });
+
+
+  
+  fnReviewAdd();
+  fnReviewList();
+  
   </script>
 
- 
 
-
-
-
-
- 
- 
-
- 
 
 <%@ include file="../layout/footer.jsp" %>

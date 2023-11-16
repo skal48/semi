@@ -147,7 +147,7 @@
               <%-- 페이징 처리 --%>
               <tfoot>
                 <tr>
-                  <td cospan="8">${paging}</td>
+                  <td colspan="8">${paging}</td>
                 </tr>
               </tfoot>
             </table>

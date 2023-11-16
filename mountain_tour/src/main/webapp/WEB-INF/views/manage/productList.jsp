@@ -54,6 +54,11 @@
     margin-top: 10%;
   }
   
+  .table_to_detail a {
+    color: #1a1a1a;
+    cursor: pointer;
+  }
+  
 </style>
 
  
@@ -61,8 +66,7 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
-      <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
+    <div class="col-10" style = "border: 1px gray solid;" >
       
       <div class="mainWrap">
       
@@ -96,51 +100,35 @@
                   <th scope="col">여행이름</th>
                   <th scope="col">가이드</th>
                   <th scope="col">가격</th>
-                  <th scope="col">등록일</th>
+                  <th scope="col">인원수</th>
                   <th scope="col">상품상태</th>
+                  <th scope="col">등록일</th>
                 </tr>
               </thead>
-              <tbody class="table-group-divider">
-                <tr>
-                  <th scope="row">1</th>
-                  <td>테스트</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>
-                    <c:if test="">상품상태가 0이면 예약가능</c:if>
-                    <c:if test="">상품상태가 1이면 예약마감</c:if>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>테스트</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>테스트</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>테스트</td>
-                  <td></td>
-                  <td></td>
-                  <td>테스트</td>
-                  <td></td>
-                </tr>
+              <tbody class="table-group-divider table_to_detail">
+                <c:forEach items="${productList}" var="p">
+                  <tr>
+                    <th scope="row">${p.productNo}</th>
+                    <td>
+                      <a href="${contextPath}/product/detail.do?productNo=${p.productNo}">${p.tripName}</a>
+                    </td>
+                    <td>${p.guide}</td>
+                    <td>${p.price}</td>
+                    <td>${p.people}</td>
+                    <td>
+                      <c:if test="${p.status == 0}">예약가능</c:if>
+                      <c:if test="${p.status == 1}">마감</c:if>
+                    </td>
+                    <td>
+                      <fmt:formatDate value="${p.registeredAt}" pattern="yyyy/MM/dd"/>
+                    </td>
+                  </tr>
+                </c:forEach>
               </tbody>
               <%-- 페이징 처리 --%>
               <tfoot>
                 <tr>
-                  <td cospan="6">${paging}</td>
+                  <td colspan="7">${paging}</td>
                 </tr>
               </tfoot>
             </table>

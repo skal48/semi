@@ -57,6 +57,7 @@
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
        <form class="thumbnail" method="post" action="${contextPath}/magazine/finalModify.do" enctype="multipart/form-data" style = "border: 1px gray solid;" >
           <div class="image_wrapper">
+          <div class="temp"></div>
             <div id="previewId"></div>
             <input type="file" id="image" name="files" class="input-group-text" onchange="previewImage(this,'previewId')"/>
             <input type="hidden" id="filesysName" name="filesysName" value="${map.magazine.magazineMultiDto.filesysName}">
@@ -148,7 +149,7 @@ function previewImage(targetObj, previewId) {
 				 var filesysName = $('#filesysName').val();
 			 if ($('#isThumbnail').val() == 1){
 				 var str = '<img src="${contextPath}'+ multiPath +'/'+filesysName+'">';
-				 $('.image_wrapper').append(str);
+				 $('.temp').append(str);
 			 }
 		}
 		  

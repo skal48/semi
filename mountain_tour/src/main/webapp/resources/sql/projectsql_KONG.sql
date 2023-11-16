@@ -134,7 +134,7 @@ CREATE TABLE PRODUCT_T(
    REGISTERED_AT  DATE               NULL,      -- 등록일
    MODIFIED_DATE  DATE               NULL,      -- 수정일
    PEOPLE         NUMBER             NULL,      -- 최대인원수
-   HIT            NUMBER             NULL,      -- 조회수
+   HIT            NUMBER             DEFAULT 0,      -- 조회수
    PLAN           VARCHAR2(255 BYTE) NULL,      -- 여행계획
    STATUS         NUMBER             NULL,      -- 상품상태 (예약가능:0, 예약불가:1)
    TERM_USE      VARCHAR2(500 BYTE)  NULL,  -- 이용약관 (동의체크X, 약관내용을 DB에 저장해놓는 용도)
@@ -149,7 +149,7 @@ CREATE TABLE PRODUCT_T(
 CREATE TABLE IMAGE_T(
     IMAGE_PATH        VARCHAR2(300 BYTE)  NOT NULL,  -- 첨부 사진 경로
     FILESYSTEM_NAME   VARCHAR2(300 BYTE)  NOT NULL,  -- 저장 파일명
-    THUMBNAIL         NUMBER              DEFAULT 0, -- 썸네일이미지
+    THUMBNAIL         NUMBER                         -- 썸네일이미지
     PRODUCT_NO        NUMBER              NOT NULL,  -- 상품 번호
     CONSTRAINT FK_PRODUCT_IMAGE FOREIGN KEY(PRODUCT_NO) REFERENCES PRODUCT_T(PRODUCT_NO) ON DELETE CASCADE
 );

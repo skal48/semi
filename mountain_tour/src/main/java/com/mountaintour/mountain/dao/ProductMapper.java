@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.mountaintour.mountain.dto.HeartDto;
 import com.mountaintour.mountain.dto.ImageDto;
 import com.mountaintour.mountain.dto.ProductDto;
+import com.mountaintour.mountain.dto.ReviewDto;
 
 @Mapper
 public interface ProductMapper {
@@ -27,4 +28,9 @@ public interface ProductMapper {
 	public int insertThumbnail(ImageDto image);
 	public int heartProduct(HeartDto heart);
 	public void getcalendar(Map<String, Object> map);
+	
+	// 리뷰
+	public int insertReview(ReviewDto review);
+	public int getReviewCount(int productNo);
+	public List<ReviewDto> getReviewList(Map<String, Object> map);
 }
