@@ -103,6 +103,13 @@ public class MagazineController {
  public String modify(@ModelAttribute("magazine") MagazineDto magazine) { 
    return "magazine/modify";  
  }
+ /*************좋아요컨트롤러 ***************/
+ @GetMapping(value="/like.do", produces="application/json")
+ public Map<String, Object> like(HttpServletRequest request, Model model) {
+   return magazineService.addLike(request);
+ }
+ 
+ 
  
  /*************수정컨트롤러 ***************/
  
@@ -131,6 +138,6 @@ public class MagazineController {
    redirectAttributes.addAttribute("deleteRemove",magazineService.deleteMagazine(request));
    return "redirect:/magazine/list.do";
  }
-
+ 
  
 }

@@ -67,7 +67,8 @@
 	      <div class="btn_wrapper">
           <c:if test="${sessionScope.user.auth == 1}">  <!-- 바꿔야해 관리자로 -->
             <form id="btn_frm" method="post">
-              <input type="hidden" name="magazineNo" value="${magazine.magazineNo}">
+              <input type="hidden" class ="magazineNo" name="magazineNo" value="${magazine.magazineNo}">
+              <input type="hidden" class ="userNo" name="userNo" value="${sessionScope.user.userNo}">
               <input type="hidden" name="title" value="${magazine.title}">
               <input type="hidden" class = "hidden_contents" name="contents" value="<c:out value = '${magazine.contents}' />">
               <input type="hidden" name="productNo" value="${magazine.magazineNo}">
@@ -122,8 +123,25 @@
   }
   
   const fnLike = () => {
-	  $('')
-  }
+	  $('.btn_like').click(() => { 
+		  $.ajax({
+			  type: 'get',
+	      url: '${contextPath}/magazine/like.do',
+	      data: JSON.stringify({ "userNo": $('.userNo').val(), "magazineNo": $('.magazineNo').val()}),
+	      dataType: 'json',
+	      success: (resData) => {  
+			  	if(resData.existMaUser === 1){	
+			  		let str;
+			  		$('.btn_like').empty();
+			  		str = '<i class="fa-solid fa-thumbs-up fa-2xl" style="color: #1f753d;"></i>';
+			  		$('.btn_like').append(str);
+			  	} else if(existMaUser === 0){	
+			  		str = '<i class="fa-regular fa-thumbs-up fa-bounce fa-2xl" style="color: #1f753d;">';
+			  	}
+		  })
+	  })
+  })
+ }
   
   
   fnModify();

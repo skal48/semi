@@ -154,10 +154,23 @@
 	  HIT = HIT+1
 	  WHERE MAGAZINE_NO = #{magazineNo}
  </update>
+ 
  <select id="countLike" parameterType="int" resultType="int">	
 		SELECT COUNT(*)
 		  FROM MAGAZINE_STAR_T
 		 WHERE MAGAZINE_NO = #{magazineNo} 
  </select>
+<delete id="deleteLike" parameterType="magazineStarDto">
+		DELETE FROM MAGAZINE_STAR_T WHERE USER_NO = #{userNo} AND MAGAZINE_NO=#{MagazineNo}
+</delete>
+<insert id="insertLike" parameterType="magazineStarDto">
+		INSERT INTO MAGAZINE_STAR_T(MAGAZINE_NO, USER_NO) VALUES (#{MagazineNo}, #{userNo})
+</insert>
+<select id="selectCountLike" parameterType="magazineStarDto" resultType="int">
+		SELECT COUNT(*) FROM MAGAZINE_STAR_T WHERE MAGAZINE_NO = #{MagazineNo} AND USER_NO = #{userNo};
+</select>
+
+ 
+ 
  
 </mapper>
