@@ -42,16 +42,18 @@
           </thead>
           <tbody>
             <c:forEach items="${reserveList}" var="res" varStatus="vs">
-              <tr>
-                <td id="resSche">
-                  <a href="${contextPath}/reserve/detail.do?reserveNo=${res.reserveNo}">${res.reserveDate} / ${res.reserveNo}</a>
-                </td> 
-                <td id="prodName">${res.productDto.tripName}</td>
-                <td id="totalPrice">${res.productDto.prize}~</td>
-                <td id="personCnt">${res.reservePerson}</td>
-                <td id="trvlSche">${res.reserveStart} / ${res.reserveFinish}</td>
-                <td id="resStatus">${res.reserveStatus}</td>
-              </tr>
+              <c:if test="${sessionScope.user.userNo == res.userDto.userNo}">
+                <tr>
+                  <td id="resSche">
+                    <a href="${contextPath}/reserve/detail.do?reserveNo=${res.reserveNo}">${res.reserveDate} / ${res.reserveNo}</a>
+                  </td> 
+                  <td id="prodName">${res.productDto.tripName}</td>
+                  <td id="totalPrice">${res.productDto.price}~</td>
+                  <td id="personCnt">${res.reservePerson}</td>
+                  <td id="trvlSche">${res.reserveStart} / ${res.productDto.timetaken}</td>
+                  <td id="resStatus">${res.reserveStatus}</td>
+                </tr>
+              </c:if>
             </c:forEach>
           </tbody>
           <tfoot>
@@ -62,6 +64,7 @@
         </table>
       </div>
       <hr>
+      
       <button type="button" onclick="location.href='${contextPath}/product/list.do'">다른상품 예약하러가기</button>
       
 

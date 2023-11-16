@@ -32,4 +32,22 @@
              WHERE ${column} LIKE '%' || #{query} || '%')
      WHERE RN BETWEEN #{begin} AND #{end}
   </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 </mapper>
