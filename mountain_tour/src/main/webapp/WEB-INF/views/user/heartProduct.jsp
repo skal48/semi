@@ -10,17 +10,37 @@
   <jsp:param value="마운틴투어" name="title"/>
 </jsp:include>
 
-<div class="col-1">      
-    </div>
-    
-    <div class = "temp"> 
-    <c:forEach items="${heartList}" var="h" varStatus="vs"> 
-    	<div>${beginNo - vs.index}</div>
-    	<div>${h.userNo}</div>
-    	<div>${h.productNo}</div>
-   
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    .table-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr; /* 3개의 열로 나누기 */
+      gap: 10px; /* 열 사이의 간격 설정 */
+    }
+
+    .table-container > div {
+      border: 1px solid #dddddd;
+      padding: 8px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="col-1"></div>
+
+  <div class="temp table-container">
+    <c:forEach items="${heartList}" var="h" varStatus="vs">
+      <div>${beginNo - vs.index}</div>
+      <div>${h.userNo}</div>
+      <div>${h.productNo}</div>
     </c:forEach>
-    </div>
+  </div>
+
+</body>
+  
+
 
 
 	
