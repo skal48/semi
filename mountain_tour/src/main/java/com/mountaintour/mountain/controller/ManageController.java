@@ -113,7 +113,15 @@ public class ManageController {
   
   /* 전체 리뷰 목록 페이지 */
   @GetMapping("/reviewList.form")
-  public String reviewList() {
+  public String reviewList(HttpServletRequest request, Model model) {
+    manageService.loadReviewList(request, model);
+    return "manage/reviewList";
+  }
+  
+  /* 리뷰 검색 */
+  @GetMapping("/searchReview.do")
+  public String searchReview(HttpServletRequest request, Model model) {
+    manageService.loadSearchReviewList(request, model);
     return "manage/reviewList";
   }
   

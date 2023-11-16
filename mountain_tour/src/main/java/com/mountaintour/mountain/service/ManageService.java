@@ -41,5 +41,10 @@ public interface ManageService {
   /* 여행상품 검색 */
   public void loadSearchProductList(HttpServletRequest request, Model model);
   
+  /* 리뷰 목록 */
+  public void loadReviewList(HttpServletRequest request, Model model);
+  
+  /* 리뷰 검색 */
+  public void loadSearchReviewList(HttpServletRequest request, Model model);
   
 }
