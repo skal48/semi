@@ -247,7 +247,7 @@ public class ManageServiceImpl implements ManageService {
     map.put("begin", myPageUtils.getBegin());
     map.put("end", myPageUtils.getEnd());
     
-    List<LeaveUserDto> leaveUserList = manageMapper.getSearchLeave(map);
+    List<LeaveUserDto> leaveUserList = manageMapper.getSearchLeaveList(map);
     
     model.addAttribute("leaveUserList", leaveUserList);
     model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/manage/leaveMemberSearch.do", "column=" + column + "&query=" + query));
@@ -255,6 +255,14 @@ public class ManageServiceImpl implements ManageService {
     model.addAttribute("total", total);
   }
   
+  /**
+   * 여행 상품 관리 목록
+   * 
+   * @author 심희수
+   * @param request
+   * @param model
+   * @return 여행상품 관리목록, 페이징 정보, 총 상품 수 반환
+   */
   @Override
   public void loadProductList(HttpServletRequest request, Model model) {
     
@@ -275,8 +283,35 @@ public class ManageServiceImpl implements ManageService {
     model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/manage/productList.form"));
     model.addAttribute("beginNo", total - (page - 1) * display);
     model.addAttribute("total", total);
+  }
+  
+  @Override
+  public void loadSearchProductList(HttpServletRequest request, Model model) {
     
+    String column = request.getParameter("column");
+    String query = request.getParameter("query");
     
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("column", column);
+    map.put("query", query);
+    
+    int total = manageMapper.getSearchProductCount(map);
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int display = 20;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    map.put("begin", myPageUtils.getBegin());
+    map.put("end", myPageUtils.getEnd());
+    
+    List<ProductDto> productList = manageMapper.getSearchProductList(map);
+    
+    model.addAttribute("productList", productList);
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/manage/productSearch.do", "column=" + column + "&query=" + query));
+    model.addAttribute("beginNo", total - (page -1) * display);
+    model.addAttribute("total", total);
   }
   
   

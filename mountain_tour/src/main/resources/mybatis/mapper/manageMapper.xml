@@ -5,6 +5,33 @@
 
 <mapper namespace="com.mountaintour.mountain.dao.ManageMapper">
 	
+    <resultMap type="ProductDto"      id="ProductMap">
+    <id        column="PRODUCT_NO"    property="productNo"/>
+    <result    column="TRIP_NAME"     property="tripName"/>
+    <result    column="TRIP_CONTENTS" property="tripContents"/>
+    <result    column="GUIDE"         property="guide"/>
+    <result    column="TIMETAKEN"     property="timetaken"/>
+    <result    column="PRICE"         property="price"/>
+    <result    column="DANGER"        property="danger"/>
+    <result    column="REGISTERED_AT" property="registeredAt"/>
+    <result    column="MODIFIED_DATE" property="modifiedDate"/>
+    <result    column="PEOPLE"        property="people"/>
+    <result    column="HIT"           property="hit"/>
+    <result    column="PLAN"          property="plan"/>
+    <result    column="TERM_USE"      property="termUse"/>
+    <association javaType="MountainDto"  property="mountainDto">
+      <id        column="MOUNTAIN_NO"    property="mountainNo"/>
+      <result    column="MOUNTAIN_NAME"  property="mountainName"/>
+      <result    column="IMPORMATION"    property="impormation" />
+      <result    column="LOCATION"       property="location" />
+    </association>
+    <association javaType="ImageDto"       property="imageDto">
+      <result    column="IMAGE_PATH"       property="imagePath" />
+      <result    column="FILESYSTEM_NAME"  property="filesystemName"/>
+      <result    column="THUMBNAIL"        property="thumbnail"/>  
+    </association>
+  </resultMap>
+ 
   
   <!-- 회원 관리 목록 -->
   <select id="getUserCount" resultType="int">
@@ -51,7 +78,7 @@
       FROM LEAVE_USER_T
      WHERE ${column} LIKE '%' || #{query} || '%'
   </select>
-  <select id="getSearchLeave" parameterType="Map" resultType="LeaveUserDto">
+  <select id="getSearchLeaveLise" parameterType="Map" resultType="LeaveUserDto">
     SELECT EMAIL, JOINED_AT, LEAVED_AT
       FROM (SELECT ROW_NUMBER() OVER(ORDER BY LEAVED_AT DESC) AS RN, EMAIL, JOINED_AT, LEAVED_AT
               FROM LEAVE_USER_T
@@ -59,8 +86,19 @@
      WHERE RN BETWEEN #{begin} AND #{end}
   </select>
   
-
-
+  <!-- 여행상품 검색 목록 -->
+  <select id="getSearchProductCount" parameterType="Map" resultType="int">
+    SELECT COUNT(*)
+      FROM PRODUCT_T
+     WHERE ${column} LIKE '%' || #{query} || '%'
+  </select>
+  <select id="getSearchProductList" parameterType="Map" resultType="ProductDto">
+    SELECT PRODUCT_NO, USER_NO, MOUNTAIN_NO, TRIP_NAME, TRIP_CONTENTS, GUIDE, TIMETAKEN, PRICE, DANGER, REGISTERED_AT, MODIFIED_DATE, PEOPLE, HIT, PLAN, STATUS, TERM_USE
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY PRODUCT_NO DESC) AS RN, PRODUCT_NO, USER_NO, MOUNTAIN_NO, TRIP_NAME, TRIP_CONTENTS, GUIDE, TIMETAKEN, PRICE, DANGER, REGISTERED_AT, MODIFIED_DATE, PEOPLE, HIT, PLAN, STATUS, TERM_USE
+              FROM PRODUCT_T
+             WHERE ${column} LIKE '%' || #{query} || '%')
+     WHERE RN BETWEEN #{begin} AND #{end}
+  </select>
   
   
   

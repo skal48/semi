@@ -15,4 +15,6 @@ public interface NoticeMapper {
   public int insertNotice(NoticeDto notice);
   public int deleteNotice(int NoticeNo);
   public int updateNotice(NoticeDto notice);
+  public int getSearchCount(Map<String, Object> map);
+  public List<NoticeDto> getSearchList(Map<String, Object> map);
 }

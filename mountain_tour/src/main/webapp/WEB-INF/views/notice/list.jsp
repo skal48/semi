@@ -132,7 +132,6 @@ img {
           <td>제목</td>
           <td>작성일</td>
           <td>수정일</td>
-          <td>조회수</td>
         </tr>
       </thead>
       <tbody>
@@ -145,10 +144,14 @@ img {
             </td>
             <td>${n.createdAt}</td>
             <td>${n.modifiedAt}</td>
-            <td>${n.hit}</td>
           </tr>
         </c:forEach>
       </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5">${paging}</td>
+        </tr>
+       </tfoot> 
     </table>
       
       </div>

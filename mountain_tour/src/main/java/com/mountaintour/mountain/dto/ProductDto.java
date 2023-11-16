@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProductDto {
     private int productNo;
-    private int userNo;
+    private UserDto userDto;
     private MountainDto mountainDto;
     private String tripName;
     private String tripContents; // 여행내용

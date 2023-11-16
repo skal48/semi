@@ -70,4 +70,10 @@ public class NoticeController {
     return "notice/edit";
   
   }
+  
+  @GetMapping("/search.do")
+  public String search(HttpServletRequest request, Model model) {
+    noticeService.LoadSearchList(request, model);
+    return "notice/list";
+  }
 }

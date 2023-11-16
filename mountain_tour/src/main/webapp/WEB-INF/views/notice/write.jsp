@@ -81,7 +81,9 @@
         
       <!-- 작성완료 submit  -->  
       <div>
+        <a href="${contextPath}/notice/list.do">
         <button type="submit" class="btn btn-primary col-12">작성완료</button>
+        </a>
       </div>
         
       </form>
