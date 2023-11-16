@@ -136,7 +136,7 @@ function previewImage(targetObj, previewId) {
 		          $(ev.target).val('');       
 		          $('#attached_list').empty();
 		          return;
-		        }
+		        0}
 		        
 		    })
 		  }  
