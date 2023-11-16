@@ -57,11 +57,42 @@
   .blind {
     display: none;
   }
-  .btn_contents {
+  .open_contents {
     cursor: pointer;
   }
   
 </style>
+<script>
+
+  $(() => {
+	fnSubstring();
+	fnBlind();
+  })
+
+  /* 내용의 일부만 보여주기 */
+  const fnSubstring = () => {
+    $('.btn_contents').each(function() {
+      var text = $(this).text().trim();
+      var truncatedText = text.length > 10 ? text.substring(0, 10) + '...' : text;
+      $(this).text(truncatedText);
+    })
+  }
+  
+  
+  /* 게시글 내용을 클릭하면 전체 내용 나타내기 */
+  const fnBlind = () => {
+	$('.open_contents').click((ev) => {
+	  ler openContents = $(ev.target).parent().next();
+	  if(openContents.hasClass('blind')){
+		$('.show_content').addClass('blind');
+		openContents.removeClass('blind');
+	  } else {
+		openContents.addClass('blind');
+	  }
+	})
+  }
+  
+</script>
 
  
   <div class="container text-center">
@@ -117,7 +148,7 @@
                     <th scope="row">${r.reviewNo}</th>
                     <td>${r.productNo}</td>
                     <td>${r.userDto.name}</td>
-                    <td class="btn_contents">${r.contents}</td>
+                    <td class="open_contents">${r.contents}</td>
                     <td>
                       <fmt:formatDate value="${r.createdAt}" pattern="yy/MM/dd" />
                     </td>
