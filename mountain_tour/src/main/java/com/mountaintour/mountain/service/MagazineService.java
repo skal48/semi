@@ -19,5 +19,6 @@ public interface MagazineService {
   public void loadMagazine(HttpServletRequest request, Model model);  
   public int deleteMagazine(HttpServletRequest request);
   public Map<String, Object> firstModify(HttpServletRequest request); 
-  
+  public int finalModify(MultipartHttpServletRequest multipartRequest) throws Exception; 
+  public int increaseHit(int magazineNo);
 }
