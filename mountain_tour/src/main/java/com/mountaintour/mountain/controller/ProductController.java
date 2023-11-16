@@ -47,10 +47,27 @@ public class ProductController {
       } else {
           redirectAttributes.addFlashAttribute("errorMessage", "Failed to add product. Please try again.");
       }
-
+  
       return "redirect:/product/list.do";
   }
 
+  @GetMapping("/increseHit.do")
+  public String increseHit(@RequestParam(value="productNo", required=false, defaultValue="0") int productNo) {
+    int increseResult = productService.increseHit(productNo);
+    if(increseResult == 1) {
+      return "redirect:/product/detail.do?productNo=" + productNo;
+    } else {
+      return "redirect:/product/list.do";
+    }
+  }
+  
+  @PostMapping(value="/heartProduct.do" , produces="application/json")
+  public String heart(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+	int heartResult = productService.addHeart(request);
+	redirectAttributes.addFlashAttribute("heartResult", heartResult);
+	return "redirect:/product/detail.do?productNo=" + request.getParameter("productNo"); 
+  }
+  
   
   @ResponseBody
   @PostMapping(value="/addThumbnail.do", produces="application/json")
@@ -70,8 +87,6 @@ public class ProductController {
     return productService.getProductList(request);
   }  
 
-  
-  
   @GetMapping("/detail.do")
   public String detail(@RequestParam(value="productNo", required=false, defaultValue="0") int productNo
           , Model model) {
@@ -98,5 +113,17 @@ public class ProductController {
     int removeResult = productService.removeProduct(productNo);
     redirectAttributes.addFlashAttribute("removeResult", removeResult);
     return "redirect:/product/list.do";
+  }
+  
+  @ResponseBody
+  @PostMapping(value="/addReview.do", produces="application/json")
+  public Map<String, Object> addReview(HttpServletRequest request) {
+    return productService.addReview(request);
+  }
+  
+  @ResponseBody
+  @GetMapping(value="/reviewList.do", produces="application/json")
+  public Map<String, Object> ReviewList(HttpServletRequest request){
+    return productService.loadReviewList(request);
   }
 }

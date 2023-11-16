@@ -22,10 +22,13 @@
     }
     .big_magazine {         
       height: 410px;
+      width: 100%;
       margin-top:15px; 
     }    
     .big_picture {
       height: 270px;
+      width:100%;
+      margin-top: 10px;
       margin-bottom: 30px;
     }
     .big_title {
@@ -38,10 +41,15 @@
     .big_date {
       margin-bottom: 15px;
       margin-left: 40px;
+     
     }
     .big_hit {
+      width : 100px;
       margin-bottom: 15px;
     }
+    .magazine {
+      margin-bottom: 50px;
+    }    
     .small_magazine {      
       margin-top: 20px;
     }
@@ -117,18 +125,24 @@
 	    	  totalPage = resData.totalPage;
 	    	  $.each(resData.magazineList, (i, upload) => {
 	        if(page === 1 && i === 0){
-	        	console.log(upload.magazineNo)
+	        	console.log(upload.magazineMultiDto.isThumbnail);
   	      	let big = '<div class="big_magazine magazine" style = "border: 1px gray solid;" data-magazine_no="'+ upload.magazineNo +'">';
-  			        big += '<img src="" class="big_picture" alt="썸네일" >';
+  	      		if(upload.magazineMultiDto.isThumbnail === 1){
+  	      			console.log(upload.magazineMultiDto.multiPath)
+  			        big += '<img src="${contextPath}'+upload.magazineMultiDto.multiPath+'/'+upload.magazineMultiDto.filesysName+'" class="big_picture" alt="썸네일" >';
+  	      		}
   			        big += '<div class="big_title">'+ upload.title +'</div>';
-  			        big += '<span class="big_date position-absolute bottom-0 start-0">date'+ upload.createAt +'</span>';
+  			        big += '<span class="big_date position-absolute bottom-0 start-0">date   '+ new Date(upload.createAt).toLocaleDateString().replace(/\./g, '').replace(/\s/g, '-')   +'</span>';
   	            big += '<span class="big_hit position-absolute bottom-0">조회수' + upload.hit +'</span> </div>';
   	      	$('.big_wrapper').append(big);
 	        } else {
-	        	let small = '<div class="row magazine" data-magazine_no="'+ upload.magazineNo+'"><div class="col"><img src="" class="small_picture" style = "border: 1px gray solid;"></div>';
+	        	let small = '<div class="row magazine" data-magazine_no="'+ upload.magazineNo+'"><div class="col">';
+	        			 if(upload.magazineMultiDto.isThumbnail === 1){
+	        			small += '<img src="${contextPath}'+upload.magazineMultiDto.multiPath+'/'+upload.magazineMultiDto.filesysName+'" class="small_picture" style = "border: 1px gray solid;"></div>';
+	        			 }
 	        			small += '<div class="col"><div class="small_title">'+upload.title+'</div>';
 	        			small += '<div class="small_summary">summary</div>';
-	        			small += '<span class="small_date position-absolute bottom-0 start-0">date'+ upload.createAt +'</span>';
+	        			small += '<span class="small_date position-absolute bottom-0 start-0">date'+ new Date(upload.createAt).toLocaleDateString().replace(/\./g, '').replace(/\s/g, '-') +'</span>';
 	        			small += '<span class="small_hit position-absolute bottom-0">조회수' + upload.hit +' </span></div></div>';
 	        	$('#small_wrapper').append(small);  
 	        	}

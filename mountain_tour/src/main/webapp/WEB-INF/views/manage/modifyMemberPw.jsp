@@ -11,109 +11,95 @@
   <jsp:param value="회원 비밀번호 변경" name="title"/>
 </jsp:include>
 
+<style>
+  #pw_box {
+    margin: 10% auto;
+  }
+</style>
+
 <script>
+
+  
   
   /* 함수 호출 */
   $(() => {
-    fnCheckPassword();
-    fnCheckPassword2();
-    fnModifyPassword();
+	fnCheckPw();
     fnModifyResult();
+    fnBack();
   })
-  
-  
-  /* 전역변수 선언 */
-  var pwPassed = false;
-  var pw2Passed = false;
   
   
   /* 함수 정의 */
   
-  const fnCheckPassword = () => {
-    $('#pw').keyup((ev) => {
-      let pw = $(ev.target).val();
-      // 비밀번호 : 8~20자, 영문,숫자,특수문자, 2가지 이상 포함
-      let validPwCount = /[A-Z]/.test(pw)          // 대문자가 있으면   true
-                       + /[a-z]/.test(pw)          // 소문자가 있으면   true
-                       + /[0-9]/.test(pw)          // 숫자가 있으면     true
-                       + /[^A-Za-z0-9]/.test(pw);  // 특수문자가 있으면 true
-      pwPassed = pw.length >= 8 && pw.length <= 20 && validPwCount >= 2;
-      if(pwPassed){
-        $('#msg_pw').text('사용 가능한 비밀번호입니다.');
-      } else {
-        $('#msg_pw').text('비밀번호는 8~20자, 영문/숫자/특수문자를 2가지 이상 포함해야 합니다.');       
-      }
-    })
-  }
-  
-  const fnCheckPassword2 = () => {
-    $('#pw2').blur((ev) => {
-      let pw = $('#pw').val();
-      let pw2 = ev.target.value;
-      pw2Passed = (pw !== '') && (pw === pw2);
-      if(pw2Passed){
-        $('#msg_pw2').text('');
-      } else {
-        $('#msg_pw2').text('비밀번호 입력을 확인하세요.');
-      }
-    })
-  }
-  
-  const fnModifyPassword = () => {
-    $('#frm_modify_pw').submit((ev) => {
-      if(!pwPassed || !pw2Passed){
-        alert('비밀번호를 확인하세요.');
-        ev.preventDefault();
-        return;
-      }
-    })
-  }
-  
-  const fnModifyResult = () => {
-	let modifyPwResult = '${modifyPwResult}';
-	if(modifyPwResult !== ''){
-	  if(modifyPwResult === '1'){
-		alert('${userNo.name}'회원의 비밀번호가 변경되었습니다.);
-	  } else {
-		alert('${userNo.name}'회원의 비밀번호가 변경되지 않았습니다..);
-	  }
-	}
+  // 비밀번호 빈문자열 방지
+  const fnCheckPw = () => {
+	$('#frm_modify_pw').submit((ev) => {
+  	  if($('#pw').val().trim() === ''){
+  	    ev.preventDefault();
+  	    alert('회원 비밀번호는 한글자 이상 입력해야합니다.');
+  	    return;
+  	  }
+	})
   }
  
-</script>
+  
+  const fnModifyResult = () => {
+    let modifyPwResult = '${modifyPwResult}';
+    if(modifyPwResult !== ''){
+      if(modifyPwResult === '1'){
+      alert('회원의 비밀번호가 변경되었습니다.');
+      } else {
+      alert('회원의 비밀번호가 변경되지 않았습니다.');
+      }
+    }
+  }
+  
+  const fnBack = () => {
+	$('#back').click(() => {
+	  history.back();
+	})
+  }  
+ 
+</script> 
 
  
   <div class="container text-center">
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
-      <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
+    <div class="col-10" style = "border: 1px gray solid;" >
       
       <div>
 
-        <form id="frm_modify_pw" method="post" action="${contextPath}/user/modifyMemberPw.do">
+        <form id="frm_modify_pw" method="post" action="${contextPath}/manage/modifyMemberPw.do">
           
-          <h1>비밀번호 변경하기</h1>
+          <h2>${userNo}번 회원 비밀번호 변경하기</h2>
+          
             
-          <div>
-            <label for="pw">비밀번호</label>
-            <input type="password" name="pw" id="pw">
-            <span id="msg_pw"></span>
+
+          
+          <div class="container text-center">
+            <div class="row justify-content-center align-items-center" id="pw_box">
+              <div class="col-auto">
+                <label for="pw" class="col-form-label">비밀번호</label>
+              </div>
+              <div class="col-auto">
+                <input type="password" name="pw" id="pw" class="form-control">
+              </div>
+            </div>
           </div>
           
-          <div>
-            <label for="pw2">비밀번호 확인</label>
-            <input type="password" id="pw2">
-            <span id="msg_pw2"></span>
-          </div>
           
-          <div>
+          <div style="margin-top: 10%; margin-bottom: 10%;">
             <input type="hidden" name="userNo" value="${userNo}">
-            <button type="submit">비밀번호변경하기</button>
+            <button type="submit" class="btn btn-outline-success col-5">비밀번호변경하기</button>
           </div>
           
         </form>
+        
+        <div>
+          <button type="button" id="back" class="btn btn-secondary">뒤로가기</button>
+        </div>
     
       </div>
 
@@ -128,7 +114,7 @@
   
  
  
- 
+
  
  
 

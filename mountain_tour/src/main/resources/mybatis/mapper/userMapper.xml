@@ -114,6 +114,19 @@
       , SYSDATE
     )
   </insert>
+  <select id="selectHeartList" parameterType="Map" resultType="HeartDto">
+  	 SELECT A.USER_NO, A.PRODUCT_NO
+       FROM (SELECT ROW_NUMBER() OVER(ORDER BY U.USER_NO DESC) AS RN, U.USER_NO, H.PRODUCT_NO
+               FROM USER_T U INNER JOIN HEART_T H
+                    ON U.USER_NO = H.USER_NO INNER JOIN PRODUCT_T P
+                    ON H.PRODUCT_NO = P.PRODUCT_NO) A
+       WHERE A.RN BETWEEN #{begin} AND #{end}
+       AND USER_NO = #{userNo}
+  </select>
   
+  <select id="getHeartCount" resultType="int">
+  SELECT COUNT(*)
+    FROM HEART_T
+  </select>
 
 </mapper>

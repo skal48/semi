@@ -56,8 +56,7 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
-      <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
+    <div class="col-10" style = "border: 1px gray solid;" >
       
       
       <div class="mainWrap">
@@ -95,42 +94,30 @@
                 </tr>
               </thead>
               <tbody class="table-group-divider">
-                <tr>
-                  <th scope="row">1</th>
-                  <td>테스트</td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>테스트</td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>테스트</td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>테스트</td>
-                  <td>테스트</td>
-                  <td>테스트</td>
-                </tr>
+                <c:forEach items="${leaveUserList}" var="leave" varStatus="vs">
+                  <tr>
+                    <th scope="row">${beginNo - vs.index}</th>
+                    <td>${leave.email}</td>
+                    <td>
+                      <fmt:formatDate value="${leave.joinedAt}" pattern="yyyy/MM/dd" />
+                    </td>
+                    <td>
+                      <fmt:formatDate value="${leave.leavedAt}" pattern="yyyy/MM/dd" />
+                    </td>
+                  </tr>
+                </c:forEach>
               </tbody>
               <%-- 페이징 처리 --%>
               <tfoot>
                 <tr>
-                  <td cospan="4">${paging}</td>
+                  <td colspan="4">${paging}</td>
                 </tr>
               </tfoot>
             </table>
             
             <%-- 검색기능 --%>
             <div>
-              <form method="get" action="#" >
+              <form method="get" action="${contextPath}/manage/leaveMemberSearch.do" >
                 <select name="column" class="form-select-sm" style="height: 40px">
                   <option value="EMAIL">이메일</option>
                   <option value="JOINED_AT">가입일</option>

@@ -30,7 +30,54 @@
         <result  column="FILESYSTEM_NAME" 	 property="filesystemName"/>
         <result  column="THUMBNAIL" 		 property="thumbnail"/>  
     </association>
+    <association javaType="UserDto" property="userDto">
+        <id column="USER_NO" property="userNo"/>
+        <result column="EMAIL" property="email"/>
+        <result column="PW" property="pw"/>
+        <result column="NAME" property="name"/>
+        <result column="GENDER" property="gender"/>
+        <result column="MOBILE" property="mobile"/>
+        <result column="POSTCODE" property="postcode"/>
+        <result column="ROAD_ADDRESS" property="roadAddress"/>
+        <result column="JIBUN_ADDRESS" property="jibunAddress"/>
+        <result column="DETAIL_ADDRESS" property="detailAddress"/>
+        <result column="AGREE" property="agree"/>
+        <result column="STATE" property="state"/>
+        <result column="AUTH" property="auth"/>
+        <result column="PW_MODIFIED_AT" property="pwModifiedAt"/>
+        <result column="JOINED_AT" property="joinedAt"/>
+    </association>
   </resultMap>
+
+	<resultMap type="ReviewDto" id="ReviewMap">
+    <id column="REVIEW_NO" property="reviewNo"/>
+    <result column="PRODUCT_NO" property="productNo"/>
+  <!-- <result column="RESERVE_NO" property="reserveNo"/>  --> 
+    <result column="USER_NO" property="userNo"/>
+    <result column="CONTENTS" property="contents"/>
+    <result column="CREATED_AT" property="createdAt"/>
+    <result column="MODIFIED_AT" property="modifiedAt"/>
+    <result column="STATUS" property="status"/>
+    <result column="STAR" property="star"/>   
+    <association javaType="UserDto" property="userDto">
+        <id column="USER_NO" property="userNo"/>
+        <result column="EMAIL" property="email" />
+        <result column="PW" property="pw" />
+        <result column="NAME" property="name" />
+        <result column="GENDER" property="gender" />
+        <result column="MOBILE" property="mobile" />
+        <result column="POSTCODE" property="postcode" />
+        <result column="ROAD_ADDRESS" property="roadAddress" />
+        <result column="JIBUN_ADDRESS" property="jibunAddress" />
+        <result column="DETAIL_ADDRESS" property="detailAddress" />
+        <result column="AGREE" property="agree" />
+        <result column="STATE" property="state" />
+        <result column="AUTH" property="auth" />
+        <result column="PW_MODIFIED_AT" property="pwModifiedAt" />
+        <result column="JOINED_AT" property="joinedAt" />
+    </association>
+	</resultMap>
+	
 
   <insert id="insertProduct" parameterType="ProductDto">
     <selectKey order="BEFORE" keyProperty="productNo" resultType="int">
@@ -40,7 +87,7 @@
     INSERT INTO PRODUCT_T (
         PRODUCT_NO, 
         USER_NO, 
-         MOUNTAIN_NO, 
+        MOUNTAIN_NO, 
         TRIP_NAME, 
         TRIP_CONTENTS, 
         GUIDE, 
@@ -175,6 +222,30 @@
      WHERE PRODUCT_NO = #{productNo}  
   </update>
   
+  <insert id="heartProduct" parameterType="heartDto">
+    INSERT INTO HEART_T (
+      PRODUCT_NO	
+    , USER_NO
+    )VALUES(
+      #{productNo}
+    , #{userNo}
+     )
+  </insert>
+  
+  <select id="getcalendar" resultType="map">      
+        SELECT 
+            P.PRODUCT_NO,
+            P.TRIP_NAME,
+            P.PEOPLE - NVL(SUM(R.RESERVE_PERSON), 0) AS CH
+        FROM 
+            PRODUCT_T P
+        LEFT JOIN 
+            RESERVE_T R ON P.PRODUCT_NO = R.PRODUCT_NO
+        GROUP BY 
+            P.PRODUCT_NO, P.TRIP_NAME, P.PEOPLE
+   </select>
+  
+  
   <update id="updateProduct" parameterType="ProductDto">
     UPDATE PRODUCT_T
        SET TRIP_NAME = #{tripName}
@@ -196,6 +267,46 @@
       FROM IMAGE_T
      WHERE PRODUCT_NO = #{productNo}  
   </select>
+
+	<insert id="insertReview" parameterType="ReviewDto">
+    INSERT INTO REVIEW_T (
+        REVIEW_NO
+      , PRODUCT_NO
+      <!--  , RESERVE_NO -->
+      , USER_NO
+      , CONTENTS
+      , CREATED_AT
+      , MODIFIED_AT
+      , STATUS
+      , STAR
+    ) VALUES (
+        REVIEW_SEQ.NEXTVAL
+      , #{productNo}
+    <!-- , #{reserveNo} -->  
+      , #{userNo}
+      , #{contents}
+      , SYSDATE
+      , SYSDATE
+      , 1
+      , 0
+    )
+  </insert>
+  
+  <select id="getReviewCount" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+      FROM REVIEW_T
+     WHERE PRODUCT_NO = #{productNo}
+  </select>
+
+  <select id="getReviewList" parameterType="Map" resultMap="ReviewMap">
+    SELECT A.REVIEW_NO, A.PRODUCT_NO, A.USER_NO, A.CONTENTS, A.CREATED_AT, A.STATUS, A.NAME
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY REVIEW_NO DESC) AS RN, C.REVIEW_NO, C.CONTENTS, C.PRODUCT_NO, C.CREATED_AT, C.STATUS, U.USER_NO, U.NAME
+              FROM USER_T U INNER JOIN REVIEW_T C
+                ON U.USER_NO = C.USER_NO
+             WHERE C.PRODUCT_NO = #{productNo}) A
+     WHERE A.RN BETWEEN #{begin} AND #{end}
+  </select>
+
 
   <delete id="deleteProductImage" parameterType="String">
     DELETE

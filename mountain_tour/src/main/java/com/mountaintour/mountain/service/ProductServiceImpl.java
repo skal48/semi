@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,9 +23,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.mountaintour.mountain.dao.ProductMapper;
+import com.mountaintour.mountain.dto.HeartDto;
 import com.mountaintour.mountain.dto.ImageDto;
 import com.mountaintour.mountain.dto.MountainDto;
 import com.mountaintour.mountain.dto.ProductDto;
+import com.mountaintour.mountain.dto.ReviewDto;
+import com.mountaintour.mountain.dto.UserDto;
 import com.mountaintour.mountain.util.MyPageUtils;
 import com.mountaintour.mountain.util.MyProductFileUtils;
 
@@ -144,7 +148,9 @@ public class ProductServiceImpl implements ProductService {
 
 	        // ProductDto 생성
 	        ProductDto product = ProductDto.builder()
-	                .userNo(userNo)
+	        		.userDto(UserDto.builder()
+                            .userNo(userNo)
+                            .build())
 	                .mountainDto(MountainDto.builder().mountainNo(1).build())
 	                .tripName(multipartRequest.getParameter("tripName"))
 	                .tripContents(tripContents)
@@ -246,7 +252,7 @@ public class ProductServiceImpl implements ProductService {
 	    // 1. 어제 작성된 블로그의 이미지 목록 (DB)
 	    List<ImageDto> productImageList = productMapper.getProductImageInYesterday();
 	    
-	    // 2. List<BlogImageDto> -> List<Path> (Path는 경로+파일명으로 구성)
+	    // 2. List<productImageDto> -> List<Path> (Path는 경로+파일명으로 구성)
 	    List<Path> productImagePathList = productImageList.stream()
 	                                                .map(productImageDto -> new File(productImageDto.getImagePath(), productImageDto.getFilesystemName()).toPath())
 	                                                .collect(Collectors.toList());
@@ -379,5 +385,89 @@ public class ProductServiceImpl implements ProductService {
 	    productMapper.deleteProductImageList(productNo);
 	    
 	    return productMapper.deleteProduct(productNo);
+	}
+	
+@Override
+	public int addHeart(HttpServletRequest request) {
+	
+	int productNo = Integer.parseInt(request.getParameter("productNo"));
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    
+    HeartDto heart = HeartDto.builder()
+		    		.productNo(productNo)
+		    		.userNo(userNo)
+		            .build();
+     
+	return productMapper.heartProduct(heart);
+	}
+
+	@Override
+	public Map<String, Object> addReview(HttpServletRequest request) {
+	
+	  String contents = request.getParameter("contents");
+	  String userNoString = request.getParameter("userNo");
+	  int userNo = 0;
+	  if (userNoString != null && !userNoString.isEmpty()) {
+	      try {
+	          userNo = Integer.parseInt(userNoString);
+	      } catch (NumberFormatException e) {
+	          e.printStackTrace(); 
+	      }
+	  }
+
+	  String productNoString = request.getParameter("productNo");
+	  int productNo = 0; // 기본값을 0으로 설정
+	  if (productNoString != null && !productNoString.isEmpty()) {
+	      try {
+	          productNo = Integer.parseInt(productNoString);
+	      } catch (NumberFormatException e) {
+	          e.printStackTrace(); 
+	      }
+	  }
+
+
+	 // int reserveNo = Integer.parseInt(request.getParameter("reserveNo"));
+	  
+	  ReviewDto review = ReviewDto.builder()
+	                        .contents(contents)
+	                        .userDto(UserDto.builder()
+	                                  .userNo(userNo)
+	                                  .build())
+	                        .productNo(productNo)
+	                        //.reserveNo(reserveNo)
+	                        .build();
+
+	  int addReviewResult = productMapper.insertReview(review);
+	  
+	  return Map.of("addReviewResult", addReviewResult);
+	  
+	}
+	
+	@Transactional(readOnly=true)
+	@Override
+	public Map<String, Object> loadReviewList(HttpServletRequest request) {
+	
+		
+	  int productNo = Integer.parseInt(request.getParameter("productNo") != null ? request.getParameter("productNo") : "0");
+
+	  
+	  int page = Integer.parseInt(request.getParameter("page"));
+	  int total = productMapper.getReviewCount(productNo);
+	  int display = 10;
+	  
+	  myPageUtils.setPaging(page, total, display);
+	  
+	  Map<String, Object> map = Map.of("productNo", productNo
+	                                 , "begin", myPageUtils.getBegin()
+	                                 , "end", myPageUtils.getEnd());
+	  
+	  List<ReviewDto> reviewList = productMapper.getReviewList(map);
+	  String paging = myPageUtils.getAjaxPaging();
+	  System.out.println("뭔데" + productNo);
+	  Map<String, Object> result = new HashMap<String, Object>();
+	  result.put("reviewList", reviewList);
+	  result.put("paging", paging);
+	  return result;
+	  
 	}
 }	

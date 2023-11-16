@@ -77,21 +77,37 @@ public class ManageController {
   
   /* 기존 회원 탈퇴 */
   @PostMapping(value="/removeMember.do")
-  public String removeMember(@Param(value="UserNo") int userNo, RedirectAttributes redirectAttributes) {
-    int removeResult = manageService.removeMember(userNo);
+  public String removeMember(UserDto user, RedirectAttributes redirectAttributes) {
+    int removeResult = manageService.removeMember(user);
     redirectAttributes.addFlashAttribute("removeResult", removeResult);
     return "redirect:/manage/memberList.form";
   }
   
   /* 탈퇴 회원 목록 페이지 */
   @GetMapping("/leaveMemberList.form")
-  public String leaveMemberList() {
+  public String leaveMemberList(HttpServletRequest request, Model model) {
+    manageService.loadLeaveList(request, model);
     return "manage/leaveMemberList";
   }
   
-  /* 상품,예약 목록 페이지 */
+  /* 탈퇴 회원 검색 */
+  @GetMapping("/leaveMemberSearch.do")
+  public String leaveMemberSearch(HttpServletRequest request, Model model) {
+    manageService.loadSearchLeaveList(request, model);
+    return "manage/leaveMemberList";
+  }
+  
+  /* 여행상품 목록 페이지 */
   @GetMapping("/productList.form")
-  public String productList() {
+  public String productList(HttpServletRequest request, Model model) {
+    manageService.loadProductList(request, model);
+    return "manage/productList";
+  }
+  
+  /* 여행상품 검색 */
+  @GetMapping("/productSearch.do")
+  public String productSearch(HttpServletRequest request, Model model) {
+    manageService.loadSearchProductList(request, model);
     return "manage/productList";
   }
   
@@ -100,5 +116,6 @@ public class ManageController {
   public String reviewList() {
     return "manage/reviewList";
   }
+  
   
 }

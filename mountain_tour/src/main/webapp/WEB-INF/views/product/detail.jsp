@@ -19,8 +19,8 @@
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
   <script>
   $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
+	    $( "#datepicker" ).datepicker();
+	  } );
 
   </script>
   <style>
@@ -46,13 +46,16 @@
 
       <div class="row">
     	<div class="col-8" style="margin-top: 30px; margin-bottom: 30px;">
+    	
+    	 <div style = "text-align: left;">조회수 : <fmt:formatNumber value="${product.hit}" pattern="#,##0"></fmt:formatNumber></div>
     	  <div class="text-center">
 			<!-- 여기 첨부파일이 보여줘야함 -->
 		  </div>
     	  <hr>
     	  <c:if test="${sessionScope.user.auth == 0}">
     	   <form id="frm_btn" method="post">
-    	   	  <input type="hidden" name="productNo" value="${product.productNo}">
+    	   	  <input type="hidden" name="productNo" class="heart" value="${product.productNo}">
+    	   	  <input type="hidden" name="usertNo" class="heart2" value="${sessionScope.user.userNo}">
     	   	  <input type="hidden" name="tripName" value="${product.tripName}">
     	   	  <input type="hidden" name="price" value="${product.price}">	    	
     	   	  <input type="hidden" name="plan" value="${product.plan}">	    	
@@ -66,8 +69,9 @@
 	       </form>
     	  </c:if>    	  
     	  
-    	  
-    	  
+    	  <input type="hidden" name="productNo" class="heart" value="${product.productNo}">
+    	  <input type="hidden" name="usertNo" class="heart2" value="${sessionScope.user.userNo}">
+    	
     	  
     	 <div style="text-align: left;">
 			 <span class="badge text-bg-success">단순코스</span>
@@ -80,7 +84,7 @@
 	    	 <div class="calender_mini">
 	    	  <div class="row">
 			    <div class="col">
-			      <div id="datepicker"></div>
+			     <div id="datepicker"></div>
 			    </div>
 			    <div class="col" style = "border: 1px gray solid;">
 			      예약이 가능해요!<br>
@@ -102,23 +106,10 @@
 	    	  <div>${product.tripName}상품</div>
 			  <div>예약가능인원수</div>
 		      <div>현재예약</div>
-    	  </div>
-    	  
-    	  
-    	  
-    	  
-    	  
-    	  
-    	  
-    	  
-    	  
+    	  </div>  
     	  </div>
 	    <div> 
-	   
-	    
-	    
-		 
-		
+
 		<div style="text-align: right;">
 
 		    <a style="display: inline-block; margin-top: 20px">
@@ -154,9 +145,7 @@
 			<div style = "border: 1px gray solid; height: 100px">
     	  	${product.danger}
     	    </div>
-    	    
-    	    
-    	    
+  
     	    
     	  <div class="choice">약관/정보</div>
     	    <div style = "border: 1px gray solid; height: 100px">	  
@@ -164,7 +153,7 @@
     	    </div>
     	
 	    <div class="choice">리뷰</div> 
-	 	<form class="mb-3" name="myform" id="myform" method="post">
+	 	<form class="mb-3 frm_review_add" id="myform" method="post">
 		<fieldset>
 			<span class="text-bold"> ❤️ 별점을 선택해주세요</span>
 			<input type="radio" name="reviewStar" value="5" id="rate1"><label
@@ -178,9 +167,12 @@
 			<input type="radio" name="reviewStar" value="1" id="rate5"><label
 				for="rate5">★</label>
 		</fieldset>
+		
 			<div>
-				<textarea class="col-auto form-control" type="text" id="reviewContents"
-						  placeholder="행복했던 여행후기를 남겨보세요🙂"></textarea>   <!-- 예약한사람만 보이게 -->
+				<input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
+        		<input type="hidden" name="productNo" value="${product.productNo}">
+				<textarea class="col-auto form-control" id="contents" name="contents" placeholder="행복했던 여행후기를 남겨보세요🙂"></textarea>   <!-- 예약한사람만 보이게 -->
+				<button type="button" class="btn btn-success btn-sm" id="btn_review_add" style="margin-top: 20px; margin-left: 700px">작성완료</button>
 			</div>
 		 </form>	
 	    
@@ -193,56 +185,14 @@
 	        </select>
 	    </div>
 	</div>
-
-	    
-	    
-			
+	<div id="reviewAccordion">
+	  	 <input type="hidden" id="productNo" name="productNo" value="${product.productNo}">  		
+	</div>
 	
+	    
+	    
+	    
 	
-	    <div class="accordion accordion-flush" id="accordionFlushExample">
-		  <div class="accordion-item">
-		    <h2 class="accordion-header">
-		      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-		        콩이아빠님의 후기
-		      </button>
-		    </h2>
-		    <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-		      <div class="accordion-body">가이드가 별로였어요.. 드라이빙 가이드라고 해서 운전기사도 해주시고 가이드도 해주시는데 타지에서 온 관광객에게 그 지역에 대해 설명도 안해주고 도착하면 몇시까지만 오시면 됩니다~ ...</div>
-		    </div>
-		  </div>
-		  <div class="accordion-item">
-		    <h2 class="accordion-header">
-		      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-		        콩이엄마님의 후기
-		      </button>
-		    </h2>
-		    <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-		      <div class="accordion-body">코로나때문에 여행을 못하다가 이번 친구랑 같이 가서 너무 즐겁게 지내다 왔어요 .</div>
-		    </div>
-		  </div>
-		  <div class="accordion-item">
-		    <h2 class="accordion-header">
-		      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-		        콩이언니님의 후기
-		      </button>
-		    </h2>
-		    <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-		      <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
-		    </div>
-		  </div>
-		</div>
-	   
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    		
     	</div>   	
     	   
     	<div class="col-4"> <!-- style="border-left: 2px solid gray;" -->
@@ -261,7 +211,7 @@
 	   </div>
 	   <button class="btn btn-success"  style="margin: 20px auto;">
 	   <div>
-	   <div style="color: white;">찜하기♥</div>
+		<div id="heartButton" style="color: white; cursor: pointer;">찜하기♥</div>
 	   </div>
 	   </button>
 	   </div>
@@ -274,14 +224,7 @@
   	  </div>
 	  
 
-	  	
-		       
-      
-      
-      
-      
-      
-      
+
       
 
     </div>
@@ -322,11 +265,7 @@
 .calender_mini {
   margin: 20px auto;
 }
- 
- 
- 
- 
- 
+
  
  #myform fieldset{
     display: inline-block;
@@ -353,7 +292,7 @@
 #myform input[type=radio]:checked ~ label{
     text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 }
-#reviewContents {
+#contents {
     width: 100%;
     height: 150px;
     padding: 10px;
@@ -366,12 +305,12 @@
  
 
   <script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
 
-  
-  
+
+  $( function() {
+	    $( "#datepicker" ).datepicker();
+	  } );
+
   var frmBtn = $('#frm_btn');
   
   const fnEditProduct = () => {
@@ -397,23 +336,135 @@
       })
    }
   
+  $(document).ready(function () {
+	    $('#heartButton').on('click', function () {
+	        addHeart();
+	    });
+	});
+
+  function addHeart() {
+	    var productNo = $('.heart').val();
+	    var userNo = $('.heart2').val();
+
+	    var confirmResult = confirm('찜하기 페이지로 이동하시겠습니까?');
+
+	    if (confirmResult) {
+	        $.ajax({
+	            type: 'post',
+	            url: '${contextPath}/product/heartProduct.do',
+	            data: {
+	                productNo: productNo,
+	                userNo: userNo
+	            },
+	            success: function (response) {
+	                console.log('찜하기 성공');
+	                window.location.href = '${contextPath}/user/heartProduct.do';
+	            },
+	            error: function (error) {
+	                console.error('찜하기 실패:', error);
+	            }
+	        });
+	    } else {	        
+	        console.log('아니오');
+	    }
+	}
+
   
-  
+
   fnGoReserve();
   fnEditProduct();
   fnRemoveProduct();
   
+  
+  // 리뷰
+  
+  const fnReviewAdd = () => {
+      $('#btn_review_add').click(() => {
+        if('${sessionScope.user}' === ''){
+          if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
+            location.href = '${contextPath}/user/login.form';
+          } else {
+            return;
+          }
+        }
+        $.ajax({
+          // 요청
+          type: 'post',
+          url: '${contextPath}/product/addReview.do',
+          data: $('.frm_review_add').serialize(),
+          // 응답
+          dataType: 'json',
+          success: (resData) => {          	  
+            if(resData.addReviewResult === 1){
+              alert('리뷰가 등록되었습니다.');
+              $('#contents').val('');
+              fnReviewList();
+            }
+          }
+        })
+      })
+    }
+  
+  
+  
+  var page = 1;
+  var totalPage = 0;
+
+  const productNo = $('#productNo').val();
+
+  const fnReviewList = () => {
+    $.ajax({
+      type: 'get',
+      url: '${contextPath}/product/reviewList.do',
+      data: { page: page, productNo: productNo, name: name},
+      dataType: 'json',
+      success: (resData) => {
+        console.log('Product Number:', productNo);
+        totalPage = resData.totalPage;
+        $('#reviewAccordion').empty();
+        if (resData.reviewList != null && resData.reviewList.length > 0) {
+        	$.each(resData.reviewList, (i, review)=> {
+        	  let str = '<div class="accordion accordion-flush">';
+        	  str += '<div class="accordion-item">';
+        	  str += '<h2 class="accordion-header">';
+        	  str += '<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse' + i + '" aria-expanded="false" aria-controls="flush-collapse' + i + '">' + review.userNo + '님의 리뷰</button>';
+        	  str += '</h2>';
+        	  str += '<div id="flush-collapse' + i + '" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">';
+        	  str += '<div class="accordion-body">' + review.contents + '</div>';
+        	  str += '</div>';
+        	  str += '</div>';
+        	  str += '</div>';
+              $('#reviewAccordion').append(str);         
+          });
+        } else {
+          console.log('데이터가 없습니다.');
+        }
+      },
+      error: (error) => {
+        console.error('Ajax 요청 에러:', error);
+      }
+    });
+  };
+
+  // 문서가 완전히 로드된 후에 함수 호출
+  $(document).ready(() => {
+    fnReviewList();
+  });
+
+  
+  // 페이지 로딩 시 호출
+  $(document).ready(() => {
+	  const productNo = $('#productNo').val();
+	  fnReviewList(productNo);
+  });
+
+
+  
+  fnReviewAdd();
+  fnReviewList();
+  
   </script>
 
- 
 
-
-
-
-
- 
- 
-
- 
 
 <%@ include file="../layout/footer.jsp" %>
