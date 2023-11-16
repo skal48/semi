@@ -214,11 +214,12 @@ public class MagazineServiceImpl implements MagazineService {
   }
   
   @Override
-  public void loadMagazine(HttpServletRequest request, Model model) {
+  public void loadMagazine(int magazineNo, Model model) {
     
-    int magazineNo = Integer.parseInt(request.getParameter("magazineNo"));
+    Optional<Integer> opt = Optional.of(magazineMapper.countLike(magazineNo));
+    int like = opt.orElse(1);
     model.addAttribute("magazine", magazineMapper.getMagazine(magazineNo));
-    model.addAttribute("like", magazineMapper.countLike(magazineNo));
+    model.addAttribute("like", like);
     
   }
   
