@@ -9,14 +9,14 @@ CREATE TABLE NOTICE_T (
     NOTICE_NO       NUMBER               NOT NULL, -- 공지 번호
     TITLE           VARCHAR2(100 BYTE),            -- 공지 제목
     CONTENTS        CLOB,                          -- 공지 내용
-    CREATED_AT      DATE,                          -- 공지 작성일
-    MODIFIED_AT     DATE,                          -- 공지 수정일
+    CREATED_AT      VARCHAR2(100 BYTE),                          -- 공지 작성일
+    MODIFIED_AT     VARCHAR2(100 BYTE),                          -- 공지 수정일
     HIT             NUMBER,                        -- 조회수
     CONSTRAINT PK_NOTICE_T PRIMARY KEY(NOTICE_NO)
     ); 
 
 
-INSERT INTO NOTICE_T VALUES (NOTICE_SEQ.NEXTVAL, '가', '지', TO_DATE('20231018', 'YYYY-MM-DD'), TO_DATE('20231018', 'YYYY-MM-DD'), 1);
+INSERT INTO NOTICE_T VALUES (NOTICE_SEQ.NEXTVAL, '가', '지', TO_CHAR('20231018', 'YYYY-MM-DD'), TO_DATE('20231018', 'YYYY-MM-DD'), 1);
 INSERT INTO NOTICE_T VALUES (NOTICE_SEQ.NEXTVAL, '가', '지', TO_DATE('20231018', 'YYYY-MM-DD'), TO_DATE('20231018', 'YYYY-MM-DD'), 1);
 INSERT INTO NOTICE_T VALUES (NOTICE_SEQ.NEXTVAL, '가', '지', TO_DATE('20231018', 'YYYY-MM-DD'), TO_DATE('20231018', 'YYYY-MM-DD'), 1);
 INSERT INTO NOTICE_T VALUES (NOTICE_SEQ.NEXTVAL, '가', '지', TO_DATE('20231018', 'YYYY-MM-DD'), TO_DATE('20231018', 'YYYY-MM-DD'), 1);
