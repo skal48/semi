@@ -49,22 +49,30 @@ public class NoticeServiceImpl implements NoticeService{
   @Override
   public void LoadSearchList(HttpServletRequest request, Model model) {
     
+    String column = request.getParameter("column");
+    String query = request.getParameter("query");
+    
+    Map<String, Object> map = new HashMap<>();
+    map.put("column", column);
+    map.put("query", query);
+    
+    int total = noticeMapper.getSearchCount(map);
+    
     Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
-    int page = Integer.parseInt(opt.orElse("1"));
-  
+    String strPage = opt.orElse("1");
+    int page = Integer.parseInt(strPage);
+    
     int display = 10;
     
-    int total = noticeMapper.getNoticeCount();  
-  
     myPageUtils.setPaging(page, total, display);
     
-    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
-                                   , "end",   myPageUtils.getEnd());
+    map.put("begin", myPageUtils.getBegin());
+    map.put("end", myPageUtils.getEnd());
     
-    List<NoticeDto> NoticeList = noticeMapper.getNoticeList(map);
+    List<NoticeDto> NoticeList = noticeMapper.getSearchList(map);
     
     model.addAttribute("noticeList", NoticeList);
-    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/notice/list.do"));
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/notice/search.do", "column=" + column + "&query=" + query));
     model.addAttribute("beginNo", total - (page - 1) * display);
     
     
