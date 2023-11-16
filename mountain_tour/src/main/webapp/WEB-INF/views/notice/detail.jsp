@@ -23,7 +23,6 @@
         <div>내용: ${notice.contents}</div>
         <div>작성일 : ${notice.createdAt}</div>
         <div>수정일 : ${notice.modifiedAt}</div>
-        <div>조회수 : ${notice.hit}</div>
         <div> ${notice.noticeNo}</div>
         <div>
           <form id="frm_btn" method="post">
