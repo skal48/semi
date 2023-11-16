@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -105,19 +106,29 @@ public class MagazineController {
  
  @PostMapping("finalModify.do")
  public String finalModify(MultipartHttpServletRequest multipartRequest
-     , RedirectAttributes redirectAttributes) throws Exception {
-   
-  boolean modifyResult = magazineService.
-  redi
-  //("modifyResult", modifyResult);
+     , RedirectAttributes redirectAttributes) throws Exception { 
+  int modifyResult = magazineService.finalModify(multipartRequest);
+  redirectAttributes.addFlashAttribute("modifyResult", modifyResult);
   return "redirect:/magazine/list.do";
 }
  /*************삭제컨트롤러 ***************/
  
  @PostMapping("/delete.do")
- public String delete(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+ public String delete(HttpServletRequest request, RedirectAttributes redirectAttributes)  {
    redirectAttributes.addAttribute("deleteRemove",magazineService.deleteMagazine(request));
    return "redirect:/magazine/list.do";
+ }
+ /*************조회수 증가 ***************/
+ 
+ @GetMapping(value="/increseHit.do", produces="application/json")
+ public String increseHit(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+   int magazineNo = Integer.parseInt(request.getParameter("magazineNo"));
+   int increseResult = magazineService.increaseHit(magazineNo);
+   if(increseResult == 1) {
+     return "redirect:/magazine/detail.do?magazineNo=" + magazineNo;
+   } else {
+     return "redirect:/magazine/list.do";
+   }
  }
  
 }
