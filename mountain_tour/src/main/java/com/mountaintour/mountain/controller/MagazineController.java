@@ -78,17 +78,30 @@ public class MagazineController {
    redirectAttributes.addFlashAttribute("addResult", addResult);
    return "redirect:/magazine/list.do";
  }
+ /*************조회수 증가 ***************/
+
+ @GetMapping("/increseHit.do")
+ public String increseHit(HttpServletRequest request) {
+   int magazineNo = Integer.parseInt(request.getParameter("magazineNo"));
+   int increseResult = magazineService.increaseHit(magazineNo);
+   if(increseResult == 1) {
+     return "redirect:/magazine/detail.do?magazineNo=" + magazineNo;
+   } else {
+     return "redirect:/magazine/list.do";
+   }
+ }
  /*************디테일컨트롤러 ***************/
  
  @GetMapping("/detail.do")
- public String detail(HttpServletRequest request, Model model) {
-   magazineService.loadMagazine(request, model);
+ public String detail(@RequestParam(value="magazineNo", required=false, defaultValue="0") int magazineNo, Model model) {
+   magazineService.loadMagazine(magazineNo, model);
+   System.out.println(model);
    return "magazine/detail";
  }
  
  @PostMapping("/modify.form")
  public String modify(@ModelAttribute("magazine") MagazineDto magazine) { 
-   return "magazine/modify";
+   return "magazine/modify";  
  }
  
  /*************수정컨트롤러 ***************/
@@ -118,17 +131,6 @@ public class MagazineController {
    redirectAttributes.addAttribute("deleteRemove",magazineService.deleteMagazine(request));
    return "redirect:/magazine/list.do";
  }
- /*************조회수 증가 ***************/
- 
- @GetMapping(value="/increseHit.do", produces="application/json")
- public String increseHit(HttpServletRequest request, RedirectAttributes redirectAttributes) {
-   int magazineNo = Integer.parseInt(request.getParameter("magazineNo"));
-   int increseResult = magazineService.increaseHit(magazineNo);
-   if(increseResult == 1) {
-     return "redirect:/magazine/detail.do?magazineNo=" + magazineNo;
-   } else {
-     return "redirect:/magazine/list.do";
-   }
- }
+
  
 }

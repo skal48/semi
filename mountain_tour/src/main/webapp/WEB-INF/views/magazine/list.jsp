@@ -120,23 +120,21 @@
 	    	  totalPage = resData.totalPage;
 	    	  $.each(resData.magazineList, (i, upload) => {
 	        if(page === 1 && i === 0){
-	        	console.log(upload.magazineMultiDto.isThumbnail);
   	      	let big = '<div class="big_magazine magazine" style = "border: 1px gray solid;" data-magazine_no="'+ upload.magazineNo +'">';
   	      		if(upload.magazineMultiDto.isThumbnail === 1){
-  	      			console.log(upload.magazineMultiDto.multiPath)
-  			        big += '<img src="${contextPath}'+upload.magazineMultiDto.multiPath+'/'+upload.magazineMultiDto.filesysName+'" class="big_picture" alt="썸네일" >';
+  			        big += '<img class="big_picture"src="${contextPath}'+upload.magazineMultiDto.multiPath+'/'+upload.magazineMultiDto.filesysName+'" alt="썸네일" >';
   	      		}
   			        big += '<div class="big_title">'+ upload.title +'</div>';
   			        big += '<span class="big_date position-absolute bottom-0 start-0">date   '+ new Date(upload.createAt).toLocaleDateString().replace(/\./g, '').replace(/\s/g, '-')   +'</span>';
   	            big += '<span class="big_hit position-absolute bottom-0">조회수' + upload.hit +'</span> </div>';
   	      	$('.big_wrapper').append(big);
 	        } else {
-	        	let small = '<div class="row magazine" data-magazine_no="'+ upload.magazineNo+'"><div class="col">';
+	        	let small = '<div class="row magazine" data-magazine_no="'+ upload.magazineNo+'" ><div class="col">';
 	        			 if(upload.magazineMultiDto.isThumbnail === 1){
-	        			small += '<img src="${contextPath}'+upload.magazineMultiDto.multiPath+'/'+upload.magazineMultiDto.filesysName+'" class="small_picture" style = "border: 1px gray solid;"></div>';
+	        			small += '<img class="small_picture" src="${contextPath}'+upload.magazineMultiDto.multiPath+'/'+upload.magazineMultiDto.filesysName+'" style = "border: 1px gray solid;"></div>';
 	        			 }
 	        			small += '<div class="col"><div class="small_title">'+upload.title+'</div>';
-	        			small += '<div class="small_summary">summary</div>';
+	        			small += '<div class="small_summary">'+upload.summary+'</div>';
 	        			small += '<span class="small_date position-absolute bottom-0 start-0">date'+ new Date(upload.createAt).toLocaleDateString().replace(/\./g, '').replace(/\s/g, '-') +'</span>';
 	        			small += '<span class="small_hit position-absolute bottom-0">조회수' + upload.hit +' </span></div></div>';
 	        	$('#small_wrapper').append(small);  
@@ -148,17 +146,12 @@
   
   const fnUploadDetail = () => {
 	    $(document).on('click', '.magazine', function(){
-	    	magazineNo = $(this).text();
-	    
+	    	magazineNo = $(this).data('magazine_no');	    	
 	    	$.ajax({
     		 // 요청
           type: 'get',
           url: '${contextPath}/magazine/increseHit.do',
-          data: 'magazineNo=' + magazineNo,
-          // 응답
-          dataType: 'json',
-          success: (resData) => {  // resData = {"uploadList": [], "totalPage": 10}
-          }
+          data: 'magazineNo=' + magazineNo      
 	    	})
 	    })
 	  }

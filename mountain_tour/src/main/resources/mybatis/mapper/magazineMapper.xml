@@ -105,11 +105,7 @@
 	    FROM MAGAZINE_T
 	   WHERE MAGAZINE_NO = #{magazineNo}
  </select>
- <select id="countLike" parameterType="int" resultType="int">	
-		SELECT COUNT(*)
-		  FROM MAGAZINE_STAR_T
-		 WHERE MAGAZINE_NO = #{magazineNo} 
- </select>
+ 
  
  <delete id="deleteMagazine" parameterType="int">
  		DELETE FROM MAGAZINE_T WHERE MAGAZINE_NO = #{magazineNo}
@@ -156,8 +152,12 @@
  <update id="updateHit" parameterType="int">
 	  UPDATE MAGAZINE_T SET 
 	  HIT = HIT+1
-	  WHERE MAGAZINE_NO = #{magazineNo};  
+	  WHERE MAGAZINE_NO = #{magazineNo}
  </update>
- 
+ <select id="countLike" parameterType="int" resultType="int">	
+		SELECT COUNT(*)
+		  FROM MAGAZINE_STAR_T
+		 WHERE MAGAZINE_NO = #{magazineNo} 
+ </select>
  
 </mapper>
