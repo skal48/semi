@@ -84,7 +84,10 @@
 		        <span>조회수   ${magazine.hit}</span>
 	        </div>
 	        <div class="contents">${magazine.contents}</div>
+          <form action=""
 	        <div class="like">
+              <input type="hidden" class ="magazineNoLike" name="magazineNo" value="${magazine.magazineNo}">
+              <input type="hidden" class ="userNoLike" name="userNo" value="${sessionScope.user.userNo}">
 	          <button type="button" class="btn_like"><i class="fa-regular fa-thumbs-up fa-bounce fa-2xl" style="color: #1f753d;"></i></button>
 	          <div class="like_num">${like} </div> 
 	        </div>
@@ -123,21 +126,28 @@
   }
   
   const fnLike = () => {
-	  $('.btn_like').click(() => { 
+	  $('.btn_like').click(() => { 		 
 		  $.ajax({
-			  type: 'get',
+			  type: 'post',
 	      url: '${contextPath}/magazine/like.do',
-	      data: JSON.stringify({ "userNo": $('.userNo').val(), "magazineNo": $('.magazineNo').val()}),
+	      data: {userNo: $('.userNoLike').val(), magazineNo: $('.magazineNoLike').val()},
 	      dataType: 'json',
 	      success: (resData) => {  
-			  	if(resData.existMaUser === 1){	
-			  		let str;
+	    	  console.log(resData.existMaUser+'qweqwe');
+	    	  let str;
+			  	if(resData.existMaUser === 1){				  		
 			  		$('.btn_like').empty();
-			  		str = '<i class="fa-solid fa-thumbs-up fa-2xl" style="color: #1f753d;"></i>';
+			  		str += '<i class="fa-solid fa-thumbs-up fa-2xl" style="color: #1f753d;"></i>';
 			  		$('.btn_like').append(str);
-			  	} else if(existMaUser === 0){	
-			  		str = '<i class="fa-regular fa-thumbs-up fa-bounce fa-2xl" style="color: #1f753d;">';
-			  	}
+			  	} else if(resData.existMaUser === 0){	
+			  		$('.btn_like').empty();
+			  		str += '<i class="fa-regular fa-thumbs-up fa-bounce fa-2xl" style="color: #1f753d;"></i>';
+			  		$('.btn_like').append(str);
+			  	}			  				 
+			  	$('.like_num').text(resData.countLike);
+		  },
+		  error : (error) => {
+			  console.log('못가져왔어');
 		  }
 	  })
   })

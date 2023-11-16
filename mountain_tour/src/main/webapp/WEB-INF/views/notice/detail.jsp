@@ -9,34 +9,73 @@
 <jsp:include page="../layout/header.jsp">
   <jsp:param value="마운틴투어" name="title"/>
 </jsp:include>
-
+  
+  <style>
+  .wrap1 > .box1{
+  height : 120px;
+  }
+  
+  .wrap1 > .box2{
+  height : 120px;
+  }
+  </style>
  
   <div class="container text-center">
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
+    <div class="col-10" style = "border: 1px gray solid;" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
-     
+       
+       
+       
       <div>
-        <h1> 제목: ${notice.title}</h1>
-        <div>내용: ${notice.contents}</div>
-        <div>작성일 : ${notice.createdAt}</div>
-        <div>수정일 : ${notice.modifiedAt}</div>
-        <div> ${notice.noticeNo}</div>
+        <h1 class="display-1">공지사항</h1>
+        <hr>
+        <div class = "wrap1">
+        <div class="box1"></div>
+        </div>
+      </div>
+
+
+      
+       <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">공지번호</th>
+      <th scope="col">제목</th>
+      <th scope="col">내용</th>
+      <th scope="col">작성일</th>
+    </tr>
+  </thead>
+  
+  
+  
+ 
+  <tbody>
+    <tr>
+      <th scope="row">${notice.noticeNo}</th>
+      <td>${notice.title}</td>
+      <td>${notice.contents}</td>
+      <td>${notice.createdAt}</td>
+    </tr>
+  </tbody>
+</table>
+ 
+        <div class = "wrap1">
+        <div class="box2"></div>
+        </div>
+        
+        
         <div>
           <form id="frm_btn" method="post">
             <input type="hidden" name="noticeNo" value="${notice.noticeNo}">
             <input type="hidden" name="title" value="${notice.title}">
             <input type="hidden" name="contents" value="${notice.contents}">
-            <button type="button" id="btn_edit">편집</button>
-            <button type="button" id="btn_remove">삭제</button>
+            <button type="button" id="btn_edit" class="btn btn-outline-success">편집</button>
+            <button type="button" id="btn_remove" class="btn btn-outline-success">삭제</button>
           </form>
-        </div>       
-      </div>
-
-
-
+        </div>
 
 
 

@@ -65,6 +65,26 @@
 </div>
 </div>
 
+
+<script>
+  const fnBest = () => {
+	  $.ajax({ 
+		    method: 'GET', 
+		    url:  , 
+		    dataType: 'json',  
+		    success : function (resData) {
+		        
+		        
+		    },
+		    error: function (xhr) {
+		        
+		    }
+		})
+  	
+  }
+
+
+</script>
   
   
 

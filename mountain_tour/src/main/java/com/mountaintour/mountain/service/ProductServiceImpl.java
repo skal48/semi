@@ -411,10 +411,11 @@ public class ProductServiceImpl implements ProductService {
 	  }
     
     HeartDto heart = HeartDto.builder()
-		    		.productNo(productNo)
+		    		.productDto(ProductDto.builder()
+		                    .productNo(productNo)
+		                    .build())
 		    		.userNo(userNo)
 		            .build();
-     System.out.println("아아아아앙" + heart);
 	return productMapper.heartProduct(heart);
 	}
 
@@ -449,8 +450,9 @@ public class ProductServiceImpl implements ProductService {
 	        Map<String, Object> map = Map.of("begin", myPageUtils.getBegin(),
 	                                        "end", myPageUtils.getEnd());
 
-	        List<ProductDto> reviewList = productMapper.getProductReviewList(map);
-	        return Map.of("reviewList", reviewList,
+	        List<ProductDto> reviewProductList = productMapper.getProductReviewList(map);
+	        System.out.println("ㅇ낭나잉ㅇ" + reviewProductList);
+	        return Map.of("reviewProductList", reviewProductList,
 	                      "totalPage", myPageUtils.getTotalPage());
 	    }
 	
@@ -486,8 +488,10 @@ public class ProductServiceImpl implements ProductService {
 	                        .userDto(UserDto.builder()
 	                                  .userNo(userNo)
 	                                  .build())
-	                        .productNo(productNo)
-	                        //.reserveNo(reserveNo)
+	                        .productDto(ProductDto.builder()
+	    		                    .productNo(productNo)
+	    		                    .build())
+	                        
 	                        .build();
 
 	  int addReviewResult = productMapper.insertReview(review);
@@ -504,7 +508,16 @@ public class ProductServiceImpl implements ProductService {
 	  int productNo = Integer.parseInt(request.getParameter("productNo") != null ? request.getParameter("productNo") : "0");
 
 	  
-	  int page = Integer.parseInt(request.getParameter("page"));
+	  String pageParameter = request.getParameter("page");
+	  int page = 1;  // 기본값 설정
+	  if (pageParameter != null && !pageParameter.isEmpty()) {
+	      try {
+	          page = Integer.parseInt(pageParameter);
+	      } catch (NumberFormatException e) {
+	          // 예외 처리: 유효한 숫자가 아닌 경우
+	          e.printStackTrace();  // 또는 적절한 로깅
+	      }
+	  }
 	  int total = productMapper.getReviewCount(productNo);
 	  int display = 10;
 	  

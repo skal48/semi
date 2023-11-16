@@ -128,6 +128,8 @@
 	    });
 	});
 	
+	
+	
 	$('#reviewProduct').on('click', function () {
 	    $.ajax({
 	        type: 'get',
@@ -136,17 +138,16 @@
 	        dataType: 'json',
 	        success: (resData) => {
 	            totalPage = resData.totalPage;
-	            if (resData.reviewList != null && resData.reviewList.length > 0) {
-	                // #product_list의 내용을 새로 가져온 데이터로 대체
+	            if (resData.reviewProductList != null && resData.reviewProductList.length > 0) {
 	                $('#product_list').empty();
-	                $.each(resData.reviewList, (i, product) => {
+	                $.each(resData.reviewProductList, (i, product) => {
 	                    let str = '<div class="col-md-4">';
 	                    str += '<div class="card">';
 	                    str += '<img src="https://github.com/skal48/portfolio/blob/main/hanla.jpg?raw=true" style="height: 150px;" class="card-img-top" alt="Product Image">';
 	                    str += '<div class="card-body">';
-	                    str += '<h5 class="card-title">' + product.tripName + '</h5>';
+	                    str += '<h5 class="card-title">' + product.productDto.tripName + '</h5>';
 	                    str += '<p class="card-text"></p>';
-	                    str += '<a href="' + '${contextPath}/product/increseHit.do?productNo=' + product.productNo + '" class="btn btn-primary">상세보기</a>';
+	                    str += '<a href="' + '${contextPath}/product/increseHit.do?productNo=' + product.productDto.productNo + '" class="btn btn-primary">상세보기</a>';
 	                    str += '</div>';
 	                    str += '</div>';
 	                    str += '</div>';
@@ -188,7 +189,6 @@
     
     
 	fnGetProductList();
-	fnGetHitList();
 	fnScroll();
 
 </script>

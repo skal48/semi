@@ -51,9 +51,7 @@
 
 	<resultMap type="ReviewDto" id="ReviewMap">
     <id column="REVIEW_NO" property="reviewNo"/>
-    <result column="PRODUCT_NO" property="productNo"/>
   <!-- <result column="RESERVE_NO" property="reserveNo"/>  --> 
-    <result column="USER_NO" property="userNo"/>
     <result column="CONTENTS" property="contents"/>
     <result column="CREATED_AT" property="createdAt"/>
     <result column="MODIFIED_AT" property="modifiedAt"/>
@@ -76,7 +74,7 @@
         <result column="PW_MODIFIED_AT" property="pwModifiedAt" />
         <result column="JOINED_AT" property="joinedAt" />
     </association>
-    <association javaType="PRODUCTDto" property="productDto">
+    <association javaType="ProductDto" property="productDto">
        <id      column="PRODUCT_NO"      property="productNo"/>
 	   <result  column="TRIP_NAME"   	  property="tripName"/>
 	   <result  column="TRIP_CONTENTS"   property="tripContents"/>
@@ -242,7 +240,7 @@
       PRODUCT_NO	
     , USER_NO
     )VALUES(
-      #{productNo}
+      #{productDto.productNo}
     , #{userNo}
      )
   </insert>
@@ -296,9 +294,9 @@
       , STAR
     ) VALUES (
         REVIEW_SEQ.NEXTVAL
-      , #{productNo}
+      , #{productDto.productNo}
     <!-- , #{reserveNo} -->  
-      , #{userNo}
+      , #{userDto.userNo}
       , #{contents}
       , SYSDATE
       , SYSDATE
@@ -322,7 +320,7 @@
      WHERE A.RN BETWEEN #{begin} AND #{end}
   </select>
 
-  <select id="getHitList" parameterType="map" resultType="productDto">
+  <select id="getHitList" parameterType="Map" resultType="productDto">
     SELECT PRODUCT_NO, TRIP_NAME, PLAN, HIT 
     FROM PRODUCT_T
     ORDER BY HIT DESC
@@ -330,18 +328,18 @@
 
   <select id="getProductReviewList" parameterType="Map" resultMap="ReviewMap">
     SELECT
-        P.PRODUCT_NO,
-        P.TRIP_NAME,
-        P.PLAN,
-        (
-          SELECT COUNT(R.REVIEW_NO)
-          FROM REVIEW_T R
-          WHERE R.PRODUCT_NO = P.PRODUCT_NO
-        ) AS REVIEW_COUNT
-    FROM
-        PRODUCT_T 
-    ORDER BY
-        REVIEW_COUNT DESC;
+    P.PRODUCT_NO,
+    P.TRIP_NAME,
+    P.PLAN
+      FROM
+		PRODUCT_T P
+      JOIN
+		REVIEW_T R ON P.PRODUCT_NO = R.PRODUCT_NO
+     GROUP BY
+	    P.PRODUCT_NO, P.TRIP_NAME, P.PLAN
+     ORDER BY
+	    COUNT(R.REVIEW_NO) DESC
+
   </select>
   
 

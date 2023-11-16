@@ -196,6 +196,7 @@
 	</div>
 	<div id="reviewAccordion">
 	  	 <input type="hidden" id="productNo" name="productNo" value="${product.productNo}">  		
+	  	  		
 	</div>	
     	</div>   	
     	   
@@ -416,11 +417,11 @@
 
   const productNo = $('#productNo').val();
 
-  const fnReviewList = () => {
+  const fnReviewList = () => { 
     $.ajax({
       type: 'get',
       url: '${contextPath}/product/reviewList.do',
-      data: { page: page, productNo: productNo, name: name},
+      data: { page: page, productNo: productNo},
       dataType: 'json',
       success: (resData) => {
         totalPage = resData.totalPage;
@@ -430,7 +431,7 @@
         	  let str = '<div class="accordion accordion-flush">';
         	  str += '<div class="accordion-item">';
         	  str += '<h2 class="accordion-header">';
-        	  str += '<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse' + i + '" aria-expanded="false" aria-controls="flush-collapse' + i + '">' + review.userNo + '님의 리뷰</button>';
+        	  str += '<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse' + i + '" aria-expanded="false" aria-controls="flush-collapse' + i + '">' + review.userDto.userNo + '님의 리뷰</button>';
         	  str += '</h2>';
         	  str += '<div id="flush-collapse' + i + '" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">';
         	  str += '<div class="accordion-body">' + review.contents + '</div>';
