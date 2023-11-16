@@ -50,8 +50,4 @@ public interface ManageService {
   /* 리뷰 삭제 */
   public int removeReview(int reviewNo);
   
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> heesoo

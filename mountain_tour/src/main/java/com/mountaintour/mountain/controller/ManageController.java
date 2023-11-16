@@ -132,10 +132,6 @@ public class ManageController {
     redirectAttributes.addFlashAttribute("removeReviewResult", removeReviewResult);
     return "redirect:/manage/reviewList.form";
   }
-<<<<<<< HEAD
-=======
-  
->>>>>>> heesoo
-  
+
   
 }
