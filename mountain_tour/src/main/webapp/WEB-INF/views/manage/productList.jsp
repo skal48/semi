@@ -89,7 +89,9 @@
         <div class="listWrap2">
           
           <%-- 총 상품 수를 표시 --%>
-          <div style="text-align: right;">총 ${total}개</div>
+          <div style="text-align: right;">
+            <span>총 ${total}개</span>
+          </div>
           
           <%-- 전체 목록을 나타내는 테이블 --%>
           <div>
@@ -101,7 +103,7 @@
                   <th scope="col">가이드</th>
                   <th scope="col">가격</th>
                   <th scope="col">인원수</th>
-                  <th scope="col">상품상태</th>
+                  <th scope="col">예약상태</th>
                   <th scope="col">등록일</th>
                 </tr>
               </thead>
@@ -135,7 +137,7 @@
             
             <%-- 검색기능 --%>
             <div>
-              <form method="get" action="#" >
+              <form method="get" action="${contextPath}/manage/productSearch.do" >
                 <select name="column" class="form-select-sm" style="height: 40px">
                   <option value="PRODUCT_NO">상품번호</option>
                   <option value="TRIP_NAME">여행이름</option>

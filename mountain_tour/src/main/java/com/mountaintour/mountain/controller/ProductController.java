@@ -1,11 +1,9 @@
 package com.mountaintour.mountain.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -116,14 +114,35 @@ public class ProductController {
   }
   
   @ResponseBody
+  @GetMapping(value="/hitList.do", produces="application/json")
+  public Map<String, Object> hitList(HttpServletRequest request){
+    return productService.getHit(request);
+  }
+  
+  @ResponseBody
+  @GetMapping(value="/reviewProductList.do", produces="application/json")
+  public Map<String, Object> reviewProductList(HttpServletRequest request){
+	  return productService.getReviewProductList(request);
+  }
+  
+  @ResponseBody
   @PostMapping(value="/addReview.do", produces="application/json")
   public Map<String, Object> addReview(HttpServletRequest request) {
     return productService.addReview(request);
   }
+  
+  
   
   @ResponseBody
   @GetMapping(value="/reviewList.do", produces="application/json")
   public Map<String, Object> ReviewList(HttpServletRequest request){
     return productService.loadReviewList(request);
   }
+  
+  @ResponseBody
+  @PostMapping(value="/removeReview.do", produces="application/json")
+  public Map<String, Object> removeReview(@RequestParam(value="reviewNo", required=false, defaultValue="0") int reviewNo) {
+    return productService.removeReview(reviewNo);
+  }
+  
 }

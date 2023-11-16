@@ -12,4 +12,5 @@ public interface NoticeService{
   public int addNotice(HttpServletRequest request);
   public int modifyNotice(HttpServletRequest request);
   public int removeNotice(int NoticeNo);
+  public void LoadSearchList(HttpServletRequest request, Model model);
 }

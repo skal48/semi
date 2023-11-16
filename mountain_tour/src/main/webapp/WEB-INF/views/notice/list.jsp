@@ -10,14 +10,38 @@
   <jsp:param value="마운틴투어" name="title"/>
 </jsp:include>
 <style>
-
-  .col-8 > .qna_table{
-  width: 500px;
-  
-  
+ 
+   
+  .title_left{
+  text-align:left;
   }
   
+  .title_align{
+  text-align:left;
+  }
   
+  .title_move{
+  display:inline-block;
+     text-align:center;
+     width: 95px;
+     margin-left:236px;
+     height: 45px;
+  }
+  
+  .search_input{
+     display:inline-block;
+     width :  443px;
+     margin-bottom: 30px;
+     margin-top:13px;
+     height : 43px;
+     padding-top: 15px;
+  }
+   
+  .search_btn{
+    height: 40px;
+    }
+  
+ 
   .wrap1 > .box1{
   width : 100px;
   height : 80px;
@@ -28,12 +52,12 @@
   height : 80px;
   
   }
-  
-   .wrap1 > .box3{
-  width : 100px;
-  height : 80px;
+  .wrap1 > .box3{
+  height : 40px;
   
   }
+  
+
   .qna_table{
   width: 600px;
   }
@@ -67,13 +91,8 @@ img {
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
+    <div class="col-10" style = "border: 1px gray solid;" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
-       
-       
-       
-       
-       
        
        <h1>춘 하 추 동</h1>
        <hr>
@@ -82,74 +101,93 @@ img {
          <div class="box1"></div>
         </div>
       
-      
-       <div>
-       <a href="${contextPath}/notice/write.form">
-        <button type="button" class="btn btn-primary">새글작성</button>
+      <div>
+        <a href="${contextPath}/notice/list.do">
+          <button type="button" class="btn btn-outline-success">공지사항</button>
+        </a>
+        
+        <a href="${contextPath}/cs/faqList.do">
+          <button type="button" class="btn btn-outline-success">자주묻는질문</button>
+        </a>
+        
+        <a href="${contextPath}/notice/write.form">
+        <button type="button" class="btn btn-outline-success">새글작성</button>
        </a>
-     </div>
-     
-
-
-      
-      
-       
-       
-       
+        
+      </div>
+    
        <div class = "wrap1">
         <div class="box2"></div>
        </div>
       
-        
-        <div class="search">
-  <input type="text" placeholder="검색어 입력">
-  <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
-</div>
-      
-      <div class = "wrap1">
-        <div class="box3"></div>
-       </div>
-      
 
 
 
-      <div class="container text-center">
-      <div class="row">
-      <div class="col-4">
-      <ul class="list-group">
-      <li class="list-group-item active" aria-current="true">공지사항</li>
-      <li class="list-group-item">자주 묻는 질문</li>
-      <li class="list-group-item">고객센터</li>
-      </ul>
-      
-      </div>
-      <div class="col-8">
-      
-    <table border="1" class="qna_table">
-      <thead>
-        <tr>
-          <td>공지번호</td>
-          <td>제목</td>
-          <td>작성일</td>
-          <td>수정일</td>
-          <td>조회수</td>
-        </tr>
-      </thead>
-      <tbody>
-        <c:forEach items="${noticeList}"  var="n" varStatus="vs">
-          <tr>
-            
-            <td>${beginNo - vs.index}</td>
+    
+
+<div style="display: flex; justify-content: center;">
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">공지번호</th>
+      <th scope="col">제목</th>
+      <th scope="col">작성일</th>
+      <th scope="col">수정일</th>
+    </tr>
+  </thead>
+  <tbody>
+  <c:forEach items="${noticeList}"  var="n" varStatus="vs">
+    <tr>
+      <th scope="row">${beginNo - vs.index}</th>
             <td>
-              <a href="${contextPath}/notice/detail.do?noticeNo=${n.noticeNo}">${n.title}</a>
+             <a href="${contextPath}/notice/detail.do?noticeNo=${n.noticeNo}">${n.title}</a>
             </td>
             <td>${n.createdAt}</td>
             <td>${n.modifiedAt}</td>
-            <td>${n.hit}</td>
-          </tr>
-        </c:forEach>
-      </tbody>
-    </table>
+    </tr>
+  </c:forEach>
+  </tbody>
+  <tfoot>
+    <tr>
+     <td colspan="5">${paging}
+    </tr>
+  </tfoot>
+  </table>
+  </div>
+  
+
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class = "wrap1">
+      <div class="box3"></div>
+    </div>
+   
+    <div class = "title_left">
+      <form method="get" action="${contextPath}/notice/search.do">
+          <select name="column" class="title_move form-select form-select-lg mb-3" aria-label="Large select example">
+            <option value="TITLE" class="title_align">제목</option>
+          </select>
+          <input type="text" name="query" placeholder="검색어 입력" class="search_input">
+          <button type="submit" class="btn btn-outline-success search_btn">검색</button>
+      </form>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
       
       </div>
       </div>
@@ -174,12 +212,11 @@ img {
       
       
 
-    </div>
-    </div>
+
+ 
     <div class="col-1">
+    
     </div>
-  </div>
-</div>
   
  
  

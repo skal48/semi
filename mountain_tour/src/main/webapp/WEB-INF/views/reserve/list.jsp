@@ -21,14 +21,14 @@
         <h2>예약내역목록</h2>
       </div>
       <div>
-        <table>
+        <table class="table">
           <colgroup>
-            <col style="width:30%;">
+            <col style="width:25%;">
             <col style="width:15%;">
             <col style="width:15%;">
             <col style="width:15%;">
+            <col style="width:14%;">
             <col style="width:10%;">
-            <col style="width:15%;">
           </colgroup>
           <thead>
             <tr>
@@ -42,7 +42,7 @@
           </thead>
           <tbody>
             <c:forEach items="${reserveList}" var="res" varStatus="vs">
-              <c:if test="${sessionScope.user.userNo == res.userDto.userNo}">
+              <c:if test="${sessionScope.user.auth == 0}">
                 <tr>
                   <td id="resSche">
                     <a href="${contextPath}/reserve/detail.do?reserveNo=${res.reserveNo}">${res.reserveDate} / ${res.reserveNo}</a>
@@ -52,6 +52,26 @@
                   <td id="personCnt">${res.reservePerson}</td>
                   <td id="trvlSche">${res.reserveStart} / ${res.productDto.timetaken}</td>
                   <td id="resStatus">${res.reserveStatus}</td>
+                </tr>
+              </c:if>
+              <c:if test="${sessionScope.user.userNo == res.userDto.userNo}">
+                <tr>
+                  <td id="resSche">
+                    <a href="${contextPath}/reserve/detail.do?reserveNo=${res.reserveNo}">${res.reserveDate} / ${res.reserveNo}</a>
+                  </td> 
+                  <td id="prodName">${res.productDto.tripName}</td>
+                  <td id="totalPrice">${res.productDto.price}~</td>
+                  <td id="personCnt">${res.reservePerson}</td>
+                  <td id="trvlSche">${res.reserveStart} / ${res.productDto.timetaken}</td>
+                  <c:if test="${res.reserveStatus == 0}">
+                    <td id="resStatus">정상</td>
+                  </c:if>
+                  <c:if test="${res.reserveStatus == 1}">
+                    <td id="resStatus">대기</td>
+                  </c:if>
+                  <c:if test="${res.reserveStatus == 2}">
+                    <td id="resStatus">불가</td>
+                  </c:if>
                 </tr>
               </c:if>
             </c:forEach>
@@ -65,7 +85,7 @@
       </div>
       <hr>
       
-      <button type="button" onclick="location.href='${contextPath}/product/list.do'">다른상품 예약하러가기</button>
+      <button type="button" onclick="location.href='${contextPath}/product/list.do'" class="btn btn-success btn-lg">다른상품 예약하러가기</button>
       
 
     </div>

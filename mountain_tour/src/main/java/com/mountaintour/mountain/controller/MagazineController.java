@@ -19,6 +19,7 @@ import com.mountaintour.mountain.dto.MagazineDto;
 import com.mountaintour.mountain.service.MagazineService;
 
 import lombok.RequiredArgsConstructor;
+import oracle.jdbc.proxy.annotation.Post;
 
 @RequiredArgsConstructor
 @RequestMapping("/magazine")
@@ -103,6 +104,12 @@ public class MagazineController {
  public String modify(@ModelAttribute("magazine") MagazineDto magazine) { 
    return "magazine/modify";  
  }
+ /*************좋아요컨트롤러 ***************/
+ @ResponseBody
+ @PostMapping(value="/like.do", produces="application/json")
+ public Map<String, Integer> like(HttpServletRequest request) {
+   return magazineService.addLike(request);
+ }
  
  /*************수정컨트롤러 ***************/
  
@@ -131,6 +138,6 @@ public class MagazineController {
    redirectAttributes.addAttribute("deleteRemove",magazineService.deleteMagazine(request));
    return "redirect:/magazine/list.do";
  }
-
+ 
  
 }

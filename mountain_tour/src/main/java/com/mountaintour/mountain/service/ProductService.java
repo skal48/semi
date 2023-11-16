@@ -25,6 +25,9 @@ public interface ProductService {
   public int modifyProduct(HttpServletRequest request);
   public int removeProduct(int productNo);
   public int addHeart(HttpServletRequest request);
+  public Map<String, Object> getReviewProductList(HttpServletRequest request);
+  public Map<String, Object> getHit(HttpServletRequest request);
   public Map<String, Object> addReview(HttpServletRequest request);
   public Map<String, Object> loadReviewList(HttpServletRequest request);
+  public Map<String, Object> removeReview(int reviewNo);
 }

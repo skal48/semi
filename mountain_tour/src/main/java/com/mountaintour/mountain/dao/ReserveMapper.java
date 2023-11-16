@@ -19,5 +19,12 @@ public interface ReserveMapper {
   public int getReserveCount();
   public List<ReserveDto> getReserveList(Map<String, Object> map);
   
+  public List<TouristDto> getTourists(int reserveNo);
+  
+  public int updateReserve(ReserveDto reserve);
+  
+  public int deleteReserve(int reserveNo);
+  
+  
   
 }

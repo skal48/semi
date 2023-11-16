@@ -497,7 +497,7 @@ public class UserServiceImpl implements UserService {
 		
 	Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
     int page = Integer.parseInt(opt.orElse("1"));
-    int total = userMapper.getHeartCount();
+    int total = userMapper.getHeartCount(userNo);
     int display = 10;
     
     myPageUtils.setPaging(page, total, display);
@@ -509,7 +509,7 @@ public class UserServiceImpl implements UserService {
     List<HeartDto> heartList = userMapper.selectHeartList(map);
     
     model.addAttribute("heartList", heartList);
-    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/user/heartList.do", request.getParameter("userNo")));
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/user/heartList.do", "userNo="+userNo ));
     model.addAttribute("beginNo", total - (page - 1) * display);  
 		
 	}
@@ -518,6 +518,21 @@ public class UserServiceImpl implements UserService {
 	public void findId(HttpServletRequest request, HttpServletResponse response) {
 	
 		
+	}
+  //아이디 찾기 
+  @Override
+	public UserDto find_id(String name, String mobile) {
+	  UserDto result = null;
+		
+		try {
+		 result= userMapper.getFindId(Map.of("name", name, "mobile", mobile));
+		 
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		return result ;
 	}
 }
   

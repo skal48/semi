@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,11 +48,32 @@ public class ReserveController {
   
   @GetMapping("/list.do")
   public String list(HttpServletRequest request, Model model) {
-    reserveService.loadReserveList(request, model);
+    if(request.getParameter("userNo") != null) { // userNo가 파라미터로 넘어오는 경우 
+      reserveService.loadReserveListByUser(request, model);
+    } else { // 파라미터가 없는 경우
+      reserveService.loadReserveList(request, model);
+    }
     return "reserve/list";
   }
   
+  @PostMapping("/edit.form")
+  public String edit(@ModelAttribute("reserve") ReserveDto reserve) {
+    return "reserve/edit";
+  }
   
+  @PostMapping("/modifyReserve.do")
+  public String modifyBlog(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    int modifyResult = reserveService.modifyReserve(request);
+    redirectAttributes.addFlashAttribute("modifyResult", modifyResult);
+    return "redirect:/reserve/detail.do?reserveNo=" + request.getParameter("reserveNo");
+  }
+  
+  
+  @PostMapping("/delete.do")
+  public String removeReserve(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    redirectAttributes.addFlashAttribute("removeResult", reserveService.removeReserve(request));
+    return "redirect:/reserve/list.do?" + request.getParameter("userNo");
+  }
   
   @ResponseBody
   @PostMapping(value="/addReserve.do", produces="application/json")
@@ -65,7 +87,11 @@ public class ReserveController {
     redirectAttributes.addFlashAttribute("addTouristResult", addTouristResult);
     return "redirect:/reserve/detail.do?reserveNo=" + req.getParameter("reserveNo");
   }
-  
-  
+
+  @ResponseBody
+  @GetMapping(value="/getTouristInfo.do", produces="application/json")
+  public Map<String, Object> getTourists(HttpServletRequest request) {
+    return reserveService.loadTourists(request);
+  }
   
 }

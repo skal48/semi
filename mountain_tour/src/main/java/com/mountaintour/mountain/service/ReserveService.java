@@ -16,4 +16,9 @@ public interface ReserveService {
   public ReserveDto loadReserve(int reserveNo);
   public void loadReserveList(HttpServletRequest request, Model model);
   public void loadReserveListByUser(HttpServletRequest request, Model model);
+  
+  public int modifyReserve(HttpServletRequest request);
+  public int removeReserve(HttpServletRequest request);
+  
+  public Map<String, Object> loadTourists(HttpServletRequest request);
 }

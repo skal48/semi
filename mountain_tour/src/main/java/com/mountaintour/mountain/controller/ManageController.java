@@ -97,17 +97,41 @@ public class ManageController {
     return "manage/leaveMemberList";
   }
   
-  /* 상품,예약 목록 페이지 */
+  /* 여행상품 목록 페이지 */
   @GetMapping("/productList.form")
   public String productList(HttpServletRequest request, Model model) {
     manageService.loadProductList(request, model);
     return "manage/productList";
   }
   
+  /* 여행상품 검색 */
+  @GetMapping("/productSearch.do")
+  public String productSearch(HttpServletRequest request, Model model) {
+    manageService.loadSearchProductList(request, model);
+    return "manage/productList";
+  }
+  
   /* 전체 리뷰 목록 페이지 */
   @GetMapping("/reviewList.form")
-  public String reviewList() {
+  public String reviewList(HttpServletRequest request, Model model) {
+    manageService.loadReviewList(request, model);
     return "manage/reviewList";
   }
+  
+  /* 리뷰 검색 */
+  @GetMapping("/searchReview.do")
+  public String searchReview(HttpServletRequest request, Model model) {
+    manageService.loadSearchReviewList(request, model);
+    return "manage/reviewList";
+  }
+  
+  /* 리뷰 삭제 */
+  @PostMapping("/removeReview.do")
+  public String removeReview(@RequestParam(value="reviewNo") int reviewNo, RedirectAttributes redirectAttributes) {
+    int removeReviewResult = manageService.removeReview(reviewNo);
+    redirectAttributes.addFlashAttribute("removeReviewResult", removeReviewResult);
+    return "redirect:/manage/reviewList.form";
+  }
+
   
 }

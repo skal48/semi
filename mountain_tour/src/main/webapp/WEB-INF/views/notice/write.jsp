@@ -38,7 +38,7 @@
     <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
+    <div class="col-10" style = "border: 1px gray solid;" >
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
      
      
@@ -81,7 +81,9 @@
         
       <!-- 작성완료 submit  -->  
       <div>
+        <a href="${contextPath}/notice/list.do">
         <button type="submit" class="btn btn-primary col-12">작성완료</button>
+        </a>
       </div>
         
       </form>

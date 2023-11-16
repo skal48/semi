@@ -1,7 +1,6 @@
 package com.mountaintour.mountain.service;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +21,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.mountaintour.mountain.dao.MagazineMapper;
 import com.mountaintour.mountain.dto.MagazineDto;
 import com.mountaintour.mountain.dto.MagazineMultiDto;
+import com.mountaintour.mountain.dto.MagazineStarDto;
 import com.mountaintour.mountain.dto.ProductDto;
 import com.mountaintour.mountain.util.MagazineFileUtils;
 import com.mountaintour.mountain.util.MyPageUtils;
 
 import lombok.RequiredArgsConstructor;
-import net.coobird.thumbnailator.Thumbnails;
 
 @Service
 @RequiredArgsConstructor
@@ -361,12 +360,35 @@ public class MagazineServiceImpl implements MagazineService {
         }  // if
     
         return modifyResult;
-
   }
   
   @Override
   public int increaseHit(int magazineNo) {  
     return magazineMapper.updateHit(magazineNo);
+  }
+  
+  @Override
+  public Map<String, Integer> addLike(HttpServletRequest request) {
+    int magazineNo = Integer.parseInt(request.getParameter("magazineNo"));
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    
+    MagazineStarDto magazineStarDto = MagazineStarDto.builder()
+                                         .magazineNo(magazineNo)
+                                         .userNo(userNo)
+                                         .build();
+    
+    int existMaUser = magazineMapper.selectCountLike(magazineStarDto);
+    
+    if(existMaUser == 1) {
+       magazineMapper.deleteLike(magazineStarDto);
+    } else {
+       magazineMapper.insertLike(magazineStarDto);
+    }
+    int countLike = magazineMapper.countLike(magazineNo);
+    
+    
+    
+    return Map.of("existMaUser", existMaUser, "countLike", countLike);
   }
   
   
