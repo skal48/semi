@@ -392,5 +392,12 @@ public class ManageServiceImpl implements ManageService {
     
   }
   
+  /**
+   * 리뷰삭제
+   */
+  @Override
+  public int removeReview(int reviewNo) {
+    return manageMapper.deleteReview(reviewNo);
+  }
   
 }
