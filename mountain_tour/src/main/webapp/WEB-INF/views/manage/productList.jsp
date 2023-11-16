@@ -89,7 +89,9 @@
         <div class="listWrap2">
           
           <%-- 총 상품 수를 표시 --%>
-          <div style="text-align: right;">총 ${total}개</div>
+          <div style="text-align: right;">
+            <span>총 ${total}개</span>
+          </div>
           
           <%-- 전체 목록을 나타내는 테이블 --%>
           <div>
