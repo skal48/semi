@@ -27,4 +27,6 @@ public interface UserService {
 	public void leave(HttpServletRequest request, HttpServletResponse response);
 	public void heartProduct(HttpServletRequest request, Model model);
 	public void findId(HttpServletRequest request, HttpServletResponse response);
+	// 아이디 찾기
+		public UserDto find_id(String name, String mobile);
 }
