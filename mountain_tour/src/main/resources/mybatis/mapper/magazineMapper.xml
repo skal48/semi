@@ -101,7 +101,7 @@
  
  
  <select id="getMagazine" parameterType="int" resultType="MagazineDto">
-	 	SELECT MAGAZINE_NO, USER_NO, TITLE, CONTENTS, SUMMARY, CREATE_AT, PRODUCT_NO
+	 	SELECT MAGAZINE_NO, USER_NO, TITLE, CONTENTS, SUMMARY, CREATE_AT, PRODUCT_NO, HIT
 	    FROM MAGAZINE_T
 	   WHERE MAGAZINE_NO = #{magazineNo}
  </select>
