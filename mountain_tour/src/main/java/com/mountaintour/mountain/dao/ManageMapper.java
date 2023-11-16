@@ -42,4 +42,6 @@ public interface ManageMapper {
 	public int getSearchReviewCount(Map<String, Object> map);
 	public List<ReviewDto> getSearchReviewList(Map<String, Object> map);
 	
+	/* 리뷰 삭제 */
+	public int deleteReview(int reviewNo);
 }
