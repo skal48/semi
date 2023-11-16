@@ -32,55 +32,46 @@
 
   <div class="temp table-container" id="table">
     <c:forEach items="${heartList}" var="h" varStatus="vs">
-      
-      <div>${h.userNo}</div>
-      <div>${h.productNo}</div>
+    <div>${HeartDto.userNo}</div>
+      <div>${HeartDto.productNo}</div>
+      <div>${HeartDto.tripName}</div>
+      <div>${HeartDto.tripContents}</div>
     </c:forEach>
   </div>
 
-</body>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+  
+  // 페이지 로딩 시 호출
+    $(document).ready(function() {
+        fnLove();
+    });
 
-<script>
-//전역변수 
-var page = 1;
-var totalPage = 0;
-var heartList = resData.heartList;
+    // Ajax 함수 정의
+    const fnLove = () => {
+        $.ajax({
+            type: 'get',
+            url: '${contextPath}/user/getHeartList.do',
+            dataType: 'json',
+            success: (resData) => {
+                // Clear existing data in the table
+                $('#table').empty();
 
-
-const fnLove = () => {
-  $.ajax({
-    //요청
-    type: 'get',
-    url: '${contextPath}/user/getHeartList.do',
-    data: 'page=' + page,
-    //응답 
-    dataType: 'json',
-    success: (resData) => {
-      totalPage = resData.totalPage;
-
-
-      
-      $.each(heartList, function (index, h) {
-        var userNo = h.userNo;
-        var productNo = h.productNo;
-
-       
-        console.log('회원번호:', userNo);
-        console.log('상품번호:', productNo);
-
-        $('#table').append('<div>' + userNo + '</div>');
-        $('#table').append('<div>' + productNo + '</div>');
-      });
-
-     
-    },
-    error: (error) => {
-      console.error('error:', error);
+                // 결과 데이터를 테이블에 추가
+                $.each(resData, function(index, h) {
+                    $('#table').append('<div>' + HeartDto.userNo + '</div>');
+                    $('#table').append('<div>' + HeartDto.productNo + '</div>');
+                    $('#table').append('<div>' + HeartDto.tripName + '</div>');
+                    $('#table').append('<div>' + HeartDto.tripContents + '</div>');
+                });
+            },
+            error: (error) => {
+                console.error('error:', error);
+            }
+        });
     }
-  });
-}
-
-</script>
+  </script>
+</body>
 	
 
 <%@ include file="../layout/footer.jsp" %>
