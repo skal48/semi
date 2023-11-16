@@ -160,6 +160,31 @@ public class ReserveServiceImpl implements ReserveService{
   }
   
   @Override
+  public int modifyReserve(HttpServletRequest request) {
+    int reserveNo = Integer.parseInt(request.getParameter("reserveNo"));
+    
+    String reqContent = request.getParameter("resReq");
+    String pickupLoc = request.getParameter("pickupLoc");
+    
+    ReserveDto reserve = ReserveDto.builder()
+                                   .request(reqContent)
+                                   .pickupLoc(pickupLoc)
+                                   .reserveNo(reserveNo)
+                                   .build();
+    
+    int modifyResult = reserveMapper.updateReserve(reserve);
+    return modifyResult;
+  }
+  
+  @Override
+  public int removeReserve(HttpServletRequest request) {
+    int reserveNo = Integer.parseInt(request.getParameter("reserveNo"));
+    int removeResult = reserveMapper.deleteReserve(reserveNo);
+    return removeResult;
+  }
+  
+  
+  @Override
   public Map<String, Object> loadTourists(HttpServletRequest request) {
     int reserveNo = Integer.parseInt(request.getParameter("reserveNo"));
     List<TouristDto> tourists = reserveMapper.getTourists(reserveNo);

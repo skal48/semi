@@ -132,6 +132,15 @@
     <div>
       <button type="button" onclick="location.href='${contextPath}/product/list.do'">다른상품 예약하러가기</button>
       <button type="button" onclick="location.href='${contextPath}/reserve/list.do?userNo=' + '${sessionScope.user.userNo}'">나의예약목록</button>
+      <form id="frm_btn" method="post">
+        <input type="hidden" name="reserveNo" value="${reserve.reserveNo}">
+        <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
+        <input type="hidden" name="request" value="${reserve.request}">
+        <input type="hidden" name="pickupLoc" value="${reserve.pickupLoc}">
+        <button type="button" id="btn_res_modify">예약 수정하러가기</button>
+        <button type="button" id="btn_res_cancel">예약 취소하기</button>
+      </form>
+      
     </div>
     
     </div>
@@ -201,47 +210,35 @@
 			alert('내 예약 목록으로 이동합니다.')
 			location.href = '${contextPath}/reserve/list.do?userNo=${sessionScope.user.userNo}';
 			return;
-		} else if(){
+		} else {
 			return;
 		}
 	}
 	
-	/*
-	<div>
-		<table>
-			<thead>
-				<tr>
-					<th>성인/소아</th>
-					<th>이름</th>
-					<th>생년월일</th>
-					<th>성별</th>
-					<th>연락처</th>
-				</tr>
-			</thead>
-			<tbody id="touristInfo">
-				<tr>
-					<td>성인</td>
-					<td>홍길동</td>
-					<td>1993-02-12</td>
-					<td>남</td>
-					<td>01000001111</td>
-				</tr>
-				<tr>
-					<td>성인</td>
-					<td>홍길동</td>
-					<td>1993-02-12</td>
-					<td>남</td>
-					<td>01000001111</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	*/
-	
-	
-	
-	
-	
+	function fnChkCancel(){
+		$('#btn_res_cancel').click(function(){
+			if(confirm('예약을 취소하면 여행자 정보도 함께 삭제됩니다. 취소할까요?')){
+				$('#frm_btn').attr('action', '${contextPath}/reserve/delete.do')
+				$('#frm_btn').submit();
+			} 
+		})
+	}
+	function fnGoModify(){
+		$('#btn_res_modify').click(function(){
+			if(confirm('예약 수정화면으로 이동하시겠습니까? 여행자 정보는 수정 불가능합니다.')){
+				$('#frm_btn').attr('action', '${contextPath}/reserve/edit.form');
+				$('#frm_btn').submit();
+			} 
+		})
+	}
+	function fnChkModify(){
+		if('${modifyResult}' == 1){
+			alert('수정되었습니다.');
+		} 
+	}
+	fnChkCancel();
+	fnGoModify();
+	fnChkModify();
 	fnCheckCurrUser();
 	fnShowTourist();
 </script>

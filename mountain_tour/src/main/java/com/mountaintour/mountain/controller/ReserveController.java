@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,7 +56,24 @@ public class ReserveController {
     return "reserve/list";
   }
   
+  @PostMapping("/edit.form")
+  public String edit(@ModelAttribute("reserve") ReserveDto reserve) {
+    return "reserve/edit";
+  }
   
+  @PostMapping("/modifyReserve.do")
+  public String modifyBlog(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    int modifyResult = reserveService.modifyReserve(request);
+    redirectAttributes.addFlashAttribute("modifyResult", modifyResult);
+    return "redirect:/reserve/detail.do?reserveNo=" + request.getParameter("reserveNo");
+  }
+  
+  
+  @PostMapping("/delete.do")
+  public String removeReserve(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    redirectAttributes.addFlashAttribute("removeResult", reserveService.removeReserve(request));
+    return "redirect:/reserve/list.do?" + request.getParameter("userNo");
+  }
   
   @ResponseBody
   @PostMapping(value="/addReserve.do", produces="application/json")
