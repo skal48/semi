@@ -278,7 +278,7 @@
           </div>
           <div>
             <button type="button" id="btn_reserve">예약하기</button>
-            <button type="button" onclick="location.href='${contextPath}/reserve/list.do'">예약목록</button>
+            
           </div>
         </form>
 
