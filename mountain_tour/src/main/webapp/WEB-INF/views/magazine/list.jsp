@@ -56,6 +56,7 @@
     
     .small_picture {
       height: 200px;
+      width: 100%;
     }
     .small_title {
       margin-top: 20px;
@@ -65,12 +66,6 @@
     }
     .small_summary {
       margin: 10px;   
-    }
-    .small_summary {
-    
-    }
-    .small_summary {
-    
     }
   
   </style>
@@ -125,25 +120,27 @@
 	    	  totalPage = resData.totalPage;
 	    	  $.each(resData.magazineList, (i, upload) => {
 	        if(page === 1 && i === 0){
-	        	console.log(upload.magazineMultiDto.isThumbnail);
-  	      	let big = '<div class="big_magazine magazine" style = "border: 1px gray solid;" data-magazine_no="'+ upload.magazineNo +'">';
+	        	let big = '<form class="frm_click" action="${contextPath}/magazine/increseHit.do" method="get">';
+	        			big += '<input type="hidden" name ="magazineNo" value="'+ upload.magazineNo +'">';
+  	      	    big += '<div class="big_magazine magazine" style = "border: 1px gray solid;">';
   	      		if(upload.magazineMultiDto.isThumbnail === 1){
-  	      			console.log(upload.magazineMultiDto.multiPath)
-  			        big += '<img src="${contextPath}'+upload.magazineMultiDto.multiPath+'/'+upload.magazineMultiDto.filesysName+'" class="big_picture" alt="썸네일" >';
+  			        big += '<img class="big_picture"src="${contextPath}'+upload.magazineMultiDto.multiPath+'/'+upload.magazineMultiDto.filesysName+'" alt="썸네일" >';
   	      		}
   			        big += '<div class="big_title">'+ upload.title +'</div>';
   			        big += '<span class="big_date position-absolute bottom-0 start-0">date   '+ new Date(upload.createAt).toLocaleDateString().replace(/\./g, '').replace(/\s/g, '-')   +'</span>';
-  	            big += '<span class="big_hit position-absolute bottom-0">조회수' + upload.hit +'</span> </div>';
+  	            big += '<span class="big_hit position-absolute bottom-0">조회수' + upload.hit +'</span> </div></form>';
   	      	$('.big_wrapper').append(big);
 	        } else {
-	        	let small = '<div class="row magazine" data-magazine_no="'+ upload.magazineNo+'"><div class="col">';
+	        	let small = '<form class="frm_click" action="${contextPath}/magazine/increseHit.do" method="get">';
+	        			small += '<div class="row magazine"><div class="col">';
+	        			small += '<input type="hidden" name ="magazineNo" value="'+ upload.magazineNo +'">';
 	        			 if(upload.magazineMultiDto.isThumbnail === 1){
-	        			small += '<img src="${contextPath}'+upload.magazineMultiDto.multiPath+'/'+upload.magazineMultiDto.filesysName+'" class="small_picture" style = "border: 1px gray solid;"></div>';
+	        			small += '<img class="small_picture" src="${contextPath}'+upload.magazineMultiDto.multiPath+'/'+upload.magazineMultiDto.filesysName+'" style = "border: 1px gray solid;"></div>';
 	        			 }
 	        			small += '<div class="col"><div class="small_title">'+upload.title+'</div>';
-	        			small += '<div class="small_summary">summary</div>';
+	        			small += '<div class="small_summary">'+upload.summary+'</div>';
 	        			small += '<span class="small_date position-absolute bottom-0 start-0">date'+ new Date(upload.createAt).toLocaleDateString().replace(/\./g, '').replace(/\s/g, '-') +'</span>';
-	        			small += '<span class="small_hit position-absolute bottom-0">조회수' + upload.hit +' </span></div></div>';
+	        			small += '<span class="small_hit position-absolute bottom-0">조회수' + upload.hit +' </span></div></div></form>';
 	        	$('#small_wrapper').append(small);  
 	        	}
 	    	  })
@@ -151,12 +148,13 @@
 	    })
   }
   
-  const fnUploadDetail = () => {
-	    $(document).on('click', '.magazine', function(){
-	    	console.log($(this).data('magazine_no'));
-	      location.href = '${contextPath}/magazine/detail.do?magazineNo=' + $(this).data('magazine_no');
-	    })
-	  }
+  const fnClickHit = () => {
+	  
+	  $(document).on('click', '.frm_click', function() {
+				$(this).submit();
+		})
+  }
+   
   
   const fnScroll = () => {
 	    
@@ -188,17 +186,27 @@
 	    })
 	    
 	  }
-  
+ const fnModifyResult = () => {
+	 let modifyResult = '${modifyResult}';
+	 if(modifyResult !== ''){
+		 if(modifyResult === 'true'){
+        alert('수정을 성공했습니다. ');
+     } else {
+       alert('수정을 실패하였습니다.');
+     }
+	 }
+	 
+ }
   
   
   
   
   
   fnGetUploadList();
-  fnUploadDetail();
   fnScroll();
-  
+  fnModifyResult();
   fnMagazineWrite();	
+  fnClickHit();
 
 
 </script>

@@ -101,15 +101,11 @@
  
  
  <select id="getMagazine" parameterType="int" resultType="MagazineDto">
-	 	SELECT MAGAZINE_NO, USER_NO, TITLE, CONTENTS, SUMMARY, CREATE_AT, PRODUCT_NO
+	 	SELECT MAGAZINE_NO, USER_NO, TITLE, CONTENTS, SUMMARY, CREATE_AT, PRODUCT_NO, HIT
 	    FROM MAGAZINE_T
 	   WHERE MAGAZINE_NO = #{magazineNo}
  </select>
- <select id="countLike" parameterType="int" resultType="int">	
-		SELECT COUNT(*)
-		  FROM MAGAZINE_STAR_T
-		 WHERE MAGAZINE_NO = #{magazineNo} 
- </select>
+ 
  
  <delete id="deleteMagazine" parameterType="int">
  		DELETE FROM MAGAZINE_T WHERE MAGAZINE_NO = #{magazineNo}
@@ -128,6 +124,14 @@
              SUMMARY = #{summary}
       WHERE MAGAZINE_NO = #{magazineNo}
  </update>
+ <update id="updateThumbnailFinal" parameterType="MagazineMultiDto">
+    UPDATE MAGAZINE_MULTI_T SET
+			  MULTI_PATH = #{multiPath}, 
+			  FILESYS_NAME = #{filesysName}, 
+			  IS_THUMBNAIL = #{isThumbnail}
+		WHERE MAGAZINE_NO = #{magazineNo}
+ </update>
+ 
  
  <select id="getThumbnailInfo" parameterType="int" resultMap="MagazineMap">
     SELECT MAGAZINE_NO, SUMMARY, MULTI_PATH, FILESYS_NAME, IS_THUMBNAIL
@@ -139,12 +143,21 @@
  
  </select>
  <update id="updateIsThumbnail" parameterType="int">
- 		 UPDATE MAGAZINE_MULTI_T SET
-					   IS_THUMBNAIL = 0
-			WHERE MAGAZINE_NO = #{magazineNo} AND IS_THUMBNAIL IS NULL
+	 UPDATE MAGAZINE_MULTI_T SET
+			   IS_THUMBNAIL = 0
+		WHERE MAGAZINE_NO = #{magazineNo} AND IS_THUMBNAIL IS NULL
  
  </update> 
  
- 
+ <update id="updateHit" parameterType="int">
+	  UPDATE MAGAZINE_T SET 
+	  HIT = HIT+1
+	  WHERE MAGAZINE_NO = #{magazineNo}
+ </update>
+ <select id="countLike" parameterType="int" resultType="int">	
+		SELECT COUNT(*)
+		  FROM MAGAZINE_STAR_T
+		 WHERE MAGAZINE_NO = #{magazineNo} 
+ </select>
  
 </mapper>

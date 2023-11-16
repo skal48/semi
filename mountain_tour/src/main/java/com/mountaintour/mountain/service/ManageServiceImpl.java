@@ -17,6 +17,7 @@ import com.mountaintour.mountain.dao.ProductMapper;
 import com.mountaintour.mountain.dao.UserMapper;
 import com.mountaintour.mountain.dto.LeaveUserDto;
 import com.mountaintour.mountain.dto.ProductDto;
+import com.mountaintour.mountain.dto.ReviewDto;
 import com.mountaintour.mountain.dto.UserDto;
 import com.mountaintour.mountain.util.MyPageUtils;
 import com.mountaintour.mountain.util.MySecurityUtils;
@@ -285,6 +286,14 @@ public class ManageServiceImpl implements ManageService {
     model.addAttribute("total", total);
   }
   
+  /**
+   * 여행상품 검색
+   * 
+   * @author 심희수
+   * @param request
+   * @param model
+   * @return 검색된 여행상품 목록, 페이징 정보, 검색된 총 여행상품 수 반환 
+   */
   @Override
   public void loadSearchProductList(HttpServletRequest request, Model model) {
     
@@ -312,6 +321,75 @@ public class ManageServiceImpl implements ManageService {
     model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/manage/productSearch.do", "column=" + column + "&query=" + query));
     model.addAttribute("beginNo", total - (page -1) * display);
     model.addAttribute("total", total);
+  }
+  
+  /**
+   * 전체 리뷰 목록
+   * 
+   * @author 심희수
+   * @param request
+   * @param model
+   * @return 전체 리뷰 목록, 페이징 정보, 총 리뷰 수 반환
+   */
+  @Override
+  public void loadReviewList(HttpServletRequest request, Model model) {
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = manageMapper.getReviewCount();
+    int display = 20;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("begin", myPageUtils.getBegin());
+    map.put("end", myPageUtils.getEnd());
+    
+    List<ReviewDto> reviewList = manageMapper.getReviewList(map);
+    
+    model.addAttribute("reviewList", reviewList);
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/manage/reviewList.form"));
+    model.addAttribute("beginNo", total - (page -1) * display);
+    model.addAttribute("total", total);
+    
+  }
+  
+  /**
+   * 리뷰 검색
+   * 
+   * @author 심희수
+   * @param request
+   * @param model
+   * @return 검색한 리뷰 목록, 페이징 정보, 검색한 총 리뷰 수 반환
+   */
+  @Override
+  public void loadSearchReviewList(HttpServletRequest request, Model model) {
+    
+    String column = request.getParameter("column");
+    String query = request.getParameter("query");
+    
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("column", column);
+    map.put("query", query);
+    
+    int total = manageMapper.getSearchReviewCount(map);
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int display = 20;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    map.put("begin", myPageUtils.getBegin());
+    map.put("end", myPageUtils.getEnd());
+    
+    List<ReviewDto> reviewList = manageMapper.getSearchReviewList(map);
+    
+    model.addAttribute("reviewList", reviewList);
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/manage/searchReview.do", "column=" + column + "&query=" + query));
+    model.addAttribute("beginNo", total - (page -1) * display);
+    model.addAttribute("total", total);
+    
   }
   
   

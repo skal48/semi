@@ -129,4 +129,11 @@
     FROM HEART_T
   </select>
 
+ <select id="getFindId" parameterType="Map" resultType="UserDto">
+  SELECT USER_NO, EMAIL, PW, NAME, GENDER, MOBILE, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, AGREE, STATE, AUTH, PW_MODIFIED_AT, JOINED_AT
+      FROM USER_T
+     WHERE NAME = #{name} AND MOBILE = #{mobile}
+ </select>
+
+
 </mapper>

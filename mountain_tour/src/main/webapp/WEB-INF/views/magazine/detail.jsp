@@ -52,7 +52,10 @@
  .ck.ck-reset_all.ck-widget__resizer {
   display: none;
  }
+ path {
+  display: none;
  
+ }
  </style>
   <div class="container text-center">
   <div class="row">
@@ -118,7 +121,9 @@
 	  })
   }
   
-  
+  const fnLike = () => {
+	  $('')
+  }
   
   
   fnModify();
