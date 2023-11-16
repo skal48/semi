@@ -31,10 +31,10 @@
     </div>
   
     
-    <div>
-      <table>
+    <div class="d-grid gap-2 col-8  mx-auto">
+      <table class="table">
         <colgroup>
-          <col style="width:11%;">
+          <col style="width:20%;">
           <col style="width:*;">
         </colgroup>
         <tr>
@@ -53,12 +53,12 @@
         <tr>
           <td>여행객정보</td>
           <td>
-            ${reserve.reservePerson}명(버튼누르면 실제여행객 정보 보여주기?)
+            총 ${reserve.reservePerson}명
             <span>
-              <button id="btn_peopleInfo">상세</button>
+              <button type="button" id="btn_peopleInfo" class="btn btn-outline-success btn-sm" style="margin-left: 10px;">상세보기</button>
             </span>
             <div class="blind">
-              <table>
+              <table class="table">
                 <thead>
                   <tr>
                     <th>성인/소아</th>
@@ -82,7 +82,15 @@
         </tr>
         <tr>
           <td>예약상태</td>
-          <td>${reserve.reserveStatus}</td>
+          <c:if test="${reserve.reserveStatus == 0}">
+            <td>정상</td>
+          </c:if>
+          <c:if test="${reserve.reserveStatus == 1}">
+            <td>대기</td>
+          </c:if>
+          <c:if test="${reserve.reserveStatus == 2}">
+            <td>불가</td>
+          </c:if>
         </tr>
         <tr>
           <td>요청사항</td>
@@ -99,14 +107,14 @@
       </table>
     </div>
     
-    <div>
+    <div style="margin-top: 40px">
       <h4>예약자정보</h4>
     </div>
   
-    <div>
-      <table>
+    <div class="d-grid gap-2 col-8  mx-auto">
+      <table class="table">
         <colgroup>
-          <col style="width:11%;">
+          <col style="width:20%;">
           <col style="width:*;">
         </colgroup>
         <tr>
@@ -130,15 +138,15 @@
     
     <hr>
     <div>
-      <button type="button" onclick="location.href='${contextPath}/product/list.do'">다른상품 예약하러가기</button>
-      <button type="button" onclick="location.href='${contextPath}/reserve/list.do?userNo=' + '${sessionScope.user.userNo}'">나의예약목록</button>
       <form id="frm_btn" method="post">
         <input type="hidden" name="reserveNo" value="${reserve.reserveNo}">
         <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
         <input type="hidden" name="request" value="${reserve.request}">
         <input type="hidden" name="pickupLoc" value="${reserve.pickupLoc}">
-        <button type="button" id="btn_res_modify">예약 수정하러가기</button>
-        <button type="button" id="btn_res_cancel">예약 취소하기</button>
+        <button class="btn btn-success" type="button" onclick="location.href='${contextPath}/product/list.do'">다른상품 예약하러가기</button>
+        <button type="button" onclick="location.href='${contextPath}/reserve/list.do?userNo=' + '${sessionScope.user.userNo}'" class="btn btn-success">나의예약목록</button>
+        <button class="btn btn-outline-secondary" type="button" id="btn_res_modify">예약 수정하러가기</button>
+        <button class="btn btn-outline-danger" type="button" id="btn_res_cancel">예약 취소하기</button>
       </form>
       
     </div>

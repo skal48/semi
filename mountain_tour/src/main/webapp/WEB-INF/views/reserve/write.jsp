@@ -9,6 +9,7 @@
   <jsp:param value="예약" name="title"/>
 </jsp:include>
 
+
  
   <div class="container text-center">
   <div class="row">
@@ -28,23 +29,22 @@
           <h2>예약하기</h2>
         </div>
         <hr>
-        <button type="button" onclick="location.href='javascript:history.back()'">이전으로</button>
         <div>
           <h4>상품정보</h4>
         </div>
         <div>
-          <table>
+          <table class="table">
             <colgroup>
               <col style="width:100px;">
               <col style="width:*;">
             </colgroup>
             <tbody>
               <tr>
-                <td>상품명</td>
+                <td class="table-active"><strong>상품명</strong></td>
                 <td>${product.tripName}</td> <!-- 상품명이 들어가야함 -->
               </tr>
               <tr>
-                <td>일정</td>
+                <td class="table-active"><strong>일정</strong></td>
                 <td>
                   <div>
                     출발일 : 
@@ -60,14 +60,12 @@
             </tbody>
           </table>
         </div>
-        
-        <hr>
         <!-- 요금 및 여행인원 -->
-        <div>
+        <div style="margin-top: 50px;">
           <h4>요금 및 여행인원</h4>
         </div>
         <div>
-          <table>
+          <table class="table">
             <colgroup>
               <col>
               <col style="width:11%;">
@@ -77,7 +75,7 @@
               <col style="width:14%;">
             </colgroup>
             <thead>
-              <tr>
+              <tr class="table-active">
                 <th>요금구분</th>
                 <th>성인요금</th>
                 <th>소아요금</th>
@@ -127,7 +125,6 @@
             </tfoot>
           </table>
         </div>
-        <hr>
         
         <!-- 여행자 정보 -->
         <form id="frm_tourist"  method="post">
@@ -136,7 +133,7 @@
               <h4>여행자 정보</h4>
               <span id="msg_mobile"></span>
             </div>
-            <table>
+            <table class="table">
               <colgroup>
                 <col style="width:5%;">
                 <col style="width:11%;">
@@ -161,35 +158,34 @@
           </div>
         </form>
         
-        <hr>
         
         <!-- 예약 정보 -->
         <!-- 받아올 정보 : userNo, productNo -->  
         <form id="frm_reserve" >
-          <div>
+          <div style="margin-top: 50px;">
             <h4>예약자 정보</h4>
           </div>
           <div>
-            <table>
+            <table class="table">
               <colgroup>
                 <col style="width:11%;">
                 <col style="width:*;">
               </colgroup>
               <tbody>
                 <tr>
-                  <td>예약자명</td>
+                  <td class="table-active">예약자명</td>
                   <td>${sessionScope.user.name}</td> <!-- 로그인한 회원의 이름 -->
                 </tr>
                 <tr>
-                  <td>연락처</td>
+                  <td class="table-active">연락처</td>
                   <td>
                     <span>${sessionScope.user.mobile}</span>
                   </td>
                 </tr>
                 <tr>
-                  <td>요청사항</td>
+                  <td class="table-active">요청사항</td>
                   <td>
-                    <textarea class="textarea" name="resReq" id="resReq" cols="30" rows="10" placeholder="좌성배정 불가능"></textarea>
+                    <textarea class="textarea form-control" name="resReq" id="resReq" cols="30" rows="5" placeholder="좌석배정 불가능"></textarea>
                   </td>
                 </tr>
               </tbody>
@@ -202,8 +198,6 @@
           <input type="hidden" name="resFinish" value="${resDate}">
           -->
         
-          <hr>
-          
           <!-- 픽업장소 선택 -->
           <div>
             <h4>승차장소 선택</h4>
@@ -212,19 +206,19 @@
             총<span class="totalPerson">0</span>명
             <input type="hidden" id="reservePerson" name="reservePerson" class="totalPerson">
           </div>
-          <div>
-            <ul>
-              <li>
-                <input type="radio" name="pickupLoc" id="byOwn" value="자차" checked>
-                <label for="byOwn">자차 이용</label> 
+          <div class="d-grid gap-2 col-2 mx-auto">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <input class="form-check-input me-1" type="radio" name="pickupLoc" id="byOwn" value="자차" checked>
+                <label class="form-check-label" for="byOwn">자차 이용</label> 
               </li>
-              <li>
-                <input type="radio" name="pickupLoc" id="pickupSeoul" value="서울역" >
-                <label for="pickupSeoul">서울역</label> 
+              <li class="list-group-item">
+                <input class="form-check-input me-1" type="radio" name="pickupLoc" id="pickupSeoul" value="서울역" >
+                <label class="form-check-label" for="pickupSeoul">서울역</label> 
               </li>
-              <li>
-                <input type="radio" name="pickupLoc" id="pickupDDP" value="동대문">
-                <label for="pickupDDP">동대문</label> 
+              <li class="list-group-item">
+                <input class="form-check-input me-1" type="radio" name="pickupLoc" id="pickupDDP" value="동대문">
+                <label class="form-check-label" for="pickupDDP">동대문</label> 
               </li>
             </ul>
           </div>
@@ -237,8 +231,8 @@
             <h4>약관 동의</h4>
           </div>
             <div>
-              <table>
-                <tbody>
+              <table class="table">
+                <tbody class="d-grid gap-2 col-6 mx-auto">
                   <tr>
                     <td>
                       <div>
@@ -266,18 +260,24 @@
                     </td>
                   </tr>
                 </tbody>
+                <tfoot class="d-grid gap-2 col-6 mx-auto">
+                  <tr>
+                    <td>
+                      <div>
+                        <span>
+                          <input type="checkbox" id="chkAll">
+                          <label for="chkAll">모든 약관에 동의합니다.</label>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
          
           
-          <div>
-            <span>
-              <input type="checkbox" id="chkAll">
-              <label for="chkAll">모든 약관에 동의합니다.</label>
-            </span>
-          </div>
-          <div>
-            <button type="button" id="btn_reserve">예약하기</button>
+          <div class="d-grid gap-2 col-6 mx-auto" >
+            <button type="button" id="btn_reserve" class="btn btn-success">예약하기</button>
             
           </div>
         </form>
@@ -289,7 +289,7 @@
             <div>
               <h4>결제정보</h4>
             </div>
-            <table>
+            <table >
               <colgroup>
                 <col style="width:13%;">
                 <col style="width:*;">

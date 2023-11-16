@@ -34,10 +34,10 @@
           <div>
             <h4>예약자 정보</h4>
           </div>
-          <div>
-            <table>
+          <div class="d-grid gap-2 col-8  mx-auto">
+            <table class="table">
               <colgroup>
-                <col style="width:11%;">
+                <col style="width:20%;">
                 <col style="width:*;">
               </colgroup>
               <tbody>
@@ -54,7 +54,7 @@
                 <tr>
                   <td>요청사항</td>
                   <td>
-                    <textarea class="textarea" name="resReq" id="resReq" cols="30" rows="10" >${reserve.request}</textarea>
+                    <textarea class="textarea form-control" name="resReq" id="resReq" cols="30" rows="5" >${reserve.request}</textarea>
                   </td>
                 </tr>
               </tbody>
@@ -63,32 +63,30 @@
           <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
           <input type="hidden" name="reserveNo" value="${reserve.reserveNo}">
         
-          <hr>
           
           <!-- 픽업장소 선택 -->
           <div>
             <h4>승차장소 선택</h4>
           </div>
-          <div>
-            <ul>
-              <li>
-                <input type="radio" name="pickupLoc" id="byOwn" value="자차">
-                <label for="byOwn">자차 이용</label> 
+          <div class="d-grid gap-2 col-2 mx-auto">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <input class="form-check-input me-1" type="radio" name="pickupLoc" id="byOwn" value="자차" checked>
+                <label class="form-check-label" for="byOwn">자차 이용</label> 
               </li>
-              <li>
-                <input type="radio" name="pickupLoc" id="pickupSeoul" value="서울역" >
-                <label for="pickupSeoul">서울역</label> 
+              <li class="list-group-item">
+                <input class="form-check-input me-1" type="radio" name="pickupLoc" id="pickupSeoul" value="서울역" >
+                <label class="form-check-label" for="pickupSeoul">서울역</label> 
               </li>
-              <li>
-                <input type="radio" name="pickupLoc" id="pickupDDP" value="동대문">
-                <label for="pickupDDP">동대문</label> 
+              <li class="list-group-item">
+                <input class="form-check-input me-1" type="radio" name="pickupLoc" id="pickupDDP" value="동대문">
+                <label class="form-check-label" for="pickupDDP">동대문</label> 
               </li>
             </ul>
           </div>
             
-          <hr>  
-          <div>
-            <button type="button" id="btn_modify">수정하기</button>
+          <div style="margin-top: 20px;">
+            <button class="btn btn-success btn-lg" type="button" id="btn_modify">수정하기</button>
           </div>
         </form>
         
