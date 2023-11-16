@@ -21,7 +21,7 @@ public interface UserMapper {
 	public int insertNaverUser(UserDto user);
 	public int deleteUser(UserDto user);
 	public List<HeartDto> selectHeartList(Map<String, Object> map);
-	public int getHeartCount();
+	public int getHeartCount(int userNo);
 	
 	//아이디찾기
 	public UserDto getFindId(Map<String, Object> map);

@@ -61,17 +61,25 @@
     cursor: pointer;
   }
   
+  .btn_remove {
+    text-align: right;
+  }
+  
 </style>
 <script>
 
+  /* 호출 */
   $(() => {
 	fnSubstring();
 	fnBlind();
+	fnBtnRemoveReview();
+	fnRemoveReview();
   })
+
 
   /* 내용의 일부만 보여주기 */
   const fnSubstring = () => {
-    $('.btn_contents').each(function() {
+    $('.open_contents').each(function() {
       var text = $(this).text().trim();
       var truncatedText = text.length > 10 ? text.substring(0, 10) + '...' : text;
       $(this).text(truncatedText);
@@ -82,7 +90,7 @@
   /* 게시글 내용을 클릭하면 전체 내용 나타내기 */
   const fnBlind = () => {
 	$('.open_contents').click((ev) => {
-	  ler openContents = $(ev.target).parent().next();
+	  let openContents = $(ev.target).parent().next();
 	  if(openContents.hasClass('blind')){
 		$('.show_content').addClass('blind');
 		openContents.removeClass('blind');
@@ -92,6 +100,30 @@
 	})
   }
   
+  /* 리뷰 삭제 취소시 서브밋 방지 */
+  const fnBtnRemoveReview = () => {
+	$('.frm_remove_review').click((ev) => {
+	  if(!confirm('관리자 권한으로 리뷰를 삭제하시겠습니까?')){
+		ev.preventDefault();
+		return;
+	  }
+	})
+  }
+  
+  /* 리뷰 삭제시 전달되는 데이터 값 */
+  const fnRemoveReview = () => {
+	let removeReviewResult = '${removeReviewResult}';
+	if(removeReviewResult !== ''){
+	  if(removeReviewResult === '1'){
+		alert('댓글이 삭제되었습니다.');
+	  } else {
+		alert('댓글이 삭제되지 않았습니다.');
+	  }
+	}
+  }
+  
+
+  
 </script>
 
  
@@ -99,8 +131,7 @@
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
-      <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
+    <div class="col-10" style = "border: 1px gray solid;" >
       
       <div class="mainWrap">
       
@@ -138,7 +169,6 @@
                   <th scope="col">내용</th>
                   <th scope="col">작성일</th>
                   <th scope="col">수정일</th>
-                  <th scope="col">상태</th>
                   <th scope="col">별점</th>
                 </tr>
               </thead>
@@ -155,18 +185,25 @@
                     <td>
                       <fmt:formatDate value="${r.modifiedAt}" pattern="yy/MM/dd" />
                     </td>
-                    <td>${r.status}</td>
                     <td>${r.star}</td>
                   </tr>
                   <tr class="blind show_content">
-                    <td colspan="8">${r.contents}</td>
+                    <td colspan="8">
+                      ${r.contents}
+                      <div class="btn_remove">
+                        <form class="frm_remove_review" method="post" action="${contextPath}/manage/removeReview.do">
+                          <input type="hidden" name="reviewNo" value="${r.reviewNo}">
+                          <button type="submit" class="btn btn-secondary">댓글삭제</button>
+                        </form>
+                      </div>
+                    </td>
                   </tr>
                 </c:forEach>
               </tbody>
               <%-- 페이징 처리 --%>
               <tfoot>
                 <tr>
-                  <td colspan="8">${paging}</td>
+                  <td colspan="7">${paging}</td>
                 </tr>
               </tfoot>
             </table>

@@ -254,7 +254,6 @@ CREATE TABLE REVIEW_T (
 	CONTENTS	VARCHAR2(300 BYTE) NULL,      -- 리뷰내용
 	CREATED_AT	DATE		       NOT NULL,  -- 작성일
 	MODIFIED_AT	DATE		       NOT NULL,  -- 수정일
-	STATUS	    NUMBER             NOT NULL,  -- 댓글상태(삭제여부, 0:미삭제, 1:삭제)
 	STAR	    NUMBER             NULL,      -- 별점
     CONSTRAINT PK_REVIEW PRIMARY KEY(REVIEW_NO),
     CONSTRAINT FK_USER_REVIEW FOREIGN KEY(USER_NO) REFERENCES USER_T(USER_NO) ON DELETE CASCADE,
@@ -310,8 +309,8 @@ CREATE TABLE NOTICE_T (
     NOTICE_NO       NUMBER               NOT NULL, -- 공지 번호
     TITLE           VARCHAR2(100 BYTE),            -- 공지 제목
     CONTENTS        CLOB,                          -- 공지 내용
-    CREATED_AT      DATE,                          -- 공지 작성일
-    MODIFIED_AT     DATE,                          -- 공지 수정일
+    CREATED_AT      VARCHAR2(100 BYTE),            -- 공지 작성일
+    MODIFIED_AT     VARCHAR2(100 BYTE),            -- 공지 수정일
     CONSTRAINT PK_NOTICE_T PRIMARY KEY(NOTICE_NO)
 ); 
 
