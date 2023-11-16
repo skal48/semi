@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.mountaintour.mountain.dto.MagazineDto;
 import com.mountaintour.mountain.dto.MagazineMultiDto;
+import com.mountaintour.mountain.dto.MagazineStarDto;
 import com.mountaintour.mountain.dto.ProductDto;
 
 @Mapper
@@ -28,5 +29,9 @@ public interface MagazineMapper {
   public MagazineDto getThumbnailInfo(int magazineNo);
   public int updateIsThumbnail(int magazineNo);
   public int updateHit(int magazineNo);
+  public int deleteLike(MagazineStarDto magazineStarDto);
+  public int insertLike(MagazineStarDto magazineStarDto);
+  public int selectCountLike(MagazineStarDto magazineStarDto);
+
   
 }
