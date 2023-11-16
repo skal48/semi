@@ -120,23 +120,27 @@
 	    	  totalPage = resData.totalPage;
 	    	  $.each(resData.magazineList, (i, upload) => {
 	        if(page === 1 && i === 0){
-  	      	let big = '<div class="big_magazine magazine" style = "border: 1px gray solid;" data-magazine_no="'+ upload.magazineNo +'">';
+	        	let big = '<form class="frm_click" action="${contextPath}/magazine/increseHit.do" method="get">';
+	        			big += '<input type="hidden" name ="magazineNo" value="'+ upload.magazineNo +'">';
+  	      	    big += '<div class="big_magazine magazine" style = "border: 1px gray solid;">';
   	      		if(upload.magazineMultiDto.isThumbnail === 1){
   			        big += '<img class="big_picture"src="${contextPath}'+upload.magazineMultiDto.multiPath+'/'+upload.magazineMultiDto.filesysName+'" alt="썸네일" >';
   	      		}
   			        big += '<div class="big_title">'+ upload.title +'</div>';
   			        big += '<span class="big_date position-absolute bottom-0 start-0">date   '+ new Date(upload.createAt).toLocaleDateString().replace(/\./g, '').replace(/\s/g, '-')   +'</span>';
-  	            big += '<span class="big_hit position-absolute bottom-0">조회수' + upload.hit +'</span> </div>';
+  	            big += '<span class="big_hit position-absolute bottom-0">조회수' + upload.hit +'</span> </div></form>';
   	      	$('.big_wrapper').append(big);
 	        } else {
-	        	let small = '<div class="row magazine" data-magazine_no="'+ upload.magazineNo+'" ><div class="col">';
+	        	let small = '<form class="frm_click" action="${contextPath}/magazine/increseHit.do" method="get">';
+	        			small += '<div class="row magazine"><div class="col">';
+	        			small += '<input type="hidden" name ="magazineNo" value="'+ upload.magazineNo +'">';
 	        			 if(upload.magazineMultiDto.isThumbnail === 1){
 	        			small += '<img class="small_picture" src="${contextPath}'+upload.magazineMultiDto.multiPath+'/'+upload.magazineMultiDto.filesysName+'" style = "border: 1px gray solid;"></div>';
 	        			 }
 	        			small += '<div class="col"><div class="small_title">'+upload.title+'</div>';
 	        			small += '<div class="small_summary">'+upload.summary+'</div>';
 	        			small += '<span class="small_date position-absolute bottom-0 start-0">date'+ new Date(upload.createAt).toLocaleDateString().replace(/\./g, '').replace(/\s/g, '-') +'</span>';
-	        			small += '<span class="small_hit position-absolute bottom-0">조회수' + upload.hit +' </span></div></div>';
+	        			small += '<span class="small_hit position-absolute bottom-0">조회수' + upload.hit +' </span></div></div></form>';
 	        	$('#small_wrapper').append(small);  
 	        	}
 	    	  })
@@ -144,17 +148,13 @@
 	    })
   }
   
-  const fnUploadDetail = () => {
-	    $(document).on('click', '.magazine', function(){
-	    	magazineNo = $(this).data('magazine_no');	    	
-	    	$.ajax({
-    		 // 요청
-          type: 'get',
-          url: '${contextPath}/magazine/increseHit.do',
-          data: 'magazineNo=' + magazineNo      
-	    	})
-	    })
-	  }
+  const fnClickHit = () => {
+	  
+	  $(document).on('click', '.frm_click', function() {
+				$(this).submit();
+		})
+  }
+   
   
   const fnScroll = () => {
 	    
@@ -192,7 +192,7 @@
 		 if(modifyResult === 'true'){
         alert('수정을 성공했습니다. ');
      } else {
-       alert('수정이 실패하였습니다.');
+       alert('수정을 실패하였습니다.');
      }
 	 }
 	 
@@ -203,10 +203,10 @@
   
   
   fnGetUploadList();
-  fnUploadDetail();
   fnScroll();
   fnModifyResult();
   fnMagazineWrite();	
+  fnClickHit();
 
 
 </script>

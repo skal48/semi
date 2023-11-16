@@ -121,7 +121,9 @@
 	  })
   }
   
-  
+  const fnLike = () => {
+	  $('')
+  }
   
   
   fnModify();

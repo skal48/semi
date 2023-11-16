@@ -1,7 +1,6 @@
 package com.mountaintour.mountain.service;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +26,6 @@ import com.mountaintour.mountain.util.MagazineFileUtils;
 import com.mountaintour.mountain.util.MyPageUtils;
 
 import lombok.RequiredArgsConstructor;
-import net.coobird.thumbnailator.Thumbnails;
 
 @Service
 @RequiredArgsConstructor
@@ -215,12 +213,8 @@ public class MagazineServiceImpl implements MagazineService {
   
   @Override
   public void loadMagazine(int magazineNo, Model model) {
-    
-    Optional<Integer> opt = Optional.of(magazineMapper.countLike(magazineNo));
-    int like = opt.orElse(1);
     model.addAttribute("magazine", magazineMapper.getMagazine(magazineNo));
-    model.addAttribute("like", like);
-    
+    model.addAttribute("like", magazineMapper.countLike(magazineNo));
   }
   
   @Override
