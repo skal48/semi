@@ -13,5 +13,5 @@ public class ImageDto {
     private String imagePath;
     private String filesystemName;
     private int thumbnail;  
-    private int productNo;
+    private int productNo; //productNo
 }

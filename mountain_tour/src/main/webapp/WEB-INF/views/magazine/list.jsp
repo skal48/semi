@@ -81,7 +81,9 @@
       <div class="magazineKing">
         <h3>매거진</h3>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+         <c:if test="${sessionScope.user.auth == 0}">
           <button type="button" class="m_write btn btn-secondary">작성</button>
+         </c:if> 
         </div>  
         <div class="big_wrapper">
   	      

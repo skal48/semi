@@ -11,7 +11,7 @@ import com.mountaintour.mountain.dto.ImageDto;
 import com.mountaintour.mountain.dto.ProductDto;
 
 public interface ProductService {
-  public Map<String, Object> addThumbnail(MultipartHttpServletRequest multipartRequest) throws Exception;
+  public Boolean addThumbnail(MultipartHttpServletRequest multipartRequest) throws Exception;
   public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest);
   public ImageDto getThumbnail(int productNo);
   public int addProduct(MultipartHttpServletRequest multipartRequest) throws Exception;

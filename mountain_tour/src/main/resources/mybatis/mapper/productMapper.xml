@@ -129,6 +129,10 @@
 </insert>                                                                                                            
 
   <insert id="insertThumbnail" parameterType="ImageDto">
+ 	 <selectKey order="BEFORE" keyProperty="productNo" resultType="int">
+        SELECT PRODUCT_SEQ.CURRVAL 
+          FROM DUAL
+    </selectKey>
     INSERT INTO IMAGE_T (
         IMAGE_PATH
       , FILESYSTEM_NAME
@@ -141,7 +145,14 @@
       , #{productNo}
     )
   </insert>
-
+  
+	<select id="SelectProductImageList" resultType="ImageDto">
+	    SELECT IMAGE_PATH, FILESYSTEM_NAME, THUMBNAIL
+	      FROM IMAGE_T
+	     WHERE PRODUCT_NO = PRODUCT_SEQ.CURRVAL  and THUMBNAIL = 1
+ </select>
+ 
+ 
 
   <insert id="insertProductImage" parameterType="ImageDto">
     INSERT INTO IMAGE_T (

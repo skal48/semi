@@ -10,7 +10,16 @@
   <jsp:param value="마운틴투어상품게시글작성" name="title"/>
 </jsp:include>
 <style>
-
+#previewId {
+  border: 1px gray dotted;
+  width: 100%;
+  height: 270px;
+  padding:auto;
+  margin-bottom: 10px;  
+}
+#previewId img {
+  padding:5px;
+}
 .ck.ck-editor {
   max-width: 1000px;
 }
@@ -32,20 +41,23 @@
   
 </style>
   <div class="container text-center">
- <form method="post" id="frm_product_add" action="${contextPath}/product/add.do" enctype="multipart/form-data">
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10">
+    <div class="col-10" style = "border: 1px gray solid;">
       <!--  여기다가 작성  다 작성하고 height 지우기!!!! -->
       
 	  
 	 <div class="row">
     	<div class="col-8"  style="margin-top: 30px; margin-bottom: 30px;">
-    	  <div class="mt-3">
-		      <label for="files" class="form-label">첨부</label>
-		      <input type="file" name="files" id="files" class="form-control" multiple>
-		  </div>
+      <!--  썸네일 넣는곳 -->
+       <form method="post" id="frm_thumbnail" action="${contextPath}/product/addThumbnail.do">
+       <div class="image_wrapper">
+            <div id="previewId"></div>
+            <input type="file" id="imageThumbnail" name="files" class="form-control" onchange="previewImage(this,'previewId')" accept="image/gif,image/jpeg,image/png" required>
+          </div>  
+        </form>             
+       <form method="post" id="frm_product_add" action="${contextPath}/product/add.do" enctype="multipart/form-data">
 		  <div class="attached_list mt-2" id="attached_list"></div>
     	  <hr>
     	  <div style = "text-align: left;">
@@ -61,7 +73,6 @@
 	      </div>
 	      </div>
 
-
     	  <div class="mb-3">
     	  <div class="choice">주요 여행일정</div>
     		<label for="plan" class="form-label"></label>
@@ -71,7 +82,7 @@
     	  <div>
     	   <div class="choice">상품정보</div>
     	    <label for="tripContents">내용</label>
-			<textarea name="tripContents" id="tripContents" style="display: none;"></textarea>
+			    <textarea name="tripContents" id="tripContents" style="display: none;"></textarea>
             <div id="toolbar-container"></div>
             <div id="ckeditor"></div>  
            </div>	     	    
@@ -98,33 +109,14 @@
  		    <textarea class="form-control" id="termUse" name="termUse" rows="10"></textarea>
     	  </div>
     	  
-    	  
-    	  
     	</div>   	   
     	<div class="col-4"> 
        <div>
 	   <div style="position: sticky; top: 80px;">
-	   <div><div>
-	   <div>
-	   <div>
-	   <div>
-	   	<div>
-	      
-	       </div>
-	    </div>
-	   </div>
+	  
 	   <hr>
 	   <div>행사금액</div>
-	   <div>
-	   <div>
-	   <div>
-	        
-	   </div>
-	   </div>
-	   </div>
-	   </div>
-	   </div>
-	   </div>
+	   
 	   </div>
 	  </div>
     	</div>  	
@@ -133,7 +125,7 @@
     </div>	  
 	    <div class="d-grid gap-2 col-6 mx-auto">
 	      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
-	      <button type="submit" class="btn btn-primary" style="margin: 32px;">작성완료</button>
+	      <button type="submit" id='btn_submit' class="btn btn-primary" style="margin: 32px;">작성완료</button>
 	    </div>
     </div>
 	  </form>
@@ -145,10 +137,47 @@
  
 <script>
 
+function previewImage(targetObj, previewId) {
+	
+	  var preview = document.getElementById(previewId); //div id   
+   var ua = window.navigator.userAgent;
+
+   var files = targetObj.files;
+   for ( var i = 0; i < files.length; i++) {
+
+       var file = files[i];
+
+       var imageType = /image.*/; //이미지 파일일경우만.. 뿌려준다.
+       if (!file.type.match(imageType))
+           continue;
+
+       var prevImg = document.getElementById("prev_" + previewId); //이전에 미리보기가 있다면 삭제
+       if (prevImg) {
+           preview.removeChild(prevImg);
+       }
+       var img = document.createElement("img"); //크롬은 div에 이미지가 뿌려지지 않는다. 그래서 자식Element를 만든다.
+       img.id = "prev_" + previewId;
+       img.classList.add("obj");
+       img.file = file;
+       img.style.width = '560px'; //기본설정된 div의 안에 뿌려지는 효과를 주기 위해서 div크기와 같은 크기를 지정해준다.
+       img.style.height = '270px';
+       
+       preview.appendChild(img);
+
+       if (window.FileReader) { // FireFox, Chrome, Opera 확인.
+           var reader = new FileReader();
+           reader.onloadend = (function(aImg) {
+               return function(e) {
+                   aImg.src = e.target.result;
+               };
+           })(img);
+           reader.readAsDataURL(file);
+       }   
+   }       
+}
 
 const fnThumbnailCheck = () => {
-    $('#files').change((ev) => {
-      $('#attached_list').empty();
+    $('#files').change((ev) => {   
       let maxSize = 1024 * 1024 * 100;
       let maxSizePerFile = 1024 * 1024 * 10;
       let totalSize = 0;
@@ -157,23 +186,30 @@ const fnThumbnailCheck = () => {
         totalSize += files[i].size;
         if(files[i].size > maxSizePerFile){
           alert('각 첨부파일의 최대 크기는 10MB입니다.');
-          $(ev.target).val('');
-          $('#attached_list').empty();
+          $(ev.target).val('');          
           return;
-        }
-        $('#attached_list').append('<div>' + files[i].name + '</div>');
+        }      
       }
       if(totalSize > maxSize){
         alert('전체 첨부파일의 최대 크기는 100MB입니다.');
-        $(ev.target).val('');
-        $('#attached_list').empty();
+        $(ev.target).val('');        
         return;
       }
     })
   }
-
-
-
+  
+const fnThumbnail = () => {
+	$('#btn_submit').submit((ev) => {		
+		$.ajax({
+			type: 'post',
+			url: '${contextPath}/product/addThumbnail.do',
+			data: $(this).serialize()			
+		})
+	})
+	
+	
+}  
+  
 const fnCkeditor = () => {
 	  DecoupledEditor
 	    .create(document.getElementById('ckeditor'), {
@@ -219,7 +255,6 @@ const fnCkeditor = () => {
 	    });
 	}
 
-
   const fnProductAdd = () => {
     $('#frm_product_add').submit((ev) => {
       if ($('#tripName').val() === '') {
@@ -232,10 +267,10 @@ const fnCkeditor = () => {
   };
 
   
-  
   fnThumbnailCheck();
   fnProductAdd();
   fnCkeditor();
+  fnThumbnail();
 </script>
  
  

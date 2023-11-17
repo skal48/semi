@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.mountaintour.mountain.dao.MainMapper;
+import com.mountaintour.mountain.dto.ImageDto;
 import com.mountaintour.mountain.dto.ProductDto;
 import com.mountaintour.mountain.dto.ReserveDto;
 
@@ -22,9 +23,9 @@ public class MainServiceImpl implements MainServce {
   public Map<String, Object> getProductBest() {
     
    
-    Map<String, Object> reserve = Map.of("reserve", mainMapper.selectCountBest());
-    Map<String, ProductDto> productDto = mainMapper.selectGetProduct(reserve);
+    List<Integer> no = mainMapper.selectCountBest();
+    List<ProductDto> productName = mainMapper.selectGetProduct(no);
     
-    return Map.of("product",productDto);
+    return Map.of("product",productName);
   }
 }

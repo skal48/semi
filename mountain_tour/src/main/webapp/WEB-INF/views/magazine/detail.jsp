@@ -65,7 +65,7 @@
       <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
       <div class="wapper">
 	      <div class="btn_wrapper">
-          <c:if test="${sessionScope.user.auth == 1}">  <!-- 바꿔야해 관리자로 -->
+          <c:if test="${sessionScope.user.auth == 0}">  <!-- 바꿔야해 관리자로 -->
             <form id="btn_frm" method="post">
               <input type="hidden" class ="magazineNo" name="magazineNo" value="${magazine.magazineNo}">
               <input type="hidden" class ="userNo" name="userNo" value="${sessionScope.user.userNo}">

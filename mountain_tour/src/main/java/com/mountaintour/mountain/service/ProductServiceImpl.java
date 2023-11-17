@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.mountaintour.mountain.dao.ProductMapper;
 import com.mountaintour.mountain.dto.HeartDto;
 import com.mountaintour.mountain.dto.ImageDto;
+import com.mountaintour.mountain.dto.MagazineMultiDto;
 import com.mountaintour.mountain.dto.MountainDto;
 import com.mountaintour.mountain.dto.ProductDto;
 import com.mountaintour.mountain.dto.ReviewDto;
@@ -44,20 +45,20 @@ public class ProductServiceImpl implements ProductService {
 	private final MyPageUtils myPageUtils;
 	
 	@Override
-	public Map<String, Object> addThumbnail(MultipartHttpServletRequest multipartRequest) throws Exception {
+	public Boolean addThumbnail(MultipartHttpServletRequest multipartRequest) throws Exception {
 	    
 	    List<MultipartFile> files =  multipartRequest.getFiles("files");
 	    
-	    int thumbnailCount;
+	    int thumbnailResult;
 	    if(files.get(0).getSize() == 0) {
-	        thumbnailCount = 1;
+	        thumbnailResult = 1;
 	    } else {
-	        thumbnailCount = 0;
+	        thumbnailResult = 0;
 	    }
 	    
-	    for(MultipartFile multipartFile : files) {
+	    
 	        
-	        if(multipartFile != null && !multipartFile.isEmpty()) {
+	        if(files != null && !files.isEmpty()) {
 	            
 	            String path = myFileUtils.getUploadPath();
 	            File dir = new File(path);
@@ -65,35 +66,38 @@ public class ProductServiceImpl implements ProductService {
 	                dir.mkdirs();
 	            }
 	            
-	            String filesystemName = myFileUtils.getFilesystemName(multipartFile.getOriginalFilename());
-	            File file = new File(dir, filesystemName);
+	            Optional<String> opt = Optional.ofNullable(multipartRequest.getParameter("filesysName"));
+	            String getMultiName = opt.orElse("****");
+	            ImageDto imageList = productMapper.SelectProductImageList();
+	            String MultiName = imageList.getFilesystemName();
+	            String filesysName;
 	            
-	            multipartFile.transferTo(file);
-	            
-	            String contentType = Files.probeContentType(file.toPath());
-	            int thumbnail = (contentType != null && contentType.startsWith("image")) ? 1 : 0;
-	            
-	            if(thumbnail == 1) {
-	                File hasthumbnail = new File(dir, "s_" + filesystemName);
-	                Thumbnails.of(file)
-	                            .size(100, 100)
-	                            .toFile(hasthumbnail);
+	            if(!getMultiName.equals(MultiName)) {
+	              
+	              filesysName = myFileUtils.getFilesystemName(files.get(0).getOriginalFilename());
+	              File file = new File(dir, filesysName);
+	              
+	              files.get(0).transferTo(file);
+	            } else {
+	              
+	              filesysName = getMultiName;
 	            }
+	            
+	            int isThumbnail = Integer.parseInt(multipartRequest.getParameter("isThumbnail"));
 	            
 	            ImageDto attach = ImageDto.builder()
 	                            .productNo(Integer.parseInt(multipartRequest.getParameter("productNo")))   
 	                            .imagePath(path)
-	                            .filesystemName(filesystemName)
-	                            .thumbnail(thumbnail)
+	                            .filesystemName(filesysName)
 	                            .build();
 	            
-	            thumbnailCount += productMapper.insertThumbnail(attach);
+	            thumbnailResult += productMapper.insertThumbnail(attach);
 	            
 	        }  // if
 	        
-	    }  // for
+	   
 	    
-	    return Map.of("thumbnailResult", files.size() == thumbnailCount);
+	    return 1 == thumbnailResult;
 	    
 	}
 	

@@ -69,8 +69,8 @@ public class ProductController {
   
   @ResponseBody
   @PostMapping(value="/addThumbnail.do", produces="application/json")
-  public Map<String, Object> addThumbnail(MultipartHttpServletRequest multipartRequest) throws Exception {
-    return productService.addThumbnail(multipartRequest);
+  public void addThumbnail(MultipartHttpServletRequest multipartRequest) throws Exception {
+    productService.addThumbnail(multipartRequest);
   }
   
   @ResponseBody

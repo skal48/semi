@@ -28,35 +28,7 @@
           BEST 3
         </div>
         <div class="best_card">
-          <div class="container text-center">
-            <div class="row">
-              <div class="col">
-                <div class="card" style="width: 18rem;">
-                  <img src="..." class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <p class="card-text">TITLE</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card" style="width: 18rem;">
-                  <img src="..." class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <p class="card-text">TITLE</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card" style="width: 18rem;">
-                  <img src="..." class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <p class="card-text">TITLE</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        
+
     </div>
     <div class="col-1">
     </div>
@@ -73,14 +45,15 @@
 		    url: '${contextPath}/mountain/main/best.do' , 
 		    dataType: 'json',  
 		    success : function (resData) {
-		        console.log(resData.product+'123');
-		        
-		    },
-		    error: function () {
-		        console.log('asd')
+		    	 $('.best_card').empty;
+		        $.each(resData.product, (i, product) => {
+		     let str = '<div class="container text-center"><div class="row"><div class="col"><div class="card" style="width: 18rem;">' ; 
+		         str += '<img src="${contextPath}'+product.imageDto.imagePath+'/'+product.imageDto.filesystemName+'" class="card-img-top" alt="...">';
+		         str += '<div class="card-body"> <p class="card-text">'+product.tripName+'</p></div></div></div>'
+		         $('.best_card').append(str);
+		        }) 
 		    }
 		})
-  	
   }
 
 fnBest(); 

@@ -179,9 +179,9 @@ public class MagazineServiceImpl implements MagazineService {
       attachCount = 0;
     }
     
-    for(MultipartFile multipartFile : files) {
+   
       
-      if(multipartFile != null && !multipartFile.isEmpty()) {
+      if(files != null && !files.isEmpty()) {
         
         String path = magazineFileUtils.getUploadPath();
         File dir = new File(path);
@@ -189,10 +189,10 @@ public class MagazineServiceImpl implements MagazineService {
           dir.mkdirs();
         }
         
-        String filesysName = magazineFileUtils.getFilesystemName(multipartFile.getOriginalFilename());
+        String filesysName = magazineFileUtils.getFilesystemName(files.get(0).getOriginalFilename());
         File file = new File(dir, filesysName);
         
-        multipartFile.transferTo(file);
+        files.get(0).transferTo(file);
                
         int isThumbnail = Integer.parseInt(multipartRequest.getParameter("isThumbnail"));
                 
@@ -207,9 +207,9 @@ public class MagazineServiceImpl implements MagazineService {
         
         }  // if
         
-        }  // for
+          // for
         
-        return (updateResult == 1) && (files.size() == attachCount);
+      return (updateResult == 1) && (files.size() == attachCount);
                 
 
   }

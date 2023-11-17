@@ -5,49 +5,51 @@
 
 <mapper namespace="com.mountaintour.mountain.dao.MainMapper">
 
-<resultMap type="TouristDto" id="TouristMap">
-    <id column="TOURIST_NO" property="touristNo"/>
-    <result column="NAME" property="name"/> 
-    <result column="BIRTH_DATE" property="birthDate"/> 
-    <result column="GENDER" property="gender"/> 
-    <result column="CONTACT" property="contact"/> 
-    <result column="AGE_CASE" property="ageCase"/> 
-    <association property="reserveDto" resultMap="ReserveMap"/>
-  </resultMap>
-  
-<resultMap type="ReserveDto" id="ReserveMap">
-    <id column="RESERVE_NO" property="reserveNo"/>
-    <result column="RESERVE_DATE" property="reserveDate"/>
-    <result column="REQUEST" property="request"/>
-    <result column="AGREE" property="agree"/>
-    <result column="PICKUP_LOC" property="pickupLoc"/>
-    <result column="RESERVE_STATUS" property="reserveStatus"/>
-    <result column="RESERVE_START" property="reserveStart"/>
-    <result column="RESERVE_PERSON" property="reservePerson"/>
+<resultMap type="ProductDto"        id="ProductMap">
+    <id      column="PRODUCT_NO"      property="productNo"/>
+    <result  column="TRIP_NAME"   	  property="tripName"/>
+    <result  column="TRIP_CONTENTS"   property="tripContents"/>
+    <result  column="GUIDE" 		  property="guide"/>
+    <result  column="TIMETAKEN" 	  property="timetaken"/>
+    <result  column="PRICE" 		  property="price"/>
+    <result  column="DANGER"		  property="danger"/>
+    <result  column="REGISTERED_AT"   property="registeredAt"/>
+    <result  column="MODIFIED_DATE"   property="modifiedDate"/>
+    <result  column="PEOPLE" 		  property="people"/>
+    <result  column="HIT" 		  	  property="hit"/>
+    <result  column="PLAN" 		      property="plan"/>
+    <result  column="TERM_USE"		  property="termUse"/>
+    <association javaType="MountainDto"      property="mountainDto">
+      <id 	  	 column="MOUNTAIN_NO"      	 property="mountainNo"/>
+      <result    column="MOUNTAIN_NAME"      property="mountainName"/>
+      <result    column="IMPORMATION"        property="impormation" />
+      <result    column="LOCATION"           property="location" />
+    </association>
+    <association javaType="ImageDto"         property="imageDto">
+        <result  column="IMAGE_PATH" 		 property="imagePath" />
+        <result  column="FILESYSTEM_NAME" 	 property="filesystemName"/>
+        <result  column="THUMBNAIL" 		 property="thumbnail"/>  
+    </association>
     <association javaType="UserDto" property="userDto">
-      <id column="USER_NO" property="userNo"/>
-      <result column="EMAIL" property="email" />
-      <result column="PW" property="pw" />
-      <result column="NAME" property="name" />
-      <result column="GENDER" property="gender" />
-      <result column="MOBILE" property="mobile" />
-      <result column="POSTCODE" property="postcode" />
-      <result column="ROAD_ADDRESS" property="roadAddress" />
-      <result column="JIBUN_ADDRESS" property="jibunAddress" />
-      <result column="DETAIL_ADDRESS" property="detailAddress" />
-      <result column="AGREE" property="agree" />
-      <result column="STATE" property="state" />
-      <result column="AUTH" property="auth" />
-      <result column="PW_MODIFIED_AT" property="pwModifiedAt" />
-      <result column="JOINED_AT" property="joinedAt" />  
-    </association> 
-    <association property="productDto" resultMap="ProductMap"/>
-    <collection property="touristList" ofType="TouristDto" resultMap="TouristMap"/>
- </resultMap>
+        <id column="USER_NO" property="userNo"/>
+        <result column="EMAIL" property="email"/>
+        <result column="PW" property="pw"/>
+        <result column="NAME" property="name"/>
+        <result column="GENDER" property="gender"/>
+        <result column="MOBILE" property="mobile"/>
+        <result column="POSTCODE" property="postcode"/>
+        <result column="ROAD_ADDRESS" property="roadAddress"/>
+        <result column="JIBUN_ADDRESS" property="jibunAddress"/>
+        <result column="DETAIL_ADDRESS" property="detailAddress"/>
+        <result column="AGREE" property="agree"/>
+        <result column="STATE" property="state"/>
+        <result column="AUTH" property="auth"/>
+        <result column="PW_MODIFIED_AT" property="pwModifiedAt"/>
+        <result column="JOINED_AT" property="joinedAt"/>
+    </association>
+  </resultMap>
 
-
-  
- <select id="selectCountBest" resultType="List">
+ <select id="selectCountBest" resultType="int">
  	SELECT PRODUCT_NO
     FROM (SELECT PRODUCT_NO, RANK() OVER (ORDER BY SUM(RESERVE_PERSON) DESC) AS RN
             FROM RESERVE_T
@@ -56,11 +58,18 @@
    WHERE RN BETWEEN 1 AND 3
  </select> 
  
- <select id="selectGetProduct" parameterType="Map" resultType="ProductDto">
-  SELECT TRIP_NAME
-  	FROM PRODUCT_T P     
-   WHERE PRODUCT_NO = #{reserve.productNo}
- 
+ <select id="selectGetProduct" resultMap="ProductMap">	
+	  SELECT TRIP_NAME, IMAGE_PATH, FILESYSTEM_NAME
+	  	FROM (SELECT P.PRODUCT_NO ,P.TRIP_NAME, I.IMAGE_PATH, I.FILESYSTEM_NAME, I.THUMBNAIL 
+                FROM PRODUCT_T P LEFT OUTER JOIN IMAGE_T I
+          ON P.PRODUCT_NO = I.PRODUCT_NO
+          WHERE THUMBNAIL = 1)
+	  	<where>
+				<foreach collection="list" item="PRODUCT_NO" index="index"
+        open="PRODUCT_NO in (" separator="," close=")" >
+				    #{PRODUCT_NO}
+				</foreach> 
+			</where>
  </select>
  
  

@@ -9,7 +9,6 @@
 <jsp:include page="../layout/header.jsp">
   <jsp:param value="마운틴투어" name="title"/>
 </jsp:include>
-<script src="${contextPath}/resources/js/uploadAdapter.js?dt=${dt}"></script>
 <style>
   .title{
     width: 60%;

@@ -25,7 +25,6 @@ public interface ProductMapper {
 	public int deleteProductImage(String filesystemName);
 	public int deleteProductImageList(int productNo);
 	public int deleteProduct(int productNo);
-	public int insertThumbnail(ImageDto image);
 	public int heartProduct(HeartDto heart);
 	public void getcalendar(Map<String, Object> map);
 	public List<ProductDto> getHitList(Map<String, Object> map);
@@ -36,4 +35,8 @@ public interface ProductMapper {
 	public int getReviewCount(int productNo);
 	public List<ReviewDto> getReviewList(Map<String, Object> map);
 	public int deleteReview(int reviewNo);
+	
+	//썸네일
+	public ImageDto SelectProductImageList();
+	public int insertThumbnail(ImageDto image);
 }

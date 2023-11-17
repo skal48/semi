@@ -22,6 +22,7 @@ public class MainController {
   @ResponseBody
   @GetMapping(value="/best.do", produces="application/json")
   public Map<String, Object> getBest(){
+    System.out.println(mainServce.getProductBest());
     return mainServce.getProductBest();
   }
 }
