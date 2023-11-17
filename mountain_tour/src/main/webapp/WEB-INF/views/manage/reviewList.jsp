@@ -176,7 +176,7 @@
                 <c:forEach items="${reviewList}" var="r" >
                   <tr>
                     <th scope="row">${r.reviewNo}</th>
-                    <td>${r.productNo}</td>
+                    <td>${r.productDto.productNo}</td>
                     <td>${r.userDto.name}</td>
                     <td class="open_contents">${r.contents}</td>
                     <td>

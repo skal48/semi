@@ -451,7 +451,7 @@ INSERT INTO REVIEW_T VALUES(REVIEW_SEQ.NEXTVAL, 2, 4, 3, '추억은 방울방울
 INSERT INTO REVIEW_T VALUES(REVIEW_SEQ.NEXTVAL, 3, 5, 4, '엥 짱나~', TO_DATE(SYSDATE, 'YYYY-MM-DD'), TO_DATE(SYSDATE, 'YYYY-MM-DD'), 3); 
 INSERT INTO REVIEW_T VALUES(REVIEW_SEQ.NEXTVAL, 4, 3, 3, '아주 좋은 경험이었습니다.', TO_DATE(SYSDATE, 'YYYY-MM-DD'), TO_DATE(SYSDATE, 'YYYY-MM-DD'), 5); 
 INSERT INTO REVIEW_T VALUES(REVIEW_SEQ.NEXTVAL, 2, 5, 5, '멋지..네요..', TO_DATE(SYSDATE, 'YYYY-MM-DD'), TO_DATE(SYSDATE, 'YYYY-MM-DD'), 4); 
-INSERT INTO REVIEW_T VALUES(REVIEW_SEQ.NEXTVAL, 2, 5, 5, '우와아아ㅏㅏ아아악 긴댓글긴댓글긴댓글 우와아아ㅏㅏ아아악 긴댓글긴댓글긴댓글 우와아아ㅏㅏ아아악 긴댓글긴댓글긴댓글 우와아아ㅏㅏ아아악 긴댓글긴댓글긴댓글 우와아아ㅏㅏ아아악 긴댓글긴댓글긴댓글  ', TO_DATE(SYSDATE, 'YYYY-MM-DD'), TO_DATE(SYSDATE, 'YYYY-MM-DD'), 0, 4); 
+INSERT INTO REVIEW_T VALUES(REVIEW_SEQ.NEXTVAL, 2, 5, 5, '우와아아ㅏㅏ아아악 긴댓글긴댓글긴댓글 우와아아ㅏㅏ아아악 긴댓글긴댓글긴댓글 우와아아ㅏㅏ아아악 긴댓글긴댓글긴댓글 우와아아ㅏㅏ아아악 긴댓글긴댓글긴댓글', TO_DATE(SYSDATE, 'YYYY-MM-DD'), TO_DATE(SYSDATE, 'YYYY-MM-DD'), 4); 
 COMMIT;
 
 

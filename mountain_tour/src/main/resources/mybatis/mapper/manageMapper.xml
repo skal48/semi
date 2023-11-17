@@ -58,6 +58,21 @@
       <result    column="PW_MODIFIED_AT" property="pwModifiedAt"/>
       <result    column="JOINED_AT"      property="joinedAt"/>
     </association>
+    <association javaType="ProductDto" property="productDto">
+    <id        column="PRODUCT_NO"    property="productNo"/>
+    <result    column="TRIP_NAME"     property="tripName"/>
+    <result    column="TRIP_CONTENTS" property="tripContents"/>
+    <result    column="GUIDE"         property="guide"/>
+    <result    column="TIMETAKEN"     property="timetaken"/>
+    <result    column="PRICE"         property="price"/>
+    <result    column="DANGER"        property="danger"/>
+    <result    column="REGISTERED_AT" property="registeredAt"/>
+    <result    column="MODIFIED_DATE" property="modifiedDate"/>
+    <result    column="PEOPLE"        property="people"/>
+    <result    column="HIT"           property="hit"/>
+    <result    column="PLAN"          property="plan"/>
+    <result    column="TERM_USE"      property="termUse"/>
+    </association>
   </resultMap>
  
   
