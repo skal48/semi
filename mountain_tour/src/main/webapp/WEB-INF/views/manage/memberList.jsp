@@ -98,7 +98,7 @@
             <a href="${contextPath}/manage/productList.form">상품/예약</a>
           </div>
           <div class="review">
-            <a href="#">리뷰관리</a>
+            <a href="${contextPath}/manage/reviewList.form">리뷰관리</a>
           </div>
         </div>
         
